@@ -18,7 +18,7 @@
       <el-form-item label="用户名" prop="user">
         <el-input
           type="text"
-          placeholder="邮箱 或 用户名"
+          placeholder="邮箱或用户名"
           autofocus
           :disabled="busy"
           v-model="loginPayload.user"

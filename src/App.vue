@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { Loading, Alert } from 'element-ui'
+import { Alert } from 'element-ui'
 import Banner from 'components/Banner'
 import Copyright from 'components/Copyright'
 import LayoutMiddle from 'components/LayoutMiddle'
@@ -31,7 +31,6 @@ import LayoutMiddle from 'components/LayoutMiddle'
 export default {
   name: 'app',
   components: {
-    [Loading.name]: Loading,
     [Alert.name]: Alert,
     Banner,
     Copyright,
@@ -70,6 +69,7 @@ body
     flex-vert: flex-start stretch
     .wrap
       flex-grow: 1
+      flex-vert: flex-start stretch
       .maintainance-alert
         width: auto
 </style>

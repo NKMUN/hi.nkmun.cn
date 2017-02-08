@@ -1,0 +1,156 @@
+<template>
+  <div class="application-form">
+    <div class="section">
+      <h4>学校</h4>
+      <SchoolForm
+        ref="school"
+        v-model="school"
+        :disabled="disabled"
+        class="form small"
+        @change="emit"
+      />
+    </div>
+
+    <div class="section">
+      <h4>第一联系人</h4>
+      <ContactForm
+        ref="contact"
+        v-model="contact"
+        :disabled="disabled"
+        class="form small"
+        @change="emit"
+      />
+    </div>
+
+    <div class="section">
+      <h4>第二联系人</h4>
+      <ContactForm
+        ref="altContact"
+        v-model="altContact"
+        :disabled="disabled"
+        class="form small"
+        @change="emit"
+      />
+    </div>
+
+    <div class="section">
+      <h4>名额申请</h4>
+      <RequestForm
+        ref="request"
+        v-model="request"
+        :disabled="disabled"
+        :showPress="press"
+        class="form small"
+        @change="emit"
+      />
+    </div>
+
+    <div class="section ac-test">
+      <h4>学术水平测试</h4>
+      <AcademicTestForm
+        ref="acTest"
+        v-model="acTest"
+        :disabled="disabled"
+        :tests="tests"
+        class="form large"
+        @change="emit"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import { Button } from 'element-ui'
+import ContactForm from 'components/ContactForm'
+import SchoolForm from 'components/SchoolForm'
+import RequestForm from 'components/RequestForm'
+import AcademicTestForm from 'components/AcademicTestForm'
+
+const MAX_NUM_OF_SEATS = 10
+
+export default {
+  name: 'application-form',
+  components: {
+    [Button.name]: Button,
+    ContactForm,
+    SchoolForm,
+    RequestForm,
+    AcademicTestForm
+  },
+  props: {
+    model: {
+      type: Object,
+      default: () => ({})
+    },
+    press: {
+      type: Boolean,
+      default: true
+    },
+    tests: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: () => ({
+    MAX_SEATS: 10,
+    school: {},
+    contact: {},
+    altContact: {},
+    request: {},
+    acTest: {}
+  }),
+  methods: {
+    async validate() {
+      const forms = ['school', 'contact', 'altContact', 'request', 'acTest']
+      let results = await Promise.all( forms.map( ref => this.$refs[ref].validate() ) )
+      return results.reduce( (a, v) => a && v )
+    },
+    emit() {
+      let M = {
+        school: this.school,
+        contact: this.contact,
+        altContact: this.altContact,
+        request: this.request,
+        acTest: this.acTest
+      }
+      this.$emit('input', M)
+      this.$emit('change', M)
+    }
+  },
+  watch: {
+    model(value) {
+      this.school = value && value.school || {}
+      this.contact = value && value.contact || {}
+      this.altContact = value && value.altContact || {}
+      this.request = value && value.request || {}
+      this.acTest = value && value.acTest || {}
+    }
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+@import "../style/flex"
+.application-form
+  align-self: stretch
+  .section
+    min-width: 360px
+    width: 80%
+    margin: 0 auto
+    padding: 2em 0
+    &:not(:first-child)
+      border-top: 1px solid #D3DCE6
+    h4
+      margin-top: 0
+      text-align: center
+    .form
+      margin: 0 auto
+      &.small
+        max-width: 36ch
+      &.large
+        max-width: 80ch
+</style>

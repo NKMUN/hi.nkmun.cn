@@ -34,6 +34,30 @@ global.post('/login', function*() {
     }
 } )
 
+global.get('/application', function*() {
+    // application config
+    this.status = 200
+    this.body = {
+        apply: true,  // flag: whether applications are allowed
+        press: true,  // show MPC input
+        disclaimer: '<p>特别声明html</p>',    // disclaimer
+        tests: [
+            { id: '1', question: 'question 1' },
+            { id: '2', question: 'question 2' }
+        ]
+    }
+})
+
+global.post('/application', function*() {
+    if (this.request.body.school.name !== 'dup') {
+        this.status = 200
+        this.body = {}
+    } else {
+        this.status = 409
+        this.body = { error: 'Duplicate application' }
+    }
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )
