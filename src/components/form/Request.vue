@@ -134,11 +134,13 @@ export default {
     },
     reset() {
       this.$refs.form.resetFields()
+      this.chinese = 0
+      this.english = 0
+      this.press = 0
+      this.supervisor = 0
+      this.observer = 0
+      this.emit()
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

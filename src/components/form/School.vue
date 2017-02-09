@@ -111,11 +111,11 @@ export default {
     },
     reset() {
       this.$refs.form.resetFields()
+      this.name = null
+      this.englishName = null
+      this.address = null
+      this.emit()
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

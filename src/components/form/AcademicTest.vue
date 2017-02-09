@@ -68,6 +68,9 @@ export default {
     },
     reset() {
       this.$refs.form.resetFields()
+      for (let key in this.M)
+        this.M[key] = null
+      this.emit()
     }
   }
 }

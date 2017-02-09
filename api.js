@@ -58,6 +58,41 @@ global.post('/application', function*() {
     }
 })
 
+global.get('/service-agreement', function*() {
+    this.status = 200
+    this.body = {
+        html: '<p>服务条款html</p>'
+    }
+})
+
+global.get('/invitation/:code', function*() {
+    if (this.params.code !== 'error') {
+        this.status = 200
+        this.body = {
+            school: {
+                name: '学校名',
+                englishName: 'School Name'
+            },
+            token: sign({ school: '学校名' }, SECRET, { expiresIn: '1 hour' })
+        }
+    } else {
+        this.status = 404
+        this.body = {
+            error: 'No such invitation'
+        }
+    }
+})
+
+global.post('/registration', function*() {
+    let name = this.request.body.leader.name
+    switch(name) {
+        case '409': this.status = 409; this.body = { error: 'Already registered' }; break
+        case '410': this.status = 410; this.body = { error: 'Token expired' }; break
+        case '403': this.status = 403; this.body = { error: 'Forbidden' }; break
+        default:    this.status = 200; this.body = { schoolId: 'school-id' }; break
+    }
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )

@@ -126,11 +126,12 @@ export default {
     },
     reset() {
         this.$refs.form.resetFields()
+        this.name = null
+        this.gender = null
+        this.phone = null
+        this.email = null
+        this.emit()
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>
