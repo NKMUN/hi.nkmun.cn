@@ -4,24 +4,16 @@ import store from 'store'
 
 Vue.use(Router)
 
-// Chunked LazyLoad factory
-// use template string for `path` to avoid warning
-const LazyLoad = (path, chunk) => resolve => require.ensure([], () => resolve(require(`../${path}`)) )
-const LazyLoadChunk = (chunk) => (path) => LazyLoad(path, chunk)
-
-const LazyAdmin = LazyLoadChunk('admin')
-const LazySchool = LazyLoadChunk('school')
-const LazyRoot = LazyLoadChunk('root')
-
-// use require() to be consistent
+// Statically bundled
 const Index    = require('pages/Index.vue')
 const NotFound = require('pages/NotFound.vue')
-const Apply    = LazyLoad('pages/Apply.vue')
-const Register = LazyLoad('pages/Register.vue')
 
-const Admin    = LazyAdmin('pages/Admin.vue')
-const School   = LazySchool('pages/School.vue')
-const Root     = LazyRoot('pages/Root.vue')
+// Lazy load:                                            Module                  chunk
+const Apply    = r => require.ensure([], () => r(require('pages/Apply.vue')),    'apply')
+const Register = r => require.ensure([], () => r(require('pages/Register.vue')), 'register')
+const Admin    = r => require.ensure([], () => r(require('pages/Admin.vue')),    'admin')
+const School   = r => require.ensure([], () => r(require('pages/School.vue')),   'school')
+const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),     'root')
 
 export default new Router({
   routes: [
