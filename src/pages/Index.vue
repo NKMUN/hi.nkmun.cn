@@ -24,7 +24,7 @@
           > 报名 </el-button>
         </div>
 
-        <div class="buttom">
+        <div class="bottom">
           <el-button
             class="admin-login"
             v-if="!showLogin"
