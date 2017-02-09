@@ -71,7 +71,7 @@
 import { mapGetters } from 'vuex'
 import Banner from 'components/Banner'
 import { Alert, Dialog, Button } from 'element-ui'
-import ApplicationForm from 'components/ApplicationForm'
+import ApplicationForm from 'components/form/Application'
 import Precondition from 'components/Precondition'
 
 export default {

@@ -61,10 +61,10 @@
 
 <script>
 import { Button } from 'element-ui'
-import ContactForm from 'components/ContactForm'
-import SchoolForm from 'components/SchoolForm'
-import RequestForm from 'components/RequestForm'
-import AcademicTestForm from 'components/AcademicTestForm'
+import ContactForm from './Contact'
+import SchoolForm from './School'
+import RequestForm from './Request'
+import AcademicTestForm from './AcademicTest'
 
 const MAX_NUM_OF_SEATS = 10
 
@@ -137,7 +137,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "../style/flex"
 .application-form
   align-self: stretch
   .section
