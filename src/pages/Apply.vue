@@ -1,36 +1,21 @@
 <template>
   <div class="wrap">
     <Banner />
-    <LayoutMiddle
-      v-if="loading || !canApply"
-      v-loading.body="loading"
-      element-loading-text="正在载入，请稍等……"
+    <Precondition
+      :loader="configLoader"
+      @loaded="configParser"
     >
       <el-alert
-        class="maintainance-alert"
-        v-if="error"
-        title="维护中，请稍后再试。"
+        class="application-period-alert"
+        title="现在不能报名"
         type="warning"
-        :description="error ? String(error) : ''"
+        description="现在不是报名阶段"
         :closable="false"
         show-icon
       />
+    </Precondition>
 
-      <div>
-        <el-alert
-          class="application-period-alert"
-          v-if="!canApply"
-          title="现在不能报名"
-          type="warning"
-          :description="现在不是报名阶段"
-          :closable="false"
-          show-icon
-        />
-      </div>
-
-    </LayoutMiddle>
-
-    <div class="application" v-if="!loading && canApply">
+    <div class="application" v-if="config">
       <h2>报名</h2>
       <div class="disclaimer" v-html="config.disclaimer"></div>
       <ApplicationForm
@@ -86,24 +71,23 @@
 import { mapGetters } from 'vuex'
 import Banner from 'components/Banner'
 import { Alert, Dialog, Button } from 'element-ui'
-import LayoutMiddle from 'components/LayoutMiddle'
 import ApplicationForm from 'components/ApplicationForm'
+import Precondition from 'components/Precondition'
 
 export default {
-  name: 'submit-application',
+  name: 'apply',
   components: {
     Banner,
     [Alert.name]: Alert,
     [Dialog.name]: Dialog,
     [Button.name]: Button,
-    LayoutMiddle,
-    ApplicationForm
+    ApplicationForm,
+    Precondition
   },
   data: () => ({
     busy: false,
-    loading: false,
     error: false,
-    config: {},
+    config: null,
     application: {},
     showValidationError: false,
     showSuccess: false,
@@ -118,6 +102,14 @@ export default {
     }
   },
   methods: {
+    configLoader() {
+      if (!this.canApply)
+        return false
+      return this.$agent.get('/api/application').then( res => res.body )
+    },
+    configParser(config) {
+      this.config = config
+    },
     async submit() {
       this.showValidationError = false
       if ( ! await this.$refs.applicationForm.validate() ) {
@@ -149,19 +141,6 @@ export default {
       this.$router.push('/')
     }
   },
-  async created() {
-    if (this.canApply) {
-      this.loading = true
-      try {
-        let { body } = await this.$agent.get('/api/application')
-        this.config = body
-      }catch(e){
-        this.error = e.message
-      }finally{
-        this.loading = false
-      }
-    }
-  }
 }
 </script>
 

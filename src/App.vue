@@ -1,22 +1,12 @@
 <template>
   <div id="app">
 
-    <div class="wrap loading" v-if="loading || error">
-      <Banner />
-      <LayoutMiddle v-loading.body="loading" element-loading-text="正在载入，请稍等……">
-        <el-alert
-          class="maintainance-alert"
-          v-if="error"
-          title="维护中，请稍后再试。"
-          type="warning"
-          :description="error ? String(error) : ''"
-          :closable="false"
-          show-icon>
-        </el-alert>
-      </LayoutMiddle>
-    </div>
+    <Precondition
+      :loader="configLoader"
+      @loaded="configParser"
+    />
 
-    <router-view class="wrap" v-if="!loading && !error" />
+    <router-view class="wrap" v-if="loaded" />
 
     <Copyright />
   </div>
@@ -26,7 +16,7 @@
 import { Alert } from 'element-ui'
 import Banner from 'components/Banner'
 import Copyright from 'components/Copyright'
-import LayoutMiddle from 'components/LayoutMiddle'
+import Precondition from 'components/Precondition'
 
 export default {
   name: 'app',
@@ -34,22 +24,18 @@ export default {
     [Alert.name]: Alert,
     Banner,
     Copyright,
-    LayoutMiddle
+    Precondition
   },
   data: () => ({
-    loading: true,
-    error: null
+    loaded: false
   }),
-  async created() {
-    // fetch global config
-    this.loading = true
-    try{
-      let { body } = await this.$agent.get('/api/config')
-      this.$store.commit('config/config', body)
-    } catch(e) {
-      this.error = e.message
-    } finally {
-      this.loading = false
+  methods: {
+    configLoader() {
+      return this.$agent.get('/api/config').then( res => res.body )
+    },
+    configParser(config) {
+      this.$store.commit('config/config', config)
+      this.loaded = true
     }
   }
 }
@@ -70,6 +56,4 @@ body
     .wrap
       flex-grow: 1
       flex-vert: flex-start stretch
-      .maintainance-alert
-        width: auto
 </style>
