@@ -131,6 +131,9 @@ export default {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
+    },
+    reset() {
+      this.$refs.form.resetFields()
     }
   }
 }

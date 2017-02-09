@@ -109,6 +109,9 @@ export default {
       let results = await Promise.all( forms.map( ref => this.$refs[ref].validate() ) )
       return results.reduce( (a, v) => a && v )
     },
+    reset() {
+      ['school', 'contact', 'altContact', 'request', 'acTest'].forEach( ref => this.$refs[ref].reset() )
+    },
     emit() {
       let M = {
         school: this.school,

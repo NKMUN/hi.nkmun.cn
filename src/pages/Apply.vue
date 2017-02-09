@@ -62,7 +62,7 @@
     <el-dialog
       v-model="showSuccess"
       title="报名成功"
-      @close="$router.push('/')"
+      @close="onSuccessDialogClose"
     >
       <!-- TODO: Insert onSuccess content -->
       <h4>报名成功，请等待组委通知。</h4>
@@ -144,6 +144,10 @@ export default {
         this.busy = false
       }
     },
+    onSuccessDialogClose() {
+      this.$refs.applicationForm.reset()
+      this.$router.push('/')
+    }
   },
   async created() {
     if (this.canApply) {
