@@ -15,8 +15,13 @@ export default {
   },
   mutations: {
     token( state, token ) {
-      state.token = token
-      state.payload = jwtBody(token)
+      if (token) {
+        state.token = token
+        state.payload = jwtBody(token)
+      }else {
+        state.token = null
+        state.payload = {}
+      }
     }
   }
 }

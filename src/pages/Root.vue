@@ -1,11 +1,18 @@
 <template>
   <div class="root-mgmt">
-    <el-alert
-      type="error"
-      title="上帝模式：请谨慎操作！"
-      description="具有完全修改权限，不当操作会损坏系统。"
-      :closable="false"
-    />
+    <div class="heading">
+      <el-alert
+        type="error"
+        title="上帝模式：请谨慎操作！"
+        description="具有完全修改权限，不当操作会损坏系统。"
+        :closable="false"
+      />
+      <el-button
+        type="warning"
+        icon="upload2"
+        @click="logout"
+      > 退出 </el-button>
+    </div>
 
     <el-menu
       mode="horizontal"
@@ -25,7 +32,7 @@
 
 <script>
 import Vue from 'vue'
-import { Alert, Menu, MenuItem } from 'element-ui'
+import { Alert, Menu, MenuItem, Button } from 'element-ui'
 
 export default {
   name: 'root-mgmt',
@@ -33,9 +40,16 @@ export default {
     [Alert.name]: Alert,
     [Menu.name]: Menu,
     [MenuItem.name]: MenuItem,
+    [Button.name]: Button
   },
   data: () => ({
   }),
+  methods: {
+    logout() {
+      this.$store.commit('user/token', null)
+      this.$router.replace('/')
+    }
+  },
 }
 </script>
 
@@ -43,6 +57,14 @@ export default {
 @import "../style/flex"
 .root-mgmt
   flex-vert: flex-start stretch
+  .heading
+    flex-horz: flex-start stretch
+    *
+      border-radius: 0px
+    .el-alert
+      display: block
+      width: auto
+      flex-grow: 1
   .menu
     padding-left: 8ch
   .wrap
