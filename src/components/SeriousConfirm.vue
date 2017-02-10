@@ -19,7 +19,8 @@
       v-model="input"
       @keydown.enter.native="handleEnter"
       :placeholder="expect"
-      autofocus
+      :autofocus="true"
+      ref="input"
     >
       <template slot="prepend">重复上面的字符串：</template>
       <el-button
@@ -60,11 +61,12 @@ export default {
     expect: '',
   }),
   methods: {
-    async confirm(message='请再次确认本操作', type='warning') {
+    async confirm(message='请再次确认本操作', repeat=randomString(), type='warning') {
       this.input = ''
       this.message = message
-      this.expect = randomString()
+      this.expect = repeat
       this.$refs.dialog.open()
+      this.$nextTick( () => this.$refs.input.$el.querySelector('input').focus() )
       let result = await ( new Promise( r => this.resolve = r ) )
       this.$refs.dialog.close()
       return result
@@ -98,12 +100,12 @@ export default {
   color: #475669
 .warning
   flex-horz: flex-start center
-  margin: 1em
+  margin: 1em 0
   .icon
     font-size: 4em
     color: #FF4949
     background-color: transparent
-    margin: 0 .5em
+    margin: 0 .25em
 .random
   padding: .5em 0
   font-size: 16px

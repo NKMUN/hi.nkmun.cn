@@ -39,7 +39,7 @@ export default {
   }),
   methods: {
     async confirmInitialization() {
-      let confirmed = await this.$refs.seriousConfirm.confirm('初始化会清空所有数据，请再次确认！')
+      let confirmed = await this.$refs.seriousConfirm.confirm('初始化会清空所有数据，请再次确认！', 'hi.nkmun.cn')
       if (confirmed) {
         this.busy = true
         try{
