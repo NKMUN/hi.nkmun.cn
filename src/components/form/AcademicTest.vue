@@ -47,13 +47,14 @@ export default {
   }),
   watch: {
     model(value) {
-      this.name = value && value.name || null
-      this.englishName = value && value.englishName || null
-      this.address = value && value.address || null
+      if (value instanceof Object)
+        for (let key in this.M)
+          this.M[key] = value[key] || null
     },
     tests(value) {
       // create form model
       this.M = value.reduce((o, {id}) => ({ ...o, [id]: '' }), {})
+      this.resetModel()
     }
   },
   methods: {
@@ -66,10 +67,13 @@ export default {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
-      this.$refs.form.resetFields()
+    resetModel() {
       for (let key in this.M)
         this.M[key] = null
+    },
+    reset() {
+      this.$refs.form.resetFields()
+      this.resetModel()
       this.emit()
     }
   }

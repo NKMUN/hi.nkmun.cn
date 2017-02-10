@@ -21,10 +21,14 @@
 </template>
 
 <script>
+import { Alert } from 'element-ui'
 import LayoutMiddle from 'components/LayoutMiddle'
 export default {
   name: 'precondition',
-  components: { LayoutMiddle },
+  components: {
+    LayoutMiddle,
+    [Alert.name]: Alert,
+  },
   props: {
     loader: {
       type: Function,
