@@ -52,7 +52,7 @@ export default {
     [RadioGroup.name]: RadioGroup
   },
   props: {
-    model: { type: Object },
+    model: { type: Object, default: () => ({}) },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' }

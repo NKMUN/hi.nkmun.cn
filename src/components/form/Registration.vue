@@ -44,18 +44,9 @@ export default {
     Password
   },
   props: {
-    model: {
-      type: Object,
-      default: () => ({})
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    school: {
-      type: Object,
-      default: () => ({})
-    }
+    model: { type: Object, default: () => ({}) },
+    disabled: { type: Boolean, default: false },
+    school: { type: Object, default: () => ({}) }
   },
   data: () => ({
     leader: {},
