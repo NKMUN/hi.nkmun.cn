@@ -93,6 +93,19 @@ global.post('/registration', function*() {
     }
 })
 
+global.get('/sessions', function*() {
+    this.status = 200
+    this.body = [
+        { id: '1', name: '会场1', type: '中文', dual: false },
+        { id: '2', name: '会场2', type: '英文', dual: true }
+    ]
+})
+
+global.put('/sessions', function*() {
+    this.status = 200
+    this.body = {}
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )

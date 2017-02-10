@@ -15,6 +15,11 @@ const Admin    = r => require.ensure([], () => r(require('pages/Admin.vue')),   
 const School   = r => require.ensure([], () => r(require('pages/School.vue')),   'school')
 const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),     'root')
 
+
+// Root mgmt pages
+const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/SessionMgmt.vue')), 'root')
+const RootOverview = r => require.ensure([], () => r(require('components/Root/Overview.vue')),    'root')
+
 export default new Router({
   routes: [
     { path: '/', component: Index },
@@ -22,7 +27,8 @@ export default new Router({
     { path: '/register/', component: Register },
     { path: '/admin/', component: Admin,
       beforeEnter: (to, from, next) => {
-
+        // TODO: guard entry
+        next()
       },
       children: [
 
@@ -34,8 +40,13 @@ export default new Router({
       ]
     },
     { path: '/root/', component: Root,
+      beforeEnter: (to, from, next) => {
+        // TODO: guard entry
+        next()
+      },
       children: [
-
+        { path: 'overview', component: RootOverview },
+        { path: 'sessions', component: SessionMgmt }
       ]
     },
     { path: '*', component: NotFound }
