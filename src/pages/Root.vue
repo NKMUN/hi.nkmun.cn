@@ -11,10 +11,11 @@
       mode="horizontal"
       theme="light"
       default-active="overview"
+      :router="true"
       class="menu"
-      @select="handleMenuItem"
     >
       <el-menu-item index="overview"> 概要 </el-menu-item>
+      <el-menu-item index="initialize"> 初始化 </el-menu-item>
       <el-menu-item index="sessions"> 会场设置 </el-menu-item>
     </el-menu>
 
@@ -35,11 +36,6 @@ export default {
   },
   data: () => ({
   }),
-  methods: {
-    handleMenuItem(index) {
-      this.$router.push(index)
-    }
-  }
 }
 </script>
 

@@ -9,6 +9,12 @@ const SECRET = 'secret'
 // API mock
 let global = new Router()
 
+global.post('/initialize', function*() {
+    yield new Promise( r => setTimeout(r, 5000) )
+    this.status = 200
+    this.body = {}
+})
+
 global.get('/config', function*() {
     this.status = 200
     this.body = {

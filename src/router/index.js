@@ -19,6 +19,7 @@ const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),    
 // Root mgmt pages
 const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/SessionMgmt.vue')), 'root')
 const RootOverview = r => require.ensure([], () => r(require('components/Root/Overview.vue')),    'root')
+const Initialize   = r => require.ensure([], () => r(require('components/Root/Initialize.vue')),    'root')
 
 export default new Router({
   routes: [
@@ -45,7 +46,9 @@ export default new Router({
         next()
       },
       children: [
+        { path: '/', component: RootOverview },
         { path: 'overview', component: RootOverview },
+        { path: 'initialize', component: Initialize },
         { path: 'sessions', component: SessionMgmt }
       ]
     },
