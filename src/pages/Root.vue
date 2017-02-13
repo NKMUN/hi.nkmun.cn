@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { Alert, Menu, MenuItem, Button } from 'element-ui'
 
 export default {

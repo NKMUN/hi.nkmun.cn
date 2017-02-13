@@ -42,7 +42,6 @@ export default {
     tests: { type: Array, default: [] }
   },
   data: () => ({
-    questions: [],
     M: {}
   }),
   watch: {
