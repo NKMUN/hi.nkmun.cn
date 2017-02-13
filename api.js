@@ -6,6 +6,11 @@ const Router = require('koa-router')
 const {sign} = require('jsonwebtoken')
 const SECRET = 'secret'
 
+const DATA_AC_TEST_ANSWER = [
+    "公民意识：通过会议的讨论和国际、地区问题的解决培养学生们作为未来公民甚至决策者的一份责任。通过在国际和公共问题上发表观点并进行磋商，最后合力进行完善的处理，代表们在这一过程中便能逐渐培养出公民意识和社会、国际责任感。\r\n\r\n人文精神：每个会议的决策都应当以人文精神为准绳，不管是UNHRC，WHO，甚至GA，SC，在解决难民，卫生，城市发展，大规模杀伤性武器，网络安全，气候问题，经济社会，法律等各个层面的问题中，都包含了从生命权，健康权，自由权到追求幸福的权利等各项人文权利和精神，因为笔者认为联合国本身便建立在追求和平，平等，发展的人文主义精神之上。",
+    "参加芝加哥模联MUNUC，北大模联PKUNMUN，复旦模联FDUIMUN，汇文模联NKMUN，南京校际模联，天津中学模联。社团为学生自主组织，包括社长，副社长，学术总监，宣传总监，会务总监等，共60余人。以校内会议，校内学术培训和交流，校外会议，校外学术活动和交流为主。"
+]
+
 // API mock
 let global = new Router()
 
@@ -62,6 +67,60 @@ global.post('/applications', function*() {
         this.status = 409
         this.body = { error: 'Duplicate application' }
     }
+})
+
+global.get('/applications', function*() {
+    this.status = 200
+    this.body = [
+        { id: '1', name: '学校1', processed: true },
+        { id: '2', name: '学校2' }
+    ]
+})
+
+global.get('/applications/:id', function*() {
+    let id = this.params.id
+    this.status = 200
+    this.body = {
+        id,
+        school: {
+            name: '学校'+id,
+            englishName: 'School '+id,
+            address: ''+id+' School St, Somewhere, Earth'
+        },
+        contact: {
+            name: '人名'+id,
+            gender: 'm',
+            phone: '13800000000',
+            email: 'someone.'+id+'@example.com'
+        },
+        altContact: {
+            name: '备用'+id,
+            gender: 'f',
+            phone: '13900000000',
+            email: 'alternative.'+id+'example.com'
+        },
+        acTest: {
+            '1': DATA_AC_TEST_ANSWER[0],
+            '2': DATA_AC_TEST_ANSWER[1]
+        },
+        request: {
+            'chinese':    3,
+            'english':    4,
+            'press':      2,
+            'supervisor': 1,
+            'observer':   2
+        },
+        seat: {
+            '1': 1,
+            '2': 2
+        },
+        processed: id === '1'
+    }
+})
+
+global.patch('/applications/:id', function*() {
+    this.status = 200
+    this.body = {}
 })
 
 global.get('/service-agreement', function*() {

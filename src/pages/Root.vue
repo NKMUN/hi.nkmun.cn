@@ -45,8 +45,7 @@ export default {
   }),
   methods: {
     logout() {
-      this.$store.commit('user/token', null)
-      this.$router.replace('/')
+      this.$router.replace('/logout')
     }
   },
 }

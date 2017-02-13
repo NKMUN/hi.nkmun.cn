@@ -7,6 +7,7 @@ Vue.use(Router)
 // Statically bundled
 const Index    = require('pages/Index.vue')
 const NotFound = require('pages/NotFound.vue')
+const Logout   = require('components/Logout.vue')
 
 // Lazy load:                                            Module                  chunk
 const Apply    = r => require.ensure([], () => r(require('pages/Apply.vue')),    'apply')
@@ -21,18 +22,24 @@ const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/Se
 const RootOverview = r => require.ensure([], () => r(require('components/Root/Overview.vue')),    'root')
 const Initialize   = r => require.ensure([], () => r(require('components/Root/Initialize.vue')),    'root')
 
+
+// Admin mgmt pages
+const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
+
 export default new Router({
   routes: [
     { path: '/', component: Index },
     { path: '/apply/', component: Apply },
     { path: '/register/', component: Register },
+    { path: '/logout', component: Logout },
     { path: '/admin/', component: Admin,
       beforeEnter: (to, from, next) => {
         // TODO: guard entry
         next()
       },
       children: [
-
+          { path: '/', component: RootOverview },
+          { path: 'application', component: ApplicationMgmt }
       ]
     },
     { path: '/school/', component: School,
