@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div class="not-found">
     <Banner />
-    <LayoutMiddle>
+    <LayoutMiddle class="layout">
       <div class="not-found">
         <h3>Oops. 页面不存在</h3>
-        <el-button type="primary" size="large" @click="$router.push('/')">返回主页</el-button>
+        <div>
+          <el-button icon="arrow-left" type="info" size="large" @click="$router.go(-1)">返回</el-button>
+          <el-button icon="star" type="primary" size="large" @click="$router.push('/')">前往主页</el-button>
+        </div>
       </div>
     </LayoutMiddle>
   </div>
@@ -33,4 +36,6 @@ export default {
 @import "../style/flex"
 .not-found
   flex-vert: center center
+  .layout
+    margin-bottom: 8em
 </style>
