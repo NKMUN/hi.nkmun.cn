@@ -64,6 +64,8 @@
       <h4>报名失败</h4>
       <pre>{{ applyError }}</pre>
     </el-dialog>
+
+    <Copyright />
   </div>
 </template>
 
@@ -73,6 +75,7 @@ import Banner from 'components/Banner'
 import { Alert, Dialog, Button } from 'element-ui'
 import ApplicationForm from 'components/form/Application'
 import Precondition from 'components/Precondition'
+import Copyright from 'components/Copyright'
 
 export default {
   name: 'apply',
@@ -82,7 +85,8 @@ export default {
     [Dialog.name]: Dialog,
     [Button.name]: Button,
     ApplicationForm,
-    Precondition
+    Precondition,
+    Copyright
   },
   data: () => ({
     busy: false,
@@ -146,9 +150,10 @@ export default {
 @import "../style/flex"
 .wrap
   flex-vert: flex-start stretch
-  margin-bottom: 82px
   .application
     flex-vert: flex-start center
+    flex-grow: 1
+    margin-bottom: 82px
   .btn.submit
     min-width: 240px
     min-height: 48px

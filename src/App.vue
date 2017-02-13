@@ -8,14 +8,12 @@
 
     <router-view class="wrap" v-if="loaded" />
 
-    <Copyright />
   </div>
 </template>
 
 <script>
 import { Alert } from 'element-ui'
 import Banner from 'components/Banner'
-import Copyright from 'components/Copyright'
 import Precondition from 'components/Precondition'
 
 export default {
@@ -23,7 +21,6 @@ export default {
   components: {
     [Alert.name]: Alert,
     Banner,
-    Copyright,
     Precondition
   },
   data: () => ({

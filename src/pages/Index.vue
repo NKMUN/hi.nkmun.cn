@@ -2,40 +2,44 @@
   <div>
     <Banner />
 
-    <LayoutCenter class="welcome">
-      <div class="homepic left">
-        <img width="356" height="221" alt="Join us, now!" src="../assets/homepic.jpg" />
-      </div>
-
-      <div class="right">
-        <div class="top">
-          <Login v-if="showLogin" @success="" @failure="" />
-
-          <el-button
-            v-if="showRegister"
-            type="primary"
-            @click="goRegister()"
-          > 领队注册 </el-button>
-
-          <el-button
-            v-if="showApply"
-            type="primary"
-            @click="goApply()"
-          > 报名 </el-button>
+    <div class="layout">
+      <LayoutCenter class="welcome">
+        <div class="homepic left">
+          <img width="356" height="221" alt="Join us, now!" src="../assets/homepic.jpg" />
         </div>
 
-        <div class="bottom">
-          <el-button
-            class="admin-login"
-            v-if="!showLogin"
-            size="mini"
-            :plain="true"
-            type="text"
-            @click="toggleAdminLogin()"
-          > 管理员登录 </el-button>
+        <div class="right">
+          <div class="top">
+            <Login v-if="showLogin" @success="" @failure="" />
+
+            <el-button
+              v-if="showRegister"
+              type="primary"
+              @click="goRegister()"
+            > 领队注册 </el-button>
+
+            <el-button
+              v-if="showApply"
+              type="primary"
+              @click="goApply()"
+            > 报名 </el-button>
+          </div>
+
+          <div class="bottom">
+            <el-button
+              class="admin-login"
+              v-if="!showLogin"
+              size="mini"
+              :plain="true"
+              type="text"
+              @click="toggleAdminLogin()"
+            > 管理员登录 </el-button>
+          </div>
         </div>
-      </div>
-    </LayoutCenter>
+      </LayoutCenter>
+    </div>
+
+    <Copyright />
 
   </div>
 </template>
@@ -46,6 +50,7 @@ import { Button } from 'element-ui'
 import LayoutCenter from 'components/LayoutCenter'
 import Login from 'components/Login'
 import Banner from 'components/Banner'
+import Copyright from 'components/Copyright'
 
 export default {
   name: 'index',
@@ -53,7 +58,8 @@ export default {
     [Button.name]: Button,
     LayoutCenter,
     Login,
-    Banner
+    Banner,
+    Copyright
   },
   data: () => ({
     showAdminLogin: false,
@@ -90,6 +96,8 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
+.layout
+  flex-grow: 1
 .welcome
   margin-top: 96px
   align-items: flex-start

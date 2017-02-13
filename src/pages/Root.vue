@@ -56,8 +56,11 @@ export default {
 @import "../style/flex"
 .root-mgmt
   flex-vert: flex-start stretch
+  max-height: 100vh
+  overflow-y: auto
   .heading
     flex-horz: flex-start stretch
+    flex-shrink: 0
     *
       border-radius: 0px
     .el-alert

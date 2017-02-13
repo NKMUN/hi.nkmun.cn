@@ -55,6 +55,8 @@
 
     </div>
 
+    <Copyright />
+
   </div>
 </template>
 
@@ -65,6 +67,7 @@ import { Input, Button, Alert, MessageBox } from 'element-ui'
 import InvitationCode from 'components/form/InvitationCode'
 import ServiceAgreement from 'components/form/ServiceAgreement'
 import RegistrationForm from 'components/form/Registration'
+import Copyright from 'components/Copyright'
 
 export default {
   name: 'register',
@@ -75,7 +78,8 @@ export default {
     Banner,
     InvitationCode,
     ServiceAgreement,
-    RegistrationForm
+    RegistrationForm,
+    Copyright
   },
   computed: {
     ... mapGetters({
@@ -205,11 +209,12 @@ export default {
 @import "../style/flex"
 .wrap
   flex-vert: flex-start stretch
-  margin-bottom: 82px
   h2
     text-align: center
   .register
     flex-vert: flex-start center
+    flex-grow: 1
+    margin-bottom: 84px
     .step
       margin: 0 auto
       width: 80%
