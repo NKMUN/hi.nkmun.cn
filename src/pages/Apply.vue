@@ -103,9 +103,7 @@ export default {
   },
   methods: {
     configLoader() {
-      if (!this.canApply)
-        return false
-      return this.$agent.get('/api/application').then( res => res.body )
+      return this.$agent.get('/api/config/application').then( res => res.body )
     },
     configParser(config) {
       this.config = config
@@ -122,7 +120,7 @@ export default {
           status,
           ok,
           body
-        } = await this.$agent.post('/api/application', this.application)
+        } = await this.$agent.post('/api/applications', this.application)
                   .ok( ({status, ok}) => ok || status === 409 )
         if (ok) {
           this.showSuccess = true
