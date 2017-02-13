@@ -118,6 +118,7 @@ import {
   Alert,
   MessageBox
 } from 'element-ui'
+import { mapGetters } from 'vuex'
 
 const keys = Object.keys
 
@@ -152,6 +153,9 @@ export default {
     validation: null,
     showValidationAlert: false
   }),
+  computed: {
+    ... mapGetters({ authorization: 'user/authorization' }),
+  },
   methods: {
     validate() {
       let result = this.sessions.map( obj => keys(obj).reduce( (r, k) => ({...r, [k]: true}), {} ) )
@@ -195,7 +199,8 @@ export default {
       }
       this.busy = true
       try {
-        let { ok } = this.$agent.put('/api/sessions', this.sessions)
+        let { ok } = await this.$agent.put('/api/sessions', this.sessions)
+                           .set( ... this.authorization )
         if (ok) {
           Notification({
             type: 'success',

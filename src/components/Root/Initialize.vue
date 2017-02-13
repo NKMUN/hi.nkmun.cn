@@ -26,6 +26,7 @@
 <script>
 import SeriousConfirm from 'components/SeriousConfirm'
 import { Alert, Button, Notification } from 'element-ui'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'root-overview',
@@ -37,6 +38,9 @@ export default {
   data: () => ({
     busy: false
   }),
+  computed: {
+    ... mapGetters({ authorization: 'user/authorization' }),
+  },
   methods: {
     async confirmInitialization() {
       let confirmed = await this.$refs.seriousConfirm.confirm('初始化会清空所有数据，请再次确认！', 'hi.nkmun.cn')
@@ -44,6 +48,7 @@ export default {
         this.busy = true
         try{
           await this.$agent.post('/api/initialize', {confirm: true} )
+                .set( ... this.authorization )
           Notification({
             type: 'success',
             title: '初始化成功',
