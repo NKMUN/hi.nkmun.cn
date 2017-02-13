@@ -11,7 +11,7 @@ export default {
   getters: {
     role:   state => state.payload.role,
     school: state => state.payload.school,
-    auth:   state => [ 'Bearer', state.token ]
+    authorization: state => [ 'Authorization', 'Bearer '+state.token ]
   },
   mutations: {
     token( state, token ) {
