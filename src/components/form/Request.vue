@@ -89,7 +89,7 @@ export default {
     [InputNumber.name]: InputNumber
   },
   props: {
-    model: { type: Object, default: () => ({}) },
+    value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '84px' },
@@ -113,34 +113,39 @@ export default {
       }
     }
   },
-  watch: {
-    model(value) {
-      this.chinese = value && value.chinese || 0
-      this.english = value && value.english || 0
-      this.press = value && value.press || 0
-      this.supervisor = value && value.supervisor || 0
-      this.observer = value && this.observer || 0
-    }
-  },
   methods: {
     emit() {
-      this.$emit('input', this.M)
-      this.$emit('change', this.M)
+      this.$nextTick( () => {
+        this.$emit('input', this.M)
+        this.$emit('change', this.M)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
     },
     validate() {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
-      this.$refs.form.resetFields()
-      this.chinese = 0
-      this.english = 0
-      this.press = 0
-      this.supervisor = 0
-      this.observer = 0
-      this.emit()
+    setValue(value) {
+      this.chinese = (value && value.chinese) || 0
+      this.english = (value && value.english) || 0
+      this.press = (value && value.press) || 0
+      this.supervisor = (value && value.supervisor) || 0
+      this.observer = (value && value.observer) || 0
+      if (this.$mounted)
+        this.$refs.form.resetFields()
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value)
+    }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

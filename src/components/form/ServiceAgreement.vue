@@ -21,7 +21,7 @@
           prop="checked"
           :rules="validator"
         >
-          <el-checkbox v-model="checked"> <b>我理解并同意以上服务协议</b> </el-checkbox>
+          <el-checkbox v-model="checked" @change="emit"> <b>我理解并同意以上服务协议</b> </el-checkbox>
         </el-form-item>
       </el-form>
 
@@ -43,9 +43,9 @@ export default {
     Precondition
   },
   props: {
+    value: { type: Boolean },
     disabled: { type: Boolean, default: false },
     className: { type: String, default: '' },
-    model: { type: Boolean, default: false }
   },
   data: () => ({
     serviceAgreement: null,
@@ -70,24 +70,34 @@ export default {
     configParser(config) {
       this.serviceAgreement = config.html
     },
+    emit() {
+      this.$nextTick( () => {
+        this.$emit('input', this.checked)
+        this.$emit('change', this.checked)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
+    },
     validate() {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
-      this.$refs.form.resetFields()
-      this.emit()
+    setValue(value) {
+      this.checked = value || false
+      if (this.$mounted)
+        this.$refs.form.resetFields()
     }
   },
   watch: {
-    checked(value) {
-      this.$emit('input', value)
-      this.$emit('change', value)
-    },
-    model(value) {
-      this.checked = value || false
+    value(value) {
+      this.setValue(value)
     }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

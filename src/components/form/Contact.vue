@@ -26,7 +26,7 @@
     <el-form-item
       label="性别"
       prop="gender"
-      :rules="[ { required: true, message: '请选择性别', trigger: 'blur'} ]"
+      :rules="[ { required: true, message: '请选择性别', trigger: 'change'} ]"
     >
       <el-radio-group v-model="gender" @change="emit">
         <el-radio label="m">男</el-radio>
@@ -84,7 +84,7 @@ export default {
     [RadioGroup.name]: RadioGroup
   },
   props: {
-    model: { type: Object },
+    value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' }
@@ -106,18 +106,12 @@ export default {
       }
     }
   },
-  watch: {
-    model(value) {
-      this.name = value && value.name
-      this.gender = value && value.gender
-      this.phone = value && value.phone
-      this.email = value && value.email
-    }
-  },
   methods: {
     emit() {
-      this.$emit('input', this.M)
-      this.$emit('change', this.M)
+      this.$nextTick( () => {
+        this.$emit('input', this.M)
+        this.$emit('change', this.M)
+      })
     },
     validate() {
       return new Promise( resolve => {
@@ -125,13 +119,25 @@ export default {
       })
     },
     reset() {
+      this.setValue(null)
+      this.emit()
+    },
+    setValue(value) {
+      this.name = (value && value.name) || null
+      this.gender = (value && value.gender) || null
+      this.phone = (value && value.phone) || null
+      this.email = (value && value.email) || null
+      if (this.$mounted)
         this.$refs.form.resetFields()
-        this.name = null
-        this.gender = null
-        this.phone = null
-        this.email = null
-        this.emit()
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value)
+    }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

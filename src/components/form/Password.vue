@@ -2,7 +2,7 @@
   <el-form
     :class="className"
     :label-width="labelWidth"
-    :model="MV"
+    :model="M"
     ref="form"
   >
     <el-form-item
@@ -31,7 +31,6 @@
         type="password"
         placeholder="请重复刚才输入的密码"
         :disabled="disabled"
-        @change="emit"
         :minlength="6"
         :maxlength="20"
       />
@@ -52,7 +51,7 @@ export default {
     [RadioGroup.name]: RadioGroup
   },
   props: {
-    model: { type: Object, default: () => ({}) },
+    value: { type: String },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' }
@@ -89,33 +88,37 @@ export default {
     }
   },
   computed: {
-    // model to be emitted for 'input' event
-    M() { return { password: this.password } },
-    // model used to validation, make sure passwordConfirm is accessible
-    MV() { return { ... this.M, passwordConfirm: this.passwordConfirm } }
-  },
-  watch: {
-    model(value) {
-      this.passwordConfirm = (this.password = value && value.password || '')
-      this.emit()
-    }
+    M() { return { password: this.password, passwordConfirm: this.passwordConfirm } }
   },
   methods: {
-    emit() {
-      this.$emit('input', this.M.password)
-      this.$emit('change', this.M.password)
+    emit(value) {
+      this.$nextTick( () => {
+        this.$emit('input', value)
+        this.$emit('change', value)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
     },
     validate() {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
+    setValue(value) {
+      this.password = value || null
+      if (this.$mounted)
         this.$refs.form.resetFields()
-        this.password = null
-        this.passwordConfirm = null
-        this.emit()
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value)
+    }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

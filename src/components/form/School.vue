@@ -73,7 +73,7 @@ export default {
     [FormItem.name]: FormItem,
   },
   props: {
-    model: { type: Object, default: () => ({}) },
+    value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' }
@@ -92,30 +92,37 @@ export default {
       }
     }
   },
-  watch: {
-    model(value) {
-      this.name = value && value.name || null
-      this.englishName = value && value.englishName || null
-      this.address = value && value.address || null
-    },
-  },
   methods: {
     emit() {
-      this.$emit('input', this.M)
-      this.$emit('change', this.M)
+      this.$nextTick( () => {
+        this.$emit('input', this.M)
+        this.$emit('change', this.M)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
     },
     validate() {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
-      this.$refs.form.resetFields()
-      this.name = null
-      this.englishName = null
-      this.address = null
-      this.emit()
+    setValue(value) {
+      this.name = (value && value.name) || null
+      this.englishName = (value && value.englishName) || null
+      this.address = (value && value.address) || null
+      if (this.$mounted)
+        this.$refs.form.resetFields()
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value)
+    },
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

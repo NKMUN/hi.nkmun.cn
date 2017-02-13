@@ -44,7 +44,7 @@ export default {
     Password
   },
   props: {
-    model: { type: Object, default: () => ({}) },
+    value: { type: Object },
     disabled: { type: Boolean, default: false },
     school: { type: Object, default: () => ({}) }
   },
@@ -54,32 +54,39 @@ export default {
     forms: ['leader', 'password']
   }),
   methods: {
+    emit() {
+      this.$nextTick( () => {
+        let M = {
+          leader: this.leader,
+          login: {
+            username: this.leader.email,
+            password: this.password
+          }
+        }
+        this.$emit('input', M)
+        this.$emit('change', M)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
+    },
     async validate() {
       let results = await Promise.all( this.forms.map( ref => this.$refs[ref].validate() ) )
       return results.reduce( (a, v) => a && v )
     },
-    reset() {
-      this.forms.forEach( ref => this.$refs[ref].reset() )
-      this.emit()
-    },
-    emit() {
-      let M = {
-        leader: this.leader,
-        login: {
-          username: this.leader.email,
-          password: this.password
-        }
-      }
-      this.$emit('input', M)
-      this.$emit('change', M)
+    setValue(value) {
+      this.leader = (value && value.leader) || {}
+      this.password = (value && value.login && value.login.password) || null
     }
   },
   watch: {
-    model(value) {
-      this.leader = value && value.leader || {}
-      this.password = value && value.password || null
-      this.emit()
+    value(value) {
+      this.setValue(value)
     }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

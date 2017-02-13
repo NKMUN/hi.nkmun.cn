@@ -35,7 +35,7 @@ export default {
     [FormItem.name]: FormItem,
   },
   props: {
-    model: { type: Object, default: () => ({}) },
+    value: { type: String },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' }
@@ -46,26 +46,35 @@ export default {
   computed: {
     M() { return { invitation: this.invitation } }
   },
-  watch: {
-    model(value) {
-      this.invitation = value || null
-    },
-  },
   methods: {
     emit() {
-      this.$emit('input', this.M.invitation)
-      this.$emit('change', this.M.invitation)
+      this.$nextTick( () => {
+        this.$emit('input', this.M.invitation)
+        this.$emit('change', this.M.invitation)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
     },
     validate() {
       return new Promise( resolve => {
         this.$refs.form.validate( resolve )
       })
     },
-    reset() {
-      this.$refs.form.resetFields()
-      this.invitation = null
-      this.emit()
+    setValue(value) {
+      this.invitation = value || null
+      if (this.$mounted)
+        this.$refs.form.resetFields()
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value)
+    }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

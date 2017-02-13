@@ -78,22 +78,10 @@ export default {
     AcademicTestForm
   },
   props: {
-    model: {
-      type: Object,
-      default: () => ({})
-    },
-    press: {
-      type: Boolean,
-      default: true
-    },
-    tests: {
-      type: Array,
-      default: () => []
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    }
+    value: { type: Object },
+    press: { type: Boolean, default: true },
+    tests: { type: Array, default: () => [] },
+    disabled: { type: Boolean, default: false }
   },
   data: () => ({
     MAX_SEATS: 10,
@@ -105,34 +93,42 @@ export default {
     forms: ['school', 'contact', 'altContact', 'request', 'acTest']
   }),
   methods: {
+    emit() {
+      this.$nextTick( () => {
+        let M = {
+          school: this.school,
+          contact: this.contact,
+          altContact: this.altContact,
+          request: this.request,
+          acTest: this.acTest
+        }
+        this.$emit('input', M)
+        this.$emit('change', M)
+      })
+    },
+    reset() {
+      this.setValue(null)
+      this.emit()
+    },
     async validate() {
       let results = await Promise.all( this.forms.map( ref => this.$refs[ref].validate() ) )
       return results.reduce( (a, v) => a && v )
     },
-    reset() {
-      this.forms.forEach( ref => this.$refs[ref].reset() )
-      this.emit()
-    },
-    emit() {
-      let M = {
-        school: this.school,
-        contact: this.contact,
-        altContact: this.altContact,
-        request: this.request,
-        acTest: this.acTest
-      }
-      this.$emit('input', M)
-      this.$emit('change', M)
+    setValue(value) {
+      this.school = (value && value.school) || {}
+      this.contact = (value && value.contact) || {}
+      this.altContact = (value && value.altContact) || {}
+      this.request = (value && value.request) || {}
+      this.acTest = (value && value.acTest) || {}
     }
   },
   watch: {
-    model(value) {
-      this.school = value && value.school || {}
-      this.contact = value && value.contact || {}
-      this.altContact = value && value.altContact || {}
-      this.request = value && value.request || {}
-      this.acTest = value && value.acTest || {}
+    value(value) {
+      this.setValue(value)
     }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>
