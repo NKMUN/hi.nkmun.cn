@@ -73,7 +73,8 @@ global.get('/applications', function*() {
     this.status = 200
     this.body = [
         { id: '1', name: '学校1', processed: true },
-        { id: '2', name: '学校2' }
+        { id: '2', name: '学校2' },
+        { id: '3', name: '学校3' }
     ]
 })
 

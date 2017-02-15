@@ -8,7 +8,7 @@
         :router="true"
         class="menu"
       >
-        <el-menu-item index="application"> 报名管理 </el-menu-item>
+        <el-menu-item index="/admin/applications/"> 报名管理 </el-menu-item>
       </el-menu>
 
       <el-button

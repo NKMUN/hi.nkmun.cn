@@ -1,0 +1,59 @@
+<template>
+  <el-menu
+    mode="vertical"
+    theme="dark"
+    :router="false"
+    class="list"
+    ref="list"
+    @select="handleListSelect"
+    :default-active="actived"
+  >
+    <el-menu-item-group v-for="g in groups" :title="g.name">
+      <el-menu-item
+        v-for="entry in g.list"
+        :index="entry.id"
+      > {{ entry.name }} </el-menu-item>
+    </el-menu-item-group>
+  </el-menu>
+</template>
+
+<script>
+import {
+  Menu,
+  MenuItem,
+  MenuItemGroup,
+  Notification
+} from 'element-ui'
+export default {
+  name: 'grouped-nav-list',
+  components: {
+    [Menu.name]: Menu,
+    [MenuItem.name]: MenuItem,
+    [MenuItemGroup.name]: MenuItemGroup
+  },
+  props: {
+    // groups: [ { name: 'group-name', list: [ ...items ] }, ... ]
+    // items: { id: 'identifier', name: 'display-text' }
+    groups: { type: Array, required: true },
+    actived: { type: String, default: '' }
+  },
+  data: () => ({
+    previousId: null
+  }),
+  methods: {
+    setActiveId(id) {
+      this.$refs.list.activedIndex = id
+      this.previousId = id
+    },
+    handleListSelect(id) {
+      this.setActiveId(this.previousId)
+      this.$emit('select', id)
+    }
+  },
+  watch: {
+    actived(val) {
+      this.setActiveId(val)
+    }
+  }
+}
+</script>

@@ -39,7 +39,8 @@ export default new Router({
       },
       children: [
           { path: '/', component: RootOverview },
-          { path: 'application', component: ApplicationMgmt }
+          { path: 'applications/', component: ApplicationMgmt },
+          { path: 'applications/:id', component: ApplicationMgmt, props: true }
       ]
     },
     { path: '/school/', component: School,

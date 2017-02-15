@@ -48,7 +48,7 @@ import { Card } from 'element-ui'
 import genderText from '../../lib/gender-text'
 
 export default {
-  name: 'application-viewer',
+  name: 'application-card',
   components: {
     [Card.name]: Card
   },
