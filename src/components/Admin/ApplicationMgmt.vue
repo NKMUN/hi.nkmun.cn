@@ -72,8 +72,6 @@ export default {
     }
   },
   data: () => ({
-    busy: false,
-    dirty: false,
     tests: null,
     sessions: null,
     applications: null,
