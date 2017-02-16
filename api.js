@@ -173,6 +173,63 @@ global.put('/sessions', function*() {
     this.body = {}
 })
 
+global.get('/hotels', function*() {
+    this.status = 200
+    this.body = [
+        { id: 'h1_kng', name: '酒店1', type: '大床房', price: 500, stock: 10, available: 0 },
+        { id: 'h1_std', name: '酒店1', type: '标准间', price: 500, stock: 10, available: 1 },
+        { id: 'h2_kng', name: '酒店2', type: '大床房', price: 600, stock: 10, available: 3 },
+        { id: 'h2_std', name: '酒店2', type: '标准间', price: 600, stock: 10, available: 5 },
+    ]
+})
+
+global.post('/hotels', function*() {
+    let rand = Math.floor( Math.random()*65536 )
+    let { name, type, price, stock } = this.request.body
+    this.status = 200
+    this.body = {
+        id: name,
+        name,
+        type,
+        price,
+        stock,
+        available: stock
+    }
+})
+
+global.get('/hotels/:id', function*() {
+    let id = this.params.id
+    this.status = 200
+    this.body = {
+        id: id,
+        name: '酒店'+id,
+        type: '标准间',
+        stock: 10,
+        available: 6
+    }
+})
+
+global.patch('/hotels/:id', function*() {
+    let id = this.params.id
+    let { stock } = this.request.body
+    this.status = 200
+    this.body = {
+        id,
+        name: id,
+        type: '修改房型',
+        price: 999,
+        stock: stock,
+        available: 0
+    }
+})
+
+global.delete('/hotels/:id', function*() {
+    this.status = 200
+    this.body = {
+        count: 0
+    }
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )

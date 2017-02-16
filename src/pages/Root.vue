@@ -23,7 +23,8 @@
     >
       <el-menu-item index="overview"> 概要 </el-menu-item>
       <el-menu-item index="initialize"> 初始化 </el-menu-item>
-      <el-menu-item index="sessions"> 会场设置 </el-menu-item>
+      <el-menu-item index="sessions"> 会场管理 </el-menu-item>
+      <el-menu-item index="hotels"> 酒店管理 </el-menu-item>
     </el-menu>
 
     <router-view class="wrap" />
