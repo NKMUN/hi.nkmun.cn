@@ -215,8 +215,13 @@ export default {
       }
       this.busy = true
       try {
-        let { ok } = await this.$agent.put('/api/sessions', this.sessions)
-                           .set( ... this.authorization )
+        let {
+          ok,
+          body
+        } = await this.$agent.put('/api/sessions', this.sessions)
+                  .set( ... this.authorization )
+        this.serverSessions = body.map( $ => ({ ...$ }) )
+        this.sessions = body.map( $ => ({ ...$ }) )
         if (ok) {
           Notification({
             type: 'success',
