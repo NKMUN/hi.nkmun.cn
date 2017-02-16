@@ -6,24 +6,25 @@
       <ul>
         <li>会场ID不能重复</li>
         <li>谨慎修改已创建会场的ID</li>
+        <li><code>extra_leader</code>为非参会代表领队</li>
       </ul>
     </div>
 
     <el-table v-if="sessions" :data="sessions" class="session-table">
-      <el-table-column prop="id" label="ID" width="120" sortable>
+      <el-table-column prop="id" label="ID" width="144" sortable fixed>
         <template scope="scope">
           <el-input
             v-model="scope.row.id"
             placeholder="cn_1"
             :minlength="1"
-            :maxlength="8"
+            :maxlength="16"
             :class="validation[scope.$index] && !validation[scope.$index].id ? 'error' : ''"
-            :disabled="busy"
+            :disabled="busy || scope.row.reserved"
           />
         </template>
       </el-table-column>
 
-      <el-table-column prop="name" label="名称" sortable>
+      <el-table-column prop="name" label="名称" min-width="144" sortable resizable>
         <template scope="scope">
           <el-input
             v-model="scope.row.name"
@@ -34,25 +35,39 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="type" label="类型" width="120" sortable>
+      <el-table-column prop="type" label="类型" width="144" sortable>
         <template scope="scope">
           <el-select
             v-model="scope.row.type"
             placeholder="请选择"
             :class="validation[scope.$index] && !validation[scope.$index].type ? 'error' : ''"
-            :disabled="busy"
+            :disabled="busy || scope.row.reserved"
           >
             <el-option v-for="type in sessionTypes" :label="type" :value="type" />
           </el-select>
         </template>
       </el-table-column>
 
-      <el-table-column prop="dual" label="双代" width="108" sortable>
+      <el-table-column prop="dual" label="双代" width="64">
         <template scope="scope">
           <el-checkbox
             v-model="scope.row.dual"
             :class="validation[scope.$index] && !validation[scope.$index].dual ? 'error' : ''"
+            :disabled="busy || scope.row.reserved"
+          />
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="price" label="单价" width="96">
+        <template scope="scope">
+          <el-input-number
+            v-model="scope.row.price"
+            size="small"
+            :controls="false"
+            :class="validation[scope.$index] && !validation[scope.$index].price ? 'error' : ''"
             :disabled="busy"
+            :min="0"
+            style="display: table-cell;"
           />
         </template>
       </el-table-column>
@@ -64,7 +79,7 @@
             size="small"
             icon="delete"
             @click="deleteSession(scope.$index)"
-            :disabled="busy"
+            :disabled="busy || scope.row.reserved"
           > 删除 </el-button>
         </template>
       </el-table-column>
@@ -111,6 +126,7 @@ import {
   TableColumn,
   Notification,
   Input,
+  InputNumber,
   Select,
   Option,
   Checkbox,
@@ -139,6 +155,7 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     [Input.name]: Input,
+    [InputNumber.name]: InputNumber,
     [Select.name]: Select,
     [Option.name]: Option,
     [Checkbox.name]: Checkbox,
@@ -161,14 +178,14 @@ export default {
       let result = this.sessions.map( obj => keys(obj).reduce( (r, k) => ({...r, [k]: true}), {} ) )
       let idxOf = {}
       let valid = true
-      this.sessions.forEach( ({id, name, type}, idx) => {
+      this.sessions.forEach( ({id, name, type, reserved}, idx) => {
         if ( idxOf[id] !== undefined ) {
           result[idx].id = false
           result[ idxOf[id] ].id = false
           valid = false
         }
         idxOf[id] = idx
-        if ( ! ( id && /[a-zA-Z0-9]{1,8}/.test(id) ) ) {
+        if ( ! ( id && /[a-zA-Z0-9_]{1,16}/.test(id) ) ) {
           result[idx].id = false
           valid = false
         }
@@ -176,7 +193,7 @@ export default {
           result[idx].name = false
           valid = false
         }
-        if ( ! type ) {
+        if ( !type && !reserved ) {
           result[idx].type = false
           valid = false
         }
@@ -273,7 +290,7 @@ export default {
     color: #475669
     font-size: 14px
   .session-table
-    max-width: 80ch
+    max-width: 90ch
   .controls.commit
     margin-top: 3em
   .el-alert
