@@ -75,8 +75,8 @@ import {
 } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SeriousConfirm from 'components/SeriousConfirm'
-import AddHotelDialog from 'components/Root/AddHotelDialog'
-import ModifyHotelStockDialog from 'components/Root/ModifyHotelStockDialog'
+import AddHotelDialog from './components/AddHotelDialog'
+import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
 
 export default {
   name: 'hotel-mgmt',

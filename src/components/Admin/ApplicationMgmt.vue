@@ -32,7 +32,7 @@
 import { mapGetters } from 'vuex'
 import Precondition from 'components/Precondition'
 import ReviewControl from './ReviewControl'
-import ApplicationReview from './ApplicationReview'
+import ApplicationReview from './components/ApplicationReview'
 
 export default {
   name: 'application-mgmt',
