@@ -208,7 +208,6 @@ export default {
       this.sessions.push( DEFAULT_SESSION() )
     },
     async confirm() {
-      // TODO: PUT changes to server
       this.showValidationAlert = false
       if ( ! this.validate() ) {
         this.showValidationAlert = true
@@ -242,6 +241,8 @@ export default {
     abort() {
       // copy serverSessions
       this.sessions = this.serverSessions.map( $ => ({...$}) )
+      this.validate()
+      this.showValidationAlert = false
     }
   },
   async mounted() {
