@@ -1,40 +1,42 @@
 <template>
-  <div class="reviewer" v-loading="id && !application" ref="scroll">
-    <ApplicationCard
-      v-if="application"
-      :data="application"
-      :tests="tests"
-      class="application-card"
-    />
+  <div class="reviewer" v-loading="id && (!application || loading)">
+    <template v-if="application">
+      <ApplicationCard
+        v-show="!loading"
+        :data="application"
+        :tests="tests"
+        class="application-card"
+      />
 
-    <SeatInput
-      v-if="application"
-      class="seat-input"
-      v-model="seat"
-      :sessions="sessions"
-      :disabled="busy || application.processed"
-      @change="dirty = true"
-    />
+      <SeatInput
+        v-show="!loading"
+        class="seat-input"
+        v-model="seat"
+        :sessions="sessions"
+        :disabled="busy || application.processed"
+        @change="dirty = true"
+      />
 
-    <div class="confirm-guard" v-if="application && !application.processed">
-      <el-checkbox v-model="canInvite">发送邀请</el-checkbox>
-    </div>
+      <div class="confirm-guard" v-show="!loading && !application.processed">
+        <el-checkbox v-model="canInvite">发送邀请</el-checkbox>
+      </div>
 
-    <el-button-group class="controls" v-if="application && !application.processed">
-      <el-button
-        type="success"
-        :disabled="!canInvite"
-        :loading="busy"
-        icon="message"
-        @click="sendInvitation"
-      > 发送邀请 </el-button>
-      <el-button
-        type="info"
-        :loading="busy"
-        icon="check"
-        @click="updateAndNext"
-      > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
-    </el-button-group>
+      <el-button-group class="controls" v-show="!loading && !application.processed">
+        <el-button
+          type="success"
+          :disabled="!canInvite"
+          :loading="busy"
+          icon="message"
+          @click="sendInvitation"
+        > 发送邀请 </el-button>
+        <el-button
+          type="info"
+          :loading="busy"
+          icon="check"
+          @click="updateAndNext"
+        > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+      </el-button-group>
+    </template>
   </div>
 </template>
 
@@ -72,6 +74,7 @@ export default {
   },
   data: () => ({
     busy: false,
+    loading: true,
     application: null,
     seat: null,
     dirty: false,
@@ -88,7 +91,7 @@ export default {
     },
     async fetch() {
       if (this.id) {
-        this.application = null
+        this.loading = true
         try {
           let {
             body: application
@@ -100,6 +103,8 @@ export default {
           this.notifyError(e, '获取失败')
           this.application = null
           this.seat = null
+        } finally {
+          this.loading = false
         }
       } else {
         this.application = null
