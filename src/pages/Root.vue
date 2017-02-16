@@ -24,6 +24,7 @@
       <el-menu-item index="overview"> 概要 </el-menu-item>
       <el-menu-item index="initialize"> 初始化 </el-menu-item>
       <el-menu-item index="sessions"> 会场管理 </el-menu-item>
+      <el-menu-item index="invitation"> 邀请邮件 </el-menu-item>
       <el-menu-item index="hotels"> 酒店管理 </el-menu-item>
     </el-menu>
 

@@ -43,6 +43,31 @@ global.get('/config/application', function*() {
     }
 })
 
+global.get('/config/invitation', function*() {
+    this.status = 200
+    this.body = {
+        account: 'notice@nkmun.cn',
+        password: 'password',
+        nickname: 'nick',
+        template: '<html>Email template. {school}</html>',
+        host: 'dm@aliyun.com',
+        port: 465,
+    }
+})
+
+global.put('/config/invitation', function*() {
+    this.status = 200
+    this.body = this.request.body
+})
+
+global.post('/config/invitation', function*() {
+    // TODO: test invitation mail
+    let {config, recepient} = this.request.body
+    // TODO: send test email to recepient using config
+    this.status = 200
+    this.body = {}
+})
+
 global.post('/login', function*() {
     const { user } = this.request.body
     if ( ['root', 'admin', 'school'].find( $ => $ === user ) ) {
