@@ -32,9 +32,7 @@ export default {
     [MenuItemGroup.name]: MenuItemGroup
   },
   props: {
-    // groups: [ { name: 'group-name', list: [ ...items ] }, ... ]
-    // items: { id: 'identifier', name: 'display-text' }
-    groups: { type: Array, required: true },
+    groups: { type: Array, default: [] },
     actived: { type: String, default: '' }
   },
   data: () => ({

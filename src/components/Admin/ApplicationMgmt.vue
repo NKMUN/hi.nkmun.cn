@@ -1,80 +1,57 @@
 <template>
 
-  <ReviewLayout>
+  <ReviewControl
+    ref="reviewControl"
+    :list="applications"
+    :order-by="bySchoolName"
+    :id="id"
+  >
 
     <Precondition
       :loader="configLoader"
       @loaded="configParser"
     />
 
-    <GroupedNavList
-      v-if="applications"
-      slot="list"
-      :groups="groups"
-      @select="handleSelect"
-      ref="list"
-      :actived="id"
-    />
+    <template slot="reviewer" scope="props">
+      <ApplicationReview
+        slot="reviewer"
+        ref="reviewer"
+        :tests="tests"
+        :sessions="sessions"
+        :id="props.id"
+        @next="$refs.reviewControl.handleNext"
+        @processed="$refs.reviewControl.handleProcessed"
+      />
+    </template>
 
-    <ApplicationReview
-      v-if="applications"
-      slot="reviewer"
-      ref="reviewer"
-      :tests="tests"
-      :sessions="sessions"
-      :id="id"
-      @next="gotoNext"
-      @processed="handleProcessed"
-    />
-
-  </ReviewLayout>
+  </ReviewControl>
 
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { Notification } from 'element-ui'
 import Precondition from 'components/Precondition'
-import GroupedNavList from 'components/GroupedNavList'
-import ReviewLayout from './ReviewLayout'
+import ReviewControl from './ReviewControl'
 import ApplicationReview from './ApplicationReview'
-
-function bySchoolName(_a, _b) {
-  let a = (_a.school && _a.school.name) || ''
-  let b = (_a.school && _a.school.name) || ''
-  return a.localeCompare(b)
-}
 
 export default {
   name: 'application-mgmt',
   components: {
     Precondition,
-    ReviewLayout,
-    GroupedNavList,
+    ReviewControl,
     ApplicationReview
   },
   props: { id: { type: String, default: '' } },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'
-    }),
-    listPending() {
-      return this.applications.filter( $ => !$.processed ).sort( bySchoolName )
-    },
-    listProcessed() {
-      return this.applications.filter( $ => $.processed ).sort( bySchoolName )
-    },
-    groups() {
-      return [
-        { name: '待处理', list: this.listPending },
-        { name: '已处理', list: this.listProcessed }
-      ]
-    }
+    })
   },
   data: () => ({
     tests: null,
     sessions: null,
     applications: null,
+    bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
   }),
   methods: {
     configLoader() {
@@ -92,29 +69,6 @@ export default {
       this.tests = appConf.tests
       this.sessions = sessions
       this.applications = applications
-    },
-    async handleSelect(id) {
-      this.$router.push(id)
-    },
-    async handleProcessed(id) {
-      let idx = this.applications.findIndex( $ => $.id === id )
-      this.applications.splice(idx, 1, {
-        ...this.applications[idx],
-        processed: true
-      })
-    },
-    gotoNext(id) {
-      let nextIdx = this.listPending.findIndex( $ => $.id === id ) + 1
-      if (nextIdx < this.listPending.length) {
-        this.$router.push(this.listPending[nextIdx].id)
-      } else {
-        Notification({
-          type: 'info',
-          title: '没有更多的待处理项目',
-          duration: 5000
-        })
-        this.$router.push('./')
-      }
     }
   },
   async beforeRouteUpdate(to, from, next) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="reviewer" v-loading="id && (!application || loading)" ref="scroll">
+  <div class="reviewer" v-loading="id && !application" ref="scroll">
     <ApplicationCard
       v-if="application"
       :data="application"
@@ -72,7 +72,6 @@ export default {
   },
   data: () => ({
     busy: false,
-    loading: false,
     application: null,
     seat: null,
     dirty: false,
@@ -89,7 +88,7 @@ export default {
     },
     async fetch() {
       if (this.id) {
-        this.loading = true
+        this.application = null
         try {
           let {
             body: application
@@ -101,16 +100,13 @@ export default {
           this.notifyError(e, '获取失败')
           this.application = null
           this.seat = null
-        } finally {
-          this.loading = false
-          this.$refs.scroll.scrollTop = 0
         }
       } else {
         this.application = null
         this.seat = null
       }
     },
-    async update() {
+    async update(silent=false) {
       if (!this.dirty)
         return true
       let result = false
@@ -121,12 +117,14 @@ export default {
         } = await this.$agent.patch('/api/applications/'+this.id)
                              .set( ... this.authorization )
         this.dirty = false
-        Notification({
-          type: 'success',
-          title: '更新成功',
-          message: '已更新 '+this.application.school.name,
-          duration: 5000
-        })
+        if (!silent) {
+          Notification({
+            type: 'success',
+            title: '更新成功',
+            message: '已更新 '+this.application.school.name,
+            duration: 5000
+          })
+        }
         result = true
       } catch(e) {
         this.notifyError(e, '更新失败')
@@ -137,12 +135,34 @@ export default {
     },
     async updateAndNext() {
       await this.update()
-      this.$emit('next', this.id)
+      this.$nextTick( () => {
+        this.$emit('next', this.id)
+      })
     },
     async sendInvitation() {
-      // TODO:
-      this.$emit('next', this.id)
-      this.$emit('processed', this.id)
+      if ( ! await this.update(true) )
+        return
+
+      this.busy = true
+      try {
+        //
+        // TODO: send invitation
+        //
+        Notification({
+          type: 'success',
+          title: '邀请已发送',
+          message: '已向 '+this.application.school.name+' 发送邀请',
+          duration: 5000
+        })
+        this.$nextTick( () => {
+          this.$emit('next', this.id)
+          this.$emit('processed', this.id)
+        })
+      } catch(e) {
+        this.notifyError(e)
+      } finally {
+        this.busy = false
+      }
     },
   },
   mounted() {
