@@ -31,6 +31,7 @@
           placeholder="密码"
           :disabled="busy"
           v-model="loginPayload.password"
+          @keydown.enter.native="login"
         />
       </el-form-item>
 
@@ -39,7 +40,7 @@
     <el-button
       type="success"
       :loading="busy"
-      @click="login()"
+      @click="login"
     > 登录 </el-button>
 
   </div>
