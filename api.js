@@ -195,7 +195,11 @@ global.get('/sessions', function*() {
 
 global.put('/sessions', function*() {
     this.status = 200
-    this.body = {}
+    this.body = [
+        { id: 'extra_leader', name: '领队', type: null, dual: false, reserved: true, price: 200 },
+        { id: '1', name: '会场1', type: '中文', dual: false, price: 100, },
+        { id: '2', name: '修改会场', type: '英文', dual: true, price: 150 }
+    ]
 })
 
 global.get('/hotels', function*() {
