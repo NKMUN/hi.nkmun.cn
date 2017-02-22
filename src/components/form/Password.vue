@@ -40,15 +40,13 @@
 </template>
 
 <script>
-import { Form, FormItem, Input, Radio, RadioGroup } from 'element-ui'
+import { Form, FormItem, Input } from 'element-ui'
 export default {
   name: 'password',
   components: {
     [Form.name]: Form,
     [Input.name]: Input,
-    [FormItem.name]: FormItem,
-    [Radio.name]: Radio,
-    [RadioGroup.name]: RadioGroup
+    [FormItem.name]: FormItem
   },
   props: {
     value: { type: String },
