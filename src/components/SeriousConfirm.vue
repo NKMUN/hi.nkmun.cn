@@ -3,6 +3,7 @@
     ref="dialog"
     @close="handleClose"
     title="操作确认"
+    custom-class="serious-confirm"
   >
 
     <div class="warning">
@@ -121,4 +122,6 @@ export default {
   input
     font-family: monospace
     font-size: 16px
+.el-dialog.serious-confirm
+  max-width: 480px
 </style>
