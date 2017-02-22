@@ -27,6 +27,9 @@ const Invitation   = r => require.ensure([], () => r(require('components/Root/In
 // Admin mgmt pages
 const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
 
+// School mgmt pages
+const Relinquish = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
+
 export default new Router({
   routes: [
     { path: '/', component: Index },
@@ -46,7 +49,7 @@ export default new Router({
     },
     { path: '/school/', component: School,
       children: [
-
+        { path: 'relinquishment', component: Relinquish },
       ]
     },
     { path: '/root/', component: Root,
