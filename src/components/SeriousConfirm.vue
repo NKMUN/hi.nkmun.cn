@@ -8,7 +8,7 @@
 
     <div class="warning">
       <i class="icon el-icon-warning"></i>
-      <div>{{ message }}</div>
+      <div class="message">{{ message }}</div>
     </div>
 
     <div>
@@ -124,4 +124,6 @@ export default {
     font-size: 16px
 .el-dialog.serious-confirm
   max-width: 480px
+  .message
+    white-space: pre
 </style>
