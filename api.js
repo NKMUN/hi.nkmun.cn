@@ -259,6 +259,48 @@ global.delete('/hotels/:id', function*() {
     }
 })
 
+global.get('/schools/:id', function*() {
+    this.status = 200
+    this.body = {
+        id: 'school',
+        name: '学校',
+        englishName: 'English School Name',
+        stage: '1.relinquishment'
+    }
+})
+
+global.get('/schools/:id/messages', function*() {
+    this.status = 200
+    this.body = [
+      { id: '1', title: 'Message', description: 'You did bad thing', type: 'payment', code: 'payment-fail' }
+    ]
+})
+
+global.get('/schools/:id/seats', function*() {
+    this.status = 200
+    this.body = [
+        { id: 'seat-1', school: 'school',
+          session: { id: 's1', name: '会场1', dual: true }
+        },
+        { id: 'seat-2', school: 'school', exchangeWith: 'seat-x-1',
+          session: { id: 's1', name: '会场1', dual: true }
+        },
+        { id: 'laeder-att', school: 'school',
+          session: { id: 'leader', name: '领队', dual: false, reserved: true }
+        },
+    ]
+})
+
+global.delete('/schools/:id/seats/:seatId', function*() {
+    this.status = 200
+    this.body = {}
+})
+
+global.post('/schools/:id/seats/:seatId', function*() {
+    this.status = 200
+    this.body = {}
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )
