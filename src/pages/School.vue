@@ -40,7 +40,7 @@
         > 退出 </el-button>
       </div>
 
-      <div class="overview" v-if="!subComponentSelected">
+      <div class="overview" v-if="!renderSubComponent">
         <el-alert
           v-for="m in messages"
           type="warning"
@@ -49,10 +49,23 @@
           :closable="false"
           show-icon
         />
-        <Todo :stage="stage" />
+        <div class="layout">
+          <Todo class="todo" :stage="stage" />
+          <div class="right">
+            <h4>现有名额</h4>
+            <SeatView class="seat-view" :seats="seats">
+              <template slot="title-append" scope="scope">
+                <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
+              </template>
+              <template slot="operation" scope="scope">
+                <el-tag type="gray" v-if="scope.seat.exchange">交换中</el-tag>
+              </template>
+            </SeatView>
+          </div>
+        </div>
       </div>
 
-      <router-view class="wrap" v-if="subComponentSelected" />
+      <router-view class="wrap" v-if="renderSubComponent" />
 
     </template>
 
@@ -60,9 +73,10 @@
 </template>
 
 <script>
-import { Alert, Menu, MenuItem, Button } from 'element-ui'
+import { Alert, Menu, MenuItem, Button, Tag } from 'element-ui'
 import Precondition from 'components/Precondition'
 import Todo from 'components/School/Todo'
+import SeatView from 'components/School/SeatView'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -72,20 +86,25 @@ export default {
     [Menu.name]: Menu,
     [MenuItem.name]: MenuItem,
     [Button.name]: Button,
+    [Tag.name]: Tag,
     Precondition,
-    Todo
+    Todo,
+    SeatView
   },
   computed: {
     ... mapGetters({
       authorization:  'user/authorization',
       school: 'user/school',
       stage: 'school/stage',
+      seats: 'school/seats',
       messages: 'school/messages'
     }),
     loaded() {
       return this.stage
     },
-    subComponentSelected() { return this.$route.path !== '/school/'}
+    renderSubComponent() {
+      return this.$route.path !== 'school' && this.school
+    }
   },
   methods: {
     logout() {
@@ -128,11 +147,19 @@ export default {
     flex-vert: flex-start center
     align-self: center
     width: 100%
-    max-width: 40ch
+    .layout
+      align-self: stretch
+      flex-horz: center flex-start
+      .todo
+        flex-shrink: 0
+        margin-right: 48px
+      .right
+        min-width: 25ch
     .el-alert
       width: auto
       align-self: center
       padding-left: 4ch
       padding-right: 4ch
       margin: 2em 0
+      max-width: 40ch
 </style>
