@@ -116,7 +116,7 @@ export default {
             type: 'error',
             title: '未能放弃名额',
             message: e.message,
-            duration: 5000
+            duration: 0
           })
         } finally {
           this.busy = false
@@ -130,15 +130,21 @@ export default {
           ok
         } = await this.$agent.post('/api/schools/'+this.school+'/seats/')
                   .query({ confirm: true })
+                  .send({ leaderAttend: this.leaderAttend })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')
+        Notification({
+          type: 'success',
+          title: '名额已确认',
+          duration: 5000
+        })
       } catch(e) {
         Notification({
           type: 'error',
           title: '名额确认失败',
           message: e.message,
-          duration: 5000
+          duration: 0
         })
       } finally {
         this.busy = false

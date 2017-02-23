@@ -301,6 +301,15 @@ global.post('/schools/:id/seats/:seatId', function*() {
     this.body = {}
 })
 
+global.post('/schools/:id/seats/', function*() {
+    if (this.query.confirm) {
+        this.status = 200
+        this.body = {}
+    }else{
+        // create new seat by admin
+    }
+})
+
 app.use( require('koa-body')({ multipart: true }) )
 app.use( require('koa-accesslog')() )
 app.use( global.routes() )
