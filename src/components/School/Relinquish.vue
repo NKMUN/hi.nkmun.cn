@@ -12,17 +12,17 @@
 
     <SeatView :seats="seats">
       <template slot="title-append" scope="scope">
-        <el-tag v-if="scope.group.dual" type="warning">双代</el-tag>
+        <el-tag v-if="scope.session.dual" type="warning">双代</el-tag>
         <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
       </template>
       <template slot="operation" scope="scope">
         <el-button
-          v-if="!scope.seat.session.reserved"
+          v-if="!scope.session.reserved"
           size="mini"
           type="danger"
           icon="warning"
           :disabled="busy"
-          @click="relinquishSeat(scope.seat.id, scope.group)"
+          @click="relinquishSeat(scope.seat.id, scope.group, scope.session)"
         > 放弃 </el-button>
       </template>
     </SeatView>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { Alert, Button, Collapse, CollapseItem, Tag, Notification } from 'element-ui'
+import { Alert, Button, Tag, Notification } from 'element-ui'
 import SeriousConfirm from 'components/SeriousConfirm'
 import LeaderAttendance from '../form/LeaderAttendance'
 import SeatView from './SeatView'
@@ -55,8 +55,6 @@ import store from 'store/index'
 export default {
   name: 'school-relinquish',
   components: {
-    [Collapse.name]: Collapse,
-    [CollapseItem.name]: CollapseItem,
     [Tag.name]: Tag,
     [Button.name]: Button,
     LeaderAttendance,
@@ -68,6 +66,7 @@ export default {
       school: 'user/school',
       authorization: 'user/authorization',
       seats: 'school/seats',
+      sessions: 'config/sessions'
     })
   },
   data: () => ({
@@ -75,9 +74,9 @@ export default {
     leaderAttend: null
   }),
   methods: {
-    async relinquishSeat(id, group) {
+    async relinquishSeat(id, group, session) {
       let remaining = group.list.length - 1
-      let name = group.name
+      let name = session.name
       let message = '操作完成后，'+name+'的剩余名额为：'+remaining
       if ( await this.$refs.serious.confirm(message, name) ) {
         this.busy = true
@@ -110,7 +109,7 @@ export default {
         let {
           ok
         } = await this.$agent.post('/api/schools/'+this.school+'/seats/')
-                  .query({ confirm: true })
+                  .query({ confirmRelinquish: true })
                   .send({ leaderAttend: this.leaderAttend })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.exchange')

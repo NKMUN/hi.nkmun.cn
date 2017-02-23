@@ -53,14 +53,7 @@
           <Todo class="todo" :stage="stage" />
           <div class="right">
             <h4>现有名额</h4>
-            <SeatView class="seat-view" :seats="seats">
-              <template slot="title-append" scope="scope">
-                <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
-              </template>
-              <template slot="operation" scope="scope">
-                <el-tag type="gray" v-if="scope.seat.exchange">交换中</el-tag>
-              </template>
-            </SeatView>
+            <SeatView class="seat-view" :seats="seats" />
           </div>
         </div>
       </div>
@@ -103,7 +96,7 @@ export default {
       return this.stage
     },
     renderSubComponent() {
-      return this.$route.path !== 'school' && this.school
+      return this.$route.path !== '/school/' && this.school
     }
   },
   methods: {

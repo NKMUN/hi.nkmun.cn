@@ -29,6 +29,17 @@ export default {
     },
     removeSeat(state, seatId) {
       state.seats.splice( state.seats.findIndex( s => s.id === seatId ), 1 )
+    },
+    addSeat(state, seat) {
+      state.seats.push( seat )
+    },
+    exchangeSeat(state, {id, target}) {
+      let idx = state.seats.findIndex( s => s.id == id )
+      state.seats.splice(
+        idx,
+        1,
+        { ...state.seats[idx], exchange: target }
+      )
     }
   }
 }
