@@ -10,27 +10,22 @@
       </ul>
     </div>
 
-    <el-collapse :accordion="false" class="seat-view">
-      <el-collapse-item v-for="g in seatGroups" :name="g.id">
-        <template slot="title">
-          <span class="name">{{ g.name }}</span>
-          <el-tag class="right" type="primary">总数：{{ g.list.length }}</el-tag>
-          <el-tag v-if="g.dual" class="right" type="warning">双代</el-tag>
-        </template>
-        <div v-for="s in g.list">
-          <span>{{ s.session.name }}</span>
-          <el-button
-            v-if="!s.session.reserved"
-            class="btn relinquish"
-            size="mini"
-            type="danger"
-            icon="warning"
-            :disabled="busy"
-            @click="relinquishSeat(s.id, g)"
-          > 放弃 </el-button>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+    <SeatView :seats="seats">
+      <template slot="title-append" scope="scope">
+        <el-tag v-if="scope.group.dual" type="warning">双代</el-tag>
+        <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
+      </template>
+      <template slot="operation" scope="scope">
+        <el-button
+          v-if="!scope.seat.session.reserved"
+          size="mini"
+          type="danger"
+          icon="warning"
+          :disabled="busy"
+          @click="relinquishSeat(scope.seat.id, scope.group)"
+        > 放弃 </el-button>
+      </template>
+    </SeatView>
 
     <div class="leader-attendance">
       <LeaderAttendance v-model="leaderAttend" />
@@ -53,21 +48,9 @@
 import { Alert, Button, Collapse, CollapseItem, Tag, Notification } from 'element-ui'
 import SeriousConfirm from 'components/SeriousConfirm'
 import LeaderAttendance from '../form/LeaderAttendance'
+import SeatView from './SeatView'
 import { mapGetters } from 'vuex'
 import store from 'store/index'
-
-const byId = (a={}, b={}) => String(a.id).localeCompare(String(b.id))
-const groupBySession = (arr) =>
-  arr.reduce( (ret, val) => {
-    // NOTE: ignore O(n) lookup complexity for small inputs
-    let el = ret.find( g => g.id === val.session.id )
-    if ( !el ) {
-      ret.push({ id: val.session.id, name: val.session.name, dual: val.session.dual, list: [] })
-      el = ret[ ret.length - 1 ]
-    }
-    el.list.push( val )
-    return ret
-  }, [])
 
 export default {
   name: 'school-relinquish',
@@ -77,17 +60,15 @@ export default {
     [Tag.name]: Tag,
     [Button.name]: Button,
     LeaderAttendance,
-    SeriousConfirm
+    SeriousConfirm,
+    SeatView
   },
   computed: {
     ...mapGetters({
       school: 'user/school',
       authorization: 'user/authorization',
       seats: 'school/seats',
-    }),
-    seatGroups() {
-      return groupBySession(this.seats).sort(byId)
-    }
+    })
   },
   data: () => ({
     busy: false,
@@ -172,13 +153,6 @@ export default {
   .seat-view
     width: 100%
     max-width: 30ch
-    .right
-      float: right
-      // match collapse-item's title height
-      margin: 10px 4px 10px 0
-      height: 23px
-    .btn.relinquish
-      float: right
   .leader-attendance
     margin-top: 3em
 </style>
