@@ -1,28 +1,20 @@
 <template>
-  <el-form :class="className" placement="right">
-    <el-form-item>
-      <el-select
-        :value="value"
-        @input="emit"
-        @change="emit"
-        placeholder="领队是否参会？"
-        :disabled="disabled"
-      >
-        <el-option
-          label="领队在参会代表中"
-          :value="true"
-        />
-        <el-option
-          label="领队不在参会代表中"
-          :value="false"
-        />
-      </el-select>
+  <el-form :class="className" label-position="top">
+    <el-form-item label="领队由参会代表兼任：">
+      <!--
+        use el-radio to avoid a possible edge case in el-select
+        this problem can not be reliably reproduced!
+      -->
+      <el-radio-group :value="eleValue" @change="emit" @input="emit" :disabled="disabled">
+        <el-radio label="yes">是</el-radio>
+        <el-radio label="no">否</el-radio>
+      </el-radio-group>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { Form, FormItem, Select, Option } from 'element-ui'
+import { Form, FormItem, RadioGroup, Radio } from 'element-ui'
 import Precondition from 'components/Precondition'
 
 export default {
@@ -30,19 +22,29 @@ export default {
   components: {
     [Form.name]: Form,
     [FormItem.name]: FormItem,
-    [Select.name]: Select,
-    [Option.name]: Option,
+    [RadioGroup.name]: RadioGroup,
+    [Radio.name]: Radio,
   },
   props: {
     value: { type: Boolean },
     disabled: { type: Boolean, default: false },
     className: { type: String, default: '' },
   },
+  computed: {
+    eleValue() {
+      if (this.value === true) return 'yes'
+      if (this.value === false) return 'no'
+      return null
+    }
+  },
   methods: {
     emit(val) {
+      let emitted = null
+      if (val === 'yes') emitted = true
+      if (val === 'no') emitted = false
       this.$nextTick( () => {
-        this.$emit('input', val)
-        this.$emit('change', val)
+        this.$emit('input', emitted)
+        this.$emit('change', emitted)
       })
     },
   },
