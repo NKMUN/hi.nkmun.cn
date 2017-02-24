@@ -3,12 +3,7 @@
 
     <SeatView :seats="seats" class="seats">
       <template slot="operation" scope="scope">
-        <el-tooltip placement="top" v-if="scope.seat.exchange">
-          <div slot="content">
-            {{ scope.seat.exchange.school }} {{ SESSION(scope.seat.exchange.session).name }}
-          </div>
-          <el-tag type="gray">交换中</el-tag>
-        </el-tooltip>
+        <el-tag v-if="scope.seat.exchange" type="gray">交换中</el-tag>
       </template>
     </SeatView>
 
@@ -32,13 +27,13 @@
 
     <ExchangeRequestList class="requests" />
 
-    <SeatExchangeControl class="seat-overview" @exchange="handleExchange" />
+    <SeatExchangeControl class="seat-overview" @exchange="exchange" :busy="busy" />
 
   </div>
 </template>
 
 <script>
-import { Alert, Button, Tag, Notification, Tooltip, Card, Dialog } from 'element-ui'
+import { Alert, Button, Tag, Notification, Card, Dialog } from 'element-ui'
 import ExchangeRequestList from './ExchangeRequestList'
 import SeatView from './SeatView'
 import SeatExchangeControl from './SeatExchangeControl'
@@ -52,7 +47,6 @@ export default {
   components: {
     [Tag.name]: Tag,
     [Button.name]: Button,
-    [Tooltip.name]: Tooltip,
     [Card.name]: Card,
     [Dialog.name]: Dialog,
     ExchangeRequestList,
@@ -79,12 +73,7 @@ export default {
     }
   },
   data: () => ({
-    busy: false,
-    exchange: {
-      target: null,
-      targetSession: null,
-      selfSeat: null
-    }
+    busy: false
   }),
   methods: {
     async confirm() {
@@ -113,26 +102,43 @@ export default {
         this.busy = false
       }
     },
-    async handleExchange(school, session) {
-      this.exchange.target = school
-      this.exchange.targetSession = session
-      this.exchange.selfSeat = null
-      this.$refs.exchangeDialog.open()
-    },
-    async confirmExchange() {
-      let targetId = this.exchange.target.school
-      let targetSession = this.exchange.targetSession.id
-      let selfSeat = this.exchange.selfSeat
+    async exchange({
+      target,
+      targetSession,
+      selfSession
+    }) {
       this.busy = true
       try {
-        this.$refs.exchangeDialog.close()
-        this.$store.commit('school/setSeatExchangable', {id: selfSeat.id, flag: false})
-        Notification({
-          type: 'success',
-          title: '名额交换申请已发送',
-          duration: 5000
-        })
+        let {
+          ok,
+          status,
+          body
+        } = await this.$agent.post('/api/schools/'+this.school+'/exchanges/')
+                  .set( ... this.authorization )
+                  .send({ target, targetSession, selfSession })
+                  .ok( ({ok, status}) => ok || status === 409 )
+        if (status === 409) {
+          Notification({
+            type: 'warning',
+            title: 'Oops. 名额不可用',
+            duration: 5000
+          })
+          this.$refs.exchangeDialog.close()
+        }
+        if (ok) {
+          Notification({
+            type: 'success',
+            title: '名额交换申请已发送',
+            duration: 5000
+          })
+          this.$store.commit('school/seats', body)
+        }
       } catch(e) {
+        Notification({
+          type: 'error',
+          title: '名额交换失败',
+          message: e.message
+        })
       } finally {
         this.busy = false
       }
@@ -153,6 +159,9 @@ export default {
 @import "../../style/flex"
 .exchange-mgmt
   flex-vert: flex-start center
+  overflow-y: scroll
+  *
+    flex-shrink: 0
   .btn-confirm
     margin: 0 0 1em 0
   .note

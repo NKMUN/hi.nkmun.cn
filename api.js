@@ -11,6 +11,12 @@ const DATA_AC_TEST_ANSWER = [
     "参加芝加哥模联MUNUC，北大模联PKUNMUN，复旦模联FDUIMUN，汇文模联NKMUN，南京校际模联，天津中学模联。社团为学生自主组织，包括社长，副社长，学术总监，宣传总监，会务总监等，共60余人。以校内会议，校内学术培训和交流，校外会议，校外学术活动和交流为主。"
 ]
 
+const SESSIONS = [
+    { id: 'extra_leader', name: '领队', type: null, dual: false, reserved: true, price: 200 },
+    { id: '1', name: '会场1', type: '中文', dual: false, price: 100, },
+    { id: '2', name: '会场2', type: '英文', dual: true, price: 150 }
+]
+
 // API mock
 let global = new Router()
 
@@ -25,7 +31,8 @@ global.get('/config', function*() {
     this.body = {
         apply: true,
         register: true,
-        login: true
+        login: true,
+        sessions: SESSIONS.map( ({id, name, type, dual, reserved}) => ({id, name, type, dual, reserved}) )
     }
 } )
 
@@ -186,20 +193,12 @@ global.post('/registration', function*() {
 
 global.get('/sessions', function*() {
     this.status = 200
-    this.body = [
-        { id: 'extra_leader', name: '领队', type: null, dual: false, reserved: true, price: 200 },
-        { id: '1', name: '会场1', type: '中文', dual: false, price: 100, },
-        { id: '2', name: '会场2', type: '英文', dual: true, price: 150 }
-    ]
+    this.body = SESSIONS
 })
 
 global.put('/sessions', function*() {
     this.status = 200
-    this.body = [
-        { id: 'extra_leader', name: '领队', type: null, dual: false, reserved: true, price: 200 },
-        { id: '1', name: '会场1', type: '中文', dual: false, price: 100, },
-        { id: '2', name: '修改会场', type: '英文', dual: true, price: 150 }
-    ]
+    this.body = SESSIONS
 })
 
 global.get('/hotels', function*() {
@@ -265,7 +264,7 @@ global.get('/schools/:id', function*() {
         id: 'school',
         name: '学校',
         englishName: 'English School Name',
-        stage: '1.relinquishment'
+        stage: '1.exchange'
     }
 })
 
@@ -279,15 +278,10 @@ global.get('/schools/:id/messages', function*() {
 global.get('/schools/:id/seats', function*() {
     this.status = 200
     this.body = [
-        { id: 'seat-1', school: 'school',
-          session: { id: 's1', name: '会场1', dual: true }
-        },
-        { id: 'seat-2', school: 'school', exchangeWith: 'seat-x-1',
-          session: { id: 's1', name: '会场1', dual: true }
-        },
-        { id: 'laeder-att', school: 'school',
-          session: { id: 'leader', name: '领队', dual: false, reserved: true }
-        },
+        { id: 'seat-1', school: 'school', session: '1' },
+        { id: 'seat-2', school: 'school', session: '2',
+          exchange: { school: 'xchg-school', session: 'x-1' } },
+        { id: 'leader-att', school: 'school', session: 'extra_leader' },
     ]
 })
 
@@ -302,12 +296,62 @@ global.post('/schools/:id/seats/:seatId', function*() {
 })
 
 global.post('/schools/:id/seats/', function*() {
-    if (this.query.confirm) {
+    if (this.query.confirmExchange || this.query.confirmRelinquish) {
         this.status = 200
         this.body = {}
     }else{
         // create new seat by admin
     }
+})
+
+global.get('/schools/:id/exchanges/', function*() {
+    this.status = 200
+    this.body = [
+        { id: 'xchg-1',
+          from: { school: 'xchg-school', session: '2' },
+          to:   { school: 'school', session: '1' }
+        }
+    ]
+})
+
+global.post('/schools/:id/exchanges/', function*() {
+    this.status = 200
+    this.body = [
+        { id: 'seat-1', school: 'school', session: '1',
+          exchange: { school: 's2', session: '2' } },
+        { id: 'seat-2', school: 'school', session: '2',
+          exchange: { school: 'xchg-school', session: 'x-1' } },
+        { id: 'leader-att', school: 'school', session: 'extra_leader' },
+    ]
+})
+
+global.post('/schools/:id/exchanges/:xid', function*() {
+    this.status = 200
+    this.body = [
+        { id: 'seat-1', school: 'school', session: '1' },
+        { id: 'seat-2', school: 'school', session: '1' },
+        { id: 'leader-att', school: 'school', session: 'extra_leader' },
+    ]
+})
+
+global.get('/seats', function*() {
+    // seat overview
+    this.status = 200
+    this.body = [
+        { school: 'school-1',
+          seats: [
+            { session: '1', total: 2 },
+            { session: '2', total: 1 },
+            { session: 'extra_leader', total: 1 },
+          ]
+        },
+        { school: 'school-2',
+          seats: [
+            { session: '2', total: 2 },
+            { session: '1', total: 1 },
+          ]
+        }
+    ]
 })
 
 app.use( require('koa-body')({ multipart: true }) )

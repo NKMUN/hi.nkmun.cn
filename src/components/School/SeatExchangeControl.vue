@@ -27,7 +27,7 @@
             v-if="scope.row[s.id] > 0"
             type="success"
             size="mini"
-            @click="tryExchange(scope.row.school, s.id)"
+            @click="tryExchange(scope.row._school, s.id)"
           > 交换 | <code>{{ scope.row[s.id] }}</code> </el-button>
         </template>
       </el-table-column>
@@ -35,26 +35,43 @@
 
     <el-dialog ref="dialog" title="选择己方名额">
       <div class="exchange-dialog-content">
-        <!-- <SeatView :seats="seats" class="seats">
-          <template slot="title-append" scope="scope">
-            <el-tag v-if="scope.session.dual" type="warning">双代</el-tag>
-            <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
-          </template>
-          <template slot="operation" scope="scope">
-            <el-tag type="gray" v-if="scope.seat.exchange">交换中</el-tag>
-            <el-button
-              v-if="!scope.seat.exchange && !scope.session.reserved"
-              type="primary"
-              size="mini"
-              :disabled="scope.session.id === exchange.targetSession"
-              @click="exchange.selfSession = scope.session.id"
-            >{{ scope.session.id === exchange.targetSession ? '同一会场' : '选择' }}</el-button>
-          </template>
-        </SeatView> -->
-        <p v-if="exchange.selfSession">
-          用{{ SESSION(exchange.selfSession).name }}交换{{ exchange.target }}的{{ SESSION(exchange.targetSession).name }}
-        </p>
+
+        <el-form label-position="right" label-suffix="：">
+          <el-form-item label="对方学校">
+            <b>{{ exchange.target }}</b>
+          </el-form-item>
+          <el-form-item label="对方会场">
+            <b>{{ SESSION(exchange.targetSession).name }}</b>
+          </el-form-item>
+          <el-form-item label="己方会场">
+            <el-select v-model="exchange.selfSession">
+              <el-option
+                v-for="g in groups"
+                :value="g.session"
+                :label="SESSION(g.session).name"
+                :disabled="
+                     SESSION(g.session).reserved
+                  || g.session === exchange.targetSession
+                  || g.available <= 0
+                "
+              >
+                <div class="session-line">
+                  <span class="name">{{ SESSION(g.session).name }}</span>
+                  <span class="amount">{{
+                    SESSION(g.session).reserved ? '不可交换' : (
+                      g.session === exchange.targetSession ? '同一会场' : (
+                        ''+g.available+' / '+g.total
+                      )
+                    )
+                  }}</span>
+                </div>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+
         <el-button
+          class="btn confirm"
           type="primary"
           :disabled="!exchange.selfSession"
           @click="confirmExchange"
@@ -66,9 +83,10 @@
 </template>
 
 <script>
-import { Button, Table, TableColumn, Tag, Dialog } from 'element-ui'
+import { Button, Table, TableColumn, Tag, Dialog, Select, Option, Form, FormItem } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
+import groupSeatsBySession from 'lib/group-seats'
 
 const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 
@@ -79,7 +97,11 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     [Tag.name]: Tag,
-    [Dialog.name]: Dialog
+    [Dialog.name]: Dialog,
+    [Form.name]: Form,
+    [FormItem.name]: FormItem,
+    [Select.name]: Select,
+    [Option.name]: Option
   },
   mixins: [
     SessionUtils
@@ -91,6 +113,13 @@ export default {
     }),
     sessions() {
       return this.SESSIONS().filter( s => !s.reserved ).sort( byId )
+    },
+    groups() {
+      return groupSeatsBySession(this.seats).map( g => ({
+        session: g.session,
+        total:   g.list.length,
+        available: g.list.filter( s => !s.exchange ).length
+      }) )
     }
   },
   data: () => ({
@@ -122,7 +151,7 @@ export default {
       this.$refs.dialog.open()
     },
     confirmExchange() {
-      this.emit('exchange', { ... this.exchange })
+      this.$emit('exchange', { ... this.exchange })
       this.$refs.dialog.close()
     }
   },
@@ -133,6 +162,26 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import "../../style/flex"
 .header
   padding: 10px 15px
+.session-line
+  flex-horz: flex-start center
+  .name
+    flex-grow: 1
+    overflow: hidden
+    text-overflow: ellipsis
+  .amount
+    font-size: 13px
+.exchange-dialog-content
+  min-width: 300px
+  white-space: nowrap
+  flex-vert: flex-start stretch
+  .btn.confirm
+    align-self: center
+</style>
+
+<style lang="stylus">
+.el-dialog.el-dialog--small
+  width: auto
 </style>
