@@ -73,4 +73,6 @@ export default {
     padding-left: 8ch
   .wrap
     flex-grow: 1
+    flex-shrink: 0
+    padding-bottom: 2em
 </style>

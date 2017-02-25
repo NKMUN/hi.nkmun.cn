@@ -107,8 +107,6 @@ export default {
 @import "../../style/flex"
 .system-config
   flex-vert: flex-start center
-  *
-    flex-shrink: 0
   .form
     white-space: nowrap
 </style>

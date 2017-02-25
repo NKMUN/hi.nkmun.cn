@@ -72,6 +72,7 @@ export default {
       flex-grow: 1
   .wrap
     flex-grow: 1
+    flex-shrink: 0
   .el-alert
     width: auto
     align-self: center
