@@ -24,6 +24,12 @@ export default {
         (ret, session) => ({ ...ret, [session.id]: session}),
         {}
       )
+    },
+    update( state, update ) {
+      ;['apply', 'register', 'login'].forEach( k => {
+        if (update[k] !== undefined)
+          state[k] = update[k]
+      })
     }
   }
 }

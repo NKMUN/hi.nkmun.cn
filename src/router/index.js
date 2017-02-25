@@ -20,6 +20,7 @@ const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),    
 // Root mgmt pages
 const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/SessionMgmt.vue')), 'root')
 const RootOverview = r => require.ensure([], () => r(require('components/Root/Overview.vue')),    'root')
+const SystemConfig = r => require.ensure([], () => r(require('components/Root/Config.vue')),      'root')
 const Initialize   = r => require.ensure([], () => r(require('components/Root/Initialize.vue')),  'root')
 const HotelMgmt    = r => require.ensure([], () => r(require('components/Root/HotelMgmt.vue')),   'root')
 const Invitation   = r => require.ensure([], () => r(require('components/Root/Invitation.vue')),  'root')
@@ -65,6 +66,7 @@ export default new Router({
         { path: '/', component: RootOverview },
         { path: 'overview', component: RootOverview },
         { path: 'initialize', component: Initialize },
+        { path: 'config', component: SystemConfig },
         { path: 'sessions', component: SessionMgmt },
         { path: 'invitation', component: Invitation },
         { path: 'hotels', component: HotelMgmt }
