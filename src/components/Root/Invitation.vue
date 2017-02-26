@@ -105,7 +105,9 @@ export default {
   },
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config/invitation').then( res => res.body )
+      return this.$agent.get('/api/config/invitation')
+             .set( ... this.authorization )
+             .then( res => res.body )
     },
     configParser(conf) {
       this.M = { ...DEFAULT_INVITATION_MODEL(), ...conf }

@@ -218,7 +218,7 @@ export default {
         let {
           ok,
           body
-        } = await this.$agent.put('/api/sessions', this.sessions)
+        } = await this.$agent.put('/api/sessions/', this.sessions)
                   .set( ... this.authorization )
         this.serverSessions = body.map( $ => ({ ...$ }) )
         this.sessions = body.map( $ => ({ ...$ }) )
@@ -253,7 +253,10 @@ export default {
   async mounted() {
     // TODO: fetch sessions
     try {
-      let { body } = await this.$agent.get('/api/sessions')
+      let {
+        body
+      } = await this.$agent.get('/api/sessions/')
+                .set( ... this.authorization )
       // make sure a copy of array is passed to vue
       this.serverSessions = body.map( $ => ({ ... $ }))
       this.sessions = body.map( $ => ({ ... $ }))

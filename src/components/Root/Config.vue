@@ -55,7 +55,7 @@ export default {
       try {
         let {
           body
-        } = await this.$agent.get('/api/config')
+        } = await this.$agent.get('/api/config/config')
         this.config = {
           register: body.register,
           apply: body.apply,
@@ -75,7 +75,7 @@ export default {
       try {
         let {
           body
-        } = await this.$agent.put('/api/config')
+        } = await this.$agent.put('/api/config/config')
                   .set( ... this.authorization )
                   .send( this.config )
         this.config = body

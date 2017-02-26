@@ -4,7 +4,10 @@
     <Precondition
       :loader="configLoader"
       @loaded="configParser"
-    >
+    />
+
+
+    <div v-if="config && !canApply">
       <el-alert
         class="application-period-alert"
         title="现在不能报名"
@@ -13,9 +16,9 @@
         :closable="false"
         show-icon
       />
-    </Precondition>
+    </div>
 
-    <div class="application" v-if="config">
+    <div class="application" v-if="config && canApply">
       <h2>报名</h2>
       <div class="disclaimer" v-html="config.disclaimer"></div>
       <ApplicationForm
@@ -61,7 +64,6 @@
       v-model="showFailure"
       title="报名失败"
     >
-      <h4>报名失败</h4>
       <pre>{{ applyError }}</pre>
     </el-dialog>
 
@@ -102,7 +104,7 @@ export default {
       canApply: 'config/apply'
     }),
     showFailure() {
-      return this.applyError || this.error
+      return Boolean(this.applyError || this.error)
     }
   },
   methods: {
@@ -118,13 +120,14 @@ export default {
         this.showValidationError = true
         return
       }
+      this.busy = true
+      this.applyError = null
       try {
-        this.busy = true
         let {
           status,
           ok,
           body
-        } = await this.$agent.post('/api/applications', this.application)
+        } = await this.$agent.post('/api/applications/', this.application)
                   .ok( ({status, ok}) => ok || status === 409 )
         if (ok) {
           this.showSuccess = true

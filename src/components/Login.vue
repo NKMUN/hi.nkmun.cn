@@ -90,18 +90,18 @@ export default {
 
           let {
             ok,
-            forbidden,
-            body: { token }
+            unauthorized,
+            body: { role, token }
           } = await this.$agent.post('/api/login', this.loginPayload)
-                    .ok( ({ok, forbidden}) => ok || forbidden )
+                    .ok( ({ok, unauthorized}) => ok || unauthorized )
 
-          if (forbidden)
+          if (unauthorized)
             throw new Error('用户名或密码不正确')
 
           // TODO: store token, redirect to approperiate page
           storeToken(token)
           this.$store.commit('user/token', token)
-          this.$router.push( getRoleRoute(this.$store.getters['user/role'] ) )
+          this.$router.push( getRoleRoute(this.$store.getters['user/role']) )
 
           // Note: this.busy is NOT cleared for successful login
           this.showAlert('登录成功，请稍等……')

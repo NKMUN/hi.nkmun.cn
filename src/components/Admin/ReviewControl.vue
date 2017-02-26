@@ -48,9 +48,9 @@ export default {
     groups() {
       return [
         { name: '待处理',
-          list: this.list.filter( $ => !$.processed ).sort(this.orderBy) },
+          list: (this.list||[]).filter( $ => !$.processed ).sort(this.orderBy) },
         { name: '已处理',
-          list: this.list.filter( $ =>  $.processed ).sort(this.orderBy) }
+          list: (this.list||[]).filter( $ =>  $.processed ).sort(this.orderBy) }
       ]
     }
   },
