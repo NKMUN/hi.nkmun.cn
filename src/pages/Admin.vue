@@ -3,7 +3,7 @@
     <div class="heading">
       <el-menu
         mode="horizontal"
-        theme="light"
+        theme="dark"
         default-active="overview"
         :router="true"
         class="menu"

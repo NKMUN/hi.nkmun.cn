@@ -16,7 +16,7 @@ export default {
 .banner
   flex-horz: center center
   padding: 4px 0
-  background-color: #58B7FF
+  background-color: #52ABF3
   .logo
     &:first-child
       margin-right: 30px
