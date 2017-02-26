@@ -136,6 +136,7 @@ export default {
       flex-grow: 1
   .wrap
     flex-grow: 1
+    flex-shrink: 0
   .overview
     flex-vert: flex-start center
     align-self: center

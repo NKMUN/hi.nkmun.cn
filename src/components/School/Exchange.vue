@@ -160,8 +160,6 @@ export default {
 .exchange-mgmt
   flex-vert: flex-start center
   overflow-y: scroll
-  *
-    flex-shrink: 0
   .btn-confirm
     margin: 0 0 1em 0
   .note

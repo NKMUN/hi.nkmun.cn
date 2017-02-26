@@ -36,6 +36,11 @@ global.get('/config', function*() {
     }
 } )
 
+global.put('/config', function*() {
+    this.status = 200
+    this.body = this.request.body
+})
+
 global.get('/config/application', function*() {
     // application config
     this.status = 200

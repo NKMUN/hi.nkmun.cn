@@ -121,6 +121,7 @@ export default {
           status
         } = await this.$agent.patch('/api/applications/'+this.id)
                              .set( ... this.authorization )
+                             .send({ seat: this.seat })
         this.dirty = false
         if (!silent) {
           Notification({
@@ -139,10 +140,11 @@ export default {
       return result
     },
     async updateAndNext() {
-      await this.update()
-      this.$nextTick( () => {
-        this.$emit('next', this.id)
-      })
+      if ( await this.update() ) {
+        this.$nextTick( () => {
+          this.$emit('next', this.id)
+        })
+      }
     },
     async sendInvitation() {
       if ( ! await this.update(true) )
