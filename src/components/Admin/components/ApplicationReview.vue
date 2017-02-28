@@ -152,9 +152,11 @@ export default {
 
       this.busy = true
       try {
-        //
-        // TODO: send invitation
-        //
+        let {
+          ok
+        } = await this.$agent.post('/api/invitations/')
+                  .set( ... this.authorization )
+                  .send({ school: this.id })
         Notification({
           type: 'success',
           title: '邀请已发送',
@@ -164,6 +166,7 @@ export default {
         this.$nextTick( () => {
           this.$emit('next', this.id)
           this.$emit('processed', this.id)
+          this.application = { ... this.application, processed: true }
         })
       } catch(e) {
         this.notifyError(e)
