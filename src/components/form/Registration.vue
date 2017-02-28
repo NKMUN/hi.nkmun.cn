@@ -59,7 +59,7 @@ export default {
         let M = {
           leader: this.leader,
           login: {
-            username: this.leader.email,
+            user: this.leader.email,
             password: this.password
           }
         }

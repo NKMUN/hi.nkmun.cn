@@ -10,7 +10,7 @@
       prop="invitation"
       :rules="[
         { required: true, message: '请输入邀请码', trigger: 'blur'},
-        { type: 'string', pattern: /^[a-zA-Z0-9]+$/, message: '邀请码格式不正确', trigger: 'blur' },
+        { type: 'string', pattern: /^[a-zA-Z0-9_\-]+$/, message: '邀请码格式不正确', trigger: 'blur' },
       ]"
     >
       <el-input

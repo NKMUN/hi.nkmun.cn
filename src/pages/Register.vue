@@ -109,7 +109,7 @@ export default {
           ok,
           status,
           body
-        } = await this.$agent.get('/api/invitation/'+this.invitationCode)
+        } = await this.$agent.get('/api/invitations/'+this.invitationCode)
                   .ok( ({ok, status}) => ok || status === 404 )
         if (ok) {
           this.step = 1
