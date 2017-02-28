@@ -24,7 +24,7 @@ const SystemConfig = r => require.ensure([], () => r(require('components/Root/Co
 const Application  = r => require.ensure([], () => r(require('components/Root/Application.vue')), 'root')
 const Initialize   = r => require.ensure([], () => r(require('components/Root/Initialize.vue')),  'root')
 const HotelMgmt    = r => require.ensure([], () => r(require('components/Root/HotelMgmt.vue')),   'root')
-const Invitation   = r => require.ensure([], () => r(require('components/Root/Invitation.vue')),  'root')
+const Mail         = r => require.ensure([], () => r(require('components/Root/Mail.vue')),  'root')
 
 // Admin mgmt pages
 const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
@@ -70,7 +70,7 @@ export default new Router({
         { path: 'config', component: SystemConfig },
         { path: 'application', component: Application },
         { path: 'sessions', component: SessionMgmt },
-        { path: 'invitation', component: Invitation },
+        { path: 'mail', component: Mail },
         { path: 'hotels', component: HotelMgmt }
       ]
     },

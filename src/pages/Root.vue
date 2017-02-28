@@ -26,7 +26,7 @@
       <el-menu-item index="config"> 全局设置 </el-menu-item>
       <el-menu-item index="application"> 报名表 </el-menu-item>
       <el-menu-item index="sessions"> 会场管理 </el-menu-item>
-      <el-menu-item index="invitation"> 邀请邮件 </el-menu-item>
+      <el-menu-item index="mail"> 邮件 </el-menu-item>
       <el-menu-item index="hotels"> 酒店管理 </el-menu-item>
     </el-menu>
 

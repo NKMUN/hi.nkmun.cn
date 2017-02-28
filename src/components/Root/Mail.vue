@@ -1,5 +1,5 @@
 <template>
-  <div class="invitation-config">
+  <div class="mail-config">
 
     <Precondition
       :loader="configLoader"
@@ -43,12 +43,60 @@
       </div>
 
       <el-form :model="M" ref="form" class="form large" label-position="top">
-        <el-form-item label="邮件模版" prop="template">
+        <el-form-item label="邀请信模版" prop="invitation">
           <el-input
             type="textarea"
             :rows="10"
             :autosize="{ minRows: 10, maxRows: 30 }"
-            v-model="M.template"
+            v-model="M.invitation"
+            :disabled="busy"
+          />
+        </el-form-item>
+      </el-form>
+
+      <el-form :model="M" ref="form" class="form large" label-position="top">
+        <el-form-item label="一轮缴费成功模版" prop="paymentSuccess">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.paymentSuccess"
+            :disabled="busy"
+          />
+        </el-form-item>
+      </el-form>
+
+      <el-form :model="M" ref="form" class="form large" label-position="top">
+        <el-form-item label="一轮缴费失败模版" prop="paymentFailure">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.paymentFailure"
+            :disabled="busy"
+          />
+        </el-form-item>
+      </el-form>
+
+      <el-form :model="M" ref="form" class="form large" label-position="top">
+        <el-form-item label="二轮缴费成功模版" prop="paymentSuccess2">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.paymentSuccess2"
+            :disabled="busy"
+          />
+        </el-form-item>
+      </el-form>
+
+      <el-form :model="M" ref="form" class="form large" label-position="top">
+        <el-form-item label="二轮缴费失败模版" prop="paymentFailure2">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.paymentFailure2"
             :disabled="busy"
           />
         </el-form-item>
@@ -84,11 +132,15 @@ const DEFAULT_INVITATION_MODEL = () => ({
   account: '',
   password: '',
   nickname: '',
-  template: ''
+  invitation: '',
+  paymentSuccess: '',
+  paymentFailure: '',
+  paymentSuccess2: '',
+  paymentFailure2: ''
 })
 
 export default {
-  name: 'invitation-config',
+  name: 'mail-config',
   components: {
     [Button.name]: Button,
     [Form.name]: Form,
@@ -105,7 +157,7 @@ export default {
   },
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config/invitation')
+      return this.$agent.get('/api/config/mail')
              .set( ... this.authorization )
              .then( res => res.body )
     },
@@ -115,7 +167,7 @@ export default {
     async update() {
       this.busy = true
       try {
-        await this.$agent.put('/api/config/invitation', this.M)
+        await this.$agent.put('/api/config/mail', this.M)
               .set( ... this.authorization )
         Notification({
           type: 'success',
@@ -139,7 +191,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../style/flex"
-.invitation-config
+.mail-config
   flex-vert: flex-start center
   h4
     text-align: center
