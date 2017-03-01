@@ -25,7 +25,7 @@
         />
       </el-form-item>
 
-      <el-form-item label="密码" prop="password">
+      <el-form-item label="密　码" prop="password">
         <el-input
           type="password"
           placeholder="密码"
@@ -38,6 +38,7 @@
     </el-form>
 
     <el-button
+      class="btn"
       type="success"
       :loading="busy"
       @click="login"
@@ -137,4 +138,6 @@ export default {
     width: auto
     padding: 4px 16px
     margin-bottom: .5em
+  .btn
+    min-width: 240px
 </style>

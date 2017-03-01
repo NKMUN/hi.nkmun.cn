@@ -5,7 +5,7 @@
     <div class="layout">
       <LayoutCenter class="welcome">
         <div class="homepic left">
-          <img width="356" height="221" alt="Join us, now!" src="../assets/homepic.jpg" />
+          <img width="484" height="300" alt="Motion, now!" src="../assets/homepic.jpg" />
         </div>
 
         <div class="right">
@@ -13,12 +13,14 @@
             <Login v-if="showLogin" @success="" @failure="" />
 
             <el-button
+              class="btn"
               v-if="showRegister"
               type="primary"
               @click="goRegister()"
             > 领队注册 </el-button>
 
             <el-button
+              class="btn"
               v-if="showApply"
               type="primary"
               @click="goApply()"
@@ -27,7 +29,7 @@
 
           <div class="bottom">
             <el-button
-              class="admin-login"
+              class="btn admin-login"
               v-if="!showLogin"
               size="mini"
               :plain="true"
@@ -117,4 +119,6 @@ export default {
       .el-button
         width: 160px
         margin: .5em 0
+  .btn
+    min-width: 240px
 </style>
