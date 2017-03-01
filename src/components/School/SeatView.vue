@@ -1,26 +1,35 @@
 <template>
-  <el-collapse :accordion="false" class="seat-view">
-    <el-collapse-item v-for="g in groups" :name="SESSION(g.session).name">
-      <template slot="title">
-        <span class="name">{{ SESSION(g.session).name }}</span>
-        <div class="title-right">
-          <el-tag v-if="SESSION(g.session).dual" type="warning">双代</el-tag>
-          <el-tag type="primary">总数：<code>{{ g.list.length }}</code></el-tag>
-        </div>
-      </template>
-      <div v-for="s in g.list" class="item">
-        <span>{{ SESSION(s.session).name }}</span>
-        <div class="right operation">
-          <slot name="operation" :seat="s" :group="g" :session="SESSION(g.session)" />
-        </div>
-      </div>
-    </el-collapse-item>
-  </el-collapse>
+  <table>
+    <thead border="1">
+      <tr>
+        <th>会场</th>
+        <th v-if="showRound1">一轮</th>
+        <th v-if="showExchange">交换中</th>
+        <th v-if="showRound2">二轮</th>
+        <th v-if="showTotal">总计</th>
+        <th v-if="$scopedSlots.operation">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="row in seatArray">
+        <td class="session-name">
+          <span>{{ row.session.name }}</span>
+          <el-tag v-if="row.session.dual" type="warning" class="tag">双代</el-tag>
+        </td>
+        <td v-if="showRound1" class="amount">{{ row.round1 }}</td>
+        <td v-if="showExchange" class="amount">{{ row.inExchange }}</td>
+        <td v-if="showRound2" class="amount">{{ row.round2 }}</td>
+        <td v-if="showTotal" class="amount total">{{ row.round2 + row.round1 }}</td>
+        <td v-if="$scopedSlots.operation">
+          <slot name="operation" :session="row.session" :row="row" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
-import { Collapse, CollapseItem, Tag } from 'element-ui'
-import groupSeatsBySession from 'lib/group-seats'
+import { Table, TableColumn, Tag } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
 const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.session))
@@ -28,22 +37,58 @@ const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.ses
 export default {
   name: 'seat-view',
   components: {
-    [Collapse.name]: Collapse,
-    [CollapseItem.name]: CollapseItem,
+    [Table.name]: Table,
+    [TableColumn.name]: TableColumn,
     [Tag.name]: Tag
   },
   mixins: [
     SessionUtils
   ],
   props: {
-    seats: {
-      type: Array,
+    seat: {
+      type: Object,
       required: true
+    },
+    exchanges: {
+      type: Array,
+      default: () => []
+    },
+    showExchange: {
+      type: Boolean,
+      default: false
+    },
+    showRound1: {
+      type: Boolean,
+      default: true,
+    },
+    showRound2: {
+      type: Boolean,
+      default: false,
+    },
+    showTotal: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
-    groups() {
-      return groupSeatsBySession(this.seats).sort(bySessionId)
+    seatArray() {
+      let ret = []
+      this.SESSIONS().forEach( s => {
+        let r1 = (this.seat['1'] && this.seat['1'][s.id]) || 0
+        let r2 = (this.seat['2'] && this.seat['2'][s.id]) || 0
+        let inExchange = this.exchanges.filter( $ => ($.from && $.from.session) === s )
+        let shouldAppend = r1 + r2 > 0
+        if (shouldAppend) {
+          ret.push({
+            session: s,
+            round1: r1 || '',
+            round2: r2 || '',
+            total: r1 + r2,
+            inExchange: inExchange
+          })
+        }
+      })
+      return ret.sort(bySessionId)
     }
   }
 }
@@ -51,22 +96,35 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../style/flex"
-.item
+.session-name
   flex-horz: space-between center
-  margin: 1px 0
-.title-right
-  margin-left: 2ch
+  white-space: nowrap
+  .tag
+    margin-left: 1ch
+table
+  border: 1px solid #dfe6ec
+  border-collapse: collapse
+  td, th
+    padding: .5em 2ch
+  thead
+    border-bottom: 1px solid #dfe6ec
+    background-color: #eef1f6
+    tr
+      td, th
+        text-align: left
+  tbody
+    tr
+      &:not(:last-child)
+        border-bottom: 1px solid #dfe6ec
+  .amount
+    text-align: right
+    padding-right: 2.5ch
+    font-family: monospace
+    font-size: 16px
+    &.total
+      font-weight: bolder
 </style>
 <style lang="stylus">
 @import "../../style/flex"
-.seat-view
-  .el-collapse-item__header
-    padding-left: 15px
-    padding-right: 15px
-    white-space: nowrap
-    flex-horz: flex-start center
-    .name
-      flex-grow: 1
-      overflow: hidden
-      text-overflow: ellipsis
+
 </style>

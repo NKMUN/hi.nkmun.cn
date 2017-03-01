@@ -10,11 +10,7 @@
       </ul>
     </div>
 
-    <SeatView :seats="seats">
-      <template slot="title-append" scope="scope">
-        <el-tag v-if="scope.session.dual" type="warning">双代</el-tag>
-        <el-tag type="primary">总数：<code>{{ scope.group.list.length }}</code></el-tag>
-      </template>
+    <SeatView :seat="seat" style="align-self: center">
       <template slot="operation" scope="scope">
         <el-button
           v-if="!scope.session.reserved"
@@ -22,7 +18,7 @@
           type="danger"
           icon="warning"
           :disabled="busy"
-          @click="relinquishSeat(scope.seat.id, scope.group, scope.session)"
+          @click="relinquishSeat(scope.session)"
         > 放弃 </el-button>
       </template>
     </SeatView>
@@ -63,9 +59,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      school: 'user/school',
+      id: 'user/school',
       authorization: 'user/authorization',
-      seats: 'school/seats',
+      seat: 'school/seat',
       sessions: 'config/sessions'
     })
   },
@@ -74,18 +70,20 @@ export default {
     leaderAttend: null
   }),
   methods: {
-    async relinquishSeat(id, group, session) {
-      let remaining = group.list.length - 1
+    async relinquishSeat(session) {
+      let remaining = this.seat['1'][session.id] - 1
       let name = session.name
       let message = '操作完成后，'+name+'的剩余名额为：'+remaining
       if ( await this.$refs.serious.confirm(message, name) ) {
         this.busy = true
         try {
           let {
-            ok
-          } = await this.$agent.delete('/api/schools/'+this.school+'/seats/'+id)
+            ok,
+            body
+          } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                     .set( ... this.authorization )
-          this.$store.commit('school/removeSeat', id)
+                    .send({ session: session.id, round: '1', amount: -1 })
+          this.$store.commit('school/seat', body.seat)
           Notification({
             type: 'warning',
             title: '已放弃名额',
@@ -108,9 +106,8 @@ export default {
       try {
         let {
           ok
-        } = await this.$agent.post('/api/schools/'+this.school+'/seats/')
-                  .query({ confirmRelinquish: true })
-                  .send({ leaderAttend: this.leaderAttend })
+        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
+                  .send({ confirm: true, leaderAttend: this.leaderAttend })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')

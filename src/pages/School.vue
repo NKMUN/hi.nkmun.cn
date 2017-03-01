@@ -53,7 +53,13 @@
           <Todo class="todo" :stage="stage" />
           <div class="right">
             <h4>现有名额</h4>
-            <SeatView class="seat-view" :seats="seats" />
+            <SeatView
+              :seat="seat"
+              :showRound1="true"
+              :showRound2="parseInt(stage[0], 10) >= 2"
+              :showExchange="stage === '1.exchange'"
+              :showTotal="parseInt(stage[0], 10) >= 2"
+            />
           </div>
         </div>
       </div>
@@ -87,16 +93,16 @@ export default {
   computed: {
     ... mapGetters({
       authorization:  'user/authorization',
-      school: 'user/school',
+      id: 'user/school',
       stage: 'school/stage',
-      seats: 'school/seats',
+      seat: 'school/seat',
       messages: 'school/messages'
     }),
     loaded() {
       return this.stage
     },
     renderSubComponent() {
-      return this.$route.path !== '/school/' && this.school
+      return this.$route.path !== '/school/' && this.id
     }
   },
   methods: {
@@ -104,16 +110,12 @@ export default {
       this.$router.replace('/logout')
     },
     loadSchool() {
-      return Promise.all([
-        this.$agent.get('/api/schools/'+this.school).then( r => r.body ),
-        this.$agent.get('/api/schools/'+this.school+'/seats').then( r => r.body ),
-        this.$agent.get('/api/schools/'+this.school+'/messages').then( r => r.body )
-      ])
+      return this.$agent.get('/api/schools/'+this.id)
+             .set( ... this.authorization )
+             .then( r => r.body )
     },
-    parseSchool([ school, seats, messages ]) {
+    parseSchool(school) {
       this.$store.commit('school/school', school)
-      this.$store.commit('school/seats', seats)
-      this.$store.commit('school/messages', messages)
     }
   }
 }
@@ -139,6 +141,7 @@ export default {
     flex-shrink: 0
   .overview
     flex-vert: flex-start center
+    margin-top: 2em
     align-self: center
     width: 100%
     .layout
