@@ -87,10 +87,6 @@ export default {
   overflow: hidden
   .default
     flex-grow: 1
-  .list
-    min-width: 20ch
-    overflow-x: initial
-    overflow-y: scroll
   .reviewer
     overflow-x: initial
     overflow-y: scroll

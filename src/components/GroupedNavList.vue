@@ -10,9 +10,10 @@
   >
     <el-menu-item-group v-for="g in groups" :title="g.name">
       <el-menu-item
+        class="list-item"
         v-for="entry in g.list"
         :index="entry.id"
-      > {{ entry.name }} </el-menu-item>
+      >{{ entry.name }}</el-menu-item>
     </el-menu-item-group>
   </el-menu>
 </template>
@@ -55,3 +56,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.list
+  min-width: 20ch
+  max-width: 35ch
+  overflow-y: scroll
+.list-item
+  overflow: hidden
+  text-overflow: ellipsis
+</style>
