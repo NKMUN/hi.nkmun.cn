@@ -8,16 +8,23 @@
     <div>
       <div class="section contact">
         <div class="primary name show-hint">{{ contact.name }}</div>
-        <div class="secondary">
+        <div class="secondary"><div class="secondary">
           {{ contact.gender | genderText }}
           <span class="delimiter" />
           {{ contact.phone }}
           <span class="delimiter" />
-          {{ contact.email }}</div>
+          {{ contact.email }}
+        </div>
       </div>
-      <div class="section alt-contact">
-        <div class="primary name show-hint">{{ altContact.name }}, {{ altContact.gender | genderText }}</div>
-        <div class="secondary">{{ altContact.gender | genderText }} / {{ altContact.phone }} / {{ altContact.email }}</div>
+      <div class="section contact alt-contact">
+        <div class="primary name show-hint">{{ altContact.name }}</div>
+        <div class="secondary">
+          {{ altContact.gender | genderText }}
+          <span class="delimiter" />
+          {{ altContact.phone }}
+          <span class="delimiter" />
+          {{ altContact.email }}
+        </div>
       </div>
       <div class="section test" v-for="test in tests">
         <div class="question hint">{{ test.question }}</div>
