@@ -30,7 +30,7 @@
           type="success"
           :disabled="busy"
           size="mini"
-          @click="application.tests.splice(idx, 0, { question: '' })"
+          @click="application.tests.splice(idx+1, 0, { question: '' })"
         > 新增 </el-button>
         <el-button
           icon="delete"

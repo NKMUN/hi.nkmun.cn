@@ -4,7 +4,7 @@
     <template v-if="config">
       <el-form label-position="right" class="form">
         <el-form-item>
-          <el-checkbox v-model="config.apply" :disabled="busy">申请</el-checkbox>
+          <el-checkbox v-model="config.apply" :disabled="busy">报名</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-checkbox v-model="config.register" :disabled="busy">注册</el-checkbox>
