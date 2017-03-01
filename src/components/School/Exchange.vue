@@ -85,7 +85,7 @@ export default {
         let {
           ok
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .query({ confirmExchange: true })
+                  .send({ confirmExchange: true })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.reservation')
         this.$router.replace('/school/reservation/')
@@ -164,6 +164,7 @@ export default {
 @import "../../style/flex"
 .exchange-mgmt
   flex-vert: flex-start center
+  padding-bottom: 3em
   overflow-y: scroll
   .seat-view
     margin: 2em 0 1em 0
