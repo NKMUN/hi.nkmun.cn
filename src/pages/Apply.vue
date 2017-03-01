@@ -6,7 +6,6 @@
       @loaded="configParser"
     />
 
-
     <div v-if="config && !canApply">
       <el-alert
         class="application-period-alert"
