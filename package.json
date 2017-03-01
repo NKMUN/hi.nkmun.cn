@@ -51,7 +51,7 @@
     "html-webpack-plugin": "^2.28.0",
     "http-proxy-middleware": "^0.17.3",
     "json-loader": "^0.5.4",
-    "jsonwebtoken": "^7.2.1",
+    "jwt-decode": "^2.1.0",
     "koa": "^1.2.4",
     "koa-accesslog": "0.0.2",
     "koa-body": "^1.6.0",
