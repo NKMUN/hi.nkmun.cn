@@ -1,11 +1,13 @@
 <template>
   <div class="exchange-mgmt">
 
-    <SeatView :seats="seats" class="seats">
-      <template slot="operation" scope="scope">
-        <el-tag v-if="scope.seat.exchange" type="gray">交换中</el-tag>
-      </template>
-    </SeatView>
+    <SeatView
+      class="seat-view"
+      :seat="seat"
+      :showRound1="true"
+      :showExchange="stage === '1.exchange'"
+      :showTotal="parseInt(stage[0], 10) >= 2"
+    />
 
     <el-button
       size="large"
@@ -25,9 +27,9 @@
       </ul>
     </div>
 
-    <ExchangeRequestList class="requests" />
+    <ExchangeRequestList class="requests" @accept="handleAccept" />
 
-    <SeatExchangeControl class="seat-overview" @exchange="exchange" :busy="busy" />
+    <SeatExchangeControl class="seat-overview" ref="list" @exchange="exchange" :busy="busy" />
 
   </div>
 </template>
@@ -58,15 +60,16 @@ export default {
   ],
   computed: {
     ...mapGetters({
-      school: 'user/school',
+      id: 'user/school',
       authorization: 'user/authorization',
-      seats: 'school/seats',
+      seat: 'school/seat',
+      stage: 'school/stage',
       sessions: 'config/sessions'
     }),
     seatValid() {
-      return groupSeatsBySession(this.seats).every( g => {
-        let session = this.SESSION(g.session)
-        if (session.dual && g.list.length % 2 !==0)
+      return this.SESSIONS().every( session => {
+        let numOfSeat = (this.seat && this.seat['1'] && this.seat['1'][session.id]) || 0
+        if (session.dual && numOfSeat % 2 !== 0)
           return false
         return true
       })
@@ -81,7 +84,7 @@ export default {
       try {
         let {
           ok
-        } = await this.$agent.post('/api/schools/'+this.school+'/seats/')
+        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .query({ confirmExchange: true })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.reservation')
@@ -113,7 +116,7 @@ export default {
           ok,
           status,
           body
-        } = await this.$agent.post('/api/schools/'+this.school+'/exchanges/')
+        } = await this.$agent.post('/api/exchanges/')
                   .set( ... this.authorization )
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
@@ -131,7 +134,7 @@ export default {
             title: '名额交换申请已发送',
             duration: 5000
           })
-          this.$store.commit('school/seats', body)
+          this.$store.commit('school/addExchange', body)
         }
       } catch(e) {
         Notification({
@@ -142,7 +145,9 @@ export default {
       } finally {
         this.busy = false
       }
-
+    },
+    async handleAccept() {
+      await this.$refs.list.fetch()
     }
   },
   beforeRouteEnter(from, to, next) {
@@ -160,6 +165,8 @@ export default {
 .exchange-mgmt
   flex-vert: flex-start center
   overflow-y: scroll
+  .seat-view
+    margin: 2em 0 1em 0
   .btn-confirm
     margin: 0 0 1em 0
   .note

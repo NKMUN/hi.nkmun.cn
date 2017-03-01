@@ -6,7 +6,8 @@ export default {
   getters: {
     stage: state => (state.school && state.school.stage) || null,
     seat: state => (state.school && state.school.seat) || {},
-    messages: state => (state.school && state.school.messages) || []
+    messages: state => (state.school && state.school.messages) || [],
+    exchanges: state => (state.school && state.school.exchanges) || []
   },
   mutations: {
     school( state, school ) {
@@ -22,6 +23,12 @@ export default {
       let r = state.school.seat[round]
       if (r && r[session])
         r[session] += amount
-    }
-  }
+    },
+    addExchange(state, exchange) {
+      if (!state.school.exchanges)
+        state.school.exchanges = []
+      state.school.exchanges.push(exchange)
+    },
+  },
+
 }

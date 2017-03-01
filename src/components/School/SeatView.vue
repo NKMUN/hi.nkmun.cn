@@ -5,6 +5,7 @@
         <th>会场</th>
         <th v-if="showRound1">一轮</th>
         <th v-if="showExchange">交换中</th>
+        <th v-if="showExchange">可交换</th>
         <th v-if="showRound2">二轮</th>
         <th v-if="showTotal">总计</th>
         <th v-if="$scopedSlots.operation">操作</th>
@@ -18,8 +19,9 @@
         </td>
         <td v-if="showRound1" class="amount">{{ row.round1 }}</td>
         <td v-if="showExchange" class="amount">{{ row.inExchange }}</td>
+        <td v-if="showExchange" class="amount">{{ row.exchangeable }}</td>
         <td v-if="showRound2" class="amount">{{ row.round2 }}</td>
-        <td v-if="showTotal" class="amount total">{{ row.round2 + row.round1 }}</td>
+        <td v-if="showTotal" class="amount total">{{ row.total }}</td>
         <td v-if="$scopedSlots.operation">
           <slot name="operation" :session="row.session" :row="row" />
         </td>
@@ -45,14 +47,6 @@ export default {
     SessionUtils
   ],
   props: {
-    seat: {
-      type: Object,
-      required: true
-    },
-    exchanges: {
-      type: Array,
-      default: () => []
-    },
     showExchange: {
       type: Boolean,
       default: false
@@ -71,20 +65,30 @@ export default {
     }
   },
   computed: {
+    ... mapGetters({
+      seat: 'school/seat',
+      exchanges: 'school/exchanges',
+      id: 'user/school'
+    }),
     seatArray() {
       let ret = []
       this.SESSIONS().forEach( s => {
         let r1 = (this.seat['1'] && this.seat['1'][s.id]) || 0
         let r2 = (this.seat['2'] && this.seat['2'][s.id]) || 0
-        let inExchange = this.exchanges.filter( $ => ($.from && $.from.session) === s )
-        let shouldAppend = r1 + r2 > 0
-        if (shouldAppend) {
+        let inExchange = this.exchanges.filter(
+          $ => $.from
+            && $.from.session === s.id
+            && $.from.school === this.id
+        ).length
+
+        if (r1 + r2 > 0) {
           ret.push({
             session: s,
             round1: r1 || '',
             round2: r2 || '',
-            total: r1 + r2,
-            inExchange: inExchange
+            total: r1 + r2 || '',
+            inExchange: s.reserved ? '' : (inExchange || ''),
+            exchangeable: s.reserved ? '' : ((r1 - inExchange) || '')
           })
         }
       })

@@ -13,7 +13,7 @@
     <el-table :data="schools">
       <el-table-column
         label="学校"
-        prop="_school"
+        prop="name"
         sortable
         fixed
       />
@@ -24,11 +24,11 @@
       >
         <template scope="scope">
           <el-button
-            v-if="scope.row[s.id] > 0"
+            v-if="scope.row.seat['1'][s.id] > 0"
             type="success"
             size="mini"
-            @click="tryExchange(scope.row._school, s.id)"
-          > 交换 | <code>{{ scope.row[s.id] }}</code> </el-button>
+            @click="tryExchange(scope.row.id, s.id, scope.row.name)"
+          > 交换 | <code>{{ scope.row.seat['1'][s.id] }}</code> </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,7 +38,7 @@
 
         <el-form label-position="right" label-suffix="：">
           <el-form-item label="对方学校">
-            <b>{{ exchange.target }}</b>
+            <b>{{ exchangeTargetName }}</b>
           </el-form-item>
           <el-form-item label="对方会场">
             <b>{{ SESSION(exchange.targetSession).name }}</b>
@@ -46,21 +46,21 @@
           <el-form-item label="己方会场">
             <el-select v-model="exchange.selfSession">
               <el-option
-                v-for="g in groups"
-                :value="g.session"
-                :label="SESSION(g.session).name"
+                v-for="ss in selfSessions"
+                :value="ss.id"
+                :label="ss.name"
                 :disabled="
-                     SESSION(g.session).reserved
-                  || g.session === exchange.targetSession
-                  || g.available <= 0
+                     ss.reserved
+                  || ss.id === exchange.targetSession
+                  || ss.exchangeable <= 0
                 "
               >
                 <div class="session-line">
-                  <span class="name">{{ SESSION(g.session).name }}</span>
+                  <span class="name">{{ ss.name }}</span>
                   <span class="amount">{{
-                    SESSION(g.session).reserved ? '不可交换' : (
-                      g.session === exchange.targetSession ? '同一会场' : (
-                        ''+g.available+' / '+g.total
+                    ss.reserved ? '不可交换' : (
+                      ss.id === exchange.targetSession ? '同一会场' : (
+                        ''+ss.exchangeable+' / '+ss.total
                       )
                     )
                   }}</span>
@@ -86,12 +86,11 @@
 import { Button, Table, TableColumn, Tag, Dialog, Select, Option, Form, FormItem } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
-import groupSeatsBySession from 'lib/group-seats'
 
 const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 
 export default {
-  name: 'seat-exchange-overview',
+  name: 'seat-exchange-control',
   components: {
     [Button.name]: Button,
     [Table.name]: Table,
@@ -108,46 +107,56 @@ export default {
   ],
   computed: {
     ...mapGetters({
-      school: 'user/school',
-      seats: 'school/seats'
+      id: 'user/school',
+      authorization: 'user/authorization',
+      seat: 'school/seat',
+      exchanges: 'school/exchanges',
     }),
+    selfSessions() {
+      return this.sessions
+             .map( session => {
+               let numOfSeat = (this.seat['1'] && this.seat['1'][session.id]) || 0
+               let inExchange = this.exchanges.filter(
+                 $ => $.from
+                   && $.from.school === this.id
+                   && $.from.session === session.id
+               ).length
+               return {
+                 ... session,
+                 total: numOfSeat,
+                 exchangeable: numOfSeat - inExchange
+               }
+             } )
+             .filter( $ => $.total > 0 )
+    },
     sessions() {
       return this.SESSIONS().filter( s => !s.reserved ).sort( byId )
-    },
-    groups() {
-      return groupSeatsBySession(this.seats).map( g => ({
-        session: g.session,
-        total:   g.list.length,
-        available: g.list.filter( s => !s.exchange ).length
-      }) )
     }
   },
   data: () => ({
     loading: false,
     schools: [],
     exchange: {},
+    exchangeTargetName: null    // view only, do not post to server
   }),
   methods: {
     async fetch() {
+      this.loading = true
       let {
         body
-      } = await this.$agent.get('/api/seats')
-                .query({ by: 'school' })
-      this.schools = body.map( $ => ({
-        _school: $.school,
-        ... $.seats.reduce( (ret, s) => ({
-          ... ret,
-          [s.session]: s.total
-        }), {})
-      }) )
-      .filter( $ => $.school !== this.school )
+      } = await this.$agent.get('/api/schools/')
+                .query({ seat: 1, stage: '1.exchange' })
+                .set( ... this.authorization )
+      this.schools = body.filter( $ => $.id !== this.id )
+      this.loading = false
     },
-    tryExchange(school, session) {
+    tryExchange(school, session, schoolName) {
       this.exchange = {
         target: school,
         targetSession: session,
         selfSession: null
       }
+      this.exchangeTargetName = schoolName
       this.$refs.dialog.open()
     },
     confirmExchange() {

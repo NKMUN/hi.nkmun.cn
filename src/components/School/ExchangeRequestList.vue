@@ -15,7 +15,7 @@
       <li v-for="(req, idx) in this.requests">
         <div class="detail">
           <div>
-            <el-tag type="gray">{{ req.from.school }}</el-tag>
+            <el-tag type="gray">{{ req.from.name }}</el-tag>
             <el-tag type="success">{{ SESSION(req.from.session).name }}</el-tag>
           </div>
           <div style="margin-top: .5em">
@@ -63,7 +63,7 @@ export default {
   ],
   computed: {
     ... mapGetters({
-      school: 'user/school',
+      id: 'user/school',
       authorization: 'user/authorization'
     })
   },
@@ -78,7 +78,8 @@ export default {
       try {
         let {
           body
-        } = await this.$agent.get('/api/schools/'+this.school+'/exchanges/')
+        } = await this.$agent.get('/api/exchanges/')
+                  .query({ to: this.id, state: 0 })
                   .set( ... this.authorization )
         this.requests = body
       } catch(e) {
@@ -94,11 +95,12 @@ export default {
           ok,
           status,
           body
-        } = await this.$agent.post('/api/schools/'+this.school+'/exchanges/'+req.id)
+        } = await this.$agent.post('/api/exchanges/'+req.id)
                   .ok( ({ok, status}) => ok || status === 410 )
                   .send({ accept: true })
+                  .set( ... this.authorization )
         if (ok) {
-          this.$store.commit('school/seats', body)
+          this.$store.commit('school/seat', body)
           Notification({
             type: 'success',
             title: '已接受名额交换',
@@ -128,9 +130,12 @@ export default {
       try {
         this.busy = true
         let {
-          ok
-        } = await this.$agent.post('/api/schools/'+this.school+'/exchanges/'+req.id)
+          ok,
+          body
+        } = await this.$agent.post('/api/exchanges/'+req.id)
                   .send({ refuse: true })
+                  .set( ... this.authorization )
+        this.$store.commit('school/seat', body)
         this.requests.splice(idx, 1)
         Notification({
           type: 'success',
@@ -163,7 +168,9 @@ ul
   padding: 0
   margin: 0
   li
-    margin: 0
+    padding: .5em 0
+    &:not(:last-child)
+      border-bottom: 1px solid #dfe6ec
     flex-horz: space-between center
     .controls
       flex-vert: center stretch

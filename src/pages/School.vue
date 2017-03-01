@@ -54,7 +54,6 @@
           <div class="right">
             <h4>现有名额</h4>
             <SeatView
-              :seat="seat"
               :showRound1="true"
               :showRound2="parseInt(stage[0], 10) >= 2"
               :showExchange="stage === '1.exchange'"
@@ -95,8 +94,7 @@ export default {
       authorization:  'user/authorization',
       id: 'user/school',
       stage: 'school/stage',
-      seat: 'school/seat',
-      messages: 'school/messages'
+      messages: 'school/messages',
     }),
     loaded() {
       return this.stage

@@ -107,7 +107,7 @@ export default {
         let {
           ok
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .send({ confirm: true, leaderAttend: this.leaderAttend })
+                  .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')
