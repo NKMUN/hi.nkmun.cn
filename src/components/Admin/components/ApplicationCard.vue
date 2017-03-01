@@ -147,6 +147,7 @@ hint-text()
         margin: .5em auto
         text-align: left
         max-width: 60ch
+        word-break: break-word
         p
           line-height: 1.5
           font-size: 14px
