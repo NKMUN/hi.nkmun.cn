@@ -42,8 +42,10 @@ export default new Router({
     { path: '/logout', component: Logout },
     { path: '/admin/', component: Admin,
       beforeEnter: (to, from, next) => {
-        // TODO: guard entry
-        next()
+        if ( store.getters['user/access'].indexOf('admin') !== -1 )
+            next()
+        else
+            next('/')
       },
       children: [
           { path: '/', component: RootOverview },
@@ -52,6 +54,12 @@ export default new Router({
       ]
     },
     { path: '/school/', component: School,
+      beforeEnter: (to, from, next) => {
+        if ( store.getters['user/access'].indexOf('school') !== -1 )
+            next()
+        else
+            next('/')
+      },
       children: [
         { path: 'relinquishment', component: Relinquish },
         { path: 'exchange', component: Exchange },
@@ -60,8 +68,10 @@ export default new Router({
     },
     { path: '/root/', component: Root,
       beforeEnter: (to, from, next) => {
-        // TODO: guard entry
-        next()
+        if ( store.getters['user/access'].indexOf('root') !== -1 )
+            next()
+        else
+            next('/')
       },
       children: [
         { path: '/', component: RootOverview },

@@ -12,6 +12,7 @@ export default {
       const access = state.payload.access || []
       return precedance.find( $ => access.indexOf($) !== -1 )
     },
+    access: state => state.payload.access || [],
     school: state => state.payload.school,
     authorization: state => [ 'Authorization', 'Bearer '+state.token ]
   },
