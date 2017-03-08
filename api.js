@@ -218,12 +218,14 @@ global.get('/hotels', function*() {
 
 global.post('/hotels', function*() {
     let rand = Math.floor( Math.random()*65536 )
-    let { name, type, price, stock } = this.request.body
+    let { name, type, price, stock, notBefore, notAfter } = this.request.body
     this.status = 200
     this.body = {
         id: name,
         name,
         type,
+        notBefore,
+        notAfter,
         price,
         stock,
         available: stock

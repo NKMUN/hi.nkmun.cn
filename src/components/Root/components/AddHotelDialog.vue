@@ -60,6 +60,18 @@
         />
       </el-form-item>
 
+      <el-form-item
+        label="入住时间"
+        prop="period"
+        :rules="[ { type: 'array', required: true, trigger: 'blur' } ]"
+      >
+        <el-date-picker
+          v-model="M.period"
+          type="daterange"
+          :disabled="busy"
+        />
+      </el-form-item>
+
     </el-form>
     <div class="controls">
       <el-button
@@ -82,7 +94,8 @@ const DEFAULT_HOTEL_MODEL = () => ({
   name: '',
   type: '',
   price: 0,
-  stock: 0
+  stock: 0,
+  period: null,
 })
 
 import {
@@ -90,6 +103,7 @@ import {
   FormItem,
   Input,
   InputNumber,
+  DatePicker,
   Button,
   Dialog
 } from 'element-ui'
@@ -102,6 +116,7 @@ export default {
     [FormItem.name]: FormItem,
     [Input.name]: Input,
     [InputNumber.name]: InputNumber,
+    [DatePicker.name]: DatePicker,
     [Button.name]: Button,
   },
   props: {
@@ -128,7 +143,14 @@ export default {
     confirm() {
       this.$refs.form.validate( (result) => {
         if (result)
-          this.$emit('confirm', this.M)
+          this.$emit('confirm', {
+            name: this.M.name,
+            type: this.M.type,
+            price: this.M.price,
+            stock: this.M.stock,
+            notBefore: this.M.period[0],
+            notAfter: this.M.period[1],
+          })
       })
     }
   }

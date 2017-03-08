@@ -12,6 +12,12 @@
       <!-- <el-table-column prop="id" label="ID" width="144" sortable fixed /> -->
       <el-table-column prop="name" label="名称" min-width="96" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
+      <el-table-column prop="notBefore" label="入住时间" width="120" sortable>
+        <template scope="scope"> <span>{{ new Date(scope.row.notBefore).toLocaleDateString() }}</span> </template>
+      </el-table-column>
+      <el-table-column prop="notAfter" label="退房时间" width="120" sortable>
+        <template scope="scope"> <span>{{ new Date(scope.row.notBefore).toLocaleDateString() }}</span> </template>
+      </el-table-column>
       <el-table-column prop="price" label="单价" width="72" />
       <el-table-column prop="available" label="余量" width="72" />
       <el-table-column prop="stock" label="总量" width="108">
