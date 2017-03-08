@@ -42,7 +42,7 @@
       show-icon
       :closable="false"
       title="说明"
-      description="系统会尽量减少库存，直到减为0或达到目标"
+      description="如发生竞争情况，余量可能会变为负数"
     />
 
     <div class="controls">

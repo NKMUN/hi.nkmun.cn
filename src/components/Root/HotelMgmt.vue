@@ -111,7 +111,7 @@ export default {
           Notification({
             type: 'warning',
             title: '酒店已删除',
-            duration: 0
+            duration: 5000
           })
         } catch(e) {
           Notification({
@@ -121,7 +121,7 @@ export default {
             duration: 0
           })
         } finally {
-          this.busy = true
+          this.busy = false
         }
       }
     },
@@ -185,7 +185,10 @@ export default {
   },
   async mounted() {
     try {
-      let { body } = await this.$agent.get('/api/hotels')
+      let {
+        body
+      } = await this.$agent.get('/api/hotels')
+                .set( ... this.authorization )
       this.hotels = body
     } catch(e) {
       Notification({
