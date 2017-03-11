@@ -44,7 +44,7 @@
 import { Alert, Button, Tag, Notification } from 'element-ui'
 import SeriousConfirm from 'components/SeriousConfirm'
 import LeaderAttendance from '../form/LeaderAttendance'
-import SeatView from './SeatView'
+import SeatView from './components/SeatView'
 import { mapGetters } from 'vuex'
 import store from 'store/index'
 

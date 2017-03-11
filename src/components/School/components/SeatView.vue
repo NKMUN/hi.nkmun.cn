@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "../../style/flex"
+@import "../../../style/flex"
 .session-name
   flex-horz: space-between center
   white-space: nowrap
@@ -127,8 +127,4 @@ table
     font-size: 16px
     &.total
       font-weight: bolder
-</style>
-<style lang="stylus">
-@import "../../style/flex"
-
 </style>

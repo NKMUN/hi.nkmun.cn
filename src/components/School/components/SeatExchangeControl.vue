@@ -171,7 +171,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "../../style/flex"
+@import "../../../style/flex"
 .header
   padding: 10px 15px
 .session-line

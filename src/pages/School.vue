@@ -74,7 +74,7 @@
 import { Alert, Menu, MenuItem, Button, Tag } from 'element-ui'
 import Precondition from 'components/Precondition'
 import Todo from 'components/School/Todo'
-import SeatView from 'components/School/SeatView'
+import SeatView from 'components/School/components/SeatView'
 import { mapGetters } from 'vuex'
 
 export default {

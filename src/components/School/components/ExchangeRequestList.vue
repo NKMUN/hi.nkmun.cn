@@ -162,7 +162,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "../../style/flex"
+@import "../../../style/flex"
 ul
   list-style: none
   padding: 0
@@ -179,7 +179,7 @@ ul
 </style>
 
 <style lang="stylus">
-@import "../../style/flex"
+@import "../../../style/flex"
 // do not scoped, these are injected to el-card
 .exchange-mgmt-requests
   .el-card__header, .el-card__body

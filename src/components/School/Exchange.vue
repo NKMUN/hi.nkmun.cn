@@ -36,9 +36,9 @@
 
 <script>
 import { Alert, Button, Tag, Notification, Card, Dialog } from 'element-ui'
-import ExchangeRequestList from './ExchangeRequestList'
-import SeatView from './SeatView'
-import SeatExchangeControl from './SeatExchangeControl'
+import ExchangeRequestList from './components/ExchangeRequestList'
+import SeatView from './components/SeatView'
+import SeatExchangeControl from './components/SeatExchangeControl'
 import { mapGetters } from 'vuex'
 import store from 'store/index'
 import groupSeatsBySession from 'lib/group-seats'
