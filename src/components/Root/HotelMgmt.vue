@@ -13,10 +13,10 @@
       <el-table-column prop="name" label="名称" min-width="96" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
       <el-table-column prop="notBefore" label="入住时间" width="120" sortable>
-        <template scope="scope"> <span>{{ new Date(scope.row.notBefore).toLocaleDateString() }}</span> </template>
+        <template scope="scope"> <span>{{ scope.row.notBefore | date }}</span> </template>
       </el-table-column>
       <el-table-column prop="notAfter" label="退房时间" width="120" sortable>
-        <template scope="scope"> <span>{{ new Date(scope.row.notBefore).toLocaleDateString() }}</span> </template>
+        <template scope="scope"> <span>{{ scope.row.notAfter | date }}</span> </template>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="72" />
       <el-table-column prop="available" label="余量" width="72" />
@@ -83,6 +83,7 @@ import { mapGetters } from 'vuex'
 import SeriousConfirm from 'components/SeriousConfirm'
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
+import toDateString from 'lib/to-date-string'
 
 export default {
   name: 'hotel-mgmt',
@@ -102,6 +103,11 @@ export default {
   computed: {
     ... mapGetters({ authorization: 'user/authorization' }),
     seriousConfirm() { return (...args) => this.$refs.seriousConfirm.confirm(...args) }
+  },
+  filters: {
+    date(val) {
+      return toDateString(val)
+    }
   },
   methods: {
     async deleteHotel(idx) {

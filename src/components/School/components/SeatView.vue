@@ -100,26 +100,13 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../../style/flex"
+@import "../../../style/table"
 .session-name
   flex-horz: space-between center
   white-space: nowrap
   .tag
     margin-left: 1ch
 table
-  border: 1px solid #dfe6ec
-  border-collapse: collapse
-  td, th
-    padding: .5em 2ch
-  thead
-    border-bottom: 1px solid #dfe6ec
-    background-color: #eef1f6
-    tr
-      td, th
-        text-align: left
-  tbody
-    tr
-      &:not(:last-child)
-        border-bottom: 1px solid #dfe6ec
   .amount
     text-align: right
     padding-right: 2.5ch

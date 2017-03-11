@@ -108,6 +108,8 @@ import {
   Dialog
 } from 'element-ui'
 
+import toDateString from 'lib/to-date-string'
+
 export default {
   name: 'add-hotel-dialog',
   components: {
@@ -148,8 +150,8 @@ export default {
             type: this.M.type,
             price: this.M.price,
             stock: this.M.stock,
-            notBefore: this.M.period[0],
-            notAfter: this.M.period[1],
+            notBefore: toDateString(this.M.period[0]),
+            notAfter: toDateString(this.M.period[1]),
           })
       })
     }

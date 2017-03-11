@@ -22,7 +22,7 @@
           <el-menu-item v-if="stage === '1.exchange'"
                         index="/school/exchange/"> 一轮名额交换 </el-menu-item>
           <el-menu-item v-if="stage === '1.reservation'"
-                        index="/school/reservation/"> 一轮酒店预订 </el-menu-item>
+                        index="/school/reservation/1"> 一轮酒店预订 </el-menu-item>
           <el-menu-item v-if="stage === '1.payment'"
                         index="/school/payment"> 一轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '2.reservation'"

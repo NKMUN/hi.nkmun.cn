@@ -88,7 +88,7 @@ export default {
                   .send({ confirmExchange: true })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.reservation')
-        this.$router.replace('/school/reservation/')
+        this.$router.replace('/school/reservation/1')
         Notification({
           type: 'success',
           title: '名额已确认',
