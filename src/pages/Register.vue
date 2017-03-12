@@ -110,20 +110,16 @@ export default {
           status,
           body
         } = await this.$agent.get('/api/invitations/'+this.invitationCode)
-                  .ok( ({ok, status}) => ok || status === 404 )
+                  .ok( ({ok, status}) => ok || status === 410 || status === 404 )
         if (ok) {
           this.step = 1
           this.school = body.school
           this.token = body.token
-        } else if (status === 404) {
+        } else if (status === 410 || status === 404) {
           this.showInvitationCodeError = true
         }
       } catch(e) {
-        MessageBox.alert({
-          type: 'error',
-          title: '注册失败',
-          message: '服务器故障：'+e.message
-        })
+        MessageBox.alert('服务器故障：'+e.message, '注册失败', {type: 'error'})
       } finally {
         this.busy = false
       }
