@@ -13,8 +13,9 @@
   "dependencies": {
     "element-ui": "^1.1.6",
     "email-validator": "^1.0.7",
-    "moment-timezone": "^0.5.11",
     "superagent": "^3.4.1",
+    "moment-timezone": "^0.5.11",
+    "moment": "^2.17.1",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
     "vuex": "^2.1.1"
@@ -57,7 +58,6 @@
     "koa-accesslog": "0.0.2",
     "koa-body": "^1.6.0",
     "koa-router": "^5.4.0",
-    "moment": "^2.17.1",
     "opn": "^4.0.2",
     "ora": "^1.1.0",
     "semver": "^5.3.0",
