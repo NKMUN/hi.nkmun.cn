@@ -2,6 +2,7 @@
   <el-form
     :class="className"
     :model="M"
+    label-position="top"
     ref="form"
   >
     <el-form-item
@@ -81,3 +82,9 @@ export default {
   },
 }
 </script>
+
+<style lang="stylus">
+.el-form--label-top .el-form-item__label
+  display: block
+  text-align: left
+</style>
