@@ -5,20 +5,13 @@
     :active="stepActive"
     finish-status="success"
   >
-    <el-step title="报名" />
-    <el-step title="一轮名额确认" />
-    <el-step title="一轮名额交换" />
-    <el-step title="一轮酒店预订" />
-    <el-step title="一轮付款" />
-    <el-step title="二轮酒店预订" />
-    <el-step title="二轮付款" />
-    <el-step title="信息录入" />
-    <el-step title="参会" />
+    <el-step v-for="s in stages" :title="nameOf(s)" />
   </el-steps>
 </template>
 
 <script>
 import { Steps, Step } from 'element-ui'
+import { getName, getStages } from '../../STAGE_DEF'
 export default {
   name: 'school-todo',
   components: {
@@ -32,19 +25,15 @@ export default {
     }
   },
   computed: {
+    stages() {
+      return getStages()
+    },
     stepActive() {
-      return [
-        '0.apply',
-        '1.relinquishment',
-        '1.exchange',
-        '1.reservation',
-        '1.payment',
-        '2.reservation',
-        '2.payment',
-        '3.confirm',
-        '9.complete'
-      ].indexOf(this.stage)
+      return this.stages.indexOf(this.stage)
     }
+  },
+  methods: {
+    nameOf: getName
   }
 }
 </script>

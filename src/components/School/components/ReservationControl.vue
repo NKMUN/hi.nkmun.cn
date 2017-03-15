@@ -76,7 +76,7 @@ export default {
   props: {
     round: {
       type: String,
-      default: "",
+      default: "1",
     },
     max: {
       type: Number,
@@ -124,7 +124,8 @@ export default {
       let payload = this.reservations.map( $ => ({
         hotel: $.hotel.id,
         checkIn: toDateString($.period[0]),
-        checkOut: toDateString($.period[1])
+        checkOut: toDateString($.period[1]),
+        round: this.round
       }) )
       try {
         let {

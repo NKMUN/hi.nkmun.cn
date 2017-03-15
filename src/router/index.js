@@ -28,6 +28,7 @@ const Mail         = r => require.ensure([], () => r(require('components/Root/Ma
 
 // Admin mgmt pages
 const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
+const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admin/SchoolMgmt.vue')), 'admin')
 
 // School mgmt pages
 const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
@@ -50,7 +51,9 @@ export default new Router({
       children: [
           { path: '/', component: RootOverview },
           { path: 'applications/', component: ApplicationMgmt },
-          { path: 'applications/:id', component: ApplicationMgmt, props: true }
+          { path: 'applications/:id', component: ApplicationMgmt, props: true },
+          { path: 'schools/', component: SchoolMgmt },
+          { path: 'schools/:id', component: SchoolMgmt, props: true },
       ]
     },
     { path: '/school/', component: School,
@@ -63,7 +66,7 @@ export default new Router({
       children: [
         { path: 'relinquishment', component: Relinquish },
         { path: 'exchange', component: Exchange },
-        { path: 'reservation/1', component: Reservation }
+        { path: 'reservation/1', component: Reservation },
       ]
     },
     { path: '/root/', component: Root,
@@ -81,9 +84,9 @@ export default new Router({
         { path: 'application', component: Application },
         { path: 'sessions', component: SessionMgmt },
         { path: 'mail', component: Mail },
-        { path: 'hotels', component: HotelMgmt }
+        { path: 'hotels', component: HotelMgmt },
       ]
     },
-    { path: '*', component: NotFound }
+    { path: '*', component: NotFound },
   ]
 })
