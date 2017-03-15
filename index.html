@@ -3,6 +3,34 @@
   <head>
     <meta charset="utf-8">
     <title>Hi汇文</title>
+    <script>
+    ;(function() {
+      // detect browser version, redirect if found an unhealthy version
+      if (window.navigator) {
+        var ua = String(window.navigator.userAgent)
+        var chrome = /Chrome\/(\d+)\./.exec(ua)
+        var safari = /Safari/.exec(ua) ? /Version\/(\d+)\./.exec(ua) : null
+        var firefox = /Firefox\/(\d+)\./.exec(ua)
+        var edge = /Edge\/(\d+)\./.exec(ua)
+
+        function isAcceptable() {
+          return (
+               ( chrome && Number(chrome[1]) > 54 )
+            || ( safari && Number(safari[1]) > 8 )
+            || ( firefox && Number(firefox[1]) > 45 )
+            || ( edge && Number(edge[1]) > 11 )
+          )
+        }
+
+        if ( ! isAcceptable() ) {
+          window.location.href = "/static/browser-warning.html"
+        }
+      } else {
+        // must be really ancient one
+        document.write('<div><h1>请使用最新版Chrome访问</h1><a href="https://www.google.cn/chrome/">下载链接1</a> <a href="http://sw.bos.baidu.com/sw-search-sp/software/ba34c905dbdd4/ChromeStandalone_57.0.2987.98_Setup.exe">下载链接2</a></div>')
+      }
+    })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

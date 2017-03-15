@@ -1,0 +1,101 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hi汇文</title>
+  <style>
+  html, body {
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  .banner {
+    width: 100%;
+    padding: 4px 0;
+    background-color: #52ABF3;
+  }
+  .banner .layout {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .banner .left {
+    margin-right: 30px;
+  }
+  .warning {
+    text-align: center;
+  }
+  .link {
+    font-family: monospace;
+    margin: 2px 0;
+    font-size: 14px;
+  }
+  .thanks {
+    margin-top: 24px;
+    color: #888;
+    font-size: 75%;
+  }
+  footer {
+    display: block;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #475669;
+  }
+  footer pre {
+    margin-bottom: 2px;
+  }
+  </style>
+  <script>
+  ;(function() {
+    // detect browser version, redirect if found a healthy version
+    if (window.navigator) {
+      var ua = String(window.navigator.userAgent)
+      var chrome = /Chrome\/(\d+)\./.exec(ua)
+      var safari = /Safari/.exec(ua) ? /Version\/(\d+)\./.exec(ua) : null
+      var firefox = /Firefox\/(\d+)\./.exec(ua)
+      var edge = /Edge\/(\d+)\./.exec(ua)
+
+      function isAcceptable() {
+        return (
+             ( chrome && Number(chrome[1]) > 54 )
+          || ( safari && Number(safari[1]) > 8 )
+          || ( firefox && Number(firefox[1]) > 45 )
+          || ( edge && Number(edge[1]) > 11 )
+        )
+      }
+
+      if ( isAcceptable() ) {
+        window.location.href = "/"
+      }
+    } else {
+      // must be really ancient one
+      document.write('<div><h1>请使用最新版Chrome访问</h1><a href="https://www.google.cn/chrome/">下载链接1</a> <a href="http://sw.bos.baidu.com/sw-search-sp/software/ba34c905dbdd4/ChromeStandalone_57.0.2987.98_Setup.exe">下载链接2</a></div>')
+    }
+  })();
+  </script>
+</head>
+
+<body>
+  <div class="banner">
+    <div class="layout">
+      <img class="left" width="120" height="72" alt="Hi! NKMUN." src="./hilogo.png" />
+      <a href="https://nkmun.cn/" class="logo"> <img width="122" height="72" alt="NKMUN" src="./nklogo.png" /> </a>
+    </div>
+  </div>
+  <div class="warning">
+    <h3>为了提供更好的体验，请使用最新版Chrome访问本网站：</h3>
+    <div class="link"><a href="https://www.google.cn/chrome/browser/">下载链接1</a></div>
+    <div class="link"><a href="http://sw.bos.baidu.com/sw-search-sp/software/ba34c905dbdd4/ChromeStandalone_57.0.2987.98_Setup.exe">下载链接2</a></div>
+    <p class="thanks">感谢您的配合</p>
+  </div>
+  <footer>
+    <pre>Copyright ©2011-2017
+Nanking international model united nations conference for high school students, All Rights Reserved
+汇文国际中学生模拟联合国大会组委会 版权所有 苏ICP备15062651号</pre>
+  </footer>
+</body>
+
+</html>

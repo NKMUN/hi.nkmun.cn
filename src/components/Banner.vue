@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
-    <router-link to="/" class="logo"> <img width="120" height="72" alt="Hi! NKMUN." src="../assets/hilogo.png" /> </router-link>
-    <a href="https://nkmun.cn/" class="logo"> <img width="122" height="72" alt="NKMUN" src="../assets/nklogo.png" /> </a>
+    <router-link to="/" class="logo"> <img width="120" height="72" alt="Hi! NKMUN." src="/static/hilogo.png" /> </router-link>
+    <a href="https://nkmun.cn/" class="logo"> <img width="122" height="72" alt="NKMUN" src="/static/nklogo.png" /> </a>
   </div>
 </template>
 
