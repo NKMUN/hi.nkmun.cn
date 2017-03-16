@@ -46,13 +46,13 @@ export default {
         try{
           await this.$agent.post('/api/initialize', {confirm: true} )
                 .set( ... this.authorization )
-          Notification({
+          this.$notify({
             type: 'success',
             title: '初始化成功',
             duration: 5000
           })
         } catch(e) {
-          Notification({
+          this.$notify({
             type: 'error',
             title: '初始化失败',
             message: '请联系运维：'+e.message,

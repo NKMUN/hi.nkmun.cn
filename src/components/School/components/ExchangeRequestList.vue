@@ -95,21 +95,21 @@ export default {
                   .set( ... this.authorization )
         if (ok) {
           this.$store.commit('school/seat', body)
-          Notification({
+          this.$notify({
             type: 'success',
             title: '已接受名额交换',
             duration: 5000
           })
         }
         if (status === 410) {
-          Notification({
+          this.$notify({
             type: 'warning',
             title: 'Oops! 该名额已被交换',
             duration: 5000
           })
         }
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '未能处理请求',
           message: e.message,
@@ -131,14 +131,14 @@ export default {
                   .set( ... this.authorization )
         this.$store.commit('school/seat', body)
         this.requests.splice(idx, 1)
-        Notification({
+        this.$notify({
           type: 'success',
           title: '已拒绝名额交换',
           duration: 5000
         })
       } catch(e) {
         this.fetchRequests()
-        Notification({
+        this.$notify({
           type: 'error',
           title: '未能处理请求',
           message: e.message,

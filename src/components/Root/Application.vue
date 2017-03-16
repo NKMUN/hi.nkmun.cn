@@ -93,7 +93,7 @@ export default {
           ... body
         }
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '未能获取报名设置',
           mesasge: e.message,
@@ -117,13 +117,13 @@ export default {
         } = await this.$agent.put('/api/config/application')
                   .set( ... this.authorization )
                   .send( payload )
-        Notification({
+        this.$notify({
           type: 'success',
           title: '已更新报名设置',
           duration: 5000
         })
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '更新失败',
           mesasge: e.message,

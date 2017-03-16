@@ -76,7 +76,7 @@ export default {
   }),
   methods: {
     notifyError(e, title='操作失败') {
-      Notification({
+      this.$notify({
         type: 'error',
         title,
         message: e.message,
@@ -117,7 +117,7 @@ export default {
                              .set( ... this.authorization )
                              .query({ field: field })
                              .send(payload)
-        Notification({
+        this.$notify({
           type: 'success',
           title: '更新成功',
           message: '已更新 '+this.school.school.name,
@@ -137,7 +137,7 @@ export default {
         } = await this.$agent.delete('/api/schools/'+this.id)
                              .set( ... this.authorization )
                              .send({})
-        Notification({
+        this.$notify({
           type: 'success',
           title: '已成功爆破',
           message: ''+this.school.school.name+'已消失',
@@ -165,14 +165,14 @@ export default {
                              .set( ... this.authorization )
                              .then( res => res.body )
           )
-          Notification({
+          this.$notify({
             type: 'success',
             title: '已新增预订',
             duration: 5000
           })
         }
         if (status === 410) {
-          Notification({
+          this.$notify({
             type: 'warning',
             title: '酒店已被抢订，请重新预订！',
             duration: 5000
@@ -196,7 +196,7 @@ export default {
           this.reservations.findIndex( $ => $.id === rid ),
           1
         )
-        Notification({
+        this.$notify({
           type: 'success',
           title: '已删除预订',
           duration: 5000

@@ -81,13 +81,13 @@ export default {
                     .set( ... this.authorization )
                     .send({ session: session.id, round: '1', amount: -1 })
           this.$store.commit('school/seat', body.seat)
-          Notification({
+          this.$notify({
             type: 'warning',
             title: '已放弃名额',
             duration: 5000
           })
         } catch(e) {
-          Notification({
+          this.$notify({
             type: 'error',
             title: '未能放弃名额',
             message: e.message,
@@ -108,13 +108,13 @@ export default {
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')
-        Notification({
+        this.$notify({
           type: 'success',
           title: '名额已确认',
           duration: 5000
         })
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '名额确认失败',
           message: e.message,

@@ -127,7 +127,7 @@ export default {
                   .send( payload )
                   .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
-          Notification({
+          this.$notify({
             type: 'success',
             title: '预订成功',
             duration: 5000
@@ -135,7 +135,7 @@ export default {
           this.$emit('success')
         }
         if (status == 410) {
-          Notification({
+          this.$notify({
             type: 'warning',
             title: '酒店已被抢订，请修改预订信息！',
             duration: 5000
@@ -143,7 +143,7 @@ export default {
           await this.$refs.stock.fetch()
         }
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: e.message,
           duration: 0

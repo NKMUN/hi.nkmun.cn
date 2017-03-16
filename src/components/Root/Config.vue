@@ -49,7 +49,7 @@ export default {
           login: body.login
         }
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '获取全局设置失败',
           message: e.message,
@@ -67,13 +67,13 @@ export default {
                   .send( this.config )
         this.config = body
         this.$store.commit('config/update', body)
-        Notification({
+        this.$notify({
           type: 'success',
           title: '已更新',
           duration: 5000
         })
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '更新全局设置失败',
           message: e.message,

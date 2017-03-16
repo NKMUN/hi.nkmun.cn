@@ -63,7 +63,7 @@ export default {
       if (nextIdx < listPending.length) {
         this.$router.push(listPending[nextIdx].id)
       } else {
-        Notification({
+        this.$notify({
           type: 'info',
           title: '没有更多的待处理项目',
           duration: 5000

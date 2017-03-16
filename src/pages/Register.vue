@@ -115,7 +115,7 @@ export default {
           this.showInvitationCodeError = true
         }
       } catch(e) {
-        MessageBox.alert('服务器故障：'+e.message, '注册失败', {type: 'error'})
+        this.$alert('服务器故障：'+e.message, '注册失败', {type: 'error'})
       } finally {
         this.busy = false
       }
@@ -140,7 +140,7 @@ export default {
                     .set('Authorization', 'Bearer '+this.token)
                     .ok( ({ok, status}) => ok || status === 409 || status === 410 )
           if ( ok ) {
-            MessageBox.alert('请从主页登录', '注册成功', {
+            this.$alert('请从主页登录', '注册成功', {
               type: 'success',
               confirmButtonText: '返回主页',
               callback: () => {
@@ -150,7 +150,7 @@ export default {
             })
           }
           if ( status === 409 ) {
-            MessageBox.alert('您已注册过，请从主页登录。如有问题，请联系组委。', '不能重复注册', {
+            this.$alert('您已注册过，请从主页登录。如有问题，请联系组委。', '不能重复注册', {
               type: 'warning',
               showCancelButton: true,
               confirmButtonText: '返回主页',
@@ -164,14 +164,14 @@ export default {
             })
           }
           if ( status === 410 ) {
-            MessageBox.alert('请重新注册', '操作超时', {
+            this.$alert('请重新注册', '操作超时', {
               type: 'warning',
               confirmButtonText: '返回',
               callback: (action) => { this.reset() }
             })
           }
         } catch(e) {
-          MessageBox.alert('服务器故障：'+e.message, '注册失败', { type: 'error' })
+          this.$alert('服务器故障：'+e.message, '注册失败', { type: 'error' })
         } finally {
           this.busy = false
         }

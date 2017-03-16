@@ -72,7 +72,7 @@ export default {
   }),
   methods: {
     notifyError(e, title='操作失败') {
-      Notification({
+      this.$notify({
         type: 'error',
         title,
         message: e.message,
@@ -114,7 +114,7 @@ export default {
                              .send({ seat: this.seat })
         this.dirty = false
         if (!silent) {
-          Notification({
+          this.$notify({
             type: 'success',
             title: '更新成功',
             message: '已更新 '+this.application.school.name,
@@ -147,7 +147,7 @@ export default {
         } = await this.$agent.post('/api/invitations/')
                   .set( ... this.authorization )
                   .send({ school: this.id })
-        Notification({
+        this.$notify({
           type: 'success',
           title: '邀请已发送',
           message: '已向 '+this.application.school.name+' 发送邀请',

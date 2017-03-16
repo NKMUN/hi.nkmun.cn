@@ -199,7 +199,7 @@ export default {
         this.serverSessions = body.map( $ => ({ ...$ }) )
         this.sessions = body.map( $ => ({ ...$ }) )
         if (ok) {
-          Notification({
+          this.$notify({
             type: 'success',
             title: '提交成功',
             message: '已成功提交会场设置',
@@ -208,7 +208,7 @@ export default {
         }
         return true
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '提交失败',
           message: e.message,
@@ -238,7 +238,7 @@ export default {
       this.sessions = body.map( $ => ({ ... $ }))
       this.validate()
     } catch(e) {
-      Notification({
+      this.$notify({
         type: 'error',
         title: '获取会场列表失败',
         message: e.message,
@@ -250,7 +250,7 @@ export default {
     if ( ! objectsAreSame(this.sessions, this.serverSessions) ) {
       // edited, prompt for confirmation
       next(false)
-      MessageBox('请提交或放弃更改', '操作确认', { type: "warning" })
+      this.$confirm('请提交或放弃更改', '操作确认', { type: "warning" })
     } else {
       next()
     }

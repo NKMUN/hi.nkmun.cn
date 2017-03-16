@@ -109,13 +109,13 @@ export default {
           } = await this.$agent.delete('/api/hotels/'+this.hotels[idx].id)
                     .set( ... this.authorization )
           this.hotels.splice( idx, 1 )
-          Notification({
+          this.$notify({
             type: 'warning',
             title: '酒店已删除',
             duration: 5000
           })
         } catch(e) {
-          Notification({
+          this.$notify({
             type: 'error',
             title: '删除酒店失败',
             message: e.message,
@@ -135,14 +135,14 @@ export default {
                   .set( ... this.authorization )
         // created hotel is returned in body
         this.hotels.push( body )
-        Notification({
+        this.$notify({
           type: 'success',
           title: '酒店已添加',
           duration: 5000
         })
         this.$refs.addHotel.close()
       } catch (e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '酒店添加失败',
           message: e.message,
@@ -165,7 +165,7 @@ export default {
           1,
           body
         )
-        Notification({
+        this.$notify({
           type: 'success',
           title: '库存已修改',
           message: body.name+'的库存已变更为'+body.stock+'，当前余量：'+body.available,
@@ -173,7 +173,7 @@ export default {
         })
         this.$refs.modifyStock.close()
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '酒店库存修改失败',
           message: e.message,
@@ -192,7 +192,7 @@ export default {
                 .set( ... this.authorization )
       this.hotels = body
     } catch(e) {
-      Notification({
+      this.$notify({
         type: 'error',
         title: '获取酒店列表失败',
         message: e.message,

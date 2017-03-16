@@ -70,7 +70,7 @@ export default {
     },
     async confirmRemove(r) {
       let text = `删除 ${r.hotel.name} 从 ${r.checkIn} 到 ${r.checkOut} 的预订？`
-      let result = await MessageBox.confirm(text, '确认？', {
+      let result = await this.$confirm(text, '确认？', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -157,13 +157,13 @@ export default {
       try {
         await this.$agent.put('/api/config/mail', this.M)
               .set( ... this.authorization )
-        Notification({
+        this.$notify({
           type: 'success',
           title: '邀请邮件模版已设置',
           duration: 5000
         })
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '操作失败',
           message: e.message,

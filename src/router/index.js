@@ -30,9 +30,9 @@ const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admi
 const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admin/SchoolMgmt.vue')), 'admin')
 
 // School mgmt pages
-const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school-relinquish')
-const Exchange    = r => require.ensure([], () => r(require('components/School/Exchange.vue')), 'school-exchange')
-const Reservation = r => require.ensure([], () => r(require('components/School/Reservation-1.vue')), 'school-reservation')
+const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
+const Exchange    = r => require.ensure([], () => r(require('components/School/Exchange.vue')),   'school')
+const Reservation = r => require.ensure([], () => r(require('components/School/Reservation-1.vue')), 'school')
 
 export default new Router({
   routes: [

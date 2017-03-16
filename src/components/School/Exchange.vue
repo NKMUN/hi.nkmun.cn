@@ -84,13 +84,13 @@ export default {
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '1.reservation')
         this.$router.replace('/school/reservation/1')
-        Notification({
+        this.$notify({
           type: 'success',
           title: '名额已确认',
           duration: 5000
         })
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '名额确认失败',
           message: e.message,
@@ -116,7 +116,7 @@ export default {
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
         if (status === 409) {
-          Notification({
+          this.$notify({
             type: 'warning',
             title: 'Oops. 名额不可用',
             duration: 5000
@@ -124,7 +124,7 @@ export default {
           this.$refs.exchangeDialog.close()
         }
         if (ok) {
-          Notification({
+          this.$notify({
             type: 'success',
             title: '名额交换申请已发送',
             duration: 5000
@@ -132,7 +132,7 @@ export default {
           this.$store.commit('school/addExchange', body)
         }
       } catch(e) {
-        Notification({
+        this.$notify({
           type: 'error',
           title: '名额交换失败',
           message: e.message
