@@ -83,7 +83,7 @@ import { mapGetters } from 'vuex'
 import SeriousConfirm from 'components/SeriousConfirm'
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
-import toDateString from 'lib/to-date-string'
+import { toDateString } from 'lib/date-util'
 
 export default {
   name: 'hotel-mgmt',

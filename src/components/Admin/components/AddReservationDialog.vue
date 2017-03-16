@@ -51,9 +51,7 @@
 <script>
 import HotelStock from '../../School/components/HotelStock'
 import { Dialog, Button, DatePicker, Form, FormItem } from 'element-ui'
-import toDateString from 'lib/to-date-string'
-import moment from 'moment'
-import momentTz from 'moment-timezone'
+import { toDateString, between as dateBetween} from 'lib/date-util'
 
 export default {
   name: 'add-reservation-dialog',
@@ -98,9 +96,7 @@ export default {
       return {
         disabledDate(date) {
           if (hotel) {
-            let notBefore = moment.tz(hotel.notBefore, 'Asia/Shanghai')
-            let notAfter = moment.tz(hotel.notAfter, 'Asia/Shanghai')
-            return !moment(date).isBetween(notBefore, notAfter, null, "[]")
+            return !dateBetween(date, hotel.notBefore, hotel.notAfter)
           }else{
             return true
           }

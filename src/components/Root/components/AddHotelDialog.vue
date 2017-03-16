@@ -108,7 +108,7 @@ import {
   Dialog
 } from 'element-ui'
 
-import toDateString from 'lib/to-date-string'
+import { toDateString } from 'lib/date-util'
 
 export default {
   name: 'add-hotel-dialog',

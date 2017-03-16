@@ -60,9 +60,7 @@
 import HotelStock from './HotelStock'
 import { Button, Table, TableColumn, Notification, DatePicker } from 'element-ui'
 import { mapGetters } from 'vuex'
-import toDateString from 'lib/to-date-string'
-import moment from 'moment'
-import momentTz from 'moment-timezone'
+import { toDateString, between as dateBetween } from 'lib/date-util'
 
 export default {
   name: 'reservation-control',
@@ -109,9 +107,7 @@ export default {
     getPickerOptions(hotel) {
       return {
         disabledDate(date) {
-          let notBefore = moment.tz(hotel.notBefore, 'Asia/Shanghai')
-          let notAfter = moment.tz(hotel.notAfter, 'Asia/Shanghai')
-          return !moment(date).isBetween(notBefore, notAfter, null, "[]")
+          return !dateBetween(date, hotel.notBefore, hotel.notAfter)
         }
       }
     },
