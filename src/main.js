@@ -30,7 +30,10 @@ import {
     Table,
     TableColumn,
     Tag,
-    Tooltip
+    Tooltip,
+    Notification,
+    Loading,
+    MessageBox
 } from 'element-ui'
 
 Vue.use( Alert )
@@ -57,8 +60,12 @@ Vue.use( Table )
 Vue.use( TableColumn )
 Vue.use( Tag )
 Vue.use( Tooltip )
+Vue.use( Loading )
 
 Vue.prototype.$agent = superagent
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$notify = Notification
 
 let token = getToken()
 if (token) {
