@@ -27,16 +27,10 @@
 </template>
 
 <script>
-import { Button, Table, TableColumn } from 'element-ui'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'hotel-stock',
-  components: {
-    [Button.name]: Button,
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn
-  },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'

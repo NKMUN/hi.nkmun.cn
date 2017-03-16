@@ -63,7 +63,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Banner from 'components/Banner'
-import { Input, Button, Alert, MessageBox } from 'element-ui'
 import InvitationCode from 'components/form/InvitationCode'
 import ServiceAgreement from 'components/form/ServiceAgreement'
 import RegistrationForm from 'components/form/Registration'
@@ -72,9 +71,6 @@ import Copyright from 'components/Copyright'
 export default {
   name: 'register',
   components: {
-    [Input.name]: Input,
-    [Button.name]: Button,
-    [Alert.name]: Alert,
     Banner,
     InvitationCode,
     ServiceAgreement,

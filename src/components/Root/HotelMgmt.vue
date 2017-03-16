@@ -72,13 +72,6 @@
 </template>
 
 <script>
-import {
-  Table,
-  TableColumn,
-  Notification,
-  Button,
-  Alert
-} from 'element-ui'
 import { mapGetters } from 'vuex'
 import SeriousConfirm from 'components/SeriousConfirm'
 import AddHotelDialog from './components/AddHotelDialog'
@@ -88,10 +81,6 @@ import { toDateString } from 'lib/date-util'
 export default {
   name: 'hotel-mgmt',
   components: {
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [Button.name]: Button,
-    [Alert.name]: Alert,
     SeriousConfirm,
     AddHotelDialog,
     ModifyHotelStockDialog

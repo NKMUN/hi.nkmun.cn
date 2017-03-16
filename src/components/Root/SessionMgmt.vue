@@ -121,19 +121,6 @@
 </template>
 
 <script>
-import {
-  Table,
-  TableColumn,
-  Notification,
-  Input,
-  InputNumber,
-  Select,
-  Option,
-  Checkbox,
-  Button,
-  Alert,
-  MessageBox
-} from 'element-ui'
 import { mapGetters } from 'vuex'
 
 const keys = Object.keys
@@ -151,17 +138,6 @@ function objectsAreSame(a, b) {
 
 export default {
   name: 'session-mgmt',
-  components: {
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [Input.name]: Input,
-    [InputNumber.name]: InputNumber,
-    [Select.name]: Select,
-    [Option.name]: Option,
-    [Checkbox.name]: Checkbox,
-    [Button.name]: Button,
-    [Alert.name]: Alert
-  },
   data: () => ({
     busy: false,
     sessions: null,

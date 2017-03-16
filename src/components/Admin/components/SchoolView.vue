@@ -42,10 +42,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import {
-  Button,
-  Notification
-} from 'element-ui'
 import Precondition from 'components/Precondition'
 import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
@@ -55,7 +51,6 @@ import ReservationUpdater from './ReservationUpdater'
 export default {
   name: 'school-view',
   components: {
-    [Button.name]: Button,
     SchoolBrief,
     SeatUpdater,
     NukeSchoolButton,

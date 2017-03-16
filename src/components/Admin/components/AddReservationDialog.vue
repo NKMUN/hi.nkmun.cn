@@ -50,17 +50,11 @@
 
 <script>
 import HotelStock from '../../School/components/HotelStock'
-import { Dialog, Button, DatePicker, Form, FormItem } from 'element-ui'
 import { toDateString, between as dateBetween} from 'lib/date-util'
 
 export default {
   name: 'add-reservation-dialog',
   components: {
-    [Dialog.name]: Dialog,
-    [Button.name]: Button,
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [DatePicker.name]: DatePicker,
     HotelStock
   },
   data: () => ({

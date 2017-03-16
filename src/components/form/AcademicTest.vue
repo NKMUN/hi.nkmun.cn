@@ -27,14 +27,8 @@
 </template>
 
 <script>
-import { Form, FormItem, Input } from 'element-ui'
 export default {
   name: 'academic-test-form',
-  components: {
-    [Form.name]: Form,
-    [Input.name]: Input,
-    [FormItem.name]: FormItem,
-  },
   props: {
     value: { type: Object },
     className: { type: String, default: '' },

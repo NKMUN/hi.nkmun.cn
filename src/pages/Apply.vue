@@ -73,7 +73,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Banner from 'components/Banner'
-import { Alert, Dialog, Button } from 'element-ui'
 import ApplicationForm from 'components/form/Application'
 import Precondition from 'components/Precondition'
 import Copyright from 'components/Copyright'
@@ -82,9 +81,6 @@ export default {
   name: 'apply',
   components: {
     Banner,
-    [Alert.name]: Alert,
-    [Dialog.name]: Dialog,
-    [Button.name]: Button,
     ApplicationForm,
     Precondition,
     Copyright

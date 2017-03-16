@@ -19,19 +19,8 @@
 </template>
 
 <script>
-import {
-  Menu,
-  MenuItem,
-  MenuItemGroup,
-  Notification
-} from 'element-ui'
 export default {
   name: 'grouped-nav-list',
-  components: {
-    [Menu.name]: Menu,
-    [MenuItem.name]: MenuItem,
-    [MenuItemGroup.name]: MenuItemGroup
-  },
   props: {
     groups: { type: Array, default: [] },
     actived: { type: String, default: '' }

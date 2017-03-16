@@ -113,15 +113,11 @@
 </template>
 
 <script>
-import { Form, FormItem, Checkbox } from 'element-ui'
 import Precondition from 'components/Precondition'
 
 export default {
   name: 'service-agreement',
   components: {
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [Checkbox.name]: Checkbox,
     Precondition
   },
   props: {

@@ -42,13 +42,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import {
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Notification
-} from 'element-ui'
-
 import SeatInput from './SeatInput'
 import ApplicationCard from './ApplicationCard'
 import Precondition from 'components/Precondition'
@@ -56,9 +49,6 @@ import Precondition from 'components/Precondition'
 export default {
   name: 'application-review',
   components: {
-    [Button.name]: Button,
-    [ButtonGroup.name]: ButtonGroup,
-    [Checkbox.name]: Checkbox,
     ApplicationCard,
     SeatInput
   },

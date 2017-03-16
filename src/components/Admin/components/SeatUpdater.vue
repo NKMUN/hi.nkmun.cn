@@ -21,12 +21,10 @@
 
 <script>
 import SeatInput from './SeatInput'
-import { Button } from 'element-ui'
 export default {
   name: 'seat-updater',
   components: {
-    SeatInput,
-    [Button.name]: Button
+    SeatInput
   },
   props: {
     title: { type: String, default: '' },

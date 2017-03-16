@@ -18,13 +18,11 @@
 <script>
 import SeatView from './components/SeatView'
 import ReservationControl from './components/ReservationControl'
-import { Alert } from 'element-ui'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'reservation',
   components: {
-    [Alert.name]: Alert,
     SeatView,
     ReservationControl
   },

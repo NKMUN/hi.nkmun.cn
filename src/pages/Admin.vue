@@ -34,18 +34,8 @@
 </template>
 
 <script>
-import { Alert, Menu, MenuItem, Button } from 'element-ui'
-
 export default {
   name: 'admin-mgmt',
-  components: {
-    [Alert.name]: Alert,
-    [Menu.name]: Menu,
-    [MenuItem.name]: MenuItem,
-    [Button.name]: Button
-  },
-  data: () => ({
-  }),
   computed: {
     subComponentSelected() { return this.$route.path !== '/admin/'}
   },

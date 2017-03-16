@@ -48,7 +48,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Button } from 'element-ui'
 import LayoutCenter from 'components/LayoutCenter'
 import Login from 'components/Login'
 import Banner from 'components/Banner'
@@ -57,7 +56,6 @@ import Copyright from 'components/Copyright'
 export default {
   name: 'index',
   components: {
-    [Button.name]: Button,
     LayoutCenter,
     Login,
     Banner,

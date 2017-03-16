@@ -116,14 +116,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import {
-  Button,
-  Notification,
-  Form,
-  FormItem,
-  Input,
-} from 'element-ui'
-
 import Precondition from 'components/Precondition'
 
 const DEFAULT_INVITATION_MODEL = () => ({
@@ -142,10 +134,6 @@ const DEFAULT_INVITATION_MODEL = () => ({
 export default {
   name: 'mail-config',
   components: {
-    [Button.name]: Button,
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [Input.name]: Input,
     Precondition
   },
   data: () => ({

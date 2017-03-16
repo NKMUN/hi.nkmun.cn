@@ -58,17 +58,12 @@
 
 <script>
 import HotelStock from './HotelStock'
-import { Button, Table, TableColumn, Notification, DatePicker } from 'element-ui'
 import { mapGetters } from 'vuex'
 import { toDateString, between as dateBetween } from 'lib/date-util'
 
 export default {
   name: 'reservation-control',
   components: {
-    [Button.name]: Button,
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [DatePicker.name]: DatePicker,
     HotelStock,
   },
   props: {

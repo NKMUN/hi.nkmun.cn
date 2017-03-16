@@ -6,14 +6,7 @@
 
 <script>
 export default {
-  name: 'root-overview',
-  components: {
-    SeriousConfirm: require('../SeriousConfirm')
-  },
-  data: () => ({
-  }),
-  mounted() {
-  }
+  name: 'root-overview'
 }
 </script>
 

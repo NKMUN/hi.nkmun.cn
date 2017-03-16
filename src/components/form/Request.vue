@@ -80,14 +80,8 @@
 </template>
 
 <script>
-import { Form, FormItem, InputNumber } from 'element-ui'
 export default {
   name: 'request-form',
-  components: {
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [InputNumber.name]: InputNumber
-  },
   props: {
     value: { type: Object },
     className: { type: String, default: '' },

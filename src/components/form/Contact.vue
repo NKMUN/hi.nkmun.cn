@@ -73,16 +73,8 @@
 </template>
 
 <script>
-import { Form, FormItem, Input, Radio, RadioGroup } from 'element-ui'
 export default {
   name: 'contact-form',
-  components: {
-    [Form.name]: Form,
-    [Input.name]: Input,
-    [FormItem.name]: FormItem,
-    [Radio.name]: Radio,
-    [RadioGroup.name]: RadioGroup
-  },
   props: {
     value: { type: Object },
     className: { type: String, default: '' },

@@ -10,14 +10,9 @@
 </template>
 
 <script>
-import { Steps, Step } from 'element-ui'
 import { getName, getStages } from '../../STAGE_DEF'
 export default {
   name: 'school-todo',
-  components: {
-    [Steps.name]: Steps,
-    [Step.name]: Step
-  },
   props: {
     stage: {
       type: String,

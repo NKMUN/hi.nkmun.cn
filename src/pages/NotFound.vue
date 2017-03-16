@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
 import Banner from 'components/Banner'
 import Copyright from 'components/Copyright'
 import LayoutMiddle from 'components/LayoutMiddle'
@@ -22,13 +21,10 @@ import LayoutMiddle from 'components/LayoutMiddle'
 export default {
   name: 'not-found',
   components: {
-    [Button.name]: Button,
     Banner,
     Copyright,
     LayoutMiddle
-  },
-  data: () => ({
-  })
+  }
 }
 </script>
 

@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { Alert, Menu, MenuItem, Button, Tag } from 'element-ui'
 import Precondition from 'components/Precondition'
 import Todo from 'components/School/Todo'
 import SeatView from 'components/School/components/SeatView'
@@ -80,11 +79,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'school-mgmt',
   components: {
-    [Alert.name]: Alert,
-    [Menu.name]: Menu,
-    [MenuItem.name]: MenuItem,
-    [Button.name]: Button,
-    [Tag.name]: Tag,
     Precondition,
     Todo,
     SeatView

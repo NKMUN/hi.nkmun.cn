@@ -31,18 +31,12 @@
 </template>
 
 <script>
-import { Table, TableColumn, Tag } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
 const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.session))
 
 export default {
   name: 'seat-view',
-  components: {
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [Tag.name]: Tag
-  },
   mixins: [
     SessionUtils
   ],

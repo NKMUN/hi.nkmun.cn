@@ -32,14 +32,12 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
 import ContactForm from './Contact'
 import Password from './Password'
 
 export default {
   name: 'registration-form',
   components: {
-    [Button.name]: Button,
     ContactForm,
     Password
   },

@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { Dialog, Alert, Button, Input } from 'element-ui'
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -49,12 +48,6 @@ function randomString(length=6, characters=CHARACTERS) {
 
 export default {
   name: 'serious-confirm',
-  components: {
-    [Dialog.name]: Dialog,
-    [Alert.name]: Alert,
-    [Button.name]: Button,
-    [Input.name]: Input,
-  },
   data: () => ({
     message: '',
     type: 'warning',

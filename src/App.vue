@@ -12,14 +12,12 @@
 </template>
 
 <script>
-import { Alert } from 'element-ui'
 import Banner from 'components/Banner'
 import Precondition from 'components/Precondition'
 
 export default {
   name: 'app',
   components: {
-    [Alert.name]: Alert,
     Banner,
     Precondition
   },

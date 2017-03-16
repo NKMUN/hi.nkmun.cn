@@ -24,23 +24,10 @@
 </template>
 
 <script>
-import {
-  Form,
-  FormItem,
-  Notification,
-  Checkbox,
-  Button
-} from 'element-ui'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'global-config',
-  components: {
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [Checkbox.name]: Checkbox,
-    [Button.name]: Button
-  },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'
