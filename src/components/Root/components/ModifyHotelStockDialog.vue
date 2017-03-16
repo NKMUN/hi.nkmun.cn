@@ -63,25 +63,8 @@
 
 <script>
 
-import {
-  Form,
-  FormItem,
-  InputNumber,
-  Button,
-  Dialog,
-  Alert
-} from 'element-ui'
-
 export default {
   name: 'modify-hotel-stock-dialog',
-  components: {
-    [Dialog.name]: Dialog,
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [InputNumber.name]: InputNumber,
-    [Button.name]: Button,
-    [Alert.name]: Alert
-  },
   props: {
     busy: {
       type: Boolean,

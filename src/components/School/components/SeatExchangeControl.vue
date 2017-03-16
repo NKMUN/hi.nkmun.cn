@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { Button, Table, TableColumn, Tag, Dialog, Select, Option, Form, FormItem } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
 
@@ -91,17 +90,6 @@ const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 
 export default {
   name: 'seat-exchange-control',
-  components: {
-    [Button.name]: Button,
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [Tag.name]: Tag,
-    [Dialog.name]: Dialog,
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [Select.name]: Select,
-    [Option.name]: Option
-  },
   mixins: [
     SessionUtils
   ],

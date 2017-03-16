@@ -14,17 +14,10 @@
 </template>
 
 <script>
-import { Form, FormItem, RadioGroup, Radio } from 'element-ui'
 import Precondition from 'components/Precondition'
 
 export default {
   name: 'leader-attendance',
-  components: {
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [RadioGroup.name]: RadioGroup,
-    [Radio.name]: Radio,
-  },
   props: {
     value: { type: Boolean },
     disabled: { type: Boolean, default: false },

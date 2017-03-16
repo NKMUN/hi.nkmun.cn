@@ -25,14 +25,11 @@
 
 <script>
 import SeriousConfirm from 'components/SeriousConfirm'
-import { Alert, Button, Notification } from 'element-ui'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'root-overview',
   components: {
-    [Alert.name]: Alert,
-    [Button.name]: Button,
     SeriousConfirm
   },
   data: () => ({

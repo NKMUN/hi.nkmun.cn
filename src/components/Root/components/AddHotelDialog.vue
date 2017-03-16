@@ -98,29 +98,10 @@ const DEFAULT_HOTEL_MODEL = () => ({
   period: null,
 })
 
-import {
-  Form,
-  FormItem,
-  Input,
-  InputNumber,
-  DatePicker,
-  Button,
-  Dialog
-} from 'element-ui'
-
 import toDateString from 'lib/to-date-string'
 
 export default {
   name: 'add-hotel-dialog',
-  components: {
-    [Dialog.name]: Dialog,
-    [Form.name]: Form,
-    [FormItem.name]: FormItem,
-    [Input.name]: Input,
-    [InputNumber.name]: InputNumber,
-    [DatePicker.name]: DatePicker,
-    [Button.name]: Button,
-  },
   props: {
     busy: {
       type: Boolean,

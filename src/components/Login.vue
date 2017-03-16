@@ -48,20 +48,11 @@
 </template>
 
 <script>
-import { Form, Input, Button, FormItem, Alert, Popover } from 'element-ui'
 import { getToken, storeToken, clearToken } from 'persistence/token'
 import getRoleRoute from 'router/role-dispatch.js'
 
 export default {
   name: 'login',
-  components: {
-    [Form.name]:     Form,
-    [FormItem.name]: FormItem,
-    [Input.name]:    Input,
-    [Button.name]:   Button,
-    [Alert.name]:    Alert,
-    [Popover.name]:  Popover
-  },
   data: () => ({
     busy: false,
     alert: {

@@ -24,7 +24,6 @@
 
 <script>
 import GroupedNavList from '../GroupedNavList.vue'
-import { Notification } from 'element-ui'
 
 export default {
   name: 'review-control',

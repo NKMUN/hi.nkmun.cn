@@ -47,17 +47,11 @@
 </template>
 
 <script>
-import { Button, Card, Notification, Tag } from 'element-ui'
 import { mapGetters } from 'vuex'
 import SessionUtils from 'lib/session-utils'
 
 export default {
   name: 'exchange-request-list',
-  components: {
-    [Button.name]: Button,
-    [Card.name]: Card,
-    [Tag.name]: Tag
-  },
   mixins: [
     SessionUtils
   ],

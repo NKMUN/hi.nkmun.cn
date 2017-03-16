@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { Alert, Button, Tag, Notification } from 'element-ui'
 import SeriousConfirm from 'components/SeriousConfirm'
 import LeaderAttendance from '../form/LeaderAttendance'
 import SeatView from './components/SeatView'
@@ -51,8 +50,6 @@ import store from 'store/index'
 export default {
   name: 'school-relinquish',
   components: {
-    [Tag.name]: Tag,
-    [Button.name]: Button,
     LeaderAttendance,
     SeriousConfirm,
     SeatView

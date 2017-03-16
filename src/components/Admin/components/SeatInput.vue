@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { InputNumber } from 'element-ui'
 
 export default {
   name: 'seat-input',
@@ -32,9 +31,6 @@ export default {
     value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
-  },
-  components: {
-    [InputNumber.name]: InputNumber
   },
   data: () => ({
     created: false,

@@ -5,11 +5,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 import superagent from 'superagent'
-
-import { Loading } from 'element-ui'
 import { getToken } from 'persistence/token'
+import Element from 'element-ui'
 
-Vue.use( Loading )
+Vue.use( Element )
 Vue.prototype.$agent = superagent
 
 let token = getToken()

@@ -47,15 +47,11 @@
 </template>
 
 <script>
-import { Button, Table, TableColumn, Notification, MessageBox } from 'element-ui'
 import AddReservationDialog from './AddReservationDialog'
 
 export default {
   name: 'reservation-updater',
   components: {
-    [Button.name]: Button,
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
     AddReservationDialog,
   },
   props: {

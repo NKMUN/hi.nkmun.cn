@@ -58,7 +58,6 @@
 
 <script>
 import HotelStock from './HotelStock'
-import { Button, Table, TableColumn, Notification, DatePicker } from 'element-ui'
 import { mapGetters } from 'vuex'
 import toDateString from 'lib/to-date-string'
 import moment from 'moment'
@@ -67,10 +66,6 @@ import momentTz from 'moment-timezone'
 export default {
   name: 'reservation-control',
   components: {
-    [Button.name]: Button,
-    [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
-    [DatePicker.name]: DatePicker,
     HotelStock,
   },
   props: {

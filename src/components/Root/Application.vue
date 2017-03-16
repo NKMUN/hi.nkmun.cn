@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import { Form, Input, Button, FormItem, Checkbox, Notification } from 'element-ui'
 import { mapGetters } from 'vuex'
 
 const DEFAULT_APPLICATION_CONFIG = () => ({
@@ -74,13 +73,6 @@ const DEFAULT_APPLICATION_CONFIG = () => ({
 
 export default {
   name: 'application-config',
-  components: {
-    [Form.name]:     Form,
-    [FormItem.name]: FormItem,
-    [Input.name]:    Input,
-    [Checkbox.name]: Checkbox,
-    [Button.name]:   Button,
-  },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization',

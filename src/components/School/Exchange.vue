@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { Alert, Button, Tag, Notification, Card, Dialog } from 'element-ui'
 import ExchangeRequestList from './components/ExchangeRequestList'
 import SeatView from './components/SeatView'
 import SeatExchangeControl from './components/SeatExchangeControl'
@@ -47,10 +46,6 @@ import SessionUtils from 'lib/session-utils'
 export default {
   name: 'school-exchange',
   components: {
-    [Tag.name]: Tag,
-    [Button.name]: Button,
-    [Card.name]: Card,
-    [Dialog.name]: Dialog,
     ExchangeRequestList,
     SeatView,
     SeatExchangeControl

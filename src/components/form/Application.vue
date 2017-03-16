@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
 import ContactForm from './Contact'
 import SchoolForm from './School'
 import RequestForm from './Request'
@@ -71,7 +70,6 @@ const MAX_NUM_OF_SEATS = 10
 export default {
   name: 'application-form',
   components: {
-    [Button.name]: Button,
     ContactForm,
     SchoolForm,
     RequestForm,

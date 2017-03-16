@@ -51,14 +51,10 @@
 </template>
 
 <script>
-import { Card } from 'element-ui'
 import genderText from 'lib/gender-text'
 
 export default {
   name: 'application-card',
-  components: {
-    [Card.name]: Card
-  },
   props: {
     data:  { type: Object, required: true },
     tests: { type: Array, required: true },
