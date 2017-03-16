@@ -154,6 +154,7 @@ hint-text()
             margin-bottom: 0
       .question
         font-size: 14px
+        text-align: left
     &.request
       .session
         padding-right: 2ch
