@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const {execSync} = require('child_process')
+
+const dir = process.argv[2] || './src'
+const cmd = `grep -hor '<el-[a-z\\-]\\+' ${dir} | sort | uniq`
+
+let result = execSync(cmd).toString()
+const toName = (s) => s.split('-').map(p=>p[0].toUpperCase()+p.slice(1)).join('')
+const components = result.split(/[\r\n]+/g).filter($=>$).map( s => toName(s.slice(4))  )
+
+const import_str = `import {
+    ${ components.join(',\n    ') }
+} from 'element-ui'`
+
+const use_str = components.map( $ => `Vue.use( ${$} )` ).join('\n')
+
+console.log(`import Vue from 'vue'
+${import_str}
+
+${use_str}`)
