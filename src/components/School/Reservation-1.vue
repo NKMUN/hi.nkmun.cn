@@ -40,7 +40,7 @@ export default {
   methods: {
     handleSuccess() {
       this.$store.commit('school/stage', '1.payment')
-      this.$router.replace('/school/payment/')
+      this.$router.replace('/school/payment/1')
     }
   }
 }

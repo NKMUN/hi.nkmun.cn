@@ -33,6 +33,7 @@ const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admi
 const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
 const Exchange    = r => require.ensure([], () => r(require('components/School/Exchange.vue')),   'school')
 const Reservation = r => require.ensure([], () => r(require('components/School/Reservation-1.vue')), 'school')
+const Payment     = r => require.ensure([], () => r(require('components/School/Payment-1.vue')),  'school')
 
 export default new Router({
   routes: [
@@ -66,6 +67,7 @@ export default new Router({
         { path: 'relinquishment', component: Relinquish },
         { path: 'exchange', component: Exchange },
         { path: 'reservation/1', component: Reservation },
+        { path: 'payment/1', component: Payment },
       ]
     },
     { path: '/root/', component: Root,

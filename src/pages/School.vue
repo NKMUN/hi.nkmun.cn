@@ -24,11 +24,11 @@
           <el-menu-item v-if="stage === '1.reservation'"
                         index="/school/reservation/1"> 一轮酒店预订 </el-menu-item>
           <el-menu-item v-if="stage === '1.payment'"
-                        index="/school/payment"> 一轮付款 </el-menu-item>
+                        index="/school/payment/1"> 一轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '2.reservation'"
-                        index="/school/reservation-2/"> 二轮酒店预订 </el-menu-item>
+                        index="/school/reservation/2"> 二轮酒店预订 </el-menu-item>
           <el-menu-item v-if="stage === '2.payment'"
-                        index="/school/payment-2/"> 二轮付款 </el-menu-item>
+                        index="/school/payment/2"> 二轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '3.confirm'"
                         index="/school/confirm/"> 信息确认 </el-menu-item>
         </el-menu>
@@ -151,4 +151,5 @@ export default {
       padding-right: 4ch
       margin: 2em 0
       max-width: 40ch
+  margin-bottom: 3em
 </style>
