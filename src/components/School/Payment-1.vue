@@ -97,6 +97,13 @@ export default {
       }
       return true
     }
+  },
+  beforeRouteEnter(from, to, next) {
+    // guard against wrong stage
+    if (store.getters['school/stage'] === '1.payment')
+      next()
+    else
+      next('/school/')
   }
 }
 </script>

@@ -42,6 +42,13 @@ export default {
       this.$store.commit('school/stage', '1.payment')
       this.$router.replace('/school/payment/1')
     }
+  },
+  beforeRouteEnter(from, to, next) {
+    // guard against wrong stage
+    if (store.getters['school/stage'] === '1.reservation')
+      next()
+    else
+      next('/school/')
   }
 }
 </script>
