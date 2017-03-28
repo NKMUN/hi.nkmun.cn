@@ -50,7 +50,7 @@ export default {
     }
 
     let loader = this.loader()
-    if ( loader instanceof Promise ) {
+    if ( loader && typeof loader.then === 'function' ) {
       // do things asynchronously, active loading animation
       this.loading = true
       loader
