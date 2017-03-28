@@ -134,7 +134,12 @@
 import { mapGetters } from 'vuex'
 import sessionTypes from 'lib/session-types'
 
-const keys = Object.keys
+const keys = obj => {
+    let ret = []
+    for (let k in obj)
+      ret.push(k)
+    return ret
+}
 
 const DEFAULT_SESSION = () => ({
   id: null,
