@@ -8,14 +8,14 @@
       // detect browser version, redirect if found an unhealthy version
       if (window.navigator) {
         var ua = String(window.navigator.userAgent)
-        var chrome = /Chrome\/(\d+)\./.exec(ua)
+        var chrome = /(?:Chrome|CriOS)\/(\d+)\./.exec(ua)
         var safari = /Safari/.exec(ua) ? /Version\/(\d+)\./.exec(ua) : null
         var firefox = /Firefox\/(\d+)\./.exec(ua)
         var edge = /Edge\/(\d+)\./.exec(ua)
 
         function isAcceptable() {
           return (
-               ( chrome && Number(chrome[1]) > 54 )
+               ( chrome && Number(chrome[1]) > 39 )
             || ( safari && Number(safari[1]) > 8 )
             || ( firefox && Number(firefox[1]) > 45 )
             || ( edge && Number(edge[1]) > 11 )
