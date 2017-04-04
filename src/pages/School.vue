@@ -131,6 +131,7 @@ export default {
   .wrap
     flex-grow: 1
     flex-shrink: 0
+    padding-bottom: 3em
   .overview
     flex-vert: flex-start center
     margin-top: 2em
@@ -151,5 +152,4 @@ export default {
       padding-right: 4ch
       margin: 2em 0
       max-width: 40ch
-  margin-bottom: 3em
 </style>
