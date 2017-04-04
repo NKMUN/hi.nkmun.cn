@@ -44,6 +44,7 @@ import { Upload } from 'element-ui'
 import { mapGetters } from 'vuex'
 import PaymentMethods from './components/PaymentMethods'
 import BillingDetail from './components/BillingDetail'
+import store from 'store/index'
 
 export default {
   name: 'payment',
