@@ -23,6 +23,7 @@
             icon="close"
             size="mini"
             :loading="busy"
+            :disabled="disabled"
             @click="confirmRemove(scope.row)"
           />
       </el-table-column>
@@ -34,6 +35,7 @@
       icon="plus"
       :loading="busy"
       @click="$refs.addReservation.open()"
+      :disabled="disabled"
     > 新增 </el-button>
 
     <AddReservationDialog
@@ -59,6 +61,7 @@ export default {
     value: { type: Array, default: [] },
     round: { type: String, default: '' },
     busy: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
   },
   methods: {
     add(reservation) {

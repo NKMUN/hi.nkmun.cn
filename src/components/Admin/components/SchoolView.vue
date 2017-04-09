@@ -12,7 +12,7 @@
           v-model="school.seat['1']"
           title="一轮名额"
           :sessions="sessions"
-          :disabled="round!=='1'"
+          :disabled="round!=='1' || disableModification"
           :busy="busy"
           @confirm="patch('seat.1', school.seat['1'])"
         />
@@ -21,7 +21,7 @@
           v-model="school.seat['2']"
           title="二轮名额"
           :sessions="sessions"
-          :disabled="round!=='2'"
+          :disabled="round!=='2' || disableModification"
           :busy="busy"
           @confirm="patch('seat.2', school.seat['2'])"
         />
@@ -32,6 +32,7 @@
         :value="reservations"
         :round="round"
         :busy="busy"
+        :disabled="disableModification"
         @delete="deleteReservation"
         @add="addReservation"
       />
@@ -66,6 +67,11 @@ export default {
     }),
     round() {
       return (this.school && this.school.stage && this.school.stage[0]) || null
+    },
+    disableModification() {
+      // certain stage does not allow modification
+      let stage = (this.school && this.school.stage) || ''
+      return !stage || stage.endsWith('.paid') || stage.endsWith('complete')
     }
   },
   data: () => ({
@@ -226,4 +232,6 @@ export default {
   margin: 1em auto
 .seat-view
   flex-horz: center flex-start
+.reviewer
+  padding-bottom: 3em
 </style>

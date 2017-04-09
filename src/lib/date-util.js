@@ -11,4 +11,8 @@ function between(s, l, u) {
     return L<=S && S<=U
 }
 
-export { toDateString, between }
+function toDateTimeString(d) {
+    return format( new Date(d), 'yyyy-mm-dd HH:MM:ss', false, false )
+}
+
+export { toDateString, toDateTimeString, between }

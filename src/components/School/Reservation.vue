@@ -1,8 +1,8 @@
 <template>
   <div class="reservation">
-    <h3>一轮酒店预订</h3>
+    <h3>{{round | roundText}}酒店预订</h3>
 
-    <SeatView :showRound1="true" />
+    <SeatView :showRound1="this.round==='1'" :showRound2="this.round==='2'" />
 
     <div class="note">
       <ul>
@@ -11,7 +11,7 @@
       </ul>
     </div>
 
-    <ReservationControl :round="'1'" :max="maxNumOfRooms" class="reservation-control" @success="handleSuccess" />
+    <ReservationControl :round="round" :max="maxNumOfRooms" class="reservation-control" @success="handleSuccess" />
   </div>
 </template>
 
@@ -19,6 +19,8 @@
 import SeatView from './components/SeatView'
 import ReservationControl from './components/ReservationControl'
 import { mapGetters } from 'vuex'
+import store from 'store/index'
+import roundText from 'lib/round-text'
 
 export default {
   name: 'reservation',
@@ -28,24 +30,26 @@ export default {
   },
   computed: {
     ... mapGetters({
-      seat: 'school/seat'
+      seat: 'school/seat',
+      round: 'school/round',
     }),
     maxNumOfRooms() {
       let s = 0
-      for (let k in this.seat["1"])
-        s += this.seat["1"][k]
+      for (let k in this.seat[this.round])
+        s += this.seat[this.round][k]
       return Math.floor( s / 2 + 2 )
     }
   },
   methods: {
     handleSuccess() {
-      this.$store.commit('school/stage', '1.payment')
-      this.$router.replace('/school/payment/1')
+      this.$store.commit('school/stage', `${this.round}.payment`)
+      this.$router.replace(`/school/payment`)
     }
   },
+  filters: { roundText },
   beforeRouteEnter(from, to, next) {
     // guard against wrong stage
-    if (store.getters['school/stage'] === '1.reservation')
+    if ( (store.getters['school/stage'] || '').endsWith('.reservation') )
       next()
     else
       next('/school/')

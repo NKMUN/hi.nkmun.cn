@@ -75,7 +75,14 @@ export default {
             && $.from.school === this.id
         ).length
 
-        if (r1 + r2 > 0) {
+        // number that is showed in table
+        let numVisible = 0
+        if (this.showRound1)   numVisible += r1
+        if (this.showRound2)   numVisible += r2
+        if (this.showTotal)    numVisible += (r1+r2)
+        if (this.showExchange) numVisible += inExchange
+
+        if (numVisible > 0) {
           ret.push({
             session: s,
             round1: r1 || '',

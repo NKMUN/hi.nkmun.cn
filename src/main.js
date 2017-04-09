@@ -65,6 +65,7 @@ Vue.use( Loading )
 Vue.prototype.$agent = superagent
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 
 let token = getToken()

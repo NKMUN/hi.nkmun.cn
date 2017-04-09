@@ -80,7 +80,7 @@ export default {
           } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                     .set( ... this.authorization )
                     .send({ session: session.id, round: '1', amount: -1 })
-          this.$store.commit('school/seat', body.seat)
+          this.$store.commit('school/seat', body)
           this.$notify({
             type: 'warning',
             title: '已放弃名额',
@@ -102,10 +102,12 @@ export default {
       this.busy = true
       try {
         let {
-          ok
+          ok,
+          body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
                   .set( ... this.authorization )
+        this.$store.commit('school/seat', body)
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')
         this.$notify({

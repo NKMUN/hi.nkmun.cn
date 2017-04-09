@@ -1,37 +1,44 @@
 <template>
-  <div class="reviewer" v-loading="id && (!application || loading)">
-    <template v-if="application">
-      <ApplicationCard
-        v-show="!loading"
-        :data="application"
-        :tests="tests"
-        class="application-card"
-      />
+  <div class="reviewer" v-loading="id && (!school || loading)">
+
+    <el-alert
+      v-if="!id || !school"
+      type="warning"
+      title="注意"
+      description="学校必须完成一轮缴费才能进行二轮分配"
+      show-icon
+      :closable="false"
+    />
+
+    <template v-if="school">
+
+      <SchoolBrief class="brief" :data="school" />
 
       <SeatInput
         v-show="!loading"
         class="seat-input"
         v-model="seat"
         :sessions="sessions"
-        :disabled="busy || application.processed"
+        :disabled="busy || !canAllocSecondRound"
         @change="dirty = true"
       />
 
-      <div class="confirm-guard" v-show="!loading && !application.processed">
-        <el-checkbox v-model="canInvite">发送邀请</el-checkbox>
+      <div class="confirm-guard" v-show="!loading && canAllocSecondRound">
+        <el-checkbox v-model="canAlloc">确认分配二轮名额</el-checkbox>
       </div>
 
-      <el-button-group class="controls" v-show="!loading && !application.processed">
+      <el-button-group class="controls" v-show="!loading && canAllocSecondRound">
         <el-button
           type="success"
-          :disabled="!canInvite"
+          :disabled="!canAlloc"
           :loading="busy"
           icon="message"
-          @click="sendInvitation"
-        > 发送邀请 </el-button>
+          @click="allocSecondRound"
+        > 确认分配 </el-button>
         <el-button
           type="info"
           :loading="busy"
+          icon="check"
           @click="updateAndNext"
         > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
       </el-button-group>
@@ -42,31 +49,33 @@
 <script>
 import { mapGetters } from 'vuex'
 import SeatInput from './SeatInput'
-import ApplicationCard from './ApplicationCard'
+import SchoolBrief from './SchoolBrief'
 
 export default {
-  name: 'application-review',
+  name: 'second-round-review',
   components: {
-    ApplicationCard,
-    SeatInput
+    SchoolBrief,
+    SeatInput,
   },
   props: {
     sessions: { type: Array, default: () => [] },
-    tests: { type: Array, default: () => [] },
     id: { type: String, default: null }
   },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'
     }),
+    canAllocSecondRound() {
+      return this.school && this.school.stage === '1.complete'
+    }
   },
   data: () => ({
     busy: false,
     loading: true,
-    application: null,
     seat: null,
     dirty: false,
-    canInvite: false
+    school: null,
+    canAlloc: false
   }),
   methods: {
     notifyError(e, title='操作失败') {
@@ -82,20 +91,20 @@ export default {
         this.loading = true
         try {
           let {
-            body: application
-          } = await this.$agent.get('/api/applications/'+this.id)
+            body: school
+          } = await this.$agent.get('/api/schools/'+this.id)
                                .set( ... this.authorization )
-          this.application = application
-          this.seat = application.seat
+          this.school = school
+          this.seat = school.seat['2']
         } catch(e) {
           this.notifyError(e, '获取失败')
-          this.application = null
+          this.school = null
           this.seat = null
         } finally {
           this.loading = false
         }
       } else {
-        this.application = null
+        this.school = null
         this.seat = null
       }
     },
@@ -107,15 +116,16 @@ export default {
         let {
           ok,
           status
-        } = await this.$agent.patch('/api/applications/'+this.id)
+        } = await this.$agent.patch('/api/schools/'+this.id)
                              .set( ... this.authorization )
-                             .send({ seat: this.seat })
+                             .query({ field: 'seat.2' })
+                             .send( this.seat )
         this.dirty = false
         if (!silent) {
           this.$notify({
             type: 'success',
             title: '更新成功',
-            message: '已更新 '+this.application.school.name,
+            message: '已更新 '+this.school.name,
             duration: 5000
           })
         }
@@ -134,27 +144,24 @@ export default {
         })
       }
     },
-    async sendInvitation() {
+    async allocSecondRound() {
       if ( ! await this.update(true) )
         return
 
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.post('/api/invitations/')
-                  .set( ... this.authorization )
-                  .send({ school: this.id })
+        await this.$agent.post('/api/schools/'+this.id+'/seat')
+              .set( ... this.authorization )
+              .send({ allocSecondRound: 1 })
         this.$notify({
           type: 'success',
-          title: '邀请已发送',
-          message: '已向 '+this.application.school.name+' 发送邀请',
+          title: '已分配二轮名额',
           duration: 5000
         })
         this.$nextTick( () => {
           this.$emit('next', this.id)
           this.$emit('processed', this.id)
-          this.application = { ... this.application, processed: true }
+          this.school = { ... this.school, processed: true }
         })
       } catch(e) {
         this.notifyError(e)
@@ -175,7 +182,18 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.application-card, .seat-input, .controls, .confirm-guard
-  display: table
-  margin: 1em auto
+@import "../../../style/flex"
+.reviewer
+  flex-vert: flex-start center
+  *
+    flex-shrink: 0
+  .seat-input, .controls, .confirm-guard
+    display: table
+    margin: 1em auto
+.el-alert
+  width: auto
+  margin-top: 3em
+  padding-left: 4ch
+  padding-right: 4ch
+  align-self: center
 </style>

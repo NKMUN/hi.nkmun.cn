@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .list
   min-width: 20ch
   max-width: 35ch

@@ -7,7 +7,8 @@ export default {
     stage: state => (state.school && state.school.stage) || null,
     seat: state => (state.school && state.school.seat) || {},
     messages: state => (state.school && state.school.messages) || [],
-    exchanges: state => (state.school && state.school.exchanges) || []
+    exchanges: state => (state.school && state.school.exchanges) || [],
+    round: state => (state.school && state.school.stage && state.school.stage[0]) || '',
   },
   mutations: {
     school( state, school ) {

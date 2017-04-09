@@ -1,6 +1,6 @@
 <template>
   <div class="payment">
-    <h3>一轮缴费</h3>
+    <h3>{{round | roundText}}缴费</h3>
 
     <BillingDetail class="payment-detail" :school="school" round="1" @loaded="billingLoaded=true" />
 
@@ -45,6 +45,7 @@ import { mapGetters } from 'vuex'
 import PaymentMethods from './components/PaymentMethods'
 import BillingDetail from './components/BillingDetail'
 import store from 'store/index'
+import roundText from 'lib/round-text'
 
 export default {
   name: 'payment',
@@ -56,11 +57,12 @@ export default {
   computed: {
     ... mapGetters({
       school: 'user/school',
+      round: 'school/round',
       authorization: 'user/authorization'
     }),
     uploadUrl() {
-      return '/api/schools/'+this.school+'/payments/?round=1'
-    }
+      return '/api/schools/'+this.school+'/payments/'
+    },
   },
   data: () => ({
     beforeUploadError: null,
@@ -76,7 +78,7 @@ export default {
       })
 
       this.$router.replace('/school/')
-      this.$store.commit('school/stage', '1.paid')
+      this.$store.commit('school/stage', `${this.round}.paid`)
     },
     onError(err, file, list) {
       this.$notify({
@@ -99,9 +101,10 @@ export default {
       return true
     }
   },
+  filters: { roundText },
   beforeRouteEnter(from, to, next) {
     // guard against wrong stage
-    if (store.getters['school/stage'] === '1.payment')
+    if ( (store.getters['school/stage'] || '').endsWith('.payment') )
       next()
     else
       next('/school/')

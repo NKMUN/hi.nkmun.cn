@@ -5,7 +5,7 @@
         <el-button
           type="primary"
           size="small"
-          :disabled="scope.hotel.available <= reservations.filter( function(e) { return e.hotel.id === scope.hotel.id } ).length"
+          :disabled="scope.hotel.available <= reservations.filter( function(e) { return e.hotel.id === scope.hotel.id } ).length || reservations.length >= max"
           @click="addReservation(scope.hotel)"
         > 预订 </el-button>
       </template>
@@ -69,7 +69,7 @@ export default {
   props: {
     round: {
       type: String,
-      default: "1",
+      required: true,
     },
     max: {
       type: Number,
@@ -116,7 +116,6 @@ export default {
         hotel: $.hotel.id,
         checkIn: toDateString($.period[0]),
         checkOut: toDateString($.period[1]),
-        round: this.round
       }) )
       try {
         let {

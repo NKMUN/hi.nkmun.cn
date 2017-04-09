@@ -9,6 +9,8 @@
         class="menu"
       >
         <el-menu-item index="/admin/applications/"> 报名管理 </el-menu-item>
+        <el-menu-item index="/admin/payments/"> 缴费管理 </el-menu-item>
+        <el-menu-item index="/admin/second-round/"> 二轮分配 </el-menu-item>
         <el-menu-item index="/admin/schools/"> 学校管理 </el-menu-item>
       </el-menu>
 

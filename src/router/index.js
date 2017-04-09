@@ -28,12 +28,14 @@ const Mail         = r => require.ensure([], () => r(require('components/Root/Ma
 // Admin mgmt pages
 const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
 const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admin/SchoolMgmt.vue')), 'admin')
+const PaymentMgmt     = r => require.ensure([], () => r(require('components/Admin/PaymentMgmt.vue')), 'admin')
+const SecondRoundMgmt = r => require.ensure([], () => r(require('components/Admin/SecondRoundMgmt.vue')), 'admin')
 
 // School mgmt pages
 const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
 const Exchange    = r => require.ensure([], () => r(require('components/School/Exchange.vue')),   'school')
-const Reservation = r => require.ensure([], () => r(require('components/School/Reservation-1.vue')), 'school')
-const Payment     = r => require.ensure([], () => r(require('components/School/Payment-1.vue')),  'school')
+const Reservation = r => require.ensure([], () => r(require('components/School/Reservation.vue')), 'school')
+const Payment     = r => require.ensure([], () => r(require('components/School/Payment.vue')),  'school')
 
 export default new Router({
   routes: [
@@ -54,6 +56,10 @@ export default new Router({
           { path: 'applications/:id', component: ApplicationMgmt, props: true },
           { path: 'schools/', component: SchoolMgmt },
           { path: 'schools/:id', component: SchoolMgmt, props: true },
+          { path: 'payments/', component: PaymentMgmt },
+          { path: 'payments/:id', component: PaymentMgmt, props: true },
+          { path: 'second-round/', component: SecondRoundMgmt },
+          { path: 'second-round/:id', component: SecondRoundMgmt, props: true },
       ]
     },
     { path: '/school/', component: School,
@@ -66,8 +72,8 @@ export default new Router({
       children: [
         { path: 'relinquishment', component: Relinquish },
         { path: 'exchange', component: Exchange },
-        { path: 'reservation/1', component: Reservation },
-        { path: 'payment/1', component: Payment },
+        { path: 'reservation', component: Reservation },
+        { path: 'payment', component: Payment },
       ]
     },
     { path: '/root/', component: Root,

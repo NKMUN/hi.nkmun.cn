@@ -78,12 +78,14 @@ export default {
       this.busy = true
       try {
         let {
-          ok
+          ok,
+          body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
                   .set( ... this.authorization )
+        this.$store.commit('school/seat', body)
         this.$store.commit('school/stage', '1.reservation')
-        this.$router.replace('/school/reservation/1')
+        this.$router.replace('/school/reservation')
         this.$notify({
           type: 'success',
           title: '名额已确认',
