@@ -4,7 +4,7 @@
     <el-tooltip
       effect="dark"
       placement="top"
-      content="😡 让这所学校瞬间爆炸！ 危険です！"
+      content="😡 让这份申请瞬间爆炸！ 危険です！"
     >
       <el-button
         type="danger"
@@ -12,7 +12,7 @@
         @click="confirmNuke"
       >
         <icon class="el-icon-" name="exclamation-triangle" style="vertical-align: bottom;" />
-        <span>{{ busy ? '爆炸中……' : '一键退会' }}</span>
+        <span>{{ busy ? '爆炸中……' : '一键销毁' }}</span>
       </el-button>
     </el-tooltip>
 
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     confirmNuke() {
-      this.$refs.serious.confirm('彻底销毁这所学校。\n将释放其名额、酒店。此操作不能撤销，请确认！', this.repeat)
+      this.$refs.serious.confirm('彻底销毁这份申请。\n此操作不能撤销，请确认！', this.repeat)
       .then( confirmed => confirmed ? this.$emit('click') : null )
     }
   }

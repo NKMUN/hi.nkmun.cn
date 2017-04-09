@@ -66,6 +66,10 @@ export default {
         this.$router.push('./')
       }
     },
+    handleRemove(id) {
+      let idx = this.list.findIndex( $ => $.id === id )
+      this.list.splice(idx, 1)
+    },
   }
 }
 </script>

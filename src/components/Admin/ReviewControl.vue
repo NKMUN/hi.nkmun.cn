@@ -74,7 +74,11 @@ export default {
     handleProcessed(id) {
       let idx = this.list.findIndex( $ => $.id === id )
       this.list.splice(idx, 1, { ...this.list[idx], processed: true })
-    }
+    },
+    handleRemove(id) {
+      let idx = this.list.findIndex( $ => $.id === id )
+      this.list.splice(idx, 1)
+    },
   }
 }
 </script>

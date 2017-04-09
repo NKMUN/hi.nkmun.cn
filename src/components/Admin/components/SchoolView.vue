@@ -146,9 +146,11 @@ export default {
         this.$notify({
           type: 'success',
           title: '已成功爆破',
-          message: ''+this.school.school.name+'已消失',
+          message: ''+this.school.school.name+'は消えました。素晴らしの成功です！',
           duration: 5000
         })
+        this.$emit('next', this.id)
+        this.$emit('nuked', this.id)
       } catch(e) {
         this.notifyError(e, '爆破失败')
       } finally {

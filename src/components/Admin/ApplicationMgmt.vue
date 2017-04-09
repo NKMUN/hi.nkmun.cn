@@ -1,7 +1,7 @@
 <template>
 
   <ReviewControl
-    ref="reviewControl"
+    ref="control"
     :list="applications"
     :order-by="bySchoolName"
     :id="id"
@@ -19,8 +19,9 @@
         :tests="tests"
         :sessions="sessions"
         :id="props.id"
-        @next="$refs.reviewControl.handleNext"
-        @processed="$refs.reviewControl.handleProcessed"
+        @next="$refs.control.handleNext"
+        @processed="$refs.control.handleProcessed"
+        @nuked="$refs.control.handleRemove"
       />
     </template>
 

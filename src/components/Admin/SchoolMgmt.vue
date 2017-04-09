@@ -19,7 +19,7 @@
         ref="reviewer"
         :sessions="sessions"
         :id="props.id"
-        @nuked="$handleNuke(props.id)"
+        @nuked="$refs.control.handleRemove"
         @next="$refs.control.handleNext"
       />
     </template>

@@ -8,6 +8,8 @@
         class="application-card"
       />
 
+      <NukeApplicationButton :repeat="application.school.name" @click="nuke" v-show="!loading && !application.processed" />
+
       <SeatInput
         v-show="!loading"
         class="seat-input"
@@ -43,12 +45,14 @@
 import { mapGetters } from 'vuex'
 import SeatInput from './SeatInput'
 import ApplicationCard from './ApplicationCard'
+import NukeApplicationButton from './NukeApplicationButton'
 
 export default {
   name: 'application-review',
   components: {
     ApplicationCard,
-    SeatInput
+    SeatInput,
+    NukeApplicationButton,
   },
   props: {
     sessions: { type: Array, default: () => [] },
@@ -158,6 +162,28 @@ export default {
         })
       } catch(e) {
         this.notifyError(e)
+      } finally {
+        this.busy = false
+      }
+    },
+    async nuke() {
+      this.busy = true
+      try {
+        let {
+          ok
+        } = await this.$agent.delete('/api/applications/'+this.id)
+                             .set( ... this.authorization )
+                             .send({})
+        this.$notify({
+          type: 'success',
+          title: '已成功爆破',
+          message: ''+this.application.school.name+'の申請は消えました。。素晴らしの成功です！',
+          duration: 5000
+        })
+        this.$emit('next', this.id)
+        this.$emit('nuked', this.id)
+      } catch(e) {
+        this.notifyError(e, '爆破失败')
       } finally {
         this.busy = false
       }
