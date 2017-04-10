@@ -11,9 +11,9 @@
       <el-table-column prop="hotel.type" label="房型" width="108" sortable />
       <el-table-column label="入住时间" width="240">
         <template scope="scope">
-          <span>{{ scope.row.checkIn }}</span>
+          <span class="date">{{ scope.row.checkIn }}</span>
           <span class="delimiter"> - </span>
-          <span>{{ scope.row.checkOut }}</span>
+          <span class="date">{{ scope.row.checkOut }}</span>
         </template>
       </el-table-column>
       <el-table-column width="32" class-name="no-padding">
@@ -108,6 +108,8 @@ div
     max-width: 720px
   .delimiter
     color: #99A9BF
+  .date
+    font-family: monospace
 </style>
 <style lang="stylus">
 .el-table
