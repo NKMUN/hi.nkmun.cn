@@ -19,7 +19,7 @@ export default {
       state.apply = (config && config.apply) || false
       state.register = (config && config.register) || false
       state.login = (config && config.login) || false
-      state.sessions = (config && config.sessions) || []
+      state.sessions = ((config && config.sessions) || []).sort( (a,b) => a.id.localeCompare(b.id) )
       state.sessionMap = state.sessions.reduce(
         (ret, session) => ({ ...ret, [session.id]: session}),
         {}

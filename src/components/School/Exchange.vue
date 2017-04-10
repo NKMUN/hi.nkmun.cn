@@ -9,6 +9,15 @@
       :showTotal="parseInt(stage[0], 10) >= 2"
     />
 
+    <div class="note">
+      <ul>
+        <li>交换中的名额不能再次用于交换</li>
+        <li>结束交换时，双代会场必须有偶数名额</li>
+        <li>结束交换时，待处理的交换申请将<b>全部拒绝</b></li>
+        <li>结束交换时，己方已发出，但对方未确认的交换申请会<b>全部取消</b></li></li>
+      </ul>
+    </div>
+
     <el-button
       size="large"
       type="primary"
@@ -16,20 +25,15 @@
       :loading="busy"
       @click="confirm"
       class="btn-confirm"
-    > 确认名额 </el-button>
+    > 结束名额交换 </el-button>
 
     <hr style="align-self: stretch; width: 80%; color: #D3DCE6; border-style: solid; border-width: 1px" />
-
-    <div class="note">
-      <ul>
-        <li>交换中的名额不能再次用于交换</li>
-        <li>名额确认时，双代会场必须有偶数名额</li>
-      </ul>
-    </div>
 
     <ExchangeRequestList class="requests" @accept="handleAccept" />
 
     <SeatExchangeControl class="seat-overview" ref="list" @exchange="exchange" :busy="busy" />
+
+    <SeriousConfirm ref="serious" />
 
   </div>
 </template>
@@ -42,13 +46,15 @@ import { mapGetters } from 'vuex'
 import store from 'store/index'
 import groupSeatsBySession from 'lib/group-seats'
 import SessionUtils from 'lib/session-utils'
+import SeriousConfirm from '../SeriousConfirm'
 
 export default {
   name: 'school-exchange',
   components: {
     ExchangeRequestList,
     SeatView,
-    SeatExchangeControl
+    SeatExchangeControl,
+    SeriousConfirm
   },
   mixins: [
     SessionUtils
@@ -75,26 +81,38 @@ export default {
   }),
   methods: {
     async confirm() {
+      if ( ! await this.$refs.serious.confirm('将确认名额交换，未处理的请求将全部取消。', '我确认当前名额正确') )
+        return
       this.busy = true
       try {
         let {
           ok,
-          body
+          body,
+          status
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
                   .set( ... this.authorization )
-        this.$store.commit('school/seat', body)
-        this.$store.commit('school/stage', '1.reservation')
-        this.$router.replace('/school/reservation')
-        this.$notify({
-          type: 'success',
-          title: '名额已确认',
-          duration: 5000
-        })
+                  .ok( ({ok, status}) => ok || status === 410 )
+        if (status === 410) {
+          this.$notify({
+            type: 'warning',
+            title: '未能确认名额交换',
+            message: '双代会场没有偶数名额，请刷新页面！'
+          })
+        } else if (ok) {
+          this.$store.commit('school/seat', body)
+          this.$store.commit('school/stage', '1.reservation')
+          this.$router.replace('/school/reservation')
+          this.$notify({
+            type: 'success',
+            title: '名额交换已确认',
+            duration: 5000
+          })
+        }
       } catch(e) {
         this.$notify({
           type: 'error',
-          title: '名额确认失败',
+          title: '未能确认名额交换',
           message: e.message,
           duration: 0
         })

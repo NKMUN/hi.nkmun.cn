@@ -73,6 +73,7 @@ export default {
           $ => $.from
             && $.from.session === s.id
             && $.from.school === this.id
+            && !$.state
         ).length
 
         // number that is showed in table

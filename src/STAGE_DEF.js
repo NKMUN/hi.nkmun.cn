@@ -1,6 +1,6 @@
 const def = [
     '0.apply',          '申请',
-    '1.relinquishment', '一轮名额放弃',
+    '1.relinquishment', '一轮名额确认',
     '1.exchange',       '一轮名额交换',
     '1.reservation',    '一轮酒店预订',
     '1.payment',        '一轮付款',

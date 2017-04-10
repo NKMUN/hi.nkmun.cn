@@ -25,10 +25,10 @@
         <template scope="scope">
           <el-button
             v-if="scope.row.seat['1'][s.id] > 0"
-            type="success"
+            :type="s.dual ? 'warning' : 'success'"
             size="mini"
             @click="tryExchange(scope.row.id, s.id, scope.row.name)"
-          > 交换 | <code>{{ scope.row.seat['1'][s.id] }}</code> </el-button>
+          > {{ s.dual ? '双代交换' : '交换' }} | <code>{{ scope.row.seat['1'][s.id] }}</code> </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,6 +42,7 @@
           </el-form-item>
           <el-form-item label="对方会场">
             <b>{{ SESSION(exchange.targetSession).name }}</b>
+            <el-tag v-if="SESSION(exchange.targetSession).dual" type="warning">双代</el-tag>
           </el-form-item>
           <el-form-item label="己方会场">
             <el-select v-model="exchange.selfSession">
@@ -57,6 +58,7 @@
               >
                 <div class="session-line">
                   <span class="name">{{ ss.name }}</span>
+                  <el-tag v-if="ss.dual" type="warning" style="line-height: 22px !important;">双代</el-tag>
                   <span class="amount">{{
                     ss.reserved ? '不可交换' : (
                       ss.id === exchange.targetSession ? '同一会场' : (
@@ -108,6 +110,7 @@ export default {
                  $ => $.from
                    && $.from.school === this.id
                    && $.from.session === session.id
+                   && !$.state
                ).length
                return {
                  ... session,
@@ -170,6 +173,7 @@ export default {
     text-overflow: ellipsis
   .amount
     font-size: 13px
+    margin-left: 3ch
 .exchange-dialog-content
   min-width: 300px
   white-space: nowrap

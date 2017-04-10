@@ -20,7 +20,8 @@
           </div>
           <div style="margin-top: .5em">
             交换：
-            <el-tag type="warning">{{ SESSION(req.to.session).name }}</el-tag>
+            <el-tag type="primary">{{ SESSION(req.to.session).name }}</el-tag>
+            <el-tag type="warning" v-if="SESSION(req.to.session).dual">双代</el-tag>
           </div>
         </div>
         <div class="controls">
