@@ -30,6 +30,7 @@ const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admi
 const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admin/SchoolMgmt.vue')), 'admin')
 const PaymentMgmt     = r => require.ensure([], () => r(require('components/Admin/PaymentMgmt.vue')), 'admin')
 const SecondRoundMgmt = r => require.ensure([], () => r(require('components/Admin/SecondRoundMgmt.vue')), 'admin')
+const SeatOverview    = r => require.ensure([], () => r(require('components/Admin/SeatOverview.vue')),  'admin')
 
 // School mgmt pages
 const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
@@ -60,6 +61,7 @@ export default new Router({
           { path: 'payments/:id', component: PaymentMgmt, props: true },
           { path: 'second-round/', component: SecondRoundMgmt },
           { path: 'second-round/:id', component: SecondRoundMgmt, props: true },
+          { path: 'overview/seat', component: SeatOverview },
       ]
     },
     { path: '/school/', component: School,
