@@ -11,7 +11,7 @@ function resolve (dir) {
 module.exports = {
   entry: {
     app: './src/main.js',
-    regenerator: 'babel-regenerator-runtime',
+    vendor: ['babel-regenerator-runtime']
   },
   output: {
     path: config.build.assetsRoot,
