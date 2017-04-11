@@ -5,6 +5,13 @@
     <div class="note">
       <ul>
         <li>删除酒店会清空该酒店的所有预定</li>
+        <li>入住时间必须包含会议时间段，否则可能无法正常预订</li>
+        <li v-if="conferenceStartDate && conferenceEndDate">
+          会议时间为
+          <code class="date">{{conferenceStartDate}}</code>
+          至
+          <code class="date">{{conferenceEndDate}}</code>
+        </li>
       </ul>
     </div>
 
@@ -90,7 +97,11 @@ export default {
     hotels: null
   }),
   computed: {
-    ... mapGetters({ authorization: 'user/authorization' }),
+    ... mapGetters({
+      authorization: 'user/authorization'
+      conferenceStartDate: 'config/conferenceStartDate',
+      conferenceEndDate: 'config/conferenceEndDate',
+    }),
     seriousConfirm() { return (...args) => this.$refs.seriousConfirm.confirm(...args) }
   },
   filters: {
