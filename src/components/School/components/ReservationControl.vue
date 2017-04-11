@@ -19,14 +19,28 @@
       <el-table :data="reservations">
         <el-table-column prop="hotel.name" label="酒店" min-width="240" sortable />
         <el-table-column prop="hotel.type" label="房型" width="180" sortable />
-        <el-table-column prop="period" label="入住时间" min-width="270">
+        <el-table-column prop="period" label="入住日期" min-width="180">
           <template scope="scope">
             <el-date-picker
-              v-model="scope.row.period"
-              type="daterange"
+              v-model="scope.row.checkIn"
+              class="date-picker"
+              type="date"
               :disabled="busy"
               placeholder="请选择入住时间"
-              :picker-options="getPickerOptions(scope.row.hotel)"
+              :picker-options="getCheckInPickerOptions(scope.row.hotel)"
+              @change="validate"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column prop="period" label="退房日期" min-width="180">
+          <template scope="scope">
+            <el-date-picker
+              v-model="scope.row.checkOut"
+              class="date-picker"
+              type="date"
+              :disabled="busy"
+              placeholder="请选择退房时间"
+              :picker-options="getCheckOutPickerOptions(scope.row.hotel)"
               @change="validate"
             />
           </template>
@@ -79,7 +93,9 @@ export default {
   computed: {
     ... mapGetters({
       school: 'user/school',
-      authorization: 'user/authorization'
+      authorization: 'user/authorization',
+      conferenceStartDate: 'config/conferenceStartDate',
+      conferenceEndDate: 'config/conferenceEndDate',
     })
   },
   data: () => ({
@@ -91,7 +107,8 @@ export default {
     addReservation(hotel) {
       this.reservations.push({
         hotel,
-        period: []
+        checkIn: null,
+        checkOut: null
       })
       this.validate()
     },
@@ -99,23 +116,26 @@ export default {
       this.reservations.splice(idx, 1)
       this.validate()
     },
-    getPickerOptions(hotel) {
+    getCheckInPickerOptions(hotel) {
       return {
-        disabledDate(date) {
-          return !dateBetween(date, hotel.notBefore, hotel.notAfter)
-        }
+        disabledDate: (date) => ! dateBetween(date, hotel.notBefore, this.conferenceStartDate || hotel.notAfter)
+      }
+    },
+    getCheckOutPickerOptions(hotel) {
+      return {
+        disabledDate: (date) => ! dateBetween(date, this.conferenceEndDate || hotel.notBefore, hotel.notAfter)
       }
     },
     async validate() {
-      this.valid =  this.reservations.every( $ => $.period[0] && $.period[1] )
+      this.valid =  this.reservations.every( $ => $.checkIn && $.checkOut )
       return this.valid
     },
     async submit() {
       this.busy = true
       let payload = this.reservations.map( $ => ({
         hotel: $.hotel.id,
-        checkIn: toDateString($.period[0]),
-        checkOut: toDateString($.period[1]),
+        checkIn: toDateString($.checkIn),
+        checkOut: toDateString($.checkOut),
       }) )
       try {
         let {
@@ -163,4 +183,6 @@ export default {
   margin: 2em 0
 .controls
   text-align: center
+.el-date-editor.date-picker
+  width: 100%
 </style>
