@@ -98,7 +98,7 @@ export default {
   }),
   computed: {
     ... mapGetters({
-      authorization: 'user/authorization'
+      authorization: 'user/authorization',
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),

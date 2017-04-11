@@ -198,6 +198,7 @@ export default {
                   .set( ... this.authorization )
         this.serverSessions = body.map( $ => ({ ...$ }) )
         this.sessions = body.map( $ => ({ ...$ }) )
+        this.$store.commit('config/update', { sessions: body.map( $ => ({ ...$ }) ) })
         if (ok) {
           this.$notify({
             type: 'success',
