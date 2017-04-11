@@ -7,6 +7,12 @@
     <div class="note">
       <ul>
         <li>最多可预订 <code class="amount">{{ maxNumOfRooms }}</code> 个房间</li>
+        <li v-if="conferenceStartDate && conferenceEndDate">
+          本次会议时间为
+          <code class="date">{{conferenceStartDate}}</code>
+          至
+          <code class="date">{{conferenceEndDate}}</code>
+        </li>
         <li>如果有特殊需求，请与组委联系</li>
       </ul>
     </div>
@@ -32,6 +38,8 @@ export default {
     ... mapGetters({
       seat: 'school/seat',
       round: 'school/round',
+      conferenceStartDate: 'config/conferenceStartDate',
+      conferenceEndDate: 'config/conferenceEndDate'
     }),
     maxNumOfRooms() {
       let s = 0
@@ -68,7 +76,7 @@ export default {
   .seat-view
     width: 100%
     max-width: 30ch
-  .amount
+  .amount, .date
     font-weight: bolder
   .reservation-control
     margin-bottom: 3em

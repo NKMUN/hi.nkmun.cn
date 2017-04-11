@@ -5,14 +5,18 @@ export default {
     register: false,
     login: false,
     sessions: [],
-    sessionMap: {}
+    sessionMap: {},
+    conferenceStartDate: null,
+    conferenceEndDate: null
   },
   getters: {
     apply: state => state.apply,
     register: state => state.register,
     login: state => state.login,
     sessions: state => state.sessions,
-    sessionMap: state => state.sessionMap
+    sessionMap: state => state.sessionMap,
+    conferenceStartDate: state => state.conferenceStartDate,
+    conferenceEndDate: state => state.conferenceEndDate,
   },
   mutations: {
     config( state, config ) {
@@ -24,6 +28,8 @@ export default {
         (ret, session) => ({ ...ret, [session.id]: session}),
         {}
       )
+      state.conferenceStartDate = (config && config.conferenceStartDate) || null
+      state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
       ;['apply', 'register', 'login'].forEach( k => {

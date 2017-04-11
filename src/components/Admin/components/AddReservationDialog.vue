@@ -16,6 +16,14 @@
 
     <div class="reservation">
       <h4>预订信息</h4>
+      <ul class="note">
+        <li v-if="conferenceStartDate && conferenceEndDate">
+          本次会议时间为
+          <code class="date">{{conferenceStartDate}}</code>
+          至
+          <code class="date">{{conferenceEndDate}}</code>
+        </li>
+      </ul>
       <el-form label-width="108px" label-position="right">
         <el-form-item label="酒店"> {{ hotel ? hotel.name: '' }} </el-form-item>
         <el-form-item label="房型"> {{ hotel ? hotel.type: '' }} </el-form-item>
@@ -51,11 +59,18 @@
 <script>
 import HotelStock from '../../School/components/HotelStock'
 import { toDateString, between as dateBetween} from 'lib/date-util'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'add-reservation-dialog',
   components: {
     HotelStock
+  },
+  computed: {
+    ... mapGetters({
+      conferenceStartDate: 'config/conferenceStartDate',
+      conferenceEndDate: 'config/conferenceEndDate',
+    }),
   },
   data: () => ({
     hotel: null,
@@ -112,4 +127,10 @@ export default {
     margin-bottom: .5em
 .el-form-item
   margin-bottom: 0
+.note
+  white-space: nowrap
+  color: #475669
+  font-size: 14px
+  .amount, .date
+    font-weight: bolder
 </style>

@@ -19,7 +19,7 @@
       <el-table :data="reservations">
         <el-table-column prop="hotel.name" label="酒店" min-width="240" sortable />
         <el-table-column prop="hotel.type" label="房型" width="180" sortable />
-        <el-table-column prop="period" label="入住时间" min-width="260">
+        <el-table-column prop="period" label="入住时间" min-width="270">
           <template scope="scope">
             <el-date-picker
               v-model="scope.row.period"

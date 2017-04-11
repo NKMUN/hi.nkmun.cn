@@ -2,15 +2,22 @@
   <div class="system-config" v-loading.body="!config">
     <h3>全局设置</h3>
     <template v-if="config">
-      <el-form label-position="right" class="form">
-        <el-form-item>
-          <el-checkbox v-model="config.apply" :disabled="busy">报名</el-checkbox>
+      <el-form label-position="right" label-width="10ch" class="form">
+        <el-form-item label="报名">
+          <el-checkbox v-model="config.apply" :disabled="busy" />
         </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="config.register" :disabled="busy">注册</el-checkbox>
+        <el-form-item label="代表注册">
+          <el-checkbox v-model="config.register" :disabled="busy" />
         </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="config.login" :disabled="busy">登录</el-checkbox>
+        <el-form-item label="代表登陆">
+          <el-checkbox v-model="config.login" :disabled="busy" />
+        </el-form-item>
+        <el-form-item label="会议日期">
+          <el-date-picker
+            v-model="period"
+            type="daterange"
+            :disabled="busy"
+          />
         </el-form-item>
       </el-form>
       <el-button
@@ -25,6 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { toDateString } from 'lib/date-util'
 
 export default {
   name: 'global-config',
@@ -35,7 +43,8 @@ export default {
   },
   data: () => ({
     config: null,
-    busy: false
+    busy: false,
+    period: null,
   }),
   methods: {
     async fetch() {
@@ -46,8 +55,9 @@ export default {
         this.config = {
           register: body.register,
           apply: body.apply,
-          login: body.login
+          login: body.login,
         }
+        this.period = [body.conferenceStartDate, body.conferenceEndDate]
       } catch(e) {
         this.$notify({
           type: 'error',
@@ -64,7 +74,11 @@ export default {
           body
         } = await this.$agent.put('/api/config/config')
                   .set( ... this.authorization )
-                  .send( this.config )
+                  .send({
+                    ... this.config,
+                    conferenceStartDate: toDateString(this.period[0]),
+                    conferenceEndDate: toDateString(this.period[1]),
+                  })
         this.config = body
         this.$store.commit('config/update', body)
         this.$notify({
