@@ -13,7 +13,7 @@
             :max="20"
             :disabled="disabled"
             @change="checkAndEmit(session.id, session.dual)"
-            :step="session.dual ? 2 : 1"
+            :step="(checkDual && session.dual) ? 2 : 1"
             size="small"
           />
         </td>
@@ -31,6 +31,7 @@ export default {
     value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
+    checkDual: { type: Boolean, default: true },
   },
   data: () => ({
     created: false,
@@ -39,7 +40,7 @@ export default {
   methods: {
     checkAndEmit(id, dual) {
       this.$nextTick( () => {
-        if ( dual && (this.M[id] % 2 !== 0) )
+        if ( this.checkDual && dual && (this.M[id] % 2 !== 0) )
           this.M[id] = this.M[id] - 1
         this.$emit('input', this.M)
         this.$emit('change', this.M)

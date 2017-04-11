@@ -1,11 +1,13 @@
 <template>
   <div>
     <h4 v-if="title">{{ title }}</h4>
+    <!-- admin can bypass dual session requirement -->
     <SeatInput
       class="seat-input"
       :value="value"
       :sessions="sessions"
       :disabled="disabled"
+      :checkDual="false"
       @input="emit"
       @change="emit"
     />

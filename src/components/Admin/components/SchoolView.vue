@@ -27,6 +27,17 @@
         />
       </div>
 
+      <div v-if="school.stage==='1.exchange'" class="controls end-exchange">
+        <el-button
+          type="warning"
+          :busy="busy"
+          @click="endExchange"
+        >
+          <icon class="el-icon-" name="exclamation-triangle" style="vertical-align: bottom;" />
+          强制结束名额交换
+        </el-button>
+      </div>
+
       <ReservationUpdater
         title="酒店预订"
         :value="reservations"
@@ -48,6 +59,8 @@ import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
 import ReservationUpdater from './ReservationUpdater'
+import Icon from 'vue-awesome/components/Icon'
+import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
   name: 'school-view',
@@ -55,7 +68,8 @@ export default {
     SchoolBrief,
     SeatUpdater,
     NukeSchoolButton,
-    ReservationUpdater
+    ReservationUpdater,
+    Icon,
   },
   props: {
     sessions: { type: Array, default: () => [] },
@@ -129,11 +143,13 @@ export default {
           message: '已更新 '+this.school.school.name,
           duration: 5000
         })
+        return true
       } catch(e) {
         this.notifyError(e, '更新失败')
       } finally {
         this.busy = false
       }
+      return false
     },
     async nuke() {
       this.busy = true
@@ -214,6 +230,39 @@ export default {
       } finally {
         this.busy = false
       }
+    },
+    async endExchange() {
+      this.busy = true
+      try {
+        if ( ! await this.patch('seat.1', this.school.seat['1']) )
+          return
+        let {
+          ok,
+          status
+        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
+                  .send({ confirmExchange: true })
+                  .set( ... this.authorization )
+                  .ok( ({ok, status}) => ok || status === 410 )
+        if (status === 410) {
+          this.$notify({
+            type: 'warning',
+            title: '未能确认名额交换',
+            message: '双代会场没有偶数名额，请刷新页面！'
+          })
+          await this.fetch()
+        } else if (ok) {
+          this.$notify({
+            type: 'success',
+            title: '名额交换已确认',
+            duration: 5000
+          })
+          await this.fetch()
+        }
+      } catch(e) {
+        this.notifyError(e, '未能强制结束交换')
+      } finally {
+        this.busy = false
+      }
     }
   },
   mounted() {
@@ -236,4 +285,7 @@ export default {
   flex-horz: center flex-start
 .reviewer
   padding-bottom: 3em
+.end-exchange
+  text-align: center
+  margin-top: 1em
 </style>
