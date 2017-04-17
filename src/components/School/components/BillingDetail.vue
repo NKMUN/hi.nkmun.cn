@@ -44,6 +44,7 @@ export default {
       let {
         body
       } = await this.$agent('/api/schools/'+this.school+'/billing')
+                .query({ round: this.round })
                 .set( ... this.authorization )
 
       body.sort( byTypeThenName )

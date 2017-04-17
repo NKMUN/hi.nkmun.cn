@@ -5,14 +5,14 @@
 
       <SchoolBrief class="brief" :data="school" />
 
+      <hr/>
       <BillingDetail
         class="billing"
         v-if="id"
         :school="id"
         :round="round"
       />
-
-      <PaymentList :payments="payments || []" v-loading="!payments" />
+      <PaymentList :payments="paymentsCurrent || []" v-loading="!payments" />
 
       <div class="controls" v-if="school && school.stage.endsWith('.paid')">
         <el-button-group>
@@ -36,6 +36,15 @@
         </el-button-group>
       </div>
 
+      <template v-if="Number(round) >= 2">
+        <hr/>
+        <BillingDetail
+          class="billing"
+          :school="id"
+          :round="'1'"
+        />
+        <PaymentList :payments="paymentsPrevious || []" />
+      </template>
     </template>
 
   </div>
@@ -46,6 +55,7 @@ import { mapGetters } from 'vuex'
 import BillingDetail from '../../School/components/BillingDetail'
 import SchoolBrief from './SchoolBrief'
 import PaymentList from './PaymentList'
+import roundText from 'lib/round-text'
 
 export default {
   name: 'payment-review',
@@ -63,6 +73,12 @@ export default {
     }),
     round() {
       return this.school && this.school.stage ? this.school.stage[0] || '1' : '1'
+    },
+    paymentsCurrent() {
+      return (this.payments || []).filter( $ => $.round === this.round )
+    },
+    paymentsPrevious() {
+      return (this.payments || []).filter( $ => Number($.round) < Number(this.round) )
     }
   },
   data: () => ({
@@ -96,7 +112,7 @@ export default {
               .then( res => res.body )
           ])
           this.school = school
-          this.payments = payments.filter( $ => $.round === this.school.stage[0] )
+          this.payments = payments
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
@@ -165,6 +181,9 @@ export default {
       this.$emit('next', this.id)
     },
   },
+  filters: {
+    roundText
+  },
   mounted() {
     return this.fetch()
   },
@@ -178,7 +197,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../../style/flex"
-h3
+h3, h4
   text-align: center
 .billing
   display: block
@@ -191,4 +210,9 @@ h3
   text-align: center
 .reviewer
   padding-bottom: 3em
+hr
+  border-width: 1px
+  border-style: solid
+  border-color: #C0CCDA
+  margin: 2rem 0
 </style>

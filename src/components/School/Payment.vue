@@ -2,7 +2,12 @@
   <div class="payment">
     <h3>{{round | roundText}}缴费</h3>
 
-    <BillingDetail class="payment-detail" :school="school" round="1" @loaded="billingLoaded=true" />
+    <BillingDetail
+      class="payment-detail"
+      :school="school"
+      :round="round"
+      @loaded="billingLoaded=true"
+    />
 
     <PaymentMethods class="payment-methods" v-if="billingLoaded" />
 

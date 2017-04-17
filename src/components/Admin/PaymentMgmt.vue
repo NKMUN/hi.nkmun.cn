@@ -17,7 +17,6 @@
         slot="reviewer"
         ref="reviewer"
         :id="props.id"
-        :round="round"
         @next="$refs.reviewControl.handleNext"
         @processed="$refs.reviewControl.handleProcessed"
       />
@@ -34,7 +33,7 @@ import ReviewControl from './ReviewControl'
 import PaymentReview from './components/PaymentReview'
 
 export default {
-  name: 'payment-review',
+  name: 'payment-mgmt',
   components: {
     Precondition,
     ReviewControl,
@@ -42,7 +41,6 @@ export default {
   },
   props: {
     id: { type: String, default: '' },
-    round: {type: String, default: '1' }
   },
   computed: {
     ... mapGetters({
