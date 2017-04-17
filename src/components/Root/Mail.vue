@@ -39,6 +39,7 @@
           <li>邮件模版需要为有效HTML文档</li>
           <li>用<code>{school}</code>表示学校</li>
           <li>用<code>{code}</code>表示邀请码</li>
+          <li>用<code>{reason}</code>表示缴费审核不通过的理由</li>
         </ul>
       </div>
 
