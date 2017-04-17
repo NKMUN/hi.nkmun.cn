@@ -3,7 +3,7 @@
     <el-table v-loading="!detail" :data="detail||[]">
       <el-table-column prop="type" label="类别" width="120" />
       <el-table-column prop="name" label="项目" min-width="240" />
-      <el-table-column prop="amount" label="数量" />
+      <el-table-column prop="amount" label="数量/天数" />
       <el-table-column prop="price" label="单价" />
       <el-table-column prop="sum" label="总价" />
     </el-table>
