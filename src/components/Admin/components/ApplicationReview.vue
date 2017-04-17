@@ -8,7 +8,7 @@
         class="application-card"
       />
 
-      <NukeApplicationButton :repeat="application.school.name" @click="nuke" v-show="!loading && !application.processed" />
+      <NukeApplicationButton :repeat="application.school.name" @click="nuke" v-show="!loading" />
 
       <SeatInput
         v-show="!loading"
@@ -37,6 +37,22 @@
           @click="updateAndNext"
         > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
       </el-button-group>
+
+      <el-button-group class="controls" v-show="!loading && application.processed">
+        <el-button
+          v-if="application.processed && !application.registered"
+          type="success"
+          :loading="busy"
+          icon="message"
+          @click="sendInvitation"
+        > 重发邀请 </el-button>
+        <el-button
+          type="info"
+          :loading="busy"
+          @click="next"
+        > 下一个 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+      </el-button-group>
+
     </template>
   </div>
 </template>
@@ -137,6 +153,9 @@ export default {
           this.$emit('next', this.id)
         })
       }
+    },
+    async next() {
+      this.$emit('next', this.id)
     },
     async sendInvitation() {
       if ( ! await this.update(true) )
