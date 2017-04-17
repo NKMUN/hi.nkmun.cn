@@ -56,12 +56,14 @@ export default {
   },
   props: {
     id: { type: String, default: null },
-    round: { type: String, default: '1' },
   },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'
     }),
+    round() {
+      return this.school && this.school.stage ? this.school.stage[0] || '1' : '1'
+    }
   },
   data: () => ({
     busy: false,

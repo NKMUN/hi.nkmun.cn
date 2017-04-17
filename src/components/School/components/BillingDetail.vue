@@ -8,7 +8,7 @@
       <el-table-column prop="sum" label="总价" />
     </el-table>
     <h4 v-if="!detail">正在获取应付款信息……</h4>
-    <h4 v-if="detail">总计应缴费：<b>CNY ¥{{ total }}</b></h4>
+    <h4 v-if="detail">{{round | roundText}}应缴费：<b>CNY ¥{{ total }}</b></h4>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ function byTypeThenName(a,b) {
 }
 
 import { mapGetters } from 'vuex'
+import roundText from 'lib/round-text'
 export default {
   name: 'billing-detail',
   computed: {
@@ -35,6 +36,9 @@ export default {
   data: () => ({
     detail: null,
   }),
+  filters: {
+    roundText
+  },
   async mounted() {
     try {
       let {
