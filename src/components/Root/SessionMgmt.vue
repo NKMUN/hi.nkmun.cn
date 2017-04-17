@@ -122,6 +122,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import sessionTypes from 'lib/session-types'
 
 const keys = Object.keys
 
@@ -142,7 +143,7 @@ export default {
     busy: false,
     sessions: null,
     serverSessions: null,
-    sessionTypes: ['中文', '英文', '特别会场', '其他'],
+    sessionTypes,
     validation: null,
     showValidationAlert: false
   }),
