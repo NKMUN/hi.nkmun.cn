@@ -94,7 +94,7 @@ export default {
               .then( res => res.body )
           ])
           this.school = school
-          this.payments = payments
+          this.payments = payments.filter( $ => $.round === this.school.stage[0] )
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
