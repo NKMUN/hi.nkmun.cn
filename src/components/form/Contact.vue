@@ -56,7 +56,7 @@
       prop="email"
       :rules="[
         { required: true, message: '请输入邮箱', trigger: 'blur' },
-        { type: 'email',  message: '邮箱格式不正确', trigger: 'blur' },
+        { type: 'string', pattern: emailRegex, message: '邮箱格式不正确', trigger: 'blur' },
         { type: 'string', pattern: emailDomainRegexp, message: '请检查邮箱后缀。建议使用QQ、163、126、Outlook等常用邮箱。', trigger: 'blur' }
       ]"
     >
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import emailRegex from 'email-regex'
 export default {
   name: 'contact-form',
   props: {
@@ -83,6 +84,7 @@ export default {
   },
   data: () => ({
     emailDomainRegexp: /\.(cn|com|net|org|edu)$/i,
+    emailRegex: emailRegex(),
     name: null,
     gender: null,
     phone: null,
