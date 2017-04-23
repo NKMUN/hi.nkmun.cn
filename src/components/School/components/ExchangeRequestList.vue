@@ -117,7 +117,7 @@ export default {
           duration: 0
         })
       } finally {
-        this.fetchRequests()
+        await this.fetchRequests()
         this.busy = false
       }
     },
@@ -138,7 +138,6 @@ export default {
           duration: 5000
         })
       } catch(e) {
-        this.fetchRequests()
         this.$notify({
           type: 'error',
           title: '未能处理请求',
@@ -147,6 +146,7 @@ export default {
         })
       } finally {
         this.busy = false
+        await this.fetchRequests()
       }
     }
   },
