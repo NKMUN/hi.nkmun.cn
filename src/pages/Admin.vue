@@ -13,6 +13,7 @@
         <el-menu-item index="/admin/second-round/"> 二轮分配 </el-menu-item>
         <el-menu-item index="/admin/schools/"> 学校管理 </el-menu-item>
         <el-menu-item index="/admin/overview/seat"> 名额分配总览 </el-menu-item>
+        <el-menu-item index="/admin/overview/stage"> 学校状态总览 </el-menu-item>
       </el-menu>
 
       <el-button
