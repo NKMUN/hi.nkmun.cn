@@ -1,6 +1,6 @@
 <template>
   <el-form :class="className" label-position="top">
-    <el-form-item label="领队由参会代表兼任：">
+    <el-form-item label="领队由代表、指导教师或主席兼任：">
       <!--
         use el-radio to avoid a possible edge case in el-select
         this problem can not be reliably reproduced!
