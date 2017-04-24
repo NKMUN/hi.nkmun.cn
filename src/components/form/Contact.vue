@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import emailRegex from 'email-regex'
+const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export default {
   name: 'contact-form',
   props: {
@@ -83,8 +83,8 @@ export default {
     labelWidth: { type: String, default: '72px' }
   },
   data: () => ({
+    emailRegex,
     emailDomainRegexp: /\.(cn|com|net|org|edu)$/i,
-    emailRegex: emailRegex(),
     name: null,
     gender: null,
     phone: null,
