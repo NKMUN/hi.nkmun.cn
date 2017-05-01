@@ -55,20 +55,21 @@ export default {
   },
   methods: {
     handleSelect(id) {
-      this.$router.push(id)
+      id = id ? id+'/' : ''
+      this.$router.push( this.id ? '../'+id : id )
     },
     handleNext(id) {
       let listPending = this.groups[0].list
       let nextIdx = listPending.findIndex( $ => $.id === id ) + 1
       if (nextIdx < listPending.length) {
-        this.$router.push(listPending[nextIdx].id)
+        this.handleSelect(list[nextIdx].id)
       } else {
         this.$notify({
           type: 'info',
           title: '没有更多的待处理项目',
           duration: 5000
         })
-        this.$router.push('./')
+        this.$router.push('')
       }
     },
     handleProcessed(id) {
