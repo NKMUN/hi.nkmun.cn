@@ -27,6 +27,15 @@
         />
       </div>
 
+      <div class="leader-type">
+        <LeaderAttendance
+          v-show="!loading"
+          @change="setLeaderAttend"
+          :value="leaderAttend"
+          :disabled="Number(round)>=3 || busy"
+        />
+      </div>
+
       <div v-if="school.stage==='1.exchange'" class="controls end-exchange">
         <el-button
           type="warning"
@@ -48,6 +57,18 @@
         @add="addReservation"
       />
 
+      <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
+        <el-checkbox v-model="enableStartConfirm">信息录入</el-checkbox>
+        <p class="note">开始信息录入后，不能修改会场名额、领队参会、酒店预订信息！</p>
+        <el-button
+          type="primary"
+          icon="document"
+          :disabled="!enableStartConfirm"
+          :busy="busy"
+          @click="startConfirm"
+        >开始信息录入</el-button>
+      </div>
+
     </template>
   </div>
 </template>
@@ -60,6 +81,7 @@ import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
 import ReservationUpdater from './ReservationUpdater'
 import Icon from 'vue-awesome/components/Icon'
+import LeaderAttendance from '../../form/LeaderAttendance'
 import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
@@ -67,6 +89,7 @@ export default {
   components: {
     SchoolBrief,
     SeatUpdater,
+    LeaderAttendance,
     NukeSchoolButton,
     ReservationUpdater,
     Icon,
@@ -85,14 +108,21 @@ export default {
     disableModification() {
       // certain stage does not allow modification
       let stage = (this.school && this.school.stage) || ''
-      return !stage || stage.endsWith('.paid') || stage.endsWith('complete')
+      return !stage || stage.endsWith('.paid') || stage.endsWith('complete') || stage==='3.confirm'
+    },
+    leaderAttend() {
+      return this.school && this.school.seat && this.school.seat['1'] && (
+           this.school.seat['1']['_leader_r'] >= 1
+        || !this.school.seat['1']['_leader_nr']
+      )
     }
   },
   data: () => ({
     busy: false,
     loading: true,
     school: null,
-    reservations: null
+    reservations: null,
+    enableStartConfirm: false,
   }),
   methods: {
     notifyError(e, title='操作失败') {
@@ -263,6 +293,55 @@ export default {
       } finally {
         this.busy = false
       }
+    },
+    async setLeaderAttend(value) {
+      if (value === this.leaderAttend)
+        return
+      try {
+        let {
+          ok,
+          body
+        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
+                  .set( ... this.authorization )
+                  .send({ leaderAttend: value })
+        this.school = {
+          ... this.school,
+          seat: body
+        }
+        this.$notify({
+          type: 'success',
+          title: '已修改领队参会标记',
+          duration: 5000
+        })
+      } catch(e) {
+        this.notifyError(e, '未能设置领队参会标记')
+      } finally {
+        this.busy = false
+      }
+    },
+    async startConfirm() {
+      try {
+        let {
+          ok,
+          body
+        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
+                  .set( ... this.authorization )
+                  .send({ startConfirm: true })
+        this.school = {
+          ... this.school,
+          seat: body,
+          stage: '3.confirm'
+        }
+        this.$notify({
+          type: 'success',
+          title: '已开放信息录入 '+this.school.school.name,
+          duration: 5000
+        })
+      } catch(e) {
+        this.notifyError(e, '未能开放信息录入')
+      } finally {
+        this.busy = false
+      }
     }
   },
   mounted() {
@@ -288,4 +367,14 @@ export default {
 .end-exchange
   text-align: center
   margin-top: 1em
+.leader-type
+  text-align: center
+  margin-top: 1em
+.start-confirm
+  text-align: center
+  margin-top: 2em
+.note
+  white-space: nowrap
+  color: #475669
+  font-size: 14px
 </style>

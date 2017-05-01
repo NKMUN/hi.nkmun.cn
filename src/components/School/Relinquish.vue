@@ -31,7 +31,7 @@
       size="large"
       type="primary"
       :disabled="leaderAttend!==true && leaderAttend!==false"
-      :loading="(leaderAttend===true || leaderAttend===false) && busy"
+      :loading="busy"
       @click="confirm"
     > 确认名额 </el-button>
 

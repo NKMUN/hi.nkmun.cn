@@ -23,7 +23,7 @@
 
 
 <script>
-import GroupedNavList from '../GroupedNavList.vue'
+import GroupedNavList from './GroupedNavList.vue'
 
 export default {
   name: 'list-view-control',
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "../../style/flex"
+@import "../style/flex"
 .wrap
   flex-horz: flex-start stretch
   overflow: hidden

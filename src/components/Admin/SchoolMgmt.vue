@@ -31,7 +31,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Precondition from 'components/Precondition'
-import ListViewControl from './ListViewControl'
+import ListViewControl from '../ListViewControl'
 import SchoolView from './components/SchoolView'
 
 export default {
