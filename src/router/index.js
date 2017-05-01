@@ -39,6 +39,9 @@ const Exchange    = r => require.ensure([], () => r(require('components/School/E
 const Reservation = r => require.ensure([], () => r(require('components/School/Reservation.vue')), 'school')
 const Payment     = r => require.ensure([], () => r(require('components/School/Payment.vue')),  'school')
 
+// Representative mgmt, used by school and admin
+const RepresentativeMgmt = r => require.ensure([], () => r(require('components/Admin/RepresentativeMgmt.vue')), 'representative')
+
 export default new Router({
   routes: [
     { path: '/', component: Index },
@@ -64,6 +67,9 @@ export default new Router({
           { path: 'second-round/:id', component: SecondRoundMgmt, props: true },
           { path: 'overview/seat', component: SeatOverview },
           { path: 'overview/stage', component: StageOverview },
+          { path: 'representatives/', component: RepresentativeMgmt },
+          { path: 'representatives/:school', component: RepresentativeMgmt, props: true },
+          { path: 'representatives/:school/:id', component: RepresentativeMgmt, props: true },
       ]
     },
     { path: '/school/', component: School,
