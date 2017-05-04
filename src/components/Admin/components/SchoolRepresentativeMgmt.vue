@@ -15,6 +15,7 @@
         ref="reviewer"
         :id="props.id"
         :school="school"
+        :leaderEditable="leaderEditable"
         @next="$refs.control.handleNext"
       />
     </template>
@@ -43,7 +44,12 @@ export default {
   computed: {
     ... mapGetters({
       authorization: 'user/authorization',
-    })
+    }),
+    leaderEditable() {
+      if (this.representatives)
+        return !this.representatives.find( $ => $.session === '_leader_nr' )
+      return true
+    },
   },
   data: () => ({
     representatives: null

@@ -30,7 +30,9 @@
           <el-menu-item v-if="stage === '2.payment'"
                         index="/school/payment/"> 二轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '3.confirm'"
-                        index="/school/confirm/"> 信息确认 </el-menu-item>
+                        index="/school/representatives/"> 代表信息 </el-menu-item>
+          <el-menu-item v-if="stage === '3.confirm'"
+                        index="/school/confirm/"> 确认 </el-menu-item>
         </el-menu>
 
         <el-button
@@ -136,6 +138,10 @@ export default {
     flex-grow: 1
     flex-shrink: 0
     padding-bottom: 3em
+    &.stretch
+      padding-bottom: 0
+      flex-shrink: 1
+      flex-grow: 1
   .overview
     flex-vert: flex-start center
     margin-top: 2em

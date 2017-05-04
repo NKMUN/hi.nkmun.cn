@@ -1,10 +1,22 @@
 <template>
-  <div class="reviewer" v-loading="id && (!representative || loading)">
+  <div class="reviewer" v-loading.lock.body="id && (!representative || loading)">
+
     <template v-if="representative">
 
-      <!-- TOOD: impl representative view -->
-      <!-- should be a component that takes representativeModel as v-model -->
-      <div class="representative-card"></div>
+      <ul class="hint">
+        <li>非大陆地区手机号：请加上国家前缀<br/>如：+8860933000000</li>
+        <li>如使用其它证件，请在备注中说明证件类型</li>
+      </ul>
+
+      <RepresentativeInfo
+        v-model="representativeModel"
+        @change="dirty=true"
+        class="representative-info"
+        :disabled="busy"
+        :leaderEditable="leaderEditable"
+        :isAdult="isAdult"
+        :session="this.representative ? this.representative.session.id : ''"
+      />
 
       <div class="controls">
         <el-button
@@ -20,26 +32,50 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import RepresentativeInfo from '../../form/Representative'
+
+const pluck = (obj, ...fields) => {
+  let ret = {}
+  fields.forEach( key => ret[key] = obj[key] )
+  return ret
+}
+
+const pluckRepresentativeFields = (r) => pluck(
+  r,
+  'contact',
+  'graduation_year',
+  'identification',
+  'is_leader',
+  'guardian',
+  'guardian_identification'
+)
 
 export default {
   name: 'representative-view',
   components: {
+    RepresentativeInfo
   },
   props: {
     showWithdraw: { type: Boolean, default: false },
     id: { type: String, default: null },
     school: { type: String, default: null },
+    leaderEditable: { type: Boolean, default: true },
   },
   computed: {
     ... mapGetters({
       authorization: 'user/authorization'
     }),
+    isAdult() {
+      // TODO: make it configurable on server, either:
+      // 1. make teacher/supervisor a reserved (internal) session
+      // 2. add isAdult flag to session
+      return this.representative.session.id === 'teacher'
+          || this.representative.session.id === 'supervisor'
+          || this.representative.session.id === '_supervisor'
+    },
     representativeModel: {
       get() {
-        const r = this.representative
-        return {
-
-        }
+        return pluckRepresentativeFields(this.representative)
       },
       set(val) {
         this.representative = {
@@ -93,12 +129,12 @@ export default {
           ok,
           status,
           body
-        } = await this.$agent.patch('/api/schools/'+this.school+'/'+this.id)
+        } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
                              .set( ... this.authorization )
                              .send( this.representativeModel )
         this.dirty = false
         this.representative = body
-        this.representativeModel = getRepresentativeModel(this.representative)
+        console.log(this.representative)
         if (!silent) {
           this.$notify({
             type: 'success',
@@ -135,7 +171,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.representative-card, .controls
+.controls, .hint
   display: table
   margin: 1em auto
+.hint
+  text-align: left
+  font-size: 90%
+  color: #8492A6
+  li
+    margin: .25em 0
+  b
+    font-weight: normal
+    text-decoration: underline
 </style>
