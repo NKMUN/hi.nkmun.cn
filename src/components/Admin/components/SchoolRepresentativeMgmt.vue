@@ -16,6 +16,7 @@
         :id="props.id"
         :school="school"
         :leaderEditable="leaderEditable"
+        :showWithdraw="showWithdraw"
         @next="$refs.control.handleNext"
       />
     </template>
@@ -44,12 +45,16 @@ export default {
   computed: {
     ... mapGetters({
       authorization: 'user/authorization',
+      access: 'user/access',
     }),
     leaderEditable() {
       if (this.representatives)
         return !this.representatives.find( $ => $.session === '_leader_nr' )
       return true
     },
+    showWithdraw() {
+      return this.access.indexOf('admin') !== -1
+    }
   },
   data: () => ({
     representatives: null
@@ -87,7 +92,6 @@ export default {
   },
   watch: {
     school() {
-      console.log('school change')
       this.fetch()
     }
   }

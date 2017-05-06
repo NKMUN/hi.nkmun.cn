@@ -40,7 +40,7 @@
       prop="phone"
       :rules="[
         { required: true, message: '请输入监护人的手机号', trigger: 'blur' },
-        { pattern: /^1[34578]\d{9}$/, message: '请输入监护人的手机号', trigger: 'blur' },
+        { pattern: /^(1[34578]\d{9}|\+\d{11,})$/, message: '请输入监护人的手机号', trigger: 'blur' },
       ]"
     >
       <el-input

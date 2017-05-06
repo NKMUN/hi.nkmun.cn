@@ -63,7 +63,7 @@ export default {
         case 'mainland': return [ REQUIRED, MAINLAND_RESIDENCE_ID ]
         case 'sar':      return [ REQUIRED, {type: 'string', pattern: /^[HMhm]{1}([0-9]{10}|[0-9]{8})$/, message: '证件号不正确', trigger: 'blur'} ]
         case 'taiwan':   return [ REQUIRED, {type: 'string', pattern: /^([0-9]{10}|[0-9]{8})$/, message: '证件号不正确', trigger: 'blur'} ]
-        case 'passport': return [ REQUIRED, {type: 'string', pattern: /^[a-zA-Z]{5,17}$/, message: '证件号不正确', trigger: 'blur'} ]
+        case 'passport': return [ REQUIRED, {type: 'string', pattern: /^[a-zA-Z0-9_\-]+$/, message: '证件号不正确', trigger: 'blur'} ]
         default: return [ REQUIRED ]
       }
     },

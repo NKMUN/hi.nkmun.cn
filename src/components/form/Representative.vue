@@ -68,7 +68,7 @@
       />
       <IdentificationForm
         ref="guardian-identification"
-        v-model="guardianIdentification"
+        v-model="guardian_identification"
         class="form small"
         :label-width="labelWidth"
         :disabled="disabled"
@@ -135,9 +135,8 @@ export default {
     graduation_year: null,
     identification: null,
     guardian: null,
-    guardianIdentification: null,
+    guardian_identification: null,
     is_leader: null,
-
   }),
   methods: {
     emit() {
@@ -148,7 +147,7 @@ export default {
           identification: this.identification,
           is_leader: this.is_leader,
           guardian: this.guardian,
-          guardianIdentification: this.guardianIdentification,
+          guardian_identification: this.guardian_identification,
         }
         this.$emit('input', M)
         this.$emit('change', M)
@@ -167,7 +166,7 @@ export default {
       this.graduation_year = (value && value.graduation_year) || null
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
-      this.guardianIdentification = (value && value.guardianIdentification) || {}
+      this.guardian_identification = (value && value.guardian_identification) || {}
       this.is_leader = value && value.is_leader
     }
   },

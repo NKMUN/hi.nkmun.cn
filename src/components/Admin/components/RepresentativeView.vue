@@ -1,7 +1,7 @@
 <template>
   <div class="reviewer" v-loading.lock.body="id && (!representative || loading)">
 
-    <template v-if="representative">
+    <template v-if="id && representative">
 
       <ul class="hint">
         <li>非大陆地区手机号：请加上国家前缀<br/>如：+8860933000000</li>
@@ -16,7 +16,16 @@
         :leaderEditable="leaderEditable"
         :isAdult="isAdult"
         :session="this.representative ? this.representative.session.id : ''"
+        ref="form"
       />
+
+      <div class="controls" v-if="showWithdraw">
+        <el-checkbox
+          v-model="representative.withdraw"
+          @input="emit"
+          :disabled="!leaderEditable"
+        > 该代表放弃参会 </el-checkbox>
+      </div>
 
       <div class="controls">
         <el-button
@@ -35,6 +44,8 @@ import { mapGetters } from 'vuex'
 import RepresentativeInfo from '../../form/Representative'
 
 const pluck = (obj, ...fields) => {
+  if (!obj)
+    return {}
   let ret = {}
   fields.forEach( key => ret[key] = obj[key] )
   return ret
@@ -63,15 +74,17 @@ export default {
   },
   computed: {
     ... mapGetters({
-      authorization: 'user/authorization'
+      authorization: 'user/authorization',
     }),
     isAdult() {
       // TODO: make it configurable on server, either:
       // 1. make teacher/supervisor a reserved (internal) session
       // 2. add isAdult flag to session
-      return this.representative.session.id === 'teacher'
-          || this.representative.session.id === 'supervisor'
-          || this.representative.session.id === '_supervisor'
+      return (this.representative && this.representative.session)
+          && ( this.representative.session.id === 'teacher'
+            || this.representative.session.id === 'supervisor'
+            || this.representative.session.id === '_supervisor'
+          )
     },
     representativeModel: {
       get() {
@@ -108,6 +121,8 @@ export default {
             body
           } = await this.$agent.get('/api/schools/'+this.school+'/representatives/'+this.id)
                                .set( ... this.authorization )
+          if (this.$refs.form)
+            this.$refs.form.reset()
           this.representative = body
         } catch(e) {
           this.notifyError(e, '获取失败')
@@ -134,7 +149,6 @@ export default {
                              .send( this.representativeModel )
         this.dirty = false
         this.representative = body
-        console.log(this.representative)
         if (!silent) {
           this.$notify({
             type: 'success',

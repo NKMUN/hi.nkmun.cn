@@ -31,7 +31,7 @@
                         index="/school/payment/"> 二轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '3.confirm'"
                         index="/school/representatives/"> 代表信息 </el-menu-item>
-          <el-menu-item v-if="stage === '3.confirm'"
+          <el-menu-item v-if="stage === '3.confirm' || stage === '9.complete'"
                         index="/school/confirm/"> 确认 </el-menu-item>
         </el-menu>
 

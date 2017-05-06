@@ -40,6 +40,7 @@ const Exchange    = r => require.ensure([], () => r(require('components/School/E
 const Reservation = r => require.ensure([], () => r(require('components/School/Reservation.vue')), 'school')
 const Payment     = r => require.ensure([], () => r(require('components/School/Payment.vue')),  'school')
 const Representative = r => require.ensure([], () => r(require('components/School/Representative.vue')),  'school-confirm')
+const Confirm        = r => require.ensure([], () => r(require('components/School/Confirm.vue')),  'school-confirm')
 
 export default new Router({
   routes: [
@@ -85,6 +86,7 @@ export default new Router({
         { path: 'payment', component: Payment },
         { path: 'representatives', component: Representative },
         { path: 'representatives/:id', component: Representative, props: true },
+        { path: 'confirm', component: Confirm },
       ]
     },
     { path: '/root/', component: Root,
