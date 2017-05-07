@@ -33,6 +33,7 @@ const SecondRoundMgmt = r => require.ensure([], () => r(require('components/Admi
 const SeatOverview    = r => require.ensure([], () => r(require('components/Admin/SeatOverview.vue')),  'admin')
 const StageOverview    = r => require.ensure([], () => r(require('components/Admin/StageOverview.vue')),  'admin')
 const RepresentativeMgmt = r => require.ensure([], () => r(require('components/Admin/RepresentativeMgmt.vue')), 'admin')
+const UserMgmt = r => require.ensure([], () => r(require('components/Admin/UserMgmt.vue')),  'admin')
 
 // School mgmt pages
 const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
@@ -70,6 +71,7 @@ export default new Router({
           { path: 'representatives/', component: RepresentativeMgmt },
           { path: 'representatives/:school', component: RepresentativeMgmt, props: true },
           { path: 'representatives/:school/:id', component: RepresentativeMgmt, props: true },
+          { path: 'users/', component: UserMgmt },
       ]
     },
     { path: '/school/', component: School,

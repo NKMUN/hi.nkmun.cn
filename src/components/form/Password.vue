@@ -55,11 +55,12 @@ export default {
       passwordValidator: [{
         trigger: 'blur',
         validator: (r, v, cb)  => {
-          if ( typeof v !== 'string' || v.length === 0 )
+          const password = this.password
+          if ( typeof password !== 'string' || password.length === 0 )
             return cb([ new Error('请输入密码') ])
-          if (v.length < 6)
+          if (password.length < 6)
             return cb([ new Error('密码至少为6个字符') ])
-          if (v.length >20)
+          if (password.length >20)
             return cb([ new Error('密码最多为20个字符') ])
           cb([ ])
         }
@@ -67,20 +68,24 @@ export default {
       passwordConfirmValidator: [{
         trigger: 'blur',
         validator: (r, v, cb, s) => {
-          if ( typeof v !== 'string' || v.length === 0 )
+          const password = this.password
+          const passwordConfirm = this.passwordConfirm
+          if ( typeof passwordConfirm !== 'string' || passwordConfirm.length === 0 )
             return cb([ new Error('请重复上面输入的密码') ])
-          if (this.password !== v)
+          if (this.password !== passwordConfirm)
             return cb([ new Error('两次输入的密码不一致') ])
           cb([ ])
-        },
-        options: {
-          opts: 1
         }
       }]
     }
   },
   computed: {
-    M() { return { password: this.password, passwordConfirm: this.passwordConfirm } }
+    M() {
+      return {
+        password: this.password,
+        passwordConfirm: this.passwordConfirm
+      }
+    }
   },
   methods: {
     emit(value) {
@@ -92,6 +97,10 @@ export default {
     reset() {
       this.setValue(null)
       this.emit()
+    },
+    clear() {
+      this.passwordConfirm = null
+      this.setValue(null)
     },
     validate() {
       return new Promise( resolve => {
