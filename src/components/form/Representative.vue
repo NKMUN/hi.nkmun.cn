@@ -99,7 +99,7 @@ import GuardianForm from './Guardian'
 import SessionUtils from '../../lib/session-utils'
 
 export default {
-  name: 'registration-form',
+  name: 'representative-form',
   components: {
     ContactForm,
     GraduationForm,

@@ -8,7 +8,7 @@
     <el-form-item
       label="关系"
       prop="type"
-      :rules="[{ required: true, message: '请选择监护人关系', trigger: 'blur' }]"
+      :rules="[{ required: true, message: '请选择监护人关系', trigger: 'change' }]"
     >
       <el-select v-model="type" @change="emit" class="el-input">
         <el-option label="父" value="father" />
@@ -101,7 +101,7 @@ export default {
       this.type = (value && value.type) || null
       this.name = (value && value.name) || null
       this.phone = (value && value.phone) || null
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

@@ -8,7 +8,7 @@
     <el-form-item
       label="毕业时间"
       prop="year"
-      :rules="[{ required: true, message: '请选择毕业年份', trigger: 'blur'}]"
+      :rules="[{ required: true, type: 'number', message: '请选择毕业年份', trigger: 'change' }]"
     >
       <el-select :value="value" @input="emit" class="el-input">
         <el-option v-for="year in graduationYears" :label="year" :value="year" />
@@ -34,7 +34,9 @@ export default {
       return ConsecutiveIntegers(conferenceYear, 3)
     },
     M() {    // model for validation
-      year: this.value
+      return {
+        year: this.value
+      }
     },
   },
   methods: {
@@ -53,6 +55,12 @@ export default {
       this.setValue(null)
       this.emit()
     },
+  },
+  watch: {
+    value() {
+      if (this.$refs.form)
+        this.$refs.form.resetFields()
+    }
   }
 }
 </script>

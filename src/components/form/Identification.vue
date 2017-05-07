@@ -8,7 +8,7 @@
     <el-form-item
       label="证件类型"
       prop="type"
-      :rules="[{ required: true, message: '请选择证件类型', trigger: 'blur'}]"
+      :rules="[{ required: true, message: '请选择证件类型', trigger: 'change'}]"
     >
       <el-select v-model="type" @change="emit" class="el-input">
         <el-option label="中国大陆身份证" value="mainland" />
@@ -93,7 +93,7 @@ export default {
     setValue(value) {
       this.type = (value && value.type) || null
       this.number = (value && value.number) || null
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

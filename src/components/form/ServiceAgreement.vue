@@ -159,7 +159,7 @@ export default {
     },
     setValue(value) {
       this.checked = value || false
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

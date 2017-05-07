@@ -136,8 +136,17 @@ export default {
       }
     },
     async update(silent=false) {
-      if (!this.dirty)
+      if ( ! this.dirty )
         return true
+      if ( ! await this.$refs.form.validate() ) {
+        this.$notify({
+          type: 'warning',
+          title: '信息有错误',
+          message: '请修正红色标出的错误',
+          duration: 5000
+        })
+        return false
+      }
       let result = false
       try {
         let {

@@ -58,7 +58,7 @@ export default {
     },
     setValue(value) {
       this.invitation = value || null
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

@@ -62,7 +62,7 @@ export default {
         ...o,
         [id]: (value && value[id]) || null
       }), {})
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

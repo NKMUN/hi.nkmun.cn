@@ -100,7 +100,7 @@ export default {
     },
     setValue(value) {
       this.password = value || null
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },

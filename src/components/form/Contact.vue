@@ -26,7 +26,7 @@
     <el-form-item
       label="性别"
       prop="gender"
-      :rules="[ { required: true, message: '请选择性别', trigger: 'blur'} ]"
+      :rules="[ { required: true, message: '请选择性别', trigger: 'change'} ]"
     >
       <el-radio-group v-model="gender" @change="emit">
         <el-radio label="m">男</el-radio>
@@ -122,7 +122,7 @@ export default {
       this.gender = (value && value.gender) || null
       this.phone = (value && value.phone) || null
       this.email = (value && value.email) || null
-      if (this.$mounted)
+      if (this.$refs.form)
         this.$refs.form.resetFields()
     }
   },
