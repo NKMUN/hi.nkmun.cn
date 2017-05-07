@@ -41,6 +41,10 @@ export default {
     list: {
       type: Array,
       default: () => []
+    },
+    prefix: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -56,7 +60,11 @@ export default {
   methods: {
     handleSelect(id) {
       id = id ? id+'/' : ''
-      this.$router.push( this.id ? '../'+id : id )
+      this.$router.push(
+          this.id
+        ? (this.prefix || '../') + id
+        : id
+      )
     },
     handleNext(id) {
       let listPending = this.groups[0].list
