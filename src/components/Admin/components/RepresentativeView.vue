@@ -22,7 +22,7 @@
       <div class="controls" v-if="showWithdraw">
         <el-checkbox
           v-model="representative.withdraw"
-          @input="emit"
+          @input="setWithdraw"
           :disabled="!leaderEditable"
         > 该代表放弃参会 </el-checkbox>
       </div>
@@ -164,6 +164,27 @@ export default {
         this.busy = false
       }
       return result
+    },
+    async setWithdraw(value) {
+      this.busy = true
+      try {
+        let {
+          ok
+        } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
+                  .set( ... this.authorization )
+                  .send({ withdraw: value })
+        let name = this.representative && this.representative.contact && this.representative.contact.name || this.representative.session.name || ''
+        this.$notify({
+          type: 'success',
+          title: '更新成功',
+          message: '已设置 ' + name + '：' + (value ? '参会' : '放弃参会'),
+          duration: 5000
+        })
+      } catch(e) {
+        this.notifyError(e, '更新失败')
+      } finally {
+        this.busy = false
+      }
     },
     async updateAndNext() {
       if ( await this.update() ) {
