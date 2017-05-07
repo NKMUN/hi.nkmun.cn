@@ -8,8 +8,6 @@
       </ul>
     </div>
 
-    <RepresentativeTable @validated="handleValidated"/>
-
     <div class="validation-result" v-if="validationResult && validationResult.length">
       <el-alert
         title="代表信息有错误"
@@ -22,6 +20,8 @@
         <li v-for="problem in validationResult">{{ problem }}</li>
       </ul>
     </div>
+
+    <RepresentativeTable @validated="handleValidated"/>
 
     <h4>酒店预订</h4>
     <ReservationView />
