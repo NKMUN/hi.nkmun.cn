@@ -16,6 +16,7 @@
         <el-menu-item index="/admin/overview/seat"> 名额分配总览 </el-menu-item>
         <el-menu-item index="/admin/overview/stage"> 学校状态总览 </el-menu-item>
         <el-menu-item index="/admin/users/"> 用户管理 </el-menu-item>
+        <el-menu-item index="/admin/exports/"> 导出 </el-menu-item>
       </el-menu>
 
       <el-button
