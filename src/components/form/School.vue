@@ -106,7 +106,7 @@ export default {
       this.name = (value && value.name) || null
       this.englishName = (value && value.englishName) || null
       this.address = (value && value.address) || null
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },

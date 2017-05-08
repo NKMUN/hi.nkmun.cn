@@ -93,7 +93,7 @@ export default {
     setValue(value) {
       this.type = (value && value.type) || null
       this.number = (value && value.number) || null
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },

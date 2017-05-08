@@ -109,7 +109,7 @@ export default {
     },
     setValue(value) {
       this.password = value || null
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },

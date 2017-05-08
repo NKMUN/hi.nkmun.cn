@@ -129,7 +129,7 @@ export default {
       this.press = (value && value.press) || 0
       this.supervisor = (value && value.supervisor) || 0
       this.observer = (value && value.observer) || 0
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },

@@ -101,7 +101,7 @@ export default {
       this.type = (value && value.type) || null
       this.name = (value && value.name) || null
       this.phone = (value && value.phone) || null
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },

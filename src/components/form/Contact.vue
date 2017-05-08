@@ -122,7 +122,7 @@ export default {
       this.gender = (value && value.gender) || null
       this.phone = (value && value.phone) || null
       this.email = (value && value.email) || null
-      if (this.$refs.form)
+      if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
   },
