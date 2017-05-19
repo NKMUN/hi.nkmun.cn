@@ -24,7 +24,11 @@ export default {
       return getStages()
     },
     stepActive() {
-      return this.stages.indexOf(this.stage)
+	  if (this.stage.indexOf('complete') !== -1) {
+        return this.stages.indexOf(this.stage) + 1
+	  } else {
+        return this.stages.indexOf(this.stage)
+	  }
     }
   },
   methods: {
