@@ -52,7 +52,6 @@
         :value="reservations"
         :round="round"
         :busy="busy"
-        :disabled="disableModification"
         @delete="deleteReservation"
         @add="addReservation"
       />
@@ -108,7 +107,7 @@ export default {
     disableModification() {
       // certain stage does not allow modification
       let stage = (this.school && this.school.stage) || ''
-      return !stage || stage.endsWith('.paid') || stage.endsWith('complete') || stage==='3.confirm'
+      return !stage || stage.endsWith('.paid') || stage.endsWith('complete') || stage==='3.confirm' || stage==='9.complete'
     },
     leaderAttend() {
       return this.school && this.school.seat && this.school.seat['1'] && (
