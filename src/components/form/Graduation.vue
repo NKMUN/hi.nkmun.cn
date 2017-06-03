@@ -57,7 +57,7 @@ export default {
     },
   },
   watch: {
-    value() {
+    value(value) {
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
