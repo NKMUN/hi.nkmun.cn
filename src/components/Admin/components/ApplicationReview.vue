@@ -35,7 +35,7 @@
           type="info"
           :loading="busy"
           @click="updateAndNext"
-        > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+        > 保存 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>
 
       <el-button-group class="controls" v-show="!loading && application.processed">
@@ -50,7 +50,7 @@
           type="info"
           :loading="busy"
           @click="next"
-        > 下一个 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+        > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>
 
     </template>

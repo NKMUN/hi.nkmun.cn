@@ -21,7 +21,7 @@
       />
     </template>
 
-  </ReviewControl>
+  </ListViewControl>
 
 </template>
 

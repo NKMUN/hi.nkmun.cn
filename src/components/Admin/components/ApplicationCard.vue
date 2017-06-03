@@ -8,7 +8,7 @@
     <div>
       <div class="section contact">
         <div class="primary name show-hint">{{ contact.name }}</div>
-        <div class="secondary"><div class="secondary">
+        <div class="secondary">
           {{ contact.gender | genderText }}
           <span class="delimiter" />
           {{ contact.phone }}

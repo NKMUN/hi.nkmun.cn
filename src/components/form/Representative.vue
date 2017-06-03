@@ -83,7 +83,7 @@
         :label-width="labelWidth"
       >
         <el-form-item label="备注">
-          <el-input :disabled="disabled">
+          <el-input :disabled="disabled" v-model="comment" />
         </el-form-item>
       </el-form>
     </section>
@@ -137,6 +137,7 @@ export default {
     guardian: null,
     guardian_identification: null,
     is_leader: null,
+    comment: ''
   }),
   methods: {
     emit() {
@@ -148,6 +149,7 @@ export default {
           is_leader: this.is_leader,
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
+          comment: this.comment
         }
         this.$emit('input', M)
         this.$emit('change', M)
@@ -168,6 +170,7 @@ export default {
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
       this.is_leader = value && value.is_leader
+      this.comment = value && value.comment || ''
     }
   },
   watch: {

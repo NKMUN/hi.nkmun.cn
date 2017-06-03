@@ -7,7 +7,7 @@
   >
 
     <div class="warning">
-      <i class="icon el-icon-warning"></i>
+      <i class="icon el-icon-warning"/>
       <div class="message">重置 {{ user.id }} 的密码</div>
     </div>
 

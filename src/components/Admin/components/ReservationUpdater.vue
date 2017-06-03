@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column width="32" class-name="no-padding">
         <template scope="scope">
-        <el-button
+          <el-button
             type="danger"
             icon="close"
             size="mini"
@@ -26,6 +26,7 @@
             :disabled="disabled"
             @click="confirmRemove(scope.row)"
           />
+        </template>
       </el-table-column>
     </el-table>
 

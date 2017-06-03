@@ -47,12 +47,13 @@
         </el-table-column>
         <el-table-column width="120">
           <template scope="scope">
-          <el-button
-            type="danger"
-            icon="close"
-            size="mini"
-            @click="removeReservation(scope.$index)"
-          > 删除 </el-button>
+            <el-button
+              type="danger"
+              icon="close"
+              size="mini"
+              @click="removeReservation(scope.$index)"
+            > 删除 </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>

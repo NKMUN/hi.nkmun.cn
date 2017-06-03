@@ -32,7 +32,7 @@
             type="info"
             :loading="busy"
             @click="next"
-          > 下一个 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+          > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
         </el-button-group>
       </div>
 

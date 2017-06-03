@@ -21,7 +21,7 @@
           <slot name="operation" :hotel="scope.row" />
         </template>
       </el-table-column>
-    <el-table>
+    </el-table>
 
   </div>
 </template>

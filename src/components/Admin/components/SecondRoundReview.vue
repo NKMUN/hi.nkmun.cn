@@ -40,7 +40,7 @@
           :loading="busy"
           icon="check"
           @click="updateAndNext"
-        > 保存 <i class="el-icon-arrow-right el-icon--right"> </el-button>
+        > 保存 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>
     </template>
   </div>
