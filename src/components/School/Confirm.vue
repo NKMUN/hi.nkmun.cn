@@ -91,6 +91,10 @@ export default {
                   .send({ confirmAttend: 1 })
                   .set( ... this.authorization )
         this.$store.commit('school/stage', '9.complete')
+        this.$notify({
+          type: 'success',
+          title: '信息确认成功'
+        })
       } catch(e) {
         this.$notify({
           type: 'success',
