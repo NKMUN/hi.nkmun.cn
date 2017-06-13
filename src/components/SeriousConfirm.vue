@@ -1,8 +1,7 @@
 <template>
   <el-dialog
-    ref="dialog"
     :visible="visible"
-    @before-close="handleClose"
+    :before-close="handleClose"
     title="操作确认"
     custom-class="serious-confirm"
   >
@@ -54,18 +53,20 @@ export default {
     type: 'warning',
     input: '',
     expect: '',
-    visible: false
+    resolve: null
   }),
+  computed: {
+    visible() {
+      return Boolean(this.resolve)
+    }
+  },
   methods: {
     async confirm(message='请再次确认本操作', repeat=randomString(), type='warning') {
       this.input = ''
       this.message = message
       this.expect = repeat
-      this.visible = true
       this.$nextTick( () => this.$refs.input.$el.querySelector('input').focus() )
-      let result = await ( new Promise( r => this.resolve = r ) )
-      this.visible = false
-      return result
+      return new Promise( r => this.resolve = r )
     },
     handleClose() {
       if (this.resolve) {

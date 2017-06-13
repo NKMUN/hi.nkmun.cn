@@ -140,6 +140,7 @@ export default {
           message: status === 200 ? '通知邮件已发送' : '通知邮件未能成功发送：'+body.message,
           duration: 5000,
         })
+        this.school.stage = this.school.stage.replace('.paid', '.complete')
         this.processed()
         this.next()
       } catch(e) {

@@ -1,15 +1,12 @@
 <template>
   <el-dialog
-    ref="dialog"
+    :visible="visible"
     title="库存修改"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
     :show-close="false"
   >
-    <el-form
-      ref="form"
-      label-width="108px"
-    >
+    <el-form label-width="108px">
 
       <el-form-item label="酒店" >
         {{ hotel.name }}
@@ -74,17 +71,18 @@ export default {
   data: () => ({
     hotel: {},
     targetStock: null,
-    minStock: null
+    minStock: null,
+    visible: false
   }),
   methods: {
     open(hotel) {
       this.hotel = hotel
       this.minStock = this.hotel.stock - this.hotel.available
       this.targetStock = this.hotel.stock
-      this.$refs.dialog.open()
+      this.visible = true
     },
     close() {
-      this.$refs.dialog.close()
+      this.visible = false
     },
     cancel() {
       this.close()

@@ -33,7 +33,11 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog ref="dialog" title="选择己方名额">
+    <el-dialog
+      title="选择己方名额"
+      :visible="dialogVisible"
+      :before-close="() => {dialogVisible = false}"
+    >
       <div class="exchange-dialog-content">
 
         <el-form label-position="right" label-suffix="：">
@@ -126,6 +130,7 @@ export default {
   },
   data: () => ({
     loading: false,
+    dialogVisible: false,
     schools: [],
     exchange: {},
     exchangeTargetName: null    // view only, do not post to server
@@ -148,11 +153,11 @@ export default {
         selfSession: null
       }
       this.exchangeTargetName = schoolName
-      this.$refs.dialog.open()
+      this.dialogVisible = true
     },
     confirmExchange() {
       this.$emit('exchange', { ... this.exchange })
-      this.$refs.dialog.close()
+      this.dialogVisible = false
     }
   },
   async mounted() {

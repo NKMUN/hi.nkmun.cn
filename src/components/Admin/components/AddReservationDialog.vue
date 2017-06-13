@@ -1,8 +1,5 @@
 <template>
-  <el-dialog
-    title="新增预订"
-    ref="dialog"
-  >
+  <el-dialog title="新增预订" :visible="visible" :before-close="() => {visible = false}">
     <HotelStock ref="stock">
       <template slot="operation" scope="scope">
         <el-button
@@ -74,19 +71,20 @@ export default {
   },
   data: () => ({
     hotel: null,
-    period: null
+    period: null,
+    visible: false
   }),
   props: {
     busy: { type: Boolean, default: false },
   },
   methods: {
     close() {
-      this.$refs.dialog.close()
+      this.visible = false
     },
     open() {
       this.hotel = null
       this.period = null
-      this.$refs.dialog.open()
+      this.visible = true
       if (this.$refs.stock)
         this.$refs.stock.fetch()
     },

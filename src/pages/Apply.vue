@@ -47,9 +47,9 @@
     </div>
 
     <el-dialog
-      v-model="showSuccess"
+      :visible="showSuccess"
       title="报名成功"
-      @close="onSuccessDialogClose"
+      :before-close="onSuccessDialogClose"
     >
       <!-- TODO: Insert onSuccess content -->
       <h4>报名成功，请等待组委通知。</h4>
@@ -60,7 +60,7 @@
     </el-dialog>
 
     <el-dialog
-      v-model="showFailure"
+      :visible="showFailure"
       title="报名失败"
     >
       <pre>{{ applyError }}</pre>

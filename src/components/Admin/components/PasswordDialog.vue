@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    ref="dialog"
-    @close="handleClose"
+    :visible="visible"
+    :before-close="handleClose"
     title="重置密码"
     custom-class="password-reset"
   >
@@ -39,6 +39,11 @@ export default {
   components: {
     Password
   },
+  computed: {
+    visible() {
+      return Boolean(this.resolve)
+    }
+  },
   data: () => ({
     user: {},
     password: ''
@@ -47,14 +52,11 @@ export default {
     async open(user) {
       this.user = user
       this.password = ''
-      this.$refs.dialog.open()
       this.$nextTick( () => {
         this.$refs.password.$el.querySelector('input').focus()
         this.$refs.password.clear()
       })
-      let result = await new Promise( r => this.resolve = r )
-      this.$refs.dialog.close()
-      return result
+      return new Promise( r => this.resolve = r )
     },
     async confirmReset() {
       if ( ! await this.$refs.password.validate() )
