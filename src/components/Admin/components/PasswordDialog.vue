@@ -46,7 +46,8 @@ export default {
   },
   data: () => ({
     user: {},
-    password: ''
+    password: '',
+    resolve: null
   }),
   methods: {
     async open(user) {
