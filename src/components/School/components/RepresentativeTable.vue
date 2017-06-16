@@ -74,6 +74,8 @@ const validateRepresentative = (representatives) => {
   let ret = []
   let leaderSelected = 0
   for (let r of representatives) {
+    if (r.withdraw)
+      continue
     if (r.is_leader)
       ++leaderSelected
     if ( ! ( r.contact
