@@ -147,7 +147,7 @@ export default {
                  .set( ... this.authorization )
                  .then( res => res.body )
           )
-        )
+        ).then(representatives => representatives.filter($ => !$.withdraw))
 
         this.$emit('validated', validateRepresentative(this.representatives))
       } catch(e) {
