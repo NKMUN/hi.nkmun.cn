@@ -92,13 +92,7 @@ import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import SessionUtils from '../../lib/session-utils'
 import ImageUpload from './ImageUpload'
-
-const COMMITTEE_ROLES = [
-  { id: '_secretary', name: '秘书处' },
-  { id: '_public_relation', name: '公关部' },
-  { id: '_affairs', name: '会务部' },
-  { id: '_it_support', name: '技术部' },
-]
+import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
 
 export default {
   name: 'committee-member-form',
