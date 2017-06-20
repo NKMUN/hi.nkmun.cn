@@ -69,27 +69,48 @@
       />
     </el-form-item>
 
+    <el-form-item
+      label="QQ"
+      prop="qq"
+      :rules="[
+        { required: true, message: '请输入QQ号', trigger: 'blur' },
+        { type: 'string', pattern: qqRegex, message: 'QQ号格式不正确', trigger: 'blur' },
+      ]"
+    >
+      <el-input
+        v-model="qq"
+        type="text"
+        placeholder="QQ号"
+        :disabled="disabled"
+        @change="emit"
+      />
+    </el-form-item>
+
   </el-form>
 </template>
 
 <script>
 const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 const emailDomainRegexp = /\.(cn|com|net|org|edu)$/i
+const qqRegex = /^[0-9]{6,15}$/
 export default {
   name: 'contact-form',
   props: {
     value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
-    labelWidth: { type: String, default: '72px' }
+    labelWidth: { type: String, default: '72px' },
+    showQq: { type: Boolean, default: false },
   },
   data: () => ({
     emailRegex,
     emailDomainRegexp,
+    qqRegex,
     name: null,
     gender: null,
     phone: null,
-    email: null
+    email: null,
+    qq: null,
   }),
   computed: {
     M() {    // model to be emitted for 'input' event
@@ -97,7 +118,8 @@ export default {
         name:   this.name,
         gender: this.gender,
         phone:  this.phone,
-        email:  this.email
+        email:  this.email,
+        ... (this.showQq ? { qq: this.qq } : {})
       }
     }
   },
@@ -122,6 +144,7 @@ export default {
       this.gender = (value && value.gender) || null
       this.phone = (value && value.phone) || null
       this.email = (value && value.email) || null
+      this.qq = (value && value.qq) || null
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }

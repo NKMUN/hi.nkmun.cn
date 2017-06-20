@@ -15,6 +15,7 @@ const Register = r => require.ensure([], () => r(require('pages/Register.vue')),
 const Admin    = r => require.ensure([], () => r(require('pages/Admin.vue')),    'admin')
 const School   = r => require.ensure([], () => r(require('pages/School.vue')),   'school')
 const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),     'root')
+const Committee = r => require.ensure([], () => r(require('pages/Committee.vue')),  'committee-reg')
 
 // Root mgmt pages
 const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/SessionMgmt.vue')), 'root')
@@ -50,6 +51,7 @@ export default new Router({
     { path: '/apply/', component: Apply },
     { path: '/register/', component: Register },
     { path: '/logout', component: Logout },
+    { path: '/committee/', component: Committee },
     { path: '/admin/', component: Admin,
       beforeEnter: (to, from, next) => {
         if ( store.getters['user/access'].indexOf('admin') !== -1 )

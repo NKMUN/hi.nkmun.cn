@@ -11,11 +11,11 @@
       :rules="[{ required: true, message: '请选择证件类型', trigger: 'change'}]"
     >
       <el-select v-model="type" @change="emit" class="el-input">
-        <el-option label="中国大陆身份证" value="mainland" />
-        <el-option label="港澳往来内地通行证" value="sar" />
-        <el-option label="台湾居民来往大陆通行证" value="taiwan" />
-        <el-option label="护照（非中国）" value="passport" />
-        <el-option label="其它" value="other" />
+        <el-option label="中国大陆身份证" value="mainland" v-if="typeAccepts('mainland')" />
+        <el-option label="港澳往来内地通行证" value="sar" v-if="typeAccepts('sar')" />
+        <el-option label="台湾居民来往大陆通行证" value="taiwan" v-if="typeAccepts('taiwan')" />
+        <el-option label="护照（非中国）" value="passport" v-if="typeAccepts('passport')" />
+        <el-option label="其它" value="other" v-if="typeAccepts('other')" />
       </el-select>
     </el-form-item>
 
@@ -46,7 +46,8 @@ export default {
     value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
-    labelWidth: { type: String, default: '72px' }
+    labelWidth: { type: String, default: '72px' },
+    acceptableTypes: { type: Array, default: () => ['mainland', 'sar', 'taiwan', 'passport', 'other'] },
   },
   data: () => ({
     type: null,
@@ -95,6 +96,9 @@ export default {
       this.number = (value && value.number) || null
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
+    },
+    typeAccepts(type) {
+      return this.acceptableTypes.indexOf(type) !== -1
     }
   },
   watch: {
@@ -104,6 +108,8 @@ export default {
   },
   created() {
     this.setValue(this.value)
+    if (this.acceptableTypes.length === 1)
+      this.type = this.acceptableTypes[0]
   }
 }
 </script>

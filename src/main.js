@@ -22,6 +22,7 @@ import {
     MenuItem,
     MenuItemGroup,
     Option,
+    OptionGroup,
     Radio,
     RadioGroup,
     Select,
@@ -51,6 +52,7 @@ Vue.use( Menu )
 Vue.use( MenuItem )
 Vue.use( MenuItemGroup )
 Vue.use( Option )
+Vue.use( OptionGroup )
 Vue.use( Radio )
 Vue.use( RadioGroup )
 Vue.use( Select )
@@ -63,6 +65,7 @@ Vue.use( Tooltip )
 Vue.use( Loading )
 
 Vue.prototype.$agent = superagent
+Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
