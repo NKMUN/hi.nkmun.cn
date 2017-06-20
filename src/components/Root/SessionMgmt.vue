@@ -11,7 +11,7 @@
     </div>
 
     <el-table v-if="sessions" :data="sessions" class="session-table">
-      <el-table-column prop="id" label="ID" width="144" sortable fixed>
+      <el-table-column prop="id" label="ID" width="144" sortable>
         <template scope="scope">
           <el-input
             v-model="scope.row.id"
@@ -24,7 +24,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="name" label="名称" min-width="144" sortable resizable>
+      <el-table-column prop="name" label="名称" min-width="172" sortable resizable>
         <template scope="scope">
           <el-input
             v-model="scope.row.name"
@@ -53,6 +53,16 @@
           <el-checkbox
             v-model="scope.row.dual"
             :class="validation[scope.$index] && !validation[scope.$index].dual ? 'error' : ''"
+            :disabled="busy || scope.row.reserved"
+          />
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="requiresChairman" label="主席" width="64">
+        <template scope="scope">
+          <el-checkbox
+            v-model="scope.row.requiresChairman"
+            :class="validation[scope.$index] && !validation[scope.$index].requiresChairman ? 'error' : ''"
             :disabled="busy || scope.row.reserved"
           />
         </template>
@@ -130,7 +140,8 @@ const DEFAULT_SESSION = () => ({
   id: null,
   name: null,
   type: null,
-  dual: false
+  dual: false,
+  requiresChairman: false,
 })
 
 function objectsAreSame(a, b) {
@@ -197,8 +208,8 @@ export default {
           body
         } = await this.$agent.put('/api/sessions/', this.sessions)
                   .set( ... this.authorization )
-        this.serverSessions = body.map( $ => ({ ...$ }) )
-        this.sessions = body.map( $ => ({ ...$ }) )
+        this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
+        this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.$store.commit('config/update', { sessions: body.map( $ => ({ ...$ }) ) })
         if (ok) {
           this.$notify({
@@ -223,7 +234,7 @@ export default {
     },
     abort() {
       // copy serverSessions
-      this.sessions = this.serverSessions.map( $ => ({...$}) )
+      this.sessions = this.serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
       this.validate()
       this.showValidationAlert = false
     }
@@ -236,8 +247,8 @@ export default {
       } = await this.$agent.get('/api/sessions/')
                 .set( ... this.authorization )
       // make sure a copy of array is passed to vue
-      this.serverSessions = body.map( $ => ({ ... $ }))
-      this.sessions = body.map( $ => ({ ... $ }))
+      this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ... $ }))
+      this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }))
       this.validate()
     } catch(e) {
       this.$notify({
@@ -277,7 +288,7 @@ export default {
     color: #475669
     font-size: 14px
   .session-table
-    max-width: 90ch
+    max-width: 100ch
   .controls.commit
     margin-top: 3em
   .el-alert
