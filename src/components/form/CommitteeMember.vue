@@ -10,7 +10,7 @@
         ref="formSessionAndPhoto"
       >
         <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="role" placeholder="请选择会场">
+          <el-select v-model="role" placeholder="请选择会场" @change="emit">
             <el-option-group label="组委">
               <el-option v-for="role in COMMITTEE_ROLES" :key="role.id" :value="'组委-'+role.name" :label="role.name" />
             </el-option-group>
@@ -21,11 +21,11 @@
         </el-form-item>
 
         <el-form-item label="学校" prop="school" :rules="[{ required: true, message: '请填写学校', trigger: 'blur' }]">
-          <el-input v-model="school" placeholder="请填写学校"></el-input>
+          <el-input v-model="school" placeholder="请填写学校" @change="emit"></el-input>
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" />
+          <ImageUpload v-model="photoId" action="/api/images/" @change="emit"/>
         </el-form-item>
       </el-form>
 
@@ -71,7 +71,42 @@
     </section>
 
     <section>
-      <h4>其他</h4>
+      <h4>其它</h4>
+
+      <div class="controls">
+        <el-checkbox v-model="isForeign">外地组委/主席请勾选</el-checkbox>
+      </div>
+
+      <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/人/间</p>
+
+      <el-form
+        ref="foreign"
+        v-show="isForeign"
+        class="form small"
+        label-width="140px"
+      >
+        <el-form-item label="抵宁/离宁日期">
+          <el-date-picker
+            v-model="arriveDepartDate"
+            type="daterange"
+            placeholder="请选择"
+            :default-value="[datePickerDefaultValue, datePickerDefaultValue]"
+            :picker-options="pickerOptions"
+            @change="emit"
+          />
+        </el-form-item>
+        <el-form-item label="酒店入住/退房时间">
+          <el-date-picker
+            v-model="hotelDate"
+            type="daterange"
+            placeholder="请选择"
+            :default-value="[datePickerDefaultValue, datePickerDefaultValue]"
+            :picker-options="pickerOptions"
+            @change="emit"
+          />
+        </el-form-item>
+      </el-form>
+
       <el-form
         class="form large"
         :label-width="labelWidth"
@@ -137,6 +172,16 @@ export default {
     CHAIRMAN_ROLES() {
       return this.SESSIONS().filter( $ => !$.reserved && $.requiresChairman )
     },
+    datePickerDefaultValue() {
+      return this.$store.getters['config/conferenceStartDate']
+    },
+    pickerOptions() {
+      return {
+        disabledDate(v) {
+          return v < new Date() -  24*60*60*1000
+        }
+      }
+    }
   },
   data: () => ({
     labelWidth: '108px',
@@ -147,6 +192,9 @@ export default {
     identification: null,
     guardian: null,
     guardian_identification: null,
+    isForeign: false,
+    arriveDepartDate: null,
+    hotelDate: null,
     comment: '',
     COMMITTEE_ROLES,
   }),
@@ -161,6 +209,8 @@ export default {
           identification: this.identification,
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
+          arriveDepartDate: this.arriveDepartDate,
+          hotelDate: this.hotelDate,
           comment: this.comment,
         }
         this.$emit('input', M)
@@ -187,6 +237,9 @@ export default {
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
       this.is_leader = value && value.is_leader
+      this.isForeign = this.isForeign || (value && (value.arriveDepartDate || value.hotelDate))
+      this.arriveDepartDate = value && value.arriveDepartDate
+      this.hotelDate = value && value.hotelDate
       this.comment = value && value.comment || ''
     }
   },
@@ -217,4 +270,12 @@ export default {
     font-size: 80%
   .el-select
     display: block
+  .controls
+    margin: 1em auto
+    text-align: center
+  .hint
+    font-size: 80%
+    text-align: center
+    &.red
+      color: red
 </style>
