@@ -77,7 +77,7 @@
         <el-checkbox v-model="isForeign">外地组委/主席请勾选</el-checkbox>
       </div>
 
-      <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/人/间</p>
+      <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/间/天</p>
 
       <el-form
         ref="foreign"
