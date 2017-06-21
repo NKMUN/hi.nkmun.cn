@@ -69,7 +69,7 @@
       />
     </el-form-item>
 
-    <el-form-item
+    <el-form-item v-if="showQq"
       label="QQ"
       prop="qq"
       :rules="[
