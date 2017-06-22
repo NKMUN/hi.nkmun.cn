@@ -53,10 +53,10 @@ export default {
         try {
           let payload = {
             ... this.data,
-            arriveDate: toDateString(this.data.arriveDepartDate[0]),
-            departDate: toDateString(this.data.arriveDepartDate[1]),
-            checkInDate: toDateString(this.data.hotelDate[0]),
-            checkOutDate: toDateString(this.data.hotelDate[1])
+            arriveDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[0]) : null,
+            departDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[1]) : null,
+            checkInDate: this.data.hotelDate ? toDateString(this.data.hotelDate[0]) : null,
+            checkOutDate: this.data.hotelDate ? toDateString(this.data.hotelDate[1]) : null
           }
           delete payload.hotelDate
           delete payload.arriveDepartDate
