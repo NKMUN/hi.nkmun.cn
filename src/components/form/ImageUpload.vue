@@ -19,6 +19,7 @@
 
 <script>
 import { Upload, Progress } from 'element-ui'
+import bytes from 'bytes'
 export default {
   components: {
     [Upload.name]: Upload,
@@ -27,6 +28,10 @@ export default {
   props: {
     action: {
       type: String
+    },
+    maxSize: {
+      type: Number,
+      default: 10 * 1024 * 1024
     }
   },
   data() {
@@ -47,20 +52,20 @@ export default {
       this.$emit('change', null)
       this.imageUrl = null
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLtMaxSize = file.size < this.maxSize
       if (!isJPG)
         this.$notify({
           type: 'error',
           title: '上传的图片只能是 JPG 格式!',
           duration: 5000,
         })
-      if (!isLt2M)
+      if (!isLtMaxSize)
         this.$notify({
           type: 'error',
-          title: '上传的图片不能大于 2MB!',
+          title: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
           duration: 5000,
         })
-      return isJPG && isLt2M;
+      return isJPG && isLtMaxSize;
     },
     handleProgress(ev) {
       this.loadingPercent = Math.floor(ev.percent)
