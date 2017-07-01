@@ -1,17 +1,9 @@
 <template>
-  <div>
-
-    <ol v-if="payments && payments.length > 0">
-      <li>
-        <PaymentEntry v-for="payment in payments" :data="payment" />
-      </li>
-    </ol>
-
-    <div v-if="!payments || payments.length === 0">
-      <h4>暂无缴费记录</h4>
-    </div>
-
-  </div>
+  <ol v-if="payments && payments.length > 0">
+    <li>
+      <PaymentEntry v-for="payment in payments" :data="payment" />
+    </li>
+  </ol>
 </template>
 
 <script>
@@ -32,4 +24,6 @@ ol
   list-style: none
   display: block
   overflow: visible
+h4
+  text-align: center
 </style>

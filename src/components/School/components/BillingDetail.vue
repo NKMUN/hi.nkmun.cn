@@ -1,14 +1,19 @@
 <template>
   <div>
-    <el-table v-loading="!detail" :data="detail||[]">
-      <el-table-column prop="type" label="类别" width="120" />
-      <el-table-column prop="name" label="项目" min-width="240" />
-      <el-table-column prop="amount" label="数量/天数" />
-      <el-table-column prop="price" label="单价" />
-      <el-table-column prop="sum" label="总价" />
-    </el-table>
-    <h4 v-if="!detail">正在获取应付款信息……</h4>
-    <h4 v-if="detail">{{round | roundText}}应缴费：<b>CNY ¥{{ total }}</b></h4>
+    <template v-if="detail && detail.length">
+      <el-table v-loading="!detail" :data="detail||[]">
+        <el-table-column prop="type" label="类别" width="120" />
+        <el-table-column prop="name" label="项目" min-width="240" />
+        <el-table-column prop="amount" label="数量/天数" />
+        <el-table-column prop="price" label="单价" />
+        <el-table-column prop="sum" label="总价" />
+      </el-table>
+      <h4 v-if="!detail">正在获取应付款信息……</h4>
+      <h4 v-if="detail">{{round | roundText}}应缴费：<b>CNY ¥{{ total }}</b></h4>
+    </template>
+    <template v-else>
+      <h4>{{round | roundText}}无需缴费</h4>
+    </template>
   </div>
 </template>
 

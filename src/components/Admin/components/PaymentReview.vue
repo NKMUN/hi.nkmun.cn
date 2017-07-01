@@ -47,19 +47,7 @@
           :school="id"
           :round="round"
         />
-        <PaymentList :payments="(payments || []).filter($ => $.round === round)"/>
-      </template>
-
-      <template v-if="Number(round) >= 2">
-        <hr/>
-        <BillingDetail
-          class="billing"
-          :school="id"
-          :round="'1'"
-        />
-        <PaymentList
-          :payments="paymentsPrevious || []"
-        />
+        <PaymentList :payments="(payments || []).filter($ => $.round === round)" />
       </template>
     </template>
 
