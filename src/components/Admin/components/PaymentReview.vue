@@ -5,36 +5,50 @@
 
       <SchoolBrief class="brief" :data="school" />
 
-      <hr/>
-      <BillingDetail
-        class="billing"
-        v-if="id"
-        :school="id"
-        :round="round"
-      />
-      <PaymentList :payments="paymentsCurrent || []" v-loading="!payments" />
+      <template v-if="school.stage.endsWith('.paid')">
+        <hr/>
+        <BillingDetail
+          class="billing"
+          :school="id"
+          :round="currentRound"
+        />
+        <PaymentList
+          v-loading="!payments"
+          :payments="(payments || []).filter($ => $.round === $.currentRound)"
+        />
 
-      <div class="controls" v-if="school && school.stage.endsWith('.paid')">
-        <el-button-group>
-          <el-button
-            type="danger"
-            :loading="busy"
-            icon="circle-cross"
-            @click="reject"
-          > 不通过 </el-button>
-          <el-button
-            type="success"
-            :loading="busy"
-            icon="circle-check"
-            @click="confirm"
-          > 通过 </el-button>
-          <el-button
-            type="info"
-            :loading="busy"
-            @click="next"
-          > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
-        </el-button-group>
-      </div>
+        <div class="controls" v-if="school && school.stage.endsWith('.paid')">
+          <el-button-group>
+            <el-button
+              type="danger"
+              :loading="busy"
+              icon="circle-cross"
+              @click="reject"
+            > 不通过 </el-button>
+            <el-button
+              type="success"
+              :loading="busy"
+              icon="circle-check"
+              @click="confirm"
+            > 通过 </el-button>
+            <el-button
+              type="info"
+              :loading="busy"
+              @click="next"
+            > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
+          </el-button-group>
+        </div>
+      </template>
+
+      <template v-for="round in previousRounds">
+        <hr/>
+        <BillingDetail
+          class="billing"
+          :school="id"
+          :round="round"
+        />
+        <PaymentList :payments="(payments || []).filter($ => $.round === round)"/>
+      </template>
 
       <template v-if="Number(round) >= 2">
         <hr/>
@@ -43,7 +57,9 @@
           :school="id"
           :round="'1'"
         />
-        <PaymentList :payments="paymentsPrevious || []" />
+        <PaymentList
+          :payments="paymentsPrevious || []"
+        />
       </template>
     </template>
 
@@ -71,21 +87,22 @@ export default {
     ... mapGetters({
       authorization: 'user/authorization'
     }),
-    round() {
-      return this.school && this.school.stage ? this.school.stage[0] || '1' : '1'
+    currentRound() {
+      return this.school ? this.school.stage[0] : '1'
     },
-    paymentsCurrent() {
-      return (this.payments || []).filter( $ => $.round === this.round )
-    },
-    paymentsPrevious() {
-      return (this.payments || []).filter( $ => Number($.round) < Number(this.round) )
+    previousRounds() {
+      switch (this.currentRound) {
+        case '0': return []
+        case '1': return []
+        case '2': return ['1']
+        default:  return ['2', '1']
+      }
     }
   },
   data: () => ({
     busy: false,
     loading: true,
     school: null,
-    billing: null,
     payments: null,
   }),
   methods: {
