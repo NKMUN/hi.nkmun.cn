@@ -63,6 +63,7 @@ export default {
       if ( ! await this.$refs.password.validate() )
         return
       this.resolve({ user: this.user.id, password: this.password })
+      this.resolve = null
     },
     handleClose() {
       if (this.resolve) {
