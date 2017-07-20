@@ -14,7 +14,7 @@
         />
         <PaymentList
           v-loading="!payments"
-          :payments="(payments || []).filter($ => $.round === $.currentRound)"
+          :payments="(payments || []).filter($ => $.round === currentRound)"
         />
 
         <div class="controls" v-if="school && school.stage.endsWith('.paid')">
