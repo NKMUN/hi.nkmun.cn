@@ -16,22 +16,16 @@
       </el-button>
     </el-tooltip>
 
-    <SeriousConfirm ref="serious" />
-
   </div>
 </template>
 
 <script>
-import SeriousConfirm from '../../SeriousConfirm'
 import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
   name: 'NukeSchool',
-  components: {
-    SeriousConfirm,
-    Icon
-  },
+  components: { Icon },
   props: {
     disabled: { type: Boolean, default: false },
     busy: { type: Boolean, default: false },
@@ -39,7 +33,7 @@ export default {
   },
   methods: {
     confirmNuke() {
-      this.$refs.serious.confirm('彻底销毁这份申请。\n此操作不能撤销，请确认！', this.repeat)
+      this.$serious('彻底销毁这份申请。\n此操作不能撤销，请确认！', this.repeat)
       .then( confirmed => confirmed ? this.$emit('click') : null )
     }
   }

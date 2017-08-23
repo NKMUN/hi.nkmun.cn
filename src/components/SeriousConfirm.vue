@@ -4,6 +4,7 @@
     :before-close="handleClose"
     title="操作确认"
     custom-class="serious-confirm"
+    @open="setFocus"
   >
 
     <div class="warning">
@@ -12,14 +13,14 @@
     </div>
 
     <div>
-      <pre class="random">{{ expect }}</pre>
+      <pre class="random">{{ repeat }}</pre>
     </div>
 
     <el-input
       class="serious-confirm-input"
       v-model="input"
       @keydown.enter.native="handleEnter"
-      :placeholder="expect"
+      :placeholder="repeat"
       :autofocus="true"
       ref="input"
     >
@@ -27,7 +28,7 @@
       <el-button
         slot="append"
         icon="check"
-        :disabled="input!==expect"
+        :disabled="input !== repeat"
         @click="handleConfirm"
       ></el-button>
     </el-input>
@@ -36,38 +37,23 @@
 </template>
 
 <script>
-
-const CHARACTERS = 'abcdefghijklmnopqrstuvwxyz'
-
-function randomString(length=6, characters=CHARACTERS) {
-  let str = ''
-  for (let i=0; i!==length; ++i)
-    str += characters[Math.floor(Math.random()*characters.length)]
-  return str
-}
-
 export default {
   name: 'serious-confirm',
   data: () => ({
-    message: '',
-    type: 'warning',
     input: '',
-    expect: '',
     resolve: null
   }),
+  props: {
+    message: String,
+    type: String,
+    repeat: String
+  },
   computed: {
     visible() {
       return Boolean(this.resolve)
     }
   },
   methods: {
-    async confirm(message='请再次确认本操作', repeat=randomString(), type='warning') {
-      this.input = ''
-      this.message = message
-      this.expect = repeat
-      this.$nextTick( () => this.$refs.input.$el.querySelector('input').focus() )
-      return new Promise( r => this.resolve = r )
-    },
     handleClose() {
       if (this.resolve) {
         this.resolve(false)
@@ -75,18 +61,26 @@ export default {
       }
     },
     handleEnter(){
-      if (this.resolve && this.expect === this.input) {
+      if (this.resolve && this.repeat === this.input) {
         this.resolve(true)
         this.resolve = null
       }
     },
     handleConfirm() {
-      if (this.resolve && this.expect === this.input) {
+      if (this.resolve && this.repeat === this.input) {
         this.resolve(true)
         this.resolve = null
       }
+    },
+    setFocus() {
+      this.$nextTick(() => {
+        this.$refs.input.$el.querySelector('input').focus()
+      })
+    },
+    open() {
+      return new Promise(r => this.resolve = r)
     }
-  },
+  }
 }
 </script>
 

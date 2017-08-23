@@ -61,8 +61,6 @@
       > 新增酒店 </el-button>
     </div>
 
-    <SeriousConfirm ref="seriousConfirm" />
-
     <AddHotelDialog
       ref="addHotel"
       :busy="busy"
@@ -80,7 +78,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SeriousConfirm from 'components/SeriousConfirm'
+
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
 import { toDateString } from 'lib/date-util'
@@ -88,7 +86,6 @@ import { toDateString } from 'lib/date-util'
 export default {
   name: 'hotel-mgmt',
   components: {
-    SeriousConfirm,
     AddHotelDialog,
     ModifyHotelStockDialog
   },
@@ -102,7 +99,6 @@ export default {
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),
-    seriousConfirm() { return (...args) => this.$refs.seriousConfirm.confirm(...args) }
   },
   filters: {
     date(val) {
@@ -111,7 +107,7 @@ export default {
   },
   methods: {
     async deleteHotel(idx) {
-      let confirmed = await this.seriousConfirm('删除酒店清除所有该酒店的房间预定', this.hotels[idx].name)
+      let confirmed = await this.$serious('删除酒店清除所有该酒店的房间预定', this.hotels[idx].name)
       if ( confirmed ) {
         this.busy = true
         try {

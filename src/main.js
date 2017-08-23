@@ -64,12 +64,15 @@ Vue.use( Tag )
 Vue.use( Tooltip )
 Vue.use( Loading )
 
+import SeriousConfirm from 'components/SeriousConfirm.js'
+
 Vue.prototype.$agent = superagent
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
+Vue.prototype.$serious = SeriousConfirm
 
 let token = getToken()
 if (token) {

@@ -18,20 +18,14 @@
       @click="confirmInitialization"
     >{{ busy ? '正在初始化...' : '系统初始化' }}</el-button>
 
-    <SeriousConfirm ref="seriousConfirm" />
-
   </div>
 </template>
 
 <script>
-import SeriousConfirm from 'components/SeriousConfirm'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'root-overview',
-  components: {
-    SeriousConfirm
-  },
   data: () => ({
     busy: false
   }),
@@ -40,7 +34,7 @@ export default {
   },
   methods: {
     async confirmInitialization() {
-      let confirmed = await this.$refs.seriousConfirm.confirm('初始化会清空所有数据，请再次确认！', 'hi.nkmun.cn')
+      let confirmed = await this.$serious('初始化会清空所有数据，请再次确认！', 'hi.nkmun.cn')
       if (confirmed) {
         this.busy = true
         try{

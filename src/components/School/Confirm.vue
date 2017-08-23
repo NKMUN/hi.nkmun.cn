@@ -38,22 +38,18 @@
     <p v-if="confirmed">
     </p>
 
-    <SeriousConfirm ref="serious" />
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import store from 'store/index'
-import SeriousConfirm from '../SeriousConfirm'
 import ReservationView from './components/ReservationView'
 import RepresentativeTable from './components/RepresentativeTable'
 
 export default {
   name: 'confirm',
   components: {
-    SeriousConfirm,
     ReservationView,
     RepresentativeTable,
   },
@@ -80,7 +76,7 @@ export default {
   methods: {
     async confirm() {
       if ( ! await (
-        this.$refs.serious.confirm('请检查以上信息是否正确，确认后不能再修改！\n如因信息错误导致问题，后果自负。', '我确认信息正确无误')
+        this.$serious('请检查以上信息是否正确，确认后不能再修改！\n如因信息错误导致问题，后果自负。', '我确认信息正确无误')
       ) ) {
         return
       }

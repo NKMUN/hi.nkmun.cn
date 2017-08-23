@@ -35,13 +35,11 @@
       @click="confirm"
     > 确认名额 </el-button>
 
-    <SeriousConfirm ref="serious" />
-
   </div>
 </template>
 
 <script>
-import SeriousConfirm from 'components/SeriousConfirm'
+
 import LeaderAttendance from '../form/LeaderAttendance'
 import SeatView from './components/SeatView'
 import { mapGetters } from 'vuex'
@@ -51,7 +49,6 @@ export default {
   name: 'school-relinquish',
   components: {
     LeaderAttendance,
-    SeriousConfirm,
     SeatView
   },
   computed: {
@@ -71,7 +68,7 @@ export default {
       let remaining = this.seat['1'][session.id] - 1
       let name = session.name
       let message = '操作完成后，'+name+'的剩余名额为：'+remaining
-      if ( await this.$refs.serious.confirm(message, name) ) {
+      if ( await this.$serious(message, name) ) {
         this.busy = true
         try {
           let {

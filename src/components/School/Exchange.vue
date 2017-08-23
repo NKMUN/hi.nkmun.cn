@@ -33,8 +33,6 @@
 
     <SeatExchangeControl class="seat-overview" ref="list" @exchange="exchange" :busy="busy" />
 
-    <SeriousConfirm ref="serious" />
-
   </div>
 </template>
 
@@ -46,15 +44,14 @@ import { mapGetters } from 'vuex'
 import store from 'store/index'
 import groupSeatsBySession from 'lib/group-seats'
 import SessionUtils from 'lib/session-utils'
-import SeriousConfirm from '../SeriousConfirm'
+
 
 export default {
   name: 'school-exchange',
   components: {
     ExchangeRequestList,
     SeatView,
-    SeatExchangeControl,
-    SeriousConfirm
+    SeatExchangeControl
   },
   mixins: [
     SessionUtils
@@ -81,7 +78,7 @@ export default {
   }),
   methods: {
     async confirm() {
-      if ( ! await this.$refs.serious.confirm('将确认名额交换，未处理的请求将全部取消。', '我确认当前名额正确') )
+      if ( ! await this.$serious('将确认名额交换，未处理的请求将全部取消。', '我确认当前名额正确') )
         return
       this.busy = true
       try {
