@@ -4,8 +4,7 @@
     "stage-2"
   ],
   "plugins": [
-    "transform-runtime",
-    "async-to-promises",
+    "transform-regenerator",
     "transform-object-rest-spread",
     "transform-vue-jsx",
     ["component", [
