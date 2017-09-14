@@ -12,7 +12,7 @@
 import { mapGetters } from 'vuex'
 import Precondition from '../Precondition'
 import SchoolRepresentativeMgmt from '../Admin/components/SchoolRepresentativeMgmt'
-import SessionUtils from 'lib/session-utils'
+import SessionUtils from '@/lib/session-utils'
 
 export default {
   name: 'school-representative',

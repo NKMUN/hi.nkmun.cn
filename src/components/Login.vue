@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import { getToken, storeToken, clearToken } from 'persistence/token'
-import getRoleRoute from 'router/role-dispatch.js'
+import { getToken, storeToken, clearToken } from '@/persistence/token'
+import getRoleRoute from '@/router/role-dispatch.js'
 
 export default {
   name: 'login',

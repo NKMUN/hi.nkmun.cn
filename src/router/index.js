@@ -1,49 +1,49 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from 'store'
+import store from '@/store'
 
 Vue.use(Router)
 
 // Statically bundled
-const Index    = require('pages/Index.vue')
-const NotFound = require('pages/NotFound.vue')
-const Logout   = require('components/Logout.vue')
+import Index from '@/pages/Index.vue'
+import NotFound from '@/pages/NotFound.vue'
+import Logout from '@/components/Logout.vue'
 
-// Lazy load:                                            Module                  chunk
-const Apply    = r => require.ensure([], () => r(require('pages/Apply.vue')),    'apply')
-const Register = r => require.ensure([], () => r(require('pages/Register.vue')), 'register')
-const Admin    = r => require.ensure([], () => r(require('pages/Admin.vue')),    'admin')
-const School   = r => require.ensure([], () => r(require('pages/School.vue')),   'school')
-const Root     = r => require.ensure([], () => r(require('pages/Root.vue')),     'root')
-const Committee = r => require.ensure([], () => r(require('pages/Committee.vue')),  'committee-reg')
+// Lazy load:
+const Apply    = () => import('@/pages/Apply.vue')
+const Register = () => import('@/pages/Register.vue')
+const Admin    = () => import('@/pages/Admin.vue')
+const School   = () => import('@/pages/School.vue')
+const Root     = () => import('@/pages/Root.vue')
+const Committee = () => import('@/pages/Committee.vue')
 
 // Root mgmt pages
-const SessionMgmt  = r => require.ensure([], () => r(require('components/Root/SessionMgmt.vue')), 'root')
-const RootOverview = r => require.ensure([], () => r(require('components/Root/Overview.vue')),    'root')
-const SystemConfig = r => require.ensure([], () => r(require('components/Root/Config.vue')),      'root')
-const Application  = r => require.ensure([], () => r(require('components/Root/Application.vue')), 'root')
-const Initialize   = r => require.ensure([], () => r(require('components/Root/Initialize.vue')),  'root')
-const HotelMgmt    = r => require.ensure([], () => r(require('components/Root/HotelMgmt.vue')),   'root')
-const Mail         = r => require.ensure([], () => r(require('components/Root/Mail.vue')),  'root')
+const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
+const RootOverview = () => import('@/components/Root/Overview.vue')
+const SystemConfig = () => import('@/components/Root/Config.vue')
+const Application  = () => import('@/components/Root/Application.vue')
+const Initialize   = () => import('@/components/Root/Initialize.vue')
+const HotelMgmt    = () => import('@/components/Root/HotelMgmt.vue')
+const Mail         = () => import('@/components/Root/Mail.vue')
 
 // Admin mgmt pages
-const ApplicationMgmt = r => require.ensure([], () => r(require('components/Admin/ApplicationMgmt.vue')), 'admin')
-const SchoolMgmt      = r => require.ensure([], () => r(require('components/Admin/SchoolMgmt.vue')), 'admin')
-const PaymentMgmt     = r => require.ensure([], () => r(require('components/Admin/PaymentMgmt.vue')), 'admin')
-const SecondRoundMgmt = r => require.ensure([], () => r(require('components/Admin/SecondRoundMgmt.vue')), 'admin')
-const SeatOverview    = r => require.ensure([], () => r(require('components/Admin/SeatOverview.vue')),  'admin')
-const StageOverview    = r => require.ensure([], () => r(require('components/Admin/StageOverview.vue')),  'admin')
-const RepresentativeMgmt = r => require.ensure([], () => r(require('components/Admin/RepresentativeMgmt.vue')), 'admin')
-const UserMgmt = r => require.ensure([], () => r(require('components/Admin/UserMgmt.vue')),  'admin')
-const Export = r => require.ensure([], () => r(require('components/Admin/Export.vue')),  'admin')
+const ApplicationMgmt = () => import('@/components/Admin/ApplicationMgmt.vue')
+const SchoolMgmt      = () => import('@/components/Admin/SchoolMgmt.vue')
+const PaymentMgmt     = () => import('@/components/Admin/PaymentMgmt.vue')
+const SecondRoundMgmt = () => import('@/components/Admin/SecondRoundMgmt.vue')
+const SeatOverview    = () => import('@/components/Admin/SeatOverview.vue')
+const StageOverview    = () => import('@/components/Admin/StageOverview.vue')
+const RepresentativeMgmt = () => import('@/components/Admin/RepresentativeMgmt.vue')
+const UserMgmt = () => import('@/components/Admin/UserMgmt.vue')
+const Export = () => import('@/components/Admin/Export.vue')
 
 // School mgmt pages
-const Relinquish  = r => require.ensure([], () => r(require('components/School/Relinquish.vue')), 'school')
-const Exchange    = r => require.ensure([], () => r(require('components/School/Exchange.vue')),   'school')
-const Reservation = r => require.ensure([], () => r(require('components/School/Reservation.vue')), 'school')
-const Payment     = r => require.ensure([], () => r(require('components/School/Payment.vue')),  'school')
-const Representative = r => require.ensure([], () => r(require('components/School/Representative.vue')),  'school-confirm')
-const Confirm        = r => require.ensure([], () => r(require('components/School/Confirm.vue')),  'school-confirm')
+const Relinquish  = () => import('@/components/School/Relinquish.vue')
+const Exchange    = () => import('@/components/School/Exchange.vue')
+const Reservation = () => import('@/components/School/Reservation.vue')
+const Payment     = () => import('@/components/School/Payment.vue')
+const Representative = () => import('@/components/School/Representative.vue')
+const Confirm        = () => import('@/components/School/Confirm.vue')
 
 export default new Router({
   routes: [

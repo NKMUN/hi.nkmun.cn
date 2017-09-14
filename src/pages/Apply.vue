@@ -72,10 +72,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Banner from 'components/Banner'
-import ApplicationForm from 'components/form/Application'
-import Precondition from 'components/Precondition'
-import Copyright from 'components/Copyright'
+import Banner from '@/components/Banner'
+import ApplicationForm from '@/components/form/Application'
+import Precondition from '@/components/Precondition'
+import Copyright from '@/components/Copyright'
 
 export default {
   name: 'apply',

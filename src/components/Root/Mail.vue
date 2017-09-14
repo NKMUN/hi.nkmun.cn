@@ -117,7 +117,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Precondition from 'components/Precondition'
+import Precondition from '@/components/Precondition'
 
 const DEFAULT_INVITATION_MODEL = () => ({
   host: '',

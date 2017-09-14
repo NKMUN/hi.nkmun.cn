@@ -55,7 +55,7 @@
 
 <script>
 import HotelStock from '../../School/components/HotelStock'
-import { toDateString, between as dateBetween} from 'lib/date-util'
+import { toDateString, between as dateBetween} from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 
 export default {

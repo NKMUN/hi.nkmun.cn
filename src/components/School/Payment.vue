@@ -50,8 +50,8 @@ import { Upload } from 'element-ui'
 import { mapGetters } from 'vuex'
 import PaymentMethods from './components/PaymentMethods'
 import BillingDetail from './components/BillingDetail'
-import store from 'store/index'
-import roundText from 'lib/round-text'
+import store from '@/store/index'
+import roundText from '@/lib/round-text'
 
 export default {
   name: 'payment',

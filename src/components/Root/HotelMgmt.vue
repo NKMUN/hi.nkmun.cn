@@ -81,7 +81,7 @@ import { mapGetters } from 'vuex'
 
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
-import { toDateString } from 'lib/date-util'
+import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'hotel-mgmt',

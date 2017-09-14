@@ -27,7 +27,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Precondition from 'components/Precondition'
+import Precondition from '@/components/Precondition'
 import ListViewControl from '../../ListViewControl'
 import RepresentativeView from './RepresentativeView'
 

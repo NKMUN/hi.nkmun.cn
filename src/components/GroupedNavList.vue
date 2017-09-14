@@ -8,10 +8,11 @@
     @select="handleListSelect"
     :default-active="actived"
   >
-    <el-menu-item-group v-for="g in groups" :title="g.name">
+    <el-menu-item-group v-for="g in groups" :key="g.name" :title="g.name">
       <el-menu-item
         class="list-item"
         v-for="entry in g.list"
+        :key="entry.id"
         :index="entry.id"
       >{{ entry.name }}</el-menu-item>
     </el-menu-item-group>

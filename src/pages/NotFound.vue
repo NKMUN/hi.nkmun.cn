@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Banner from 'components/Banner'
-import Copyright from 'components/Copyright'
-import LayoutMiddle from 'components/LayoutMiddle'
+import Banner from '@/components/Banner'
+import Copyright from '@/components/Copyright'
+import LayoutMiddle from '@/components/LayoutMiddle'
 
 export default {
   name: 'not-found',

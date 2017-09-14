@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import superagent from 'superagent'
-import { getToken } from 'persistence/token'
+import { getToken } from '@/persistence/token'
 import {
     Alert,
     Button,
@@ -64,7 +64,7 @@ Vue.use( Tag )
 Vue.use( Tooltip )
 Vue.use( Loading )
 
-import SeriousConfirm from 'components/SeriousConfirm.js'
+import SeriousConfirm from '@/components/SeriousConfirm.js'
 
 Vue.prototype.$agent = superagent
 Vue.prototype.$msgbox = MessageBox
@@ -81,9 +81,7 @@ if (token) {
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   store,
-  template: '<App/>',
-  components: { App }
-})
+  render: h => h(App)
+}).$mount('#app')

@@ -15,7 +15,7 @@
 
 <script>
 import { getName } from '../../../STAGE_DEF'
-import genderText from 'lib/gender-text'
+import genderText from '@/lib/gender-text'
 
 export default {
   name: 'school-brief',

@@ -10,7 +10,7 @@
     <div class="controls" v-if="schools">
       <span>会场：</span>
       <el-radio-group v-model="sessionType">
-        <el-radio v-for="type in sessionTypes" :label="type">{{type}}</el-radio>
+        <el-radio v-for="type in sessionTypes" :key="type" :label="type">{{type}}</el-radio>
       </el-radio-group>
     </div>
 
@@ -45,7 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SessionUtils from 'lib/session-utils'
+import SessionUtils from '@/lib/session-utils'
 
 const bySchoolName = (a, b) => {
   if ( a && b )
@@ -86,7 +86,7 @@ function mergeSeat(L, R) {
   return result
 }
 
-import sessionTypes from 'lib/session-types'
+import sessionTypes from '@/lib/session-types'
 
 export default {
   name: 'seat-allocation-view',

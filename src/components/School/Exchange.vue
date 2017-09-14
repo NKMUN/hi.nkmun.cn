@@ -41,9 +41,9 @@ import ExchangeRequestList from './components/ExchangeRequestList'
 import SeatView from './components/SeatView'
 import SeatExchangeControl from './components/SeatExchangeControl'
 import { mapGetters } from 'vuex'
-import store from 'store/index'
-import groupSeatsBySession from 'lib/group-seats'
-import SessionUtils from 'lib/session-utils'
+import store from '@/store/index'
+import groupSeatsBySession from '@/lib/group-seats'
+import SessionUtils from '@/lib/session-utils'
 
 
 export default {

@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Banner from 'components/Banner'
-import Precondition from 'components/Precondition'
+import Banner from '@/components/Banner'
+import Precondition from '@/components/Precondition'
 
 export default {
   name: 'app',

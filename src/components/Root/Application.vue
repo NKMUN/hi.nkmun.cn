@@ -18,7 +18,7 @@
         />
       </el-form-item>
 
-      <el-form-item v-for="(t, idx) in application.tests" :label="'学测'+(idx+1)">
+      <el-form-item v-for="(t, idx) in application.tests" :key="idx" :label="'学测'+(idx+1)">
         <el-input
           type="textarea"
           v-model="application.tests[idx].question"

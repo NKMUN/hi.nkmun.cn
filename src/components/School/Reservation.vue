@@ -25,8 +25,8 @@
 import SeatView from './components/SeatView'
 import ReservationControl from './components/ReservationControl'
 import { mapGetters } from 'vuex'
-import store from 'store/index'
-import roundText from 'lib/round-text'
+import store from '@/store/index'
+import roundText from '@/lib/round-text'
 
 export default {
   name: 'reservation',

@@ -43,7 +43,7 @@
             :class="validation[scope.$index] && !validation[scope.$index].type ? 'error' : ''"
             :disabled="busy || scope.row.reserved"
           >
-            <el-option v-for="type in sessionTypes" :label="type" :value="type" />
+            <el-option v-for="type in sessionTypes" :key="type" :label="type" :value="type" />
           </el-select>
         </template>
       </el-table-column>
@@ -132,7 +132,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import sessionTypes from 'lib/session-types'
+import sessionTypes from '@/lib/session-types'
 
 const keys = obj => {
     let ret = []

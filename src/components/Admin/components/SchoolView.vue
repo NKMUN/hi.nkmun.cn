@@ -74,7 +74,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Precondition from 'components/Precondition'
+import Precondition from '@/components/Precondition'
 import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'

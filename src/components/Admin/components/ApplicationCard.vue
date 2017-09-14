@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import genderText from 'lib/gender-text'
+import genderText from '@/lib/gender-text'
 
 export default {
   name: 'application-card',

@@ -98,7 +98,7 @@ const DEFAULT_HOTEL_MODEL = () => ({
   period: null,
 })
 
-import { toDateString } from 'lib/date-util'
+import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'add-hotel-dialog',

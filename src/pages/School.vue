@@ -44,7 +44,8 @@
 
       <div class="overview" v-if="!renderSubComponent">
         <el-alert
-          v-for="m in messages"
+          v-for="(m, index) in messages"
+          :key="index"
           type="warning"
           :title="m.title"
           :description="m.description"
@@ -75,10 +76,10 @@
 </template>
 
 <script>
-import Precondition from 'components/Precondition'
-import Todo from 'components/School/Todo'
-import SeatView from 'components/School/components/SeatView'
-import ReservationView from 'components/School/components/ReservationView'
+import Precondition from '@/components/Precondition'
+import Todo from '@/components/School/Todo'
+import SeatView from '@/components/School/components/SeatView'
+import ReservationView from '@/components/School/components/ReservationView'
 import { mapGetters } from 'vuex'
 
 export default {

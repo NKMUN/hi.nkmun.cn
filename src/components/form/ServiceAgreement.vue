@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import Precondition from 'components/Precondition'
+import Precondition from '@/components/Precondition'
 
 export default {
   name: 'service-agreement',

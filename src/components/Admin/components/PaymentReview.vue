@@ -59,7 +59,7 @@ import { mapGetters } from 'vuex'
 import BillingDetail from '../../School/components/BillingDetail'
 import SchoolBrief from './SchoolBrief'
 import PaymentList from './PaymentList'
-import roundText from 'lib/round-text'
+import roundText from '@/lib/round-text'
 
 export default {
   name: 'payment-review',

@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SessionUtils from 'lib/session-utils'
+import SessionUtils from '@/lib/session-utils'
 const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.session))
 
 export default {

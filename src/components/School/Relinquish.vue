@@ -43,7 +43,7 @@
 import LeaderAttendance from '../form/LeaderAttendance'
 import SeatView from './components/SeatView'
 import { mapGetters } from 'vuex'
-import store from 'store/index'
+import store from '@/store/index'
 
 export default {
   name: 'school-relinquish',

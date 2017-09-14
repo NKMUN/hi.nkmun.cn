@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import LayoutMiddle from 'components/LayoutMiddle'
+import LayoutMiddle from '@/components/LayoutMiddle'
 export default {
   name: 'precondition',
   components: {

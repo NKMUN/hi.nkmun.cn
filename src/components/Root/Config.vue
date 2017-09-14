@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { toDateString } from 'lib/date-util'
+import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'global-config',

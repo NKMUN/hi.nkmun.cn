@@ -62,11 +62,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Banner from 'components/Banner'
-import InvitationCode from 'components/form/InvitationCode'
-import ServiceAgreement from 'components/form/ServiceAgreement'
-import RegistrationForm from 'components/form/Registration'
-import Copyright from 'components/Copyright'
+import Banner from '@/components/Banner'
+import InvitationCode from '@/components/form/InvitationCode'
+import ServiceAgreement from '@/components/form/ServiceAgreement'
+import RegistrationForm from '@/components/form/Registration'
+import Copyright from '@/components/Copyright'
 
 export default {
   name: 'register',

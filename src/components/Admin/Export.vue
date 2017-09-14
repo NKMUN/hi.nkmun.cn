@@ -45,7 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import {saveAsFile, downloadFile} from 'lib/save-as-file'
+import {saveAsFile, downloadFile} from '@/lib/save-as-file'
 
 export default {
   name: 'export',

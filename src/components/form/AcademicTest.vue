@@ -6,7 +6,8 @@
     ref="form"
   >
     <el-form-item
-      v-for="test in tests"
+      v-for="(test, index) in tests"
+      :key="index"
       :label="test.question"
       :prop="test.id"
       :rules="[ { required: true, message: '请输入回答', trigger: 'blur'} ]"

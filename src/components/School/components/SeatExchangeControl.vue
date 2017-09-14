@@ -19,6 +19,7 @@
       />
       <el-table-column
         v-for="s in sessions"
+        :key="s.id"
         :label="s.name"
         align="center"
       >
@@ -52,6 +53,7 @@
             <el-select v-model="exchange.selfSession">
               <el-option
                 v-for="ss in selfSessions"
+                :key="ss.id"
                 :value="ss.id"
                 :label="ss.name"
                 :disabled="
@@ -90,7 +92,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SessionUtils from 'lib/session-utils'
+import SessionUtils from '@/lib/session-utils'
 
 const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 

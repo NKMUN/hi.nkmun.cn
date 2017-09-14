@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Precondition from 'components/Precondition'
+import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import PaymentReview from './components/PaymentReview'
 

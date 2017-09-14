@@ -23,7 +23,7 @@ function byTypeThenName(a,b) {
 }
 
 import { mapGetters } from 'vuex'
-import roundText from 'lib/round-text'
+import roundText from '@/lib/round-text'
 export default {
   name: 'billing-detail',
   computed: {

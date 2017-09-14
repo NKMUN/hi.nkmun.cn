@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { clearToken } from 'persistence/token'
+import { clearToken } from '@/persistence/token'
 export default {
   name: 'logout',
   mounted() {

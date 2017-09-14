@@ -11,7 +11,7 @@
       :rules="[{ required: true, type: 'number', message: '请选择毕业年份', trigger: 'change' }]"
     >
       <el-select :value="value" @input="emit" class="el-input">
-        <el-option v-for="year in graduationYears" :label="year" :value="year" />
+        <el-option v-for="year in graduationYears" :key="year" :label="year" :value="year" />
       </el-select>
     </el-form-item>
 

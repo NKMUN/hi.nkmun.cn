@@ -5,7 +5,7 @@
     :active="stepActive"
     finish-status="success"
   >
-    <el-step v-for="s in stages" :title="nameOf(s)" />
+    <el-step v-for="s in stages" :key="s" :title="nameOf(s)" />
   </el-steps>
 </template>
 

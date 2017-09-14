@@ -1,7 +1,7 @@
 <template>
   <ol v-if="payments && payments.length > 0">
     <li>
-      <PaymentEntry v-for="payment in payments" :data="payment" />
+      <PaymentEntry v-for="payment in payments" :key="payment.id" :data="payment" />
     </li>
   </ol>
 </template>

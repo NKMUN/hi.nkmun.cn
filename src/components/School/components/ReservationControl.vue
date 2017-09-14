@@ -74,7 +74,7 @@
 <script>
 import HotelStock from './HotelStock'
 import { mapGetters } from 'vuex'
-import { toDateString, between as dateBetween } from 'lib/date-util'
+import { toDateString, between as dateBetween } from '@/lib/date-util'
 
 export default {
   name: 'reservation-control',
