@@ -9,7 +9,7 @@
         class="menu"
       >
         <el-submenu index="0" v-if="hasAccess('admin')">
-          <template slot="title"> <icon name="cogs"/> 系统管理 </template>
+          <template slot="title"> <icon name="wrench"/> 系统管理 </template>
           <el-menu-item index="/staff/admin/initialize/"> <icon name="exclamation-circle"/> 初始化 </el-menu-item>
           <el-menu-item index="/staff/admin/config/"> <icon name="calendar-check-o"/> 全局设置 </el-menu-item>
           <el-menu-item index="/staff/admin/application/"> <icon name="file-text-o"/> 报名表 </el-menu-item>
@@ -21,8 +21,8 @@
 
         <el-submenu index="1" v-if="hasAccess('staff')">
           <template slot="title"> 总览 </template>
-          <el-menu-item index="/staff/overview/seat"> 名额分配 </el-menu-item>
-          <el-menu-item index="/staff/overview/stage"> 学校状态 </el-menu-item>
+          <el-menu-item index="/staff/overview/seat"> <icon name="table"/> 名额分配 </el-menu-item>
+          <el-menu-item index="/staff/overview/stage"> <icon name="institution"/> 学校状态 </el-menu-item>
         </el-submenu>
 
         <el-menu-item v-if="hasAccess('staff.application')" index="/staff/applications/"> 报名管理 </el-menu-item>
@@ -48,7 +48,7 @@
 <script>
 import { hasAccess } from '@/lib/access'
 import Icon from 'vue-awesome/components/Icon'
-import 'vue-awesome/icons/cogs'
+import 'vue-awesome/icons/wrench'
 import 'vue-awesome/icons/exclamation-circle'
 import 'vue-awesome/icons/calendar-check-o'
 import 'vue-awesome/icons/file-text-o'
@@ -56,6 +56,8 @@ import 'vue-awesome/icons/comments-o'
 import 'vue-awesome/icons/envelope-o'
 import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/users'
+import 'vue-awesome/icons/table'
+import 'vue-awesome/icons/institution'
 
 export default {
   name: 'admin-mgmt',
