@@ -55,4 +55,6 @@ body
 <style lang="stylus">
 .el-notification
   z-index: 99999 !important    // make sure it has greater z-index than loading mask
+.fa-icon
+  width: 2ch
 </style>

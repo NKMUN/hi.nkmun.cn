@@ -129,6 +129,5 @@ export default {
 .fa-icon
   vertical-align: bottom
   opacity: 0.8
-  width: 2ch
   margin-right: .5ch
 </style>

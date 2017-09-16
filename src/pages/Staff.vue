@@ -89,6 +89,7 @@ export default {
     .menu
       padding-left: 8ch
       flex-grow: 1
+      vertical-align: sub
   .wrap
     flex-grow: 1
   .el-alert
