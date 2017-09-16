@@ -4,6 +4,12 @@
     <h3>导出</h3>
 
     <el-button
+      @click="exportCsv('seats')"
+      type="primary"
+      :disabled="busy"
+    > 名额分配 </el-button>
+
+    <el-button
       @click="exportCsv('leaders')"
       type="primary"
       :disabled="busy"
