@@ -19,6 +19,7 @@ import {
     Input,
     InputNumber,
     Menu,
+    Submenu,
     MenuItem,
     MenuItemGroup,
     Option,
@@ -49,6 +50,7 @@ Vue.use( FormItem )
 Vue.use( Input )
 Vue.use( InputNumber )
 Vue.use( Menu )
+Vue.use( Submenu )
 Vue.use( MenuItem )
 Vue.use( MenuItemGroup )
 Vue.use( Option )

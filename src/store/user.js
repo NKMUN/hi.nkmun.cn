@@ -7,11 +7,6 @@ export default {
     payload: {}
   },
   getters: {
-    role:   state => {
-      const precedance = ['root', 'admin', 'school']
-      const access = state.payload.access || []
-      return precedance.find( $ => access.indexOf($) !== -1 )
-    },
     access: state => state.payload.access || [],
     school: state => state.payload.school,
     authorization: state => [ 'Authorization', 'Bearer '+state.token ]

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrap">
     <Banner />
 
     <div class="layout">
@@ -96,6 +96,8 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
+.wrap
+  flex-vert: flex-start stretch
 .layout
   flex-grow: 1
 .welcome

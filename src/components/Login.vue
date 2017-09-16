@@ -49,7 +49,7 @@
 
 <script>
 import { getToken, storeToken, clearToken } from '@/persistence/token'
-import getRoleRoute from '@/router/role-dispatch.js'
+import { getRoleRoute } from '@/router'
 
 export default {
   name: 'login',
@@ -93,7 +93,7 @@ export default {
           // TODO: store token, redirect to approperiate page
           storeToken(token)
           this.$store.commit('user/token', token)
-          this.$router.push( getRoleRoute(this.$store.getters['user/role']) )
+          this.$router.push( getRoleRoute(this.$store.getters['user/access']) )
 
           // Note: this.busy is NOT cleared for successful login
           this.showAlert('登录成功，请稍等……')

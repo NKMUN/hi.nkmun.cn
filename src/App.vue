@@ -50,7 +50,6 @@ body
     flex-vert: flex-start stretch
     & > .wrap
       flex-grow: 1
-      flex-vert: flex-start stretch
 </style>
 
 <style lang="stylus">
