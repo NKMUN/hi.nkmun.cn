@@ -38,6 +38,22 @@
             </div>
           </td>
         </tr>
+        <tr class="summary" v-if="schools">
+          <td>总数</td>
+          <td v-for="s in activeSessions">
+            <div class="seat-amount no-wrap">
+            <span v-if="round1" class="amount">
+              {{ schools.map($ => $.r1[s.id]).reduce(add) }}
+            </span>
+            <span v-if="round2" class="amount">
+              {{ schools.map($ => $.r2[s.id]).reduce(add) }}
+            </span>
+            <span v-if="sum" class="amount">
+              {{ schools.map($ => add($.r1[s.id], $.r2[s.id])).reduce(add) }}
+            </span>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -127,7 +143,8 @@ export default {
         console.error(e)
         this.schools = null
       }
-    }
+    },
+    add: (acc, v) => (acc || 0) + (v || 0)
   },
   mounted() {
     this.fetch()
@@ -146,7 +163,7 @@ export default {
   .amount
     font-family: monospace
     font-size: 14px
-    width: 2ch
+    width: 3ch
     margin: 0 .25ch
     display: inline-block
     text-align: right
@@ -155,7 +172,7 @@ export default {
 table
   border-collapse: collapse
   border: 1px solid rgb(223, 229, 236)
-  th, .session
+  th, .session, .summary
     background-color: rgb(238, 241, 246)
   th, td
     border: 1px solid rgb(223, 229, 236)
@@ -163,4 +180,6 @@ table
     padding: .5em 2ch
   .session
     min-width: 12ch
+  .summary
+    font-weight: bolder
 </style>
