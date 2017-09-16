@@ -11,18 +11,18 @@
         <el-submenu index="0" v-if="hasAccess('admin')">
           <template slot="title"> <icon name="wrench"/> 系统管理 </template>
           <el-menu-item index="/staff/admin/initialize/"> <icon name="exclamation-circle"/> 初始化 </el-menu-item>
-          <el-menu-item index="/staff/admin/config/"> <icon name="calendar-check-o"/> 全局设置 </el-menu-item>
-          <el-menu-item index="/staff/admin/application/"> <icon name="file-text-o"/> 报名表 </el-menu-item>
-          <el-menu-item index="/staff/admin/sessions/"> <icon name="comments-o"/> 会场管理 </el-menu-item>
+          <el-menu-item index="/staff/admin/config/"> <icon name="calendar-check-o"/> 会议进程 </el-menu-item>
+          <el-menu-item index="/staff/admin/application/"> <icon name="file-text-o"/> 报名 </el-menu-item>
+          <el-menu-item index="/staff/admin/sessions/"> <icon name="comments-o"/> 会场 </el-menu-item>
           <el-menu-item index="/staff/admin/mail/"> <icon name="envelope-o"/> 邮件 </el-menu-item>
-          <el-menu-item index="/staff/admin/hotels/"> <icon name="bed"/> 酒店管理 </el-menu-item>
-          <el-menu-item index="/staff/admin/users/"> <icon name="users"/> 用户管理 </el-menu-item>
+          <el-menu-item index="/staff/admin/hotels/"> <icon name="bed"/> 酒店 </el-menu-item>
+          <el-menu-item index="/staff/admin/users/"> <icon name="users"/> 用户 </el-menu-item>
         </el-submenu>
 
         <el-submenu index="1" v-if="hasAccess('staff')">
           <template slot="title"> 总览 </template>
-          <el-menu-item index="/staff/overview/seat"> <icon name="table"/> 名额分配 </el-menu-item>
-          <el-menu-item index="/staff/overview/stage"> <icon name="institution"/> 学校状态 </el-menu-item>
+          <el-menu-item index="/staff/overview/seat"> <icon name="table"/> 名额 </el-menu-item>
+          <el-menu-item index="/staff/overview/stage"> <icon name="institution"/> 学校 </el-menu-item>
         </el-submenu>
 
         <el-menu-item v-if="hasAccess('staff.application')" index="/staff/applications/"> 报名管理 </el-menu-item>
