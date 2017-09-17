@@ -1,5 +1,11 @@
 <template>
-  <el-dialog title="新增预订" :visible="visible" :before-close="() => {visible = false}">
+  <el-dialog
+    title="新增预订"
+    size="full"
+    width="100%"
+    :visible="visible"
+    :before-close="() => {visible = false}"
+  >
     <HotelStock ref="stock">
       <template slot="operation" scope="scope">
         <el-button
@@ -24,13 +30,25 @@
       <el-form label-width="108px" label-position="right">
         <el-form-item label="酒店"> {{ hotel ? hotel.name: '' }} </el-form-item>
         <el-form-item label="房型"> {{ hotel ? hotel.type: '' }} </el-form-item>
-        <el-form-item label="入住时间">
+        <el-form-item label="入住日期">
           <el-date-picker
-            v-model="period"
-            type="daterange"
+            v-model="checkIn"
+            type="date"
             :disabled="!hotel || busy"
-            placeholder="请选择入住时间"
-            :picker-options="getPickerOptions(hotel)"
+            placeholder="请选择入住日期"
+            :picker-options="getCheckInPickerOptions(hotel)"
+            @input="checkCheckOutDate"
+            :default-value="conferenceStartDate"
+          />
+        </el-form-item>
+        <el-form-item label="退房日期">
+           <el-date-picker
+            v-model="checkOut"
+            type="date"
+            :disabled="!hotel || busy"
+            placeholder="请选择退房日期"
+            :picker-options="getCheckOutPickerOptions(hotel)"
+            :default-value="conferenceEndDate"
           />
         </el-form-item>
       </el-form>
@@ -45,7 +63,7 @@
         <el-button
           type="primary"
           :loading="busy"
-          :disabled="!period || !period[0] || !period[1]"
+          :disabled="!checkIn || !checkOut"
           @click="emit"
         > 确认 </el-button>
       </div>
@@ -55,8 +73,11 @@
 
 <script>
 import HotelStock from '../../School/components/HotelStock'
-import { toDateString, between as dateBetween} from '@/lib/date-util'
+import { toDateString, between as dateBetween } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
+import { hasAccess } from '@/lib/access'
+
+const ONE_DAY = 24 * 60 * 60 * 1000
 
 export default {
   name: 'add-reservation-dialog',
@@ -68,10 +89,14 @@ export default {
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),
+    isStaff() {
+      return hasAccess(this.$store.getters['user/access'], 'staff.accommodation')
+    }
   },
   data: () => ({
     hotel: null,
-    period: null,
+    checkIn: null,
+    checkOut: null,
     visible: false
   }),
   props: {
@@ -83,7 +108,8 @@ export default {
     },
     open() {
       this.hotel = null
-      this.period = null
+      this.checkIn = null
+      this.checkOut = null
       this.visible = true
       if (this.$refs.stock)
         this.$refs.stock.fetch()
@@ -91,25 +117,35 @@ export default {
     emit() {
       this.$emit('confirm', {
         hotel: this.hotel.id,
-        checkIn: toDateString(this.period[0]),
-        checkOut: toDateString(this.period[1])
+        checkIn: toDateString(this.checkIn),
+        checkOut: toDateString(this.checkOut)
       })
     },
     setHotel(hotel) {
       this.hotel = hotel
-      this.period = null
+      this.checkIn = null
+      this.checkOut = null
     },
-    getPickerOptions(hotel) {
-      return {
-        disabledDate(date) {
-          if (hotel) {
-            return !dateBetween(date, hotel.notBefore, hotel.notAfter)
-          }else{
-            return true
-          }
-        }
+    getCheckInPickerOptions(hotel) {
+      if (!hotel) return {}
+      const oneDayBeforeLastDay = new Date(hotel.notAfter) - ONE_DAY
+      const startDate = hotel.notBefore
+      const endDate = this.isStaff ? oneDayBeforeLastDay : this.conferenceStartDate
+      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
+    },
+    getCheckOutPickerOptions(hotel) {
+      if (!hotel || !this.checkIn) return {}
+      const startDate = this.isStaff ? +this.checkIn + ONE_DAY : this.conferenceEndDate
+      const endDate = hotel.notAfter
+      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
+    },
+    checkCheckOutDate() {
+      if (this.checkIn && this.checkOut) {
+        const oneDayAfterCheckIn = +this.checkIn + ONE_DAY
+        if (this.checkOut < oneDayAfterCheckIn)
+          this.checkOut = new Date(oneDayAfterCheckIn)
       }
-    },
+    }
   }
 }
 </script>
