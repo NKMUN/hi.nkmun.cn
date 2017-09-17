@@ -12,12 +12,13 @@
           至
           <code class="date">{{conferenceEndDate}}</code>
         </li>
+        <li>拼房双方的单价 = 拼房费率 × 单价</li>
       </ul>
     </div>
 
     <el-table v-if="hotels" :data="hotels" class="hotel-table">
       <!-- <el-table-column prop="id" label="ID" width="144" sortable fixed /> -->
-      <el-table-column prop="name" label="名称" min-width="96" sortable />
+      <el-table-column prop="name" label="名称" min-width="160" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
       <el-table-column prop="notBefore" label="入住时间" width="120" sortable>
         <template scope="scope"> <span>{{ scope.row.notBefore | date }}</span> </template>
@@ -26,6 +27,7 @@
         <template scope="scope"> <span>{{ scope.row.notAfter | date }}</span> </template>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="72" />
+      <el-table-column prop="roomshareRate" label="拼房费率" width="96" />
       <el-table-column prop="available" label="余量" width="72" />
       <el-table-column prop="stock" label="总量" width="108">
         <template scope="scope">
@@ -227,7 +229,7 @@ export default {
     color: #475669
     font-size: 14px
   .hotel-table
-    max-width: 90ch
+    max-width: 120ch
     .stock
       min-width: 3ch
       display: inline-block

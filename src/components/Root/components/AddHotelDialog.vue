@@ -1,11 +1,5 @@
 <template>
-  <el-dialog
-    ref="dialog"
-    title="新增酒店"
-    :close-on-press-escape="false"
-    :close-on-click-modal="false"
-    :show-close="false"
-  >
+  <el-dialog title="新增酒店" :visible="visible" :before-close="() => visible = false">
     <el-form
       :model="M"
       ref="form"
@@ -65,9 +59,25 @@
         prop="period"
         :rules="[ { type: 'array', required: true, trigger: 'blur' } ]"
       >
+        <!-- NOTE: default-value requires upstream element-ui update -->
         <el-date-picker
           v-model="M.period"
           type="daterange"
+          :disabled="busy"
+          :default-value="conferenceStartDate"
+        />
+      </el-form-item>
+
+      <el-form-item
+        label="拼房费率"
+        prop="roomshareRate"
+        :rules="[ {type: 'number', required: false, trigger: 'blur'} ]"
+      >
+        <el-input-number
+          v-model="M.roomshareRate"
+          :min="0"
+          :max="1"
+          :step="0.1"
           :disabled="busy"
         />
       </el-form-item>
@@ -96,9 +106,11 @@ const DEFAULT_HOTEL_MODEL = () => ({
   price: 0,
   stock: 0,
   period: null,
+  roomshareRate: 0.5,
 })
 
 import { toDateString } from '@/lib/date-util'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'add-hotel-dialog',
@@ -108,16 +120,23 @@ export default {
       default: false
     }
   },
+  computed: {
+    ... mapGetters({
+      conferenceStartDate: 'config/conferenceStartDate',
+      conferenceEndDate: 'config/conferenceEndDate',
+    }),
+  },
   data: () => ({
-    M: {}
+    M: {},
+    visible: false
   }),
   methods: {
     open() {
       this.M = DEFAULT_HOTEL_MODEL()
-      this.$refs.dialog.open()
+      this.visible = true
     },
     close() {
-      this.$refs.dialog.close()
+      this.visible = false
     },
     cancel() {
       this.close()
@@ -133,6 +152,7 @@ export default {
             stock: this.M.stock,
             notBefore: toDateString(this.M.period[0]),
             notAfter: toDateString(this.M.period[1]),
+            roomshareRate: this.M.roomshareRate,
           })
       })
     }
