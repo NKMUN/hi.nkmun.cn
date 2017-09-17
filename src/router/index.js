@@ -98,10 +98,11 @@ export default new Router({
     },
     { path: '/school/', component: School,
       beforeEnter: (to, from, next) => {
-        if ( store.getters['user/access'].indexOf('school') !== -1 )
-            next()
-        else
-            next('/')
+        if (hasAccess(store.getters['user/access'], 'leader')) {
+          next()
+        } else {
+          next('/')
+        }
       },
       children: [
         { path: 'relinquishment', component: Relinquish },
