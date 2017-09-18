@@ -1,7 +1,11 @@
 function roundText(r) {
-  if (r == '1') return '一轮'
-  if (r == '2') return '二轮'
-  return ''
+  switch(r) {
+    case '1': return '一轮'
+    case '2': return '二轮'
+    case '3': return '追加'
+    case 'roomshare': return '拼房'
+    default:  return '未知'
+  }
 }
 
 export default roundText

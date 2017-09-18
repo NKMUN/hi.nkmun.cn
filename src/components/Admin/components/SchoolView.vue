@@ -52,8 +52,10 @@
         :value="reservations"
         :round="round"
         :busy="busy"
-        @delete="deleteReservation"
+        :school="id"
         @add="addReservation"
+        @edit="editReservation"
+        @delete="deleteReservation"
       />
 
       <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
@@ -210,14 +212,10 @@ export default {
           body
         } = await this.$agent.post('/api/schools/'+this.id+'/reservations/')
                              .set( ... this.authorization )
-                             .send( [reservation] )
+                             .send( reservation )
                              .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
-          this.reservations.push(
-            await this.$agent.get('/api/schools/'+this.id+'/reservations/'+body.inserted[0])
-                             .set( ... this.authorization )
-                             .then( res => res.body )
-          )
+          this.reservations.push(body)
           this.$notify({
             type: 'success',
             title: '已新增预订',
@@ -233,6 +231,41 @@ export default {
         }
       } catch(e) {
         this.notifyError(e, '预订失败')
+      } finally {
+        this.busy = false
+      }
+    },
+    async editReservation(reservation) {
+      this.busy = true
+      try {
+        let {
+          ok,
+          body
+        } = await this.$agent.patch('/api/schools/'+this.id+'/reservations/'+reservation.id)
+                             .set( ... this.authorization )
+                             .send( reservation )
+                             .ok( ({ok, status}) => ok || status === 410 )
+        if (ok) {
+          this.reservations.splice(
+            this.reservations.findIndex($ => $.id === reservation.id),
+            1,
+            body
+          )
+          this.$notify({
+            type: 'success',
+            title: '已修改预订',
+            duration: 5000
+          })
+        }
+        if (status === 410) {
+          this.$notify({
+            type: 'warning',
+            title: '对方已确认预定信息，不能发起拼房',
+            duration: 5000
+          })
+        }
+      } catch(e) {
+        this.notifyError(e, '修改预订失败')
       } finally {
         this.busy = false
       }

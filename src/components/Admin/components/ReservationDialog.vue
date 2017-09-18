@@ -3,8 +3,8 @@
     title="新增预订"
     size="full"
     width="100%"
-    :visible="visible"
-    :before-close="() => {visible = false}"
+    :visible="Boolean(resolve)"
+    :before-close="close"
   >
     <HotelStock ref="stock">
       <template slot="operation" scope="scope">
@@ -51,6 +51,54 @@
             :default-value="conferenceEndDate"
           />
         </el-form-item>
+
+        <el-form-item label="拼房状态" v-if="roomshareState">
+          <el-tag v-if="roomshareState === 'pending'" type="primary"> 已发出 </el-tag>
+          <el-tag v-if="roomshareState === 'accepted'" type="success"> 已确认 </el-tag>
+          <el-tag v-if="roomshareState === 'rejected'" type="danger"> 已拒绝 </el-tag>
+          <el-tag v-if="roomshareState === 'modified'" type="warning"> 已修改 </el-tag>
+        </el-form-item>
+
+        <el-form-item label="拼房学校">
+          <el-select
+            :disabled="!hotel || busy || (!isStaff && roomshareState === 'accepted')"
+            v-model="roomshareSchool"
+            v-loading="!schools"
+            @change="clearRoomshareState"
+          >
+            <el-option-group label="不拼房">
+              <el-option
+                :value="null"
+                label="[不拼房]"
+              />
+            </el-option-group>
+            <el-option-group label="学校">
+              <el-option
+                v-for="s in roomshareSchools"
+                :key="s.id"
+                :disabled="s.disabled"
+                :value="s.id"
+                :label="s.name"
+              > {{ s.name }} </el-option>
+              <div
+                v-if="roomshareSchools.length === 0"
+                class="el-select-dropdown__item is-disabled"
+              > 无可拼房学校 </div>
+            </el-option-group>
+            <!--
+              NOTE: for future personal delegate
+              <el-option-group label="个人代表">
+              <el-option
+                v-for="s in roomshareSchools"
+                :key="s.id"
+                :disabled="s.disabled"
+                :value="s.id"
+                :label="s.name"
+              > {{ s.name }} </el-option>
+              </el-option-group>
+            -->
+          </el-select>
+        </el-form-item>
       </el-form>
     </div>
 
@@ -58,13 +106,13 @@
       <div class="controls">
         <el-button
           :loading="busy"
-          @click="close()"
+          @click="close"
         > 取消 </el-button>
         <el-button
           type="primary"
           :loading="busy"
           :disabled="!checkIn || !checkOut"
-          @click="emit"
+          @click="confirm"
         > 确认 </el-button>
       </div>
     </div>
@@ -79,6 +127,9 @@ import { hasAccess } from '@/lib/access'
 
 const ONE_DAY = 24 * 60 * 60 * 1000
 
+const canRoomshareWithSchool = (school) =>
+  school.stage.endsWith('.reservation')
+
 export default {
   name: 'add-reservation-dialog',
   components: {
@@ -88,43 +139,87 @@ export default {
     ... mapGetters({
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
+      authorization: 'user/authorization'
     }),
     isStaff() {
       return hasAccess(this.$store.getters['user/access'], 'staff.accommodation')
-    }
+    },
+    roomshareSchools() {
+      if (!this.schools) return null
+      return this.schools
+          .map(school => ({
+            id: school.id,
+            name: school.name,
+            disabled: !canRoomshareWithSchool(school)
+          }))
+          .filter($ => $.id !== this.school)  // can't be self
+          .filter($ => !$.disabled)
+          .sort((a, b) => a.name.localeCompare(b.name))
+    },
   },
   data: () => ({
     hotel: null,
     checkIn: null,
     checkOut: null,
-    visible: false
+    roomshare: null,
+    roomshareState: null,
+    roomshareSchool: null,
+    school: null,
+    schools: [],
+    visible: false,
+    resolve: null
   }),
   props: {
     busy: { type: Boolean, default: false },
   },
   methods: {
     close() {
-      this.visible = false
+      if (this.resolve)
+        this.resolve = this.resolve(null)
     },
-    open() {
-      this.hotel = null
-      this.checkIn = null
-      this.checkOut = null
+    open({
+      hotel,
+      checkIn,
+      checkOut,
+      school,
+      roomshare = null
+    } = {}) {
+      this.hotel = hotel
+      this.checkIn = checkIn
+      this.checkOut = checkOut
+      this.school = school || this.$store.getters['user/school']
+      this.roomshare = roomshare
+      this.roomshareState = roomshare ? roomshare.state : null
+      this.roomshareSchool = roomshare ? roomshare.school : null
       this.visible = true
+
       if (this.$refs.stock)
         this.$refs.stock.fetch()
+      
+      this.$agent
+        .get('/api/schools')
+        .set( ... this.authorization )
+        .then(({body}) => this.schools = body)
+
+      return new Promise( r => this.resolve = r )
     },
-    emit() {
-      this.$emit('confirm', {
-        hotel: this.hotel.id,
-        checkIn: toDateString(this.checkIn),
-        checkOut: toDateString(this.checkOut)
-      })
+    confirm() {
+      if (this.resolve)
+        this.resolve = this.resolve({
+          hotel: this.hotel.id,
+          checkIn: toDateString(this.checkIn),
+          checkOut: toDateString(this.checkOut),
+          roomshare: this.roomshareSchool
+        })
     },
     setHotel(hotel) {
       this.hotel = hotel
       this.checkIn = null
       this.checkOut = null
+    },
+    clearRoomshareState() {
+      if (this.roomshareState)
+        this.roomshareState = 'modified'
     },
     getCheckInPickerOptions(hotel) {
       if (!hotel) return {}
@@ -145,7 +240,7 @@ export default {
         if (this.checkOut < oneDayAfterCheckIn)
           this.checkOut = new Date(oneDayAfterCheckIn)
       }
-    }
+    },
   }
 }
 </script>

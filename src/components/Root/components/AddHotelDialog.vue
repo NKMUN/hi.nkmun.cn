@@ -69,12 +69,26 @@
       </el-form-item>
 
       <el-form-item
-        label="拼房费率"
-        prop="roomshareRate"
+        label="拼房费率（发起）"
+        prop="roomshareInitiatorRate"
         :rules="[ {type: 'number', required: false, trigger: 'blur'} ]"
       >
         <el-input-number
-          v-model="M.roomshareRate"
+          v-model="M.roomshareInitiatorRate"
+          :min="0"
+          :max="1"
+          :step="0.1"
+          :disabled="busy"
+        />
+      </el-form-item>
+
+      <el-form-item
+        label="拼房费率（接受）"
+        prop="roomshareRecipientRate"
+        :rules="[ {type: 'number', required: false, trigger: 'blur'} ]"
+      >
+        <el-input-number
+          v-model="M.roomshareInitiatorRate"
           :min="0"
           :max="1"
           :step="0.1"
@@ -106,7 +120,8 @@ const DEFAULT_HOTEL_MODEL = () => ({
   price: 0,
   stock: 0,
   period: null,
-  roomshareRate: 0.5,
+  roomshareInitiatorRate: 1,
+  roomshareRecipientRate: 0,
 })
 
 import { toDateString } from '@/lib/date-util'
@@ -152,7 +167,8 @@ export default {
             stock: this.M.stock,
             notBefore: toDateString(this.M.period[0]),
             notAfter: toDateString(this.M.period[1]),
-            roomshareRate: this.M.roomshareRate,
+            roomshareInitiatorRate: this.M.roomshareInitiatorRate,
+            roomshareRecipientRate: this.M.roomshareRecipientRate,
           })
       })
     }

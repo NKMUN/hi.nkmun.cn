@@ -12,7 +12,6 @@
           至
           <code class="date">{{conferenceEndDate}}</code>
         </li>
-        <li>拼房双方的单价 = 拼房费率 × 单价</li>
       </ul>
     </div>
 
@@ -27,7 +26,10 @@
         <template scope="scope"> <span>{{ scope.row.notAfter | date }}</span> </template>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="72" />
-      <el-table-column prop="roomshareRate" label="拼房费率" width="96" />
+      <el-table-column label="拼房费率" header-align="center">
+        <el-table-column prop="roomshareInitiatorRate" header-align="center" label="发起" width="64" />
+        <el-table-column prop="roomshareRecipientRate" header-align="center" label="接受" width="64" />
+      </el-table-column>
       <el-table-column prop="available" label="余量" width="72" />
       <el-table-column prop="stock" label="总量" width="108">
         <template scope="scope">
