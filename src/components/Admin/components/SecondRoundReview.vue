@@ -150,9 +150,9 @@ export default {
 
       this.busy = true
       try {
-        await this.$agent.post('/api/schools/'+this.id+'/seat')
+        await this.$agent.post('/api/schools/'+this.id+'/progress')
               .set( ... this.authorization )
-              .send({ allocSecondRound: 1 })
+              .send({ confirmSecondRound: 1 })
         this.$notify({
           type: 'success',
           title: '已分配二轮名额',
@@ -161,7 +161,7 @@ export default {
         this.$nextTick( () => {
           this.$emit('next', this.id)
           this.$emit('processed', this.id)
-          this.school = { ... this.school, processed: true }
+          this.school = { ... this.school, stage: '2.reservation', processed: true }
         })
       } catch(e) {
         this.notifyError(e)
