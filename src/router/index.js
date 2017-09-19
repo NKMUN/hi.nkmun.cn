@@ -7,6 +7,8 @@ Vue.use(Router)
 
 export function getRoleRoute(givenAccesses = []) {
   if (hasAccess(givenAccesses, 'staff')) return '/staff/'
+  if (hasAccess(givenAccesses, 'finance')) return '/staff/'
+  if (hasAccess(givenAccesses, 'admin')) return '/staff/'
   if (hasAccess(givenAccesses, 'leader')) return '/school/'
   if (hasAccess(givenAccesses, 'dais')) return '/dais/'
   if (hasAccess(givenAccesses, 'delegate')) return '/delegate/'
