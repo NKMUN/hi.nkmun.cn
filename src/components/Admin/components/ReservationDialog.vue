@@ -1,24 +1,15 @@
 <template>
   <el-dialog
-    title="新增预订"
-    size="full"
-    width="100%"
+    :title="title"
+    size="small"
+    width="60ch"
+    top="5%"
     :visible="Boolean(resolve)"
     :before-close="close"
   >
-    <HotelStock ref="stock">
-      <template slot="operation" scope="scope">
-        <el-button
-          type="primary"
-          size="small"
-          :disabled="scope.hotel.available<=0"
-          @click="setHotel(scope.hotel)"
-        > 选择 </el-button>
-      </template>
-    </HotelStock>
+    <HotelStock v-if="mode === 'add'" style="margin-bottom: 2em" enable-selection v-model="hotel" />
 
     <div class="reservation">
-      <h4>预订信息</h4>
       <ul class="note">
         <li v-if="conferenceStartDate && conferenceEndDate">
           本次会议时间为
@@ -28,8 +19,8 @@
         </li>
       </ul>
       <el-form label-width="108px" label-position="right">
-        <el-form-item label="酒店"> {{ hotel ? hotel.name: '' }} </el-form-item>
-        <el-form-item label="房型"> {{ hotel ? hotel.type: '' }} </el-form-item>
+        <el-form-item v-if="mode === 'edit'" label="酒店"> {{ hotel ? hotel.name: '' }} </el-form-item>
+        <el-form-item v-if="mode === 'edit'" label="房型"> {{ hotel ? hotel.type: '' }} </el-form-item>
         <el-form-item label="入住日期">
           <el-date-picker
             v-model="checkIn"
@@ -69,7 +60,7 @@
             <el-option-group label="不拼房">
               <el-option
                 :value="null"
-                label="[不拼房]"
+                label="[ 不拼房 ]"
               />
             </el-option-group>
             <el-option-group label="学校">
@@ -102,19 +93,28 @@
       </el-form>
     </div>
 
-    <div slot="footer">
-      <div class="controls">
-        <el-button
-          :loading="busy"
-          @click="close"
-        > 取消 </el-button>
-        <el-button
-          type="primary"
-          :loading="busy"
-          :disabled="!checkIn || !checkOut"
-          @click="confirm"
-        > 确认 </el-button>
-      </div>
+    <div class="controls">
+      <el-button
+        :loading="busy"
+        icon="circle-cross"
+        @click="close"
+      > 取消 </el-button>
+      <el-button
+        v-if="mode === 'add'"
+        type="success"
+        icon="circle-check"
+        :loading="busy"
+        :disabled="!checkIn || !checkOut"
+        @click="confirm"
+      > 确认 </el-button>
+      <el-button
+        v-if="mode === 'edit'"
+        type="primary"
+        icon="edit"
+        :loading="busy"
+        :disabled="!checkIn || !checkOut"
+        @click="confirm"
+      > 确认 </el-button>
     </div>
   </el-dialog>
 </template>
@@ -131,7 +131,7 @@ const canRoomshareWithSchool = (school) =>
   school.stage.endsWith('.reservation')
 
 export default {
-  name: 'add-reservation-dialog',
+  name: 'reservation-dialog',
   components: {
     HotelStock
   },
@@ -156,17 +156,25 @@ export default {
           .filter($ => !$.disabled)
           .sort((a, b) => a.name.localeCompare(b.name))
     },
+    title() {
+      switch(this.mode) {
+        case 'add': return '新增预定'
+        case 'edit': return '修改预定'
+        default: return ''
+      }
+    }
   },
   data: () => ({
+    mode: 'add',
     hotel: null,
     checkIn: null,
     checkOut: null,
     roomshare: null,
     roomshareState: null,
     roomshareSchool: null,
+    originalRoomshareSchool: null,
     school: null,
     schools: [],
-    visible: false,
     resolve: null
   }),
   props: {
@@ -183,18 +191,16 @@ export default {
       checkOut,
       school,
       roomshare = null
-    } = {}) {
+    } = {}, mode = 'add') {
+      this.mode = mode
       this.hotel = hotel
       this.checkIn = checkIn
       this.checkOut = checkOut
       this.school = school || this.$store.getters['user/school']
       this.roomshare = roomshare
       this.roomshareState = roomshare ? roomshare.state : null
-      this.roomshareSchool = roomshare ? roomshare.school : null
-      this.visible = true
-
-      if (this.$refs.stock)
-        this.$refs.stock.fetch()
+      this.roomshareSchool = roomshare ? roomshare.school.id : null
+      this.originalRoomshareSchool = this.roomshareSchool
       
       this.$agent
         .get('/api/schools')
@@ -218,8 +224,9 @@ export default {
       this.checkOut = null
     },
     clearRoomshareState() {
-      if (this.roomshareState)
-        this.roomshareState = 'modified'
+      if (this.roomshareState && this.roomshare) {
+        this.roomshareState = this.originalRoomshareSchool === this.roomshareSchool ? this.roomshare.state : 'modified'
+      }
     },
     getCheckInPickerOptions(hotel) {
       if (!hotel) return {}
@@ -240,7 +247,7 @@ export default {
         if (this.checkOut < oneDayAfterCheckIn)
           this.checkOut = new Date(oneDayAfterCheckIn)
       }
-    },
+    }
   }
 }
 </script>
@@ -248,7 +255,6 @@ export default {
 <style lang="stylus" scoped>
 @import "../../../style/flex"
 .reservation
-  margin-top: 2em
   flex-vert: flex-start center
   *
     flex-shrink: 0
@@ -262,4 +268,7 @@ export default {
   font-size: 14px
   .amount, .date
     font-weight: bolder
+.controls
+  margin: 1em auto
+  text-align: center
 </style>

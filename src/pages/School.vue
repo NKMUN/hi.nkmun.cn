@@ -55,15 +55,17 @@
         <div class="layout">
           <Todo class="todo" :stage="stage" />
           <div class="right">
-            <h4>现有名额</h4>
             <SeatView
               :showRound1="true"
               :showExchange="stage === '1.exchange'"
               :showRound2="parseInt(stage[0], 10) >= 2"
               :showTotal="parseInt(stage[0], 10) >= 2"
             />
-            <h4>现有酒店预订</h4>
-            <ReservationView />
+            <ReservationControl
+              style="margin-top: 2em;"
+              readonly
+              :school="id"
+            />
           </div>
         </div>
       </div>
@@ -79,7 +81,7 @@
 import Precondition from '@/components/Precondition'
 import Todo from '@/components/School/Todo'
 import SeatView from '@/components/School/components/SeatView'
-import ReservationView from '@/components/School/components/ReservationView'
+import ReservationControl from '@/components/Admin/components/ReservationControl'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -88,7 +90,7 @@ export default {
     Precondition,
     Todo,
     SeatView,
-    ReservationView
+    ReservationControl,
   },
   computed: {
     ... mapGetters({

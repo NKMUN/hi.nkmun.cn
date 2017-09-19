@@ -2,10 +2,9 @@
   <div class="reservation">
     <h3>{{round | roundText}}酒店预订</h3>
 
-    <SeatView :showRound1="this.round==='1'" :showRound2="this.round==='2'" />
-
-    <div class="note">
-      <ul>
+    <div class="top">
+      <SeatView :showRound1="this.round==='1'" :showRound2="this.round==='2'" />
+      <ul class="note">
         <li>最多可预订 <code class="amount">{{ maxNumOfRooms }}</code> 个房间</li>
         <li v-if="conferenceStartDate && conferenceEndDate">
           本次会议时间为
@@ -17,13 +16,21 @@
       </ul>
     </div>
 
-    <ReservationControl :round="round" :max="maxNumOfRooms" class="reservation-control" @success="handleSuccess" />
+    <ReservationControl :disabled="busy" :round="round" :max="maxNumOfRooms" :school="school" />
+
+    <el-button
+      class="confirm"
+      type="primary"
+      size="large"
+      icon="circle-check"
+      @click="confirm"
+    > 确认预定 </el-button>
   </div>
 </template>
 
 <script>
 import SeatView from './components/SeatView'
-import ReservationControl from './components/ReservationControl'
+import ReservationControl from '@/components/Admin/components/ReservationControl'
 import { mapGetters } from 'vuex'
 import store from '@/store/index'
 import roundText from '@/lib/round-text'
@@ -39,7 +46,9 @@ export default {
       seat: 'school/seat',
       round: 'school/round',
       conferenceStartDate: 'config/conferenceStartDate',
-      conferenceEndDate: 'config/conferenceEndDate'
+      conferenceEndDate: 'config/conferenceEndDate',
+      school: 'user/school',
+      authorization: 'user/authorization',
     }),
     maxNumOfRooms() {
       let s = 0
@@ -48,10 +57,39 @@ export default {
       return Math.floor( s / 2 + 2 )
     }
   },
+  data() {
+    return {
+      busy: false
+    }
+  },
   methods: {
     handleSuccess() {
       this.$store.commit('school/stage', `${this.round}.payment`)
       this.$router.replace(`/school/payment`)
+    },
+    async confirm() {
+      try {
+        const {
+          ok
+        } = await this.$agent.post('/api/schools/'+this.school+'/progress')
+                            .set( ... this.authorization )
+                            .send({ confirmReservation: 1 })
+        if (ok) {
+          this.$notify({
+            type: 'success',
+            title: '已确认住宿预定',
+            duration: 5000
+          })
+          this.$store.commit('school/stage', this.$store.getters['school/stage'].replace('.reservation', '.payment'))
+          this.$router.replace('/school/payment/')
+        }
+      } catch(e) {
+        this.$msgbox({
+          type: 'warning',
+          title: '未能确认预定',
+          message: '请处理所有拼房请求，并撤回未被接受的拼房请求'
+        })
+      }
     }
   },
   filters: { roundText },
@@ -69,6 +107,11 @@ export default {
 @import "../../style/flex"
 .reservation
   flex-vert: flex-start center
+  .top
+    flex-horz: flex-start center
+    margin-bottom: 2em
+    & > :last-child
+      margin-left: 4ch
   .note
     white-space: nowrap
     color: #475669
@@ -80,4 +123,6 @@ export default {
     font-weight: bolder
   .reservation-control
     margin-bottom: 3em
+  .confirm
+    margin-top: 2em
 </style>

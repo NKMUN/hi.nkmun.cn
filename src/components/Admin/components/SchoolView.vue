@@ -47,15 +47,11 @@
         </el-button>
       </div>
 
-      <ReservationUpdater
+      <ReservationControl
         title="酒店预订"
-        :value="reservations"
         :round="round"
         :busy="busy"
         :school="id"
-        @add="addReservation"
-        @edit="editReservation"
-        @delete="deleteReservation"
       />
 
       <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
@@ -80,7 +76,7 @@ import Precondition from '@/components/Precondition'
 import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
-import ReservationUpdater from './ReservationUpdater'
+import ReservationControl from './ReservationControl'
 import Icon from 'vue-awesome/components/Icon'
 import LeaderAttendance from '../../form/LeaderAttendance'
 import 'vue-awesome/icons/exclamation-triangle'
@@ -92,7 +88,7 @@ export default {
     SeatUpdater,
     LeaderAttendance,
     NukeSchoolButton,
-    ReservationUpdater,
+    ReservationControl,
     Icon,
   },
   props: {
@@ -138,16 +134,11 @@ export default {
       if (this.id) {
         this.loading = true
         try {
-          let [ school, reservations ] = await Promise.all([
-            this.$agent.get('/api/schools/'+this.id)
-                       .set( ... this.authorization )
-                       .then( res => res.body ),
-            this.$agent.get('/api/schools/'+this.id+'/reservations/')
-                       .set( ... this.authorization )
-                       .then( res => res.body ),
-          ])
-          this.school = school
-          this.reservations = reservations
+          const {
+            body
+          } = await this.$agent.get('/api/schools/'+this.id)
+                               .set( ... this.authorization )
+          this.school = body
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
@@ -200,95 +191,6 @@ export default {
         this.$emit('nuked', this.id)
       } catch(e) {
         this.notifyError(e, '爆破失败')
-      } finally {
-        this.busy = false
-      }
-    },
-    async addReservation(reservation) {
-      this.busy = true
-      try {
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/schools/'+this.id+'/reservations/')
-                             .set( ... this.authorization )
-                             .send( reservation )
-                             .ok( ({ok, status}) => ok || status === 410 )
-        if (ok) {
-          this.reservations.push(body)
-          this.$notify({
-            type: 'success',
-            title: '已新增预订',
-            duration: 5000
-          })
-        }
-        if (status === 410) {
-          this.$notify({
-            type: 'warning',
-            title: '酒店已被抢订，请重新预订！',
-            duration: 5000
-          })
-        }
-      } catch(e) {
-        this.notifyError(e, '预订失败')
-      } finally {
-        this.busy = false
-      }
-    },
-    async editReservation(reservation) {
-      this.busy = true
-      try {
-        let {
-          ok,
-          body
-        } = await this.$agent.patch('/api/schools/'+this.id+'/reservations/'+reservation.id)
-                             .set( ... this.authorization )
-                             .send( reservation )
-                             .ok( ({ok, status}) => ok || status === 410 )
-        if (ok) {
-          this.reservations.splice(
-            this.reservations.findIndex($ => $.id === reservation.id),
-            1,
-            body
-          )
-          this.$notify({
-            type: 'success',
-            title: '已修改预订',
-            duration: 5000
-          })
-        }
-        if (status === 410) {
-          this.$notify({
-            type: 'warning',
-            title: '对方已确认预定信息，不能发起拼房',
-            duration: 5000
-          })
-        }
-      } catch(e) {
-        this.notifyError(e, '修改预订失败')
-      } finally {
-        this.busy = false
-      }
-    },
-    async deleteReservation(rid) {
-      this.busy = true
-      try {
-        let {
-          ok
-        } = await this.$agent.delete('/api/schools/'+this.id+'/reservations/'+rid)
-                             .set( ... this.authorization )
-                             .send({})
-        this.reservations.splice(
-          this.reservations.findIndex( $ => $.id === rid ),
-          1
-        )
-        this.$notify({
-          type: 'success',
-          title: '已删除预订',
-          duration: 5000
-        })
-      } catch(e) {
-        this.notifyError(e, '删除失败')
       } finally {
         this.busy = false
       }

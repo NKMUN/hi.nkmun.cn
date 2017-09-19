@@ -24,7 +24,7 @@
     <RepresentativeTable @validated="handleValidated"/>
 
     <h4>酒店预订</h4>
-    <ReservationView />
+    <ReservationControl readonly school="id" />
 
     <el-button
       v-if="!confirmed"
@@ -44,13 +44,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import store from '@/store/index'
-import ReservationView from './components/ReservationView'
+import ReservationControl from '@/components/Admin/components/ReservationControl'
 import RepresentativeTable from './components/RepresentativeTable'
 
 export default {
   name: 'confirm',
   components: {
-    ReservationView,
+    ReservationControl,
     RepresentativeTable,
   },
   computed: {
