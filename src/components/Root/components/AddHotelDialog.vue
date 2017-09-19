@@ -88,7 +88,7 @@
         :rules="[ {type: 'number', required: false, trigger: 'blur'} ]"
       >
         <el-input-number
-          v-model="M.roomshareInitiatorRate"
+          v-model="M.roomshareRecipientRate"
           :min="0"
           :max="1"
           :step="0.1"
