@@ -31,7 +31,7 @@ export default {
 <style lang="stylus" scoped>
 @import "../style/flex"
 .not-found
-  flex-vert: center center
+  flex-vert: flex-start stretch
   .layout
     margin-bottom: 8em
 </style>
