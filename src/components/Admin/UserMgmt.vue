@@ -12,7 +12,7 @@
     <div class="layout">
       <el-table class="table" :data="users" v-loading="!users">
         <el-table-column label="用户名" prop="id" sortable min-width="180" />
-        <el-table-column label="权限" prop="access" min-width="120" />
+        <el-table-column label="权限" prop="access" sortable min-width="180" />
         <el-table-column label="学校" prop="school.name" sortable min-width="180" />
         <el-table-column label="操作" min-width="90">
           <template scope="scope">
@@ -45,12 +45,16 @@ const toAccessString = (access) => {
     return ''
   for (let a of access) {
     switch (a) {
-      case 'school': ret.push('领队'); break
-      case 'admin':  ret.push('组委'); break
-      case 'root':   ret.push('管理员'); break
+      case 'root':     ret.push('上帝'); break
+      case 'admin':    ret.push('管理员'); break
+      case 'finance':  ret.push('财务'); break
+      case 'staff':    ret.push('一般组委'); break
+      case 'leader':   ret.push('领队'); break
+      case 'dais':     ret.push('会场主席'); break
+      case 'delegate': ret.push('参会代表'); break
     }
   }
-  return ret.join(' ')
+  return ret.join('、')
 }
 
 export default {
