@@ -5,40 +5,38 @@
 
       <SchoolBrief class="brief" :data="school" />
 
-      <template v-if="school.stage.endsWith('.paid')">
-        <hr/>
-        <BillingDetail
-          class="billing"
-          :school="id"
-          :round="currentRound"
-        />
-        <PaymentList
-          v-loading="!payments"
-          :payments="(payments || []).filter($ => $.round === currentRound)"
-        />
+      <hr/>
+      <BillingDetail
+        class="billing"
+        :school="id"
+        :round="currentRound"
+      />
+      <PaymentList
+        v-loading="!payments"
+        :payments="(payments || []).filter($ => $.round === currentRound)"
+      />
 
-        <div class="controls" v-if="school && school.stage.endsWith('.paid')">
-          <el-button-group>
-            <el-button
-              type="danger"
-              :loading="busy"
-              icon="circle-cross"
-              @click="reject"
-            > 不通过 </el-button>
-            <el-button
-              type="success"
-              :loading="busy"
-              icon="circle-check"
-              @click="confirm"
-            > 通过 </el-button>
-            <el-button
-              type="info"
-              :loading="busy"
-              @click="next"
-            > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
-          </el-button-group>
-        </div>
-      </template>
+      <div class="controls" v-if="school && school.stage.endsWith('.paid')">
+        <el-button-group>
+          <el-button
+            type="danger"
+            :loading="busy"
+            icon="circle-cross"
+            @click="reject"
+          > 不通过 </el-button>
+          <el-button
+            type="success"
+            :loading="busy"
+            icon="circle-check"
+            @click="confirm"
+          > 通过 </el-button>
+          <el-button
+            type="info"
+            :loading="busy"
+            @click="next"
+          > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
+        </el-button-group>
+      </div>
 
       <template v-for="round in previousRounds">
         <hr/>
