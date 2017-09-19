@@ -43,13 +43,13 @@
           <td v-for="s in activeSessions">
             <div class="seat-amount no-wrap">
             <span v-if="round1" class="amount">
-              {{ schools.map($ => $.r1[s.id]).reduce(add) }}
+              {{ schools.map($ => $.r1[s.id]).reduce(add, 0) }}
             </span>
             <span v-if="round2" class="amount">
-              {{ schools.map($ => $.r2[s.id]).reduce(add) }}
+              {{ schools.map($ => $.r2[s.id]).reduce(add, 0) }}
             </span>
             <span v-if="sum" class="amount">
-              {{ schools.map($ => add($.r1[s.id], $.r2[s.id])).reduce(add) }}
+              {{ schools.map($ => add($.r1[s.id], $.r2[s.id])).reduce(add, 0) }}
             </span>
             </div>
           </td>
