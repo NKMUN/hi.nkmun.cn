@@ -12,6 +12,12 @@
         <el-form-item label="代表登陆">
           <el-checkbox v-model="config.login" :disabled="busy" />
         </el-form-item>
+        <el-form-item label="会期名称">
+          <el-input v-model="config.conferenceName" :disabled="busy" />
+        </el-form-item>
+        <el-form-item label="会期ID">
+          <el-input v-model="config.conferenceId" :disabled="busy"  placeholder="请输入英文或数字" />
+        </el-form-item>
         <el-form-item label="会议日期">
           <el-date-picker
             v-model="period"
@@ -56,6 +62,8 @@ export default {
           register: body.register,
           apply: body.apply,
           login: body.login,
+          conferenceName: body.conferenceName,
+          conferenceId: body.conferenceId
         }
         this.period = [body.conferenceStartDate, body.conferenceEndDate]
       } catch(e) {
