@@ -3,7 +3,7 @@
     <el-form
       :model="M"
       ref="form"
-      label-width="108px"
+      label-width="128px"
     >
       <el-form-item
         label="名称"
