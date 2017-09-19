@@ -7,7 +7,7 @@
     :visible="Boolean(resolve)"
     :before-close="close"
   >
-    <HotelStock v-if="mode === 'add'" style="margin-bottom: 2em" enable-selection v-model="hotel" />
+    <HotelStock v-if="mode === 'add'" ref="stock" style="margin-bottom: 2em" enable-selection v-model="hotel" />
 
     <div class="reservation">
       <ul class="note">
@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import HotelStock from '../../School/components/HotelStock'
+import HotelStock from './HotelStock'
 import { toDateString, between as dateBetween } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
@@ -175,7 +175,8 @@ export default {
     originalRoomshareSchool: null,
     school: null,
     schools: [],
-    resolve: null
+    resolve: null,
+    clearInterval: () => null,
   }),
   props: {
     busy: { type: Boolean, default: false },
@@ -206,6 +207,9 @@ export default {
         .get('/api/schools')
         .set( ... this.authorization )
         .then(({body}) => this.schools = body)
+
+      if (this.$refs.stock)
+        this.$refs.stock.fetch()
 
       return new Promise( r => this.resolve = r )
     },
@@ -248,6 +252,17 @@ export default {
           this.checkOut = new Date(oneDayAfterCheckIn)
       }
     }
+  },
+  mounted() {
+    const interval = 1000
+    const itvl = setInterval(() => {
+      if (this.$refs.stock && this.resolve) {
+        this.$refs.stock.refresh()
+      }
+    }, interval)
+  },
+  beforeDestroy() {
+    this.clearInterval()
   }
 }
 </script>

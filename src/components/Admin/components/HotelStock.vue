@@ -138,18 +138,6 @@ export default {
     isHotelDisabled(hotel) {
       return hotel.available <= 0
     }
-  },
-  async mounted() {
-    await this.fetch()
-    const refreshInterval = 3000
-    const interval = setInterval(
-      () => this.refresh(),
-      refreshInterval
-    )
-    this.clearInterval = () => clearInterval(interval)
-  },
-  beforeDestroy() {
-    this.clearInterval()
   }
 }
 </script>
