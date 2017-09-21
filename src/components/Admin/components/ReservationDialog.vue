@@ -139,7 +139,6 @@ export default {
     ... mapGetters({
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
-      authorization: 'user/authorization'
     }),
     isStaff() {
       return hasAccess(this.$store.getters['user/access'], 'staff.accommodation')
@@ -203,10 +202,7 @@ export default {
       this.roomshareSchool = roomshare ? roomshare.school.id : null
       this.originalRoomshareSchool = this.roomshareSchool
       
-      this.$agent
-        .get('/api/schools')
-        .set( ... this.authorization )
-        .then(({body}) => this.schools = body)
+      this.$agent.get('/api/schools').then(({body}) => this.schools = body)
 
       if (this.$refs.stock)
         this.$refs.stock.fetch()

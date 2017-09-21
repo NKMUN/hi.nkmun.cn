@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getName } from '../../STAGE_DEF'
 import PasswordDialog from './components/PasswordDialog'
 
@@ -62,11 +61,6 @@ export default {
   components: {
     PasswordDialog
   },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
-  },
   data: () => ({
     users: null,
     busy: false
@@ -78,7 +72,6 @@ export default {
         let {
           body
         } = await this.$agent.get('/api/users/')
-                  .set( ... this.authorization )
         this.users = body.map( $ => ({
           ... $,
           access: toAccessString( $.access )
@@ -98,9 +91,7 @@ export default {
         try {
           let {
             ok
-          } = await this.$agent.patch('/api/users/'+user)
-                    .set( ... this.authorization )
-                    .send({ password })
+          } = await this.$agent.patch('/api/users/'+user).send({ password })
           this.$notify({
             type: 'success',
             title: '已重置密码',

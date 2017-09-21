@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
 
 const bySchoolName = (a, b) => {
@@ -110,9 +109,6 @@ export default {
     SessionUtils
   ],
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
     activeSessions() {
       return this.SESSIONS().filter( $ => $.type === this.sessionType )
     }
@@ -131,11 +127,9 @@ export default {
         let [ schools, applications ] = await Promise.all([
           this.$agent.get('/api/schools/')
             .query({ seat: 1 })
-            .set( ... this.authorization )
             .then( res => res.body ),
           this.$agent.get('/api/applications/')
             .query({ seat: 1 })
-            .set( ... this.authorization )
             .then( res => res.body )
         ])
         this.schools = mergeSeat(schools, applications)

@@ -137,7 +137,7 @@ export default {
             ok,
             status
           } = await this.$agent.post('/api/registration', this.registration)
-                    .set('Authorization', 'Bearer '+this.token)
+                    .auth(this.token, null, {type: 'bearer'})
                     .ok( ({ok, status}) => ok || status === 409 || status === 410 )
           if ( ok ) {
             this.$alert('请从主页登录', '注册成功', {

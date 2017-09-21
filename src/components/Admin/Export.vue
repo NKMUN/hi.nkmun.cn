@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import {saveAsFile, downloadFile} from '@/lib/save-as-file'
 import Icon from 'vue-awesome'
 import 'vue-awesome/icons/table'
@@ -66,11 +65,6 @@ export default {
   components: {
     Icon
   },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    })
-  },
   data: () => ({
     busy: false,
   }),
@@ -82,7 +76,6 @@ export default {
           body: blob
         } = await this.$agent.get('/api/export/'+type)
                   .responseType('blob')
-                  .set( ... this.authorization )
         saveAsFile(blob, 'NKMUN-'+type+'.csv')
       } catch(e) {
         this.$notify({
@@ -101,7 +94,6 @@ export default {
         let {
           header
         } = await this.$agent.get('/api/export/'+type)
-                  .set( ... this.authorization )
         downloadFile('/api/export/'+type+header.location, 'NKMUN-'+type.replace(/-/g, '-')+'.zip')
       } catch(e) {
         this.$notify({

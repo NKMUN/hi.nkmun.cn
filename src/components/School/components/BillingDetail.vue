@@ -22,14 +22,10 @@ function byTypeThenName(a,b) {
     return a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
 }
 
-import { mapGetters } from 'vuex'
 import roundText from '@/lib/round-text'
 export default {
   name: 'billing-detail',
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
     total() {
       return (this.detail||[]).map( $ => $.sum ).reduce( (a,b) => a+b, 0 )
     }
@@ -48,10 +44,8 @@ export default {
     try {
       let {
         body
-      } = await this.$agent('/api/schools/'+this.school+'/billing')
+      } = await this.$agent.get('/api/schools/'+this.school+'/billing')
                 .query({ round: this.round })
-                .set( ... this.authorization )
-
       body.sort( byTypeThenName )
 
       this.detail = body

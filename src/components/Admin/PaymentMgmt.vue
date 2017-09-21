@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import PaymentReview from './components/PaymentReview'
@@ -42,20 +41,13 @@ export default {
   props: {
     id: { type: String, default: '' },
   },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    })
-  },
   data: () => ({
     schools: null,
     bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
   }),
   methods: {
     configLoader() {
-      return this.$agent.get('/api/schools/')
-               .set( ... this.authorization )
-               .then( res => res.body )
+      return this.$agent.get('/api/schools/').then( res => res.body )
     },
     configParser(schools) {
       this.schools = schools

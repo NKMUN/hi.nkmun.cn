@@ -2,7 +2,7 @@
   <SchoolRepresentativeMgmt
     slot="reviewer"
     ref="reviewer"
-    :school="schoolId"
+    :school="school"
     :id="id"
     class="school-representative-mgmt stretch"
   />
@@ -23,10 +23,7 @@ export default {
     SessionUtils
   ],
   computed: {
-    ...mapGetters({
-      schoolId: 'user/school',
-      authorization: 'user/authorization',
-    }),
+    ...mapGetters({ school: 'user/school' })
   },
   props: {
     id: { type: String, default: '' },

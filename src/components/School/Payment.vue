@@ -64,8 +64,10 @@ export default {
     ... mapGetters({
       school: 'user/school',
       round: 'school/round',
-      authorization: 'user/authorization'
     }),
+    authorization() {
+      return `Bearer ${this.$store.getters['user/token']}`
+    },
     uploadUrl() {
       return '/api/schools/'+this.school+'/payments/'
     },

@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import BillingDetail from '../../School/components/BillingDetail'
 import SchoolBrief from './SchoolBrief'
 import PaymentList from './PaymentList'
@@ -70,9 +69,6 @@ export default {
     id: { type: String, default: null },
   },
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
     currentRound() {
       return this.school ? this.school.stage[0] : '1'
     },
@@ -107,12 +103,8 @@ export default {
         this.payments = null
         try {
           let [ school, payments ] = await Promise.all([
-            this.$agent.get('/api/schools/'+this.id)
-              .set( ... this.authorization )
-              .then( res => res.body ),
-            this.$agent.get('/api/schools/'+this.id+'/payments/')
-              .set( ... this.authorization )
-              .then( res => res.body )
+            this.$agent.get('/api/schools/'+this.id).then( res => res.body ),
+            this.$agent.get('/api/schools/'+this.id+'/payments/').then( res => res.body )
           ])
           this.school = school
           this.payments = payments
@@ -134,9 +126,7 @@ export default {
         let {
           status,
           body
-        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/')
-                  .set( ... this.authorization )
-                  .send({ confirm: 1 })
+        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/').send({ confirm: 1 })
         this.$notify({
           type: status === 200 ? 'success' : 'warning',
           title: '已审核',
@@ -161,9 +151,7 @@ export default {
       try {
         let {
           status
-        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/')
-                  .set( ... this.authorization )
-                  .send({ reject: 1, reason: value })
+        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/').send({ reject: 1, reason: value })
         this.$notify({
           type: status === 200 ? 'success' : 'warning',
           title: '已审核',

@@ -94,7 +94,6 @@ export default {
   },
   computed: {
     ... mapGetters({
-      authorization:  'user/authorization',
       id: 'user/school',
       stage: 'school/stage',
       messages: 'school/messages',
@@ -111,9 +110,7 @@ export default {
       this.$router.replace('/logout')
     },
     loadSchool() {
-      return this.$agent.get('/api/schools/'+this.id)
-             .set( ... this.authorization )
-             .then( r => r.body )
+      return this.$agent.get('/api/schools/'+this.id).then( r => r.body )
     },
     parseSchool(school) {
       this.$store.commit('school/school', school)

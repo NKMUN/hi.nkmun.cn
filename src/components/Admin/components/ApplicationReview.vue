@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SeatInput from './SeatInput'
 import ApplicationCard from './ApplicationCard'
 import NukeApplicationButton from './NukeApplicationButton'
@@ -74,11 +73,6 @@ export default {
     sessions: { type: Array, default: () => [] },
     tests: { type: Array, default: () => [] },
     id: { type: String, default: null }
-  },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
   },
   data: () => ({
     busy: false,
@@ -104,7 +98,6 @@ export default {
           let {
             body: application
           } = await this.$agent.get('/api/applications/'+this.id)
-                               .set( ... this.authorization )
           this.application = application
           this.seat = application.seat
         } catch(e) {
@@ -127,9 +120,7 @@ export default {
         let {
           ok,
           status
-        } = await this.$agent.patch('/api/applications/'+this.id)
-                             .set( ... this.authorization )
-                             .send({ seat: this.seat })
+        } = await this.$agent.patch('/api/applications/'+this.id).send({ seat: this.seat })
         this.dirty = false
         if (!silent) {
           this.$notify({
@@ -165,9 +156,7 @@ export default {
       try {
         let {
           ok
-        } = await this.$agent.post('/api/invitations/')
-                  .set( ... this.authorization )
-                  .send({ school: this.id })
+        } = await this.$agent.post('/api/invitations/').send({ school: this.id })
         this.$notify({
           type: 'success',
           title: '邀请已发送',
@@ -191,8 +180,6 @@ export default {
         let {
           ok
         } = await this.$agent.delete('/api/applications/'+this.id)
-                             .set( ... this.authorization )
-                             .send({})
         this.$notify({
           type: 'success',
           title: '已成功爆破',

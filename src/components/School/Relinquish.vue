@@ -54,7 +54,6 @@ export default {
   computed: {
     ...mapGetters({
       id: 'user/school',
-      authorization: 'user/authorization',
       seat: 'school/seat',
       sessions: 'config/sessions'
     })
@@ -75,7 +74,6 @@ export default {
             ok,
             body
           } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                    .set( ... this.authorization )
                     .send({ session: session.id, round: '1', amount: -1 })
           this.$store.commit('school/seat', body)
           this.$notify({
@@ -103,7 +101,6 @@ export default {
           body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
-                  .set( ... this.authorization )
         this.$store.commit('school/seat', body)
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')

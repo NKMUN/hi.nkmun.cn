@@ -122,8 +122,7 @@ export default {
   },
   computed: {
     ... mapGetters({
-      school: 'user/school',
-      authorization: 'user/authorization'
+      school: 'user/school'
     }),
   },
   data: () => ({
@@ -139,12 +138,10 @@ export default {
         let {
           body: representativeList
         } = await this.$agent.get('/api/schools/'+this.school+'/representatives/')
-                  .set( ... this.authorization )
 
         this.representatives = await Promise.all(
           representativeList.map(
             $ => this.$agent.get('/api/schools/'+this.school+'/representatives/'+$.id)
-                 .set( ... this.authorization )
                  .then( res => res.body )
           )
         ).then(representatives => representatives.filter($ => !$.withdraw))

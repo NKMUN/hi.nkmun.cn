@@ -44,7 +44,6 @@ export default {
   },
   computed: {
     ... mapGetters({
-      authorization: 'user/authorization',
       access: 'user/access',
     }),
     leaderEditable() {
@@ -73,7 +72,6 @@ export default {
         let {
           body
         } = await this.$agent.get('/api/schools/'+this.school+'/representatives/')
-                      .set( ... this.authorization )
         this.representatives = body.map( $ => ({
           ... $,
           name: $.session.name

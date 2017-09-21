@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SeatInput from './SeatInput'
 import SchoolBrief from './SchoolBrief'
 
@@ -62,9 +61,6 @@ export default {
     id: { type: String, default: null }
   },
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
     canAllocSecondRound() {
       return this.school && this.school.stage === '1.complete'
     }
@@ -93,7 +89,6 @@ export default {
           let {
             body: school
           } = await this.$agent.get('/api/schools/'+this.id)
-                               .set( ... this.authorization )
           this.school = school
           this.seat = school.seat['2']
         } catch(e) {
@@ -117,7 +112,6 @@ export default {
           ok,
           status
         } = await this.$agent.patch('/api/schools/'+this.id)
-                             .set( ... this.authorization )
                              .query({ field: 'seat.2' })
                              .send( this.seat )
         this.dirty = false
@@ -151,7 +145,6 @@ export default {
       this.busy = true
       try {
         await this.$agent.post('/api/schools/'+this.id+'/progress')
-              .set( ... this.authorization )
               .send({ confirmSecondRound: 1 })
         this.$notify({
           type: 'success',

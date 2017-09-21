@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
 
 export default {
@@ -59,7 +58,6 @@ export default {
   computed: {
     ... mapGetters({
       id: 'user/school',
-      authorization: 'user/authorization'
     })
   },
   data: () => ({
@@ -75,7 +73,6 @@ export default {
           body
         } = await this.$agent.get('/api/exchanges/')
                   .query({ to: this.id, state: 0 })
-                  .set( ... this.authorization )
         this.requests = body
       } catch(e) {
         this.requests = []
@@ -93,7 +90,6 @@ export default {
         } = await this.$agent.post('/api/exchanges/'+req.id)
                   .ok( ({ok, status}) => ok || status === 410 )
                   .send({ accept: true })
-                  .set( ... this.authorization )
         if (ok) {
           this.$store.commit('school/seat', body)
           this.$notify({
@@ -129,7 +125,6 @@ export default {
           body
         } = await this.$agent.post('/api/exchanges/'+req.id)
                   .send({ refuse: true })
-                  .set( ... this.authorization )
         this.$store.commit('school/seat', body)
         this.requests.splice(idx, 1)
         this.$notify({

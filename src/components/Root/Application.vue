@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 const DEFAULT_APPLICATION_CONFIG = () => ({
   press: false,
   disclaimer: '<p>特别说明 HTML</p>',
@@ -73,11 +71,6 @@ const DEFAULT_APPLICATION_CONFIG = () => ({
 
 export default {
   name: 'application-config',
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization',
-    })
-  },
   data: () => ({
     application: null,
     busy: false
@@ -114,9 +107,7 @@ export default {
         }
         let {
           ok
-        } = await this.$agent.put('/api/config/application')
-                  .set( ... this.authorization )
-                  .send( payload )
+        } = await this.$agent.put('/api/config/application').send( payload )
         this.$notify({
           type: 'success',
           title: '已更新报名设置',

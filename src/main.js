@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import superagent from 'superagent'
+import superagentUse from 'superagent-use'
 import { getToken } from '@/persistence/token'
 import {
     Alert,
@@ -68,7 +69,6 @@ Vue.use( Loading )
 
 import SeriousConfirm from '@/components/SeriousConfirm.js'
 
-Vue.prototype.$agent = superagent
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
@@ -80,6 +80,14 @@ let token = getToken()
 if (token) {
     store.commit('user/token', token)
 }
+
+// superagent:
+// 1. automatic authorization injection
+Vue.prototype.$agent = superagentUse(superagent)
+Vue.prototype.$agent.use(req => {
+    const token = store.getters['user/token']
+    token && req.auth(token, null, {type: 'bearer'})
+})
 
 /* eslint-disable no-new */
 new Vue({

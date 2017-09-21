@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import ImageLoader from './ImageLoader'
 import { toDateTimeString } from '../../../lib/date-util'
 export default {
@@ -23,15 +22,9 @@ export default {
   props: {
     data: { type: Object, required: true }
   },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
-  },
   methods: {
     createImageLoader(payment) {
       return () => this.$agent.get('/api/schools/'+payment.school.id+'/payments/'+payment.id)
-                     .set( ... this.authorization )
                      .responseType('blob')
                      .then( res => res.body )
     },

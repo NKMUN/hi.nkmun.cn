@@ -99,7 +99,6 @@ export default {
   }),
   computed: {
     ... mapGetters({
-      authorization: 'user/authorization',
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),
@@ -118,7 +117,6 @@ export default {
           let {
             ok
           } = await this.$agent.delete('/api/hotels/'+this.hotels[idx].id)
-                    .set( ... this.authorization )
           this.hotels.splice( idx, 1 )
           this.$notify({
             type: 'warning',
@@ -143,7 +141,6 @@ export default {
         let {
           body
         } = await this.$agent.post('/api/hotels', hotel)
-                  .set( ... this.authorization )
         // created hotel is returned in body
         this.hotels.push( body )
         this.$notify({
@@ -169,7 +166,6 @@ export default {
         let {
           body
         } = await this.$agent.patch('/api/hotels/'+id, { stock: targetStock })
-                  .set( ... this.authorization )
         // updated hotel is returned in body
         this.hotels.splice(
           this.hotels.findIndex( $ => $.id === id ),
@@ -200,7 +196,6 @@ export default {
       let {
         body
       } = await this.$agent.get('/api/hotels')
-                .set( ... this.authorization )
       this.hotels = body
     } catch(e) {
       this.$notify({

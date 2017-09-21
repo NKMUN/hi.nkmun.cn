@@ -131,7 +131,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import sessionTypes from '@/lib/session-types'
 
 const keys = obj => {
@@ -163,9 +162,6 @@ export default {
     validation: null,
     showValidationAlert: false
   }),
-  computed: {
-    ... mapGetters({ authorization: 'user/authorization' }),
-  },
   methods: {
     validate() {
       let result = this.sessions.map( obj => keys(obj).reduce( (r, k) => ({...r, [k]: true}), {} ) )
@@ -212,7 +208,6 @@ export default {
           ok,
           body
         } = await this.$agent.put('/api/sessions/', this.sessions)
-                  .set( ... this.authorization )
         this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.$store.commit('config/update', { sessions: body.map( $ => ({ ...$ }) ) })
@@ -250,7 +245,6 @@ export default {
       let {
         body
       } = await this.$agent.get('/api/sessions/')
-                .set( ... this.authorization )
       // make sure a copy of array is passed to vue
       this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ... $ }))
       this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }))

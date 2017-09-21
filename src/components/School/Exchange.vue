@@ -59,7 +59,6 @@ export default {
   computed: {
     ...mapGetters({
       id: 'user/school',
-      authorization: 'user/authorization',
       seat: 'school/seat',
       stage: 'school/stage',
       sessions: 'config/sessions'
@@ -88,7 +87,6 @@ export default {
           status
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
-                  .set( ... this.authorization )
                   .ok( ({ok, status}) => ok || status === 410 )
         if (status === 410) {
           this.$notify({
@@ -129,7 +127,6 @@ export default {
           status,
           body
         } = await this.$agent.post('/api/exchanges/')
-                  .set( ... this.authorization )
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
         if (status === 409) {

@@ -4645,6 +4645,13 @@ stylus@^0.54.5:
     sax "0.5.x"
     source-map "0.1.x"
 
+superagent-use@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/superagent-use/download/superagent-use-0.1.0.tgz#d28dbbbf573ba980329b4645897608bc99501cff"
+  dependencies:
+    extend "^3.0.0"
+    methods "~1.1.2"
+
 superagent@^3.6.0:
   version "3.6.0"
   resolved "http://registry.npm.taobao.org/superagent/download/superagent-3.6.0.tgz#eb679651057c3462199c7b902b696c25350e1b87"

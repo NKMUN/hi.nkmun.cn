@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import RepresentativeInfo from '../../form/Representative'
 
 const pluck = (obj, ...fields) => {
@@ -73,9 +72,6 @@ export default {
     leaderEditable: { type: Boolean, default: true },
   },
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization',
-    }),
     isAdult() {
       // TODO: make it configurable on server, either:
       // 1. make teacher/supervisor a reserved (internal) session
@@ -120,7 +116,6 @@ export default {
           let {
             body
           } = await this.$agent.get('/api/schools/'+this.school+'/representatives/'+this.id)
-                               .set( ... this.authorization )
           if (this.$refs.form)
             this.$refs.form.reset()
           this.representative = body
@@ -154,7 +149,6 @@ export default {
           status,
           body
         } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
-                             .set( ... this.authorization )
                              .send( this.representativeModel )
         this.dirty = false
         this.representative = body
@@ -180,7 +174,6 @@ export default {
         let {
           ok
         } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
-                  .set( ... this.authorization )
                   .send({ withdraw: value })
         let name = this.representative && this.representative.contact && this.representative.contact.name || this.representative.session.name || ''
         this.$notify({

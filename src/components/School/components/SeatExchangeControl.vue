@@ -104,7 +104,6 @@ export default {
   computed: {
     ...mapGetters({
       id: 'user/school',
-      authorization: 'user/authorization',
       seat: 'school/seat',
       exchanges: 'school/exchanges',
     }),
@@ -144,7 +143,6 @@ export default {
         body
       } = await this.$agent.get('/api/schools/')
                 .query({ seat: 1, stage: '1.exchange' })
-                .set( ... this.authorization )
       this.schools = body.filter( $ => $.id !== this.id )
       this.loading = false
     },

@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import SecondRoundReview from './components/SecondRoundReview'
@@ -41,11 +40,6 @@ export default {
     SecondRoundReview
   },
   props: { id: { type: String, default: '' } },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    })
-  },
   data: () => ({
     tests: null,
     sessions: null,
@@ -55,12 +49,8 @@ export default {
   methods: {
     configLoader() {
       return Promise.all([
-        this.$agent.get('/api/sessions/')
-          .set( ... this.authorization )
-          .then( res => res.body ),
-        this.$agent.get('/api/schools/')
-          .set( ... this.authorization )
-          .then( res => res.body )
+        this.$agent.get('/api/sessions/').then( res => res.body ),
+        this.$agent.get('/api/schools/').then( res => res.body )
       ])
     },
     configParser([ sessions, schools ]) {

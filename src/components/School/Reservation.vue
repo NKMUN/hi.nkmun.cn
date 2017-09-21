@@ -48,7 +48,6 @@ export default {
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
       school: 'user/school',
-      authorization: 'user/authorization',
     }),
     maxNumOfRooms() {
       let s = 0
@@ -72,7 +71,6 @@ export default {
         const {
           ok
         } = await this.$agent.post('/api/schools/'+this.school+'/progress')
-                            .set( ... this.authorization )
                             .send({ confirmReservation: 1 })
         if (ok) {
           this.$notify({

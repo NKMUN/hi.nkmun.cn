@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Precondition from '@/components/Precondition'
 
 const DEFAULT_INVITATION_MODEL = () => ({
@@ -141,14 +140,9 @@ export default {
     busy: false,
     M: null
   }),
-  computed: {
-    ... mapGetters({ authorization: 'user/authorization' }),
-  },
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config/mail')
-             .set( ... this.authorization )
-             .then( res => res.body )
+      return this.$agent.get('/api/config/mail').then( res => res.body )
     },
     configParser(conf) {
       this.M = { ...DEFAULT_INVITATION_MODEL(), ...conf }
@@ -157,7 +151,6 @@ export default {
       this.busy = true
       try {
         await this.$agent.put('/api/config/mail', this.M)
-              .set( ... this.authorization )
         this.$notify({
           type: 'success',
           title: '邀请邮件模版已设置',

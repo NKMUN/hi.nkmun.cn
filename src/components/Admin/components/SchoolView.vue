@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Precondition from '@/components/Precondition'
 import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
@@ -96,9 +95,6 @@ export default {
     id: { type: String, default: null }
   },
   computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
     round() {
       return (this.school && this.school.stage && this.school.stage[0]) || null
     },
@@ -137,7 +133,6 @@ export default {
           const {
             body
           } = await this.$agent.get('/api/schools/'+this.id)
-                               .set( ... this.authorization )
           this.school = body
         } catch(e) {
           this.notifyError(e, '获取失败')
@@ -156,7 +151,6 @@ export default {
           ok,
           status
         } = await this.$agent.patch('/api/schools/'+this.id)
-                             .set( ... this.authorization )
                              .query({ field: field })
                              .send(payload)
         this.$notify({
@@ -179,8 +173,6 @@ export default {
         let {
           ok
         } = await this.$agent.delete('/api/schools/'+this.id)
-                             .set( ... this.authorization )
-                             .send({})
         this.$notify({
           type: 'success',
           title: '已成功爆破',
@@ -205,7 +197,6 @@ export default {
           status
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
-                  .set( ... this.authorization )
                   .ok( ({ok, status}) => ok || status === 410 )
         if (status === 410) {
           this.$notify({
@@ -236,7 +227,6 @@ export default {
           ok,
           body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .set( ... this.authorization )
                   .send({ leaderAttend: value })
         this.school = {
           ... this.school,
@@ -259,7 +249,6 @@ export default {
           ok,
           body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .set( ... this.authorization )
                   .send({ startConfirm: true })
         this.school = {
           ... this.school,

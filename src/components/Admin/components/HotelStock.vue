@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Icon from 'vue-awesome'
 import 'vue-awesome/icons/refresh'
 
@@ -46,11 +45,6 @@ export default {
   name: 'hotel-stock',
   components: {
     Icon
-  },
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
   },
   props: {
     value: {
@@ -73,7 +67,6 @@ export default {
         let {
           body
         } = await this.$agent.get('/api/hotels/')
-                  .set( ... this.authorization )
         this.hotels = body
       } catch(e) {
 
@@ -87,7 +80,6 @@ export default {
         const {
           body
         } = await this.$agent.get('/api/hotels/')
-                  .set( ... this.authorization )
         this.hotels = body
       } catch(e) {
         // ignore error during refresh

@@ -37,16 +37,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'global-config',
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    })
-  },
   data: () => ({
     config: null,
     busy: false,
@@ -81,7 +75,6 @@ export default {
         let {
           body
         } = await this.$agent.put('/api/config/config')
-                  .set( ... this.authorization )
                   .send({
                     ... this.config,
                     conferenceStartDate: toDateString(this.period[0]),

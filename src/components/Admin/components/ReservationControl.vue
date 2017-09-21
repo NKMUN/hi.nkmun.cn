@@ -125,7 +125,6 @@ export default {
   },
   computed: {
     ... mapGetters({
-      authorization: 'user/authorization',
       access: 'user/access',
     }),
   },
@@ -164,7 +163,6 @@ export default {
           const {
             body
           } = await this.$agent.get('/api/schools/'+this.school+'/reservations/')
-                              .set( ... this.authorization )
           this.reservations = body
         } catch(e) {
           this.notifyError(e, '获取失败')
@@ -210,7 +208,6 @@ export default {
           ok,
           body
         } = await this.$agent.post('/api/schools/'+this.school+'/reservations/')
-                             .set( ... this.authorization )
                              .send( reservation )
                              .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
@@ -241,7 +238,6 @@ export default {
           ok,
           body
         } = await this.$agent.patch('/api/schools/'+this.school+'/reservations/'+reservation.id)
-                             .set( ... this.authorization )
                              .send( reservation )
                              .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
@@ -275,8 +271,6 @@ export default {
         let {
           ok
         } = await this.$agent.delete('/api/schools/'+this.school+'/reservations/'+rid)
-                             .set( ... this.authorization )
-                             .send({})
         this.reservations.splice(
           this.reservations.findIndex( $ => $.id === rid ),
           1
@@ -299,7 +293,6 @@ export default {
           ok,
           body
         } = await this.$agent.post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
-                             .set( ... this.authorization )
                              .send({ accept: 1 })
                              .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
@@ -334,7 +327,6 @@ export default {
           ok,
           body
         } = await this.$agent.post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
-                             .set( ... this.authorization )
                              .send({ reject: 1 })
         if (ok) {
           this.reservations.splice(

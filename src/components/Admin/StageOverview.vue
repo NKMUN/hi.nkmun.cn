@@ -19,17 +19,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getName } from '../../STAGE_DEF'
 const bySchoolName = (a, b) => (a.name || '').localeCompare(b.name || '')
 
 export default {
   name: 'stage-overview',
-  computed: {
-    ... mapGetters({
-      authorization: 'user/authorization'
-    }),
-  },
   data: () => ({
     schools: null,
     busy: false
@@ -40,7 +34,6 @@ export default {
         let {
           body
         } = await this.$agent.get('/api/schools/')
-                  .set( ... this.authorization )
         this.schools = body.sort(bySchoolName).map( $ => ({
           name: $.name,
           state: getName($.stage)

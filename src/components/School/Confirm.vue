@@ -56,7 +56,6 @@ export default {
   computed: {
     ...mapGetters({
       id: 'user/school',
-      authorization: 'user/authorization',
       stage: 'school/stage',
     }),
     canConfirm() {
@@ -85,7 +84,6 @@ export default {
           body
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmAttend: 1 })
-                  .set( ... this.authorization )
         this.$store.commit('school/stage', '9.complete')
         this.$notify({
           type: 'success',
