@@ -125,12 +125,8 @@ export default {
     async fetch() {
       try {
         let [ schools, applications ] = await Promise.all([
-          this.$agent.get('/api/schools/')
-            .query({ seat: 1 })
-            .then( res => res.body ),
-          this.$agent.get('/api/applications/')
-            .query({ seat: 1 })
-            .then( res => res.body )
+          this.$agent.get('/api/schools/').query({ seat: 1 }).body(),
+          this.$agent.get('/api/applications/').query({ seat: 1 }).body()
         ])
         this.schools = mergeSeat(schools, applications)
       } catch(e) {

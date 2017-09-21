@@ -24,9 +24,7 @@ export default {
   },
   methods: {
     createImageLoader(payment) {
-      return () => this.$agent.get('/api/schools/'+payment.school.id+'/payments/'+payment.id)
-                     .responseType('blob')
-                     .then( res => res.body )
+      return () => this.$agent.get('/api/schools/'+payment.school.id+'/payments/'+payment.id).blob()
     },
   },
   filters: {

@@ -49,8 +49,8 @@ export default {
   methods: {
     configLoader() {
       return Promise.all([
-        this.$agent.get('/api/sessions/').then( res => res.body ),
-        this.$agent.get('/api/schools/').then( res => res.body )
+        this.$agent.get('/api/sessions/').body(),
+        this.$agent.get('/api/schools/').body()
       ])
     },
     configParser([ sessions, schools ]) {

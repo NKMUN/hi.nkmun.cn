@@ -51,7 +51,7 @@ export default {
   }),
   methods: {
     configLoader() {
-      return this.$agent.get('/api/schools/').then( res => res.body )
+      return this.$agent.get('/api/schools/').body()
     },
     configParser(schools) {
       this.schools = schools.filter( school => Number(school.stage[0]) >= '3' )

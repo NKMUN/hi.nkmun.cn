@@ -141,8 +141,7 @@ export default {
 
         this.representatives = await Promise.all(
           representativeList.map(
-            $ => this.$agent.get('/api/schools/'+this.school+'/representatives/'+$.id)
-                 .then( res => res.body )
+            $ => this.$agent.get('/api/schools/'+this.school+'/representatives/'+$.id).body()
           )
         ).then(representatives => representatives.filter($ => !$.withdraw))
 

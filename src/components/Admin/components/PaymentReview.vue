@@ -103,8 +103,8 @@ export default {
         this.payments = null
         try {
           let [ school, payments ] = await Promise.all([
-            this.$agent.get('/api/schools/'+this.id).then( res => res.body ),
-            this.$agent.get('/api/schools/'+this.id+'/payments/').then( res => res.body )
+            this.$agent.get('/api/schools/'+this.id).body(),
+            this.$agent.get('/api/schools/'+this.id+'/payments/').body()
           ])
           this.school = school
           this.payments = payments

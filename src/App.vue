@@ -26,7 +26,7 @@ export default {
   }),
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config').then( res => res.body )
+      return this.$agent.get('/api/config').body()
     },
     configParser(config) {
       this.$store.commit('config/config', config)

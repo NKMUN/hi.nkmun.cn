@@ -51,9 +51,9 @@ export default {
   methods: {
     configLoader() {
       return Promise.all([
-        this.$agent.get('/api/config/application').then( res => res.body ),
-        this.$agent.get('/api/sessions/').then( res => res.body ),
-        this.$agent.get('/api/applications/').then( res => res.body )
+        this.$agent.get('/api/config/application').body(),
+        this.$agent.get('/api/sessions/').body(),
+        this.$agent.get('/api/applications/').body()
       ])
     },
     configParser([ appConf, sessions, applications ]) {

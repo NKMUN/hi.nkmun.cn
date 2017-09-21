@@ -142,7 +142,7 @@ export default {
   }),
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config/mail').then( res => res.body )
+      return this.$agent.get('/api/config/mail').body()
     },
     configParser(conf) {
       this.M = { ...DEFAULT_INVITATION_MODEL(), ...conf }

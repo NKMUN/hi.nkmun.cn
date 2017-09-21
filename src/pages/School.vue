@@ -110,7 +110,7 @@ export default {
       this.$router.replace('/logout')
     },
     loadSchool() {
-      return this.$agent.get('/api/schools/'+this.id).then( r => r.body )
+      return this.$agent.get('/api/schools/'+this.id).body()
     },
     parseSchool(school) {
       this.$store.commit('school/school', school)

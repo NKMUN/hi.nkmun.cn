@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     configLoader() {
-      return this.$agent.get('/api/config/application').then( res => res.body )
+      return this.$agent.get('/api/config/application').body()
     },
     configParser(config) {
       this.config = config

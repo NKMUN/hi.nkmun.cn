@@ -83,10 +83,15 @@ if (token) {
 
 // superagent:
 // 1. automatic authorization injection
+// 2. body(), blob() method
 Vue.prototype.$agent = superagentUse(superagent)
 Vue.prototype.$agent.use(req => {
     const token = store.getters['user/token']
     token && req.auth(token, null, {type: 'bearer'})
+})
+Vue.prototype.$agent.use(req => {
+    req.body = () => new Promise((resolve, reject) => req.then(res => resolve(res.body), reject))
+    req.blob = () => new Promise((resolve, reject) => req.responseType('blob').then(res => resolve(res.body), reject))
 })
 
 /* eslint-disable no-new */
