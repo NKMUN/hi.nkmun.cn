@@ -70,12 +70,11 @@ export default {
       if ( await this.$serious(message, name) ) {
         this.busy = true
         try {
-          let {
-            ok,
-            body
-          } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                    .send({ session: session.id, round: '1', amount: -1 })
-          this.$store.commit('school/seat', body)
+          const updatedSeat = await this.$agent
+            .post('/api/schools/'+this.id+'/seat')
+            .send({ session: session.id, round: '1', amount: -1 })
+            .body()
+          this.$store.commit('school/seat', updatedSeat)
           this.$notify({
             type: 'warning',
             title: '已放弃名额',
@@ -96,12 +95,10 @@ export default {
     async confirm() {
       this.busy = true
       try {
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
-        this.$store.commit('school/seat', body)
+        const updatedSeat = await this.$agent
+          .post('/api/schools/'+this.id+'/seat')
+          .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
+        this.$store.commit('school/seat', updatedSeat)
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')
         this.$notify({

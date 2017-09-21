@@ -104,14 +104,15 @@ export default {
         let {
           ok,
           status,
-          body
+          body: { school, token }
         } = await this.$agent.get('/api/invitations/'+this.invitationCode)
                   .ok( ({ok, status}) => ok || status === 410 || status === 404 )
         if (ok) {
           this.step = 1
-          this.school = body.school
-          this.token = body.token
-        } else if (status === 410 || status === 404) {
+          this.school = school
+          this.token = token
+        }
+        if (status === 410 || status === 404) {
           this.showInvitationCodeError = true
         }
       } catch(e) {

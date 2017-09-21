@@ -42,13 +42,12 @@ export default {
   },
   async mounted() {
     try {
-      let {
-        body
-      } = await this.$agent.get('/api/schools/'+this.school+'/billing')
-                .query({ round: this.round })
-      body.sort( byTypeThenName )
+      const details = await this.$agent
+        .get('/api/schools/'+this.school+'/billing')
+        .query({ round: this.round })
+        .body()
 
-      this.detail = body
+      this.detail = details.sort( byTypeThenName )
 
       this.$emit('loaded')
     } catch(e) {

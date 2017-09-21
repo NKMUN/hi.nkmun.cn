@@ -204,12 +204,9 @@ export default {
       }
       this.busy = true
       try {
-        let {
-          ok,
-          body
-        } = await this.$agent.put('/api/sessions/', this.sessions)
-        this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
-        this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
+        const serverSessions = await this.$agent.put('/api/sessions/', this.sessions).body()
+        this.serverSessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
+        this.sessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.$store.commit('config/update', { sessions: body.map( $ => ({ ...$ }) ) })
         if (ok) {
           this.$notify({
@@ -240,14 +237,11 @@ export default {
     }
   },
   async mounted() {
-    // TODO: fetch sessions
     try {
-      let {
-        body
-      } = await this.$agent.get('/api/sessions/')
+      const serverSessions = await this.$agent.get('/api/sessions/')
       // make sure a copy of array is passed to vue
-      this.serverSessions = body.map( $ => ({ ...DEFAULT_SESSION(), ... $ }))
-      this.sessions = body.map( $ => ({ ...DEFAULT_SESSION(), ...$ }))
+      this.serverSessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ... $ }))
+      this.sessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }))
       this.validate()
     } catch(e) {
       this.$notify({

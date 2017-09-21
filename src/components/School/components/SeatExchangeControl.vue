@@ -139,11 +139,11 @@ export default {
   methods: {
     async fetch() {
       this.loading = true
-      let {
-        body
-      } = await this.$agent.get('/api/schools/')
-                .query({ seat: 1, stage: '1.exchange' })
-      this.schools = body.filter( $ => $.id !== this.id )
+      const schools = await this.$agent
+        .get('/api/schools/')
+        .query({ seat: 1, stage: '1.exchange' })
+        .body()
+      this.schools = schools.filter( $ => $.id !== this.id )
       this.loading = false
     },
     tryExchange(school, session, schoolName) {

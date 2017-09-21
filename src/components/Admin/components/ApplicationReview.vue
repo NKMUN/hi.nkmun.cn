@@ -95,11 +95,8 @@ export default {
       if (this.id) {
         this.loading = true
         try {
-          let {
-            body: application
-          } = await this.$agent.get('/api/applications/'+this.id)
-          this.application = application
-          this.seat = application.seat
+          this.application = await this.$agent.get('/api/applications/'+this.id).body()
+          this.seat = this.application.seat
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.application = null
@@ -117,10 +114,7 @@ export default {
         return true
       let result = false
       try {
-        let {
-          ok,
-          status
-        } = await this.$agent.patch('/api/applications/'+this.id).send({ seat: this.seat })
+        await this.$agent.patch('/api/applications/'+this.id).send({ seat: this.seat })
         this.dirty = false
         if (!silent) {
           this.$notify({
@@ -154,9 +148,7 @@ export default {
 
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.post('/api/invitations/').send({ school: this.id })
+        await this.$agent.post('/api/invitations/').send({ school: this.id })
         this.$notify({
           type: 'success',
           title: '邀请已发送',
@@ -177,9 +169,7 @@ export default {
     async nuke() {
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.delete('/api/applications/'+this.id)
+        await this.$agent.delete('/api/applications/'+this.id)
         this.$notify({
           type: 'success',
           title: '已成功爆破',

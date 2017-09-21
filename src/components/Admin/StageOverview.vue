@@ -31,13 +31,13 @@ export default {
   methods: {
     async fetch() {
       try {
-        let {
-          body
-        } = await this.$agent.get('/api/schools/')
-        this.schools = body.sort(bySchoolName).map( $ => ({
-          name: $.name,
-          state: getName($.stage)
-        }))
+        const schools = await this.$agent.get('/api/schools/').body()
+        this.schools = schools
+          .sort(bySchoolName)
+          .map($ => ({
+            name: $.name,
+            state: getName($.stage)
+          }))
       } catch (e) {
         this.schools = null
       } finally {

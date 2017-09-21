@@ -72,10 +72,7 @@ export default {
     async exportCsv(type) {
       this.busy = true
       try {
-        let {
-          body: blob
-        } = await this.$agent.get('/api/export/'+type)
-                  .responseType('blob')
+        const blob = await this.$agent.get('/api/export/'+type).blob()
         saveAsFile(blob, 'NKMUN-'+type+'.csv')
       } catch(e) {
         this.$notify({

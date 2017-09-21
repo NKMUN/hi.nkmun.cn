@@ -64,10 +64,7 @@ export default {
     async fetch() {
       this.loading = true
       try {
-        let {
-          body
-        } = await this.$agent.get('/api/hotels/')
-        this.hotels = body
+        this.hotels = await this.$agent.get('/api/hotels/').body()
       } catch(e) {
 
       } finally {
@@ -77,10 +74,7 @@ export default {
     async refresh() {
       // do not set loading flag
       try {
-        const {
-          body
-        } = await this.$agent.get('/api/hotels/')
-        this.hotels = body
+        this.hotels = await this.$agent.get('/api/hotels/').body()
       } catch(e) {
         // ignore error during refresh
       }

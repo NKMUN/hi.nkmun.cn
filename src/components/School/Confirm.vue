@@ -80,10 +80,9 @@ export default {
         return
       }
       try {
-        let {
-          body
-        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .send({ confirmAttend: 1 })
+        await this.$agent
+          .post('/api/schools/'+this.id+'/seat')
+          .send({ confirmAttend: 1 })
         this.$store.commit('school/stage', '9.complete')
         this.$notify({
           type: 'success',

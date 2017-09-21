@@ -135,10 +135,7 @@ export default {
   methods: {
     async fetch() {
       try {
-        let {
-          body: representativeList
-        } = await this.$agent.get('/api/schools/'+this.school+'/representatives/')
-
+        const representativeList = await this.$agent.get('/api/schools/'+this.school+'/representatives/').body()
         this.representatives = await Promise.all(
           representativeList.map(
             $ => this.$agent.get('/api/schools/'+this.school+'/representatives/'+$.id).body()

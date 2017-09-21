@@ -90,8 +90,13 @@ Vue.prototype.$agent.use(req => {
     token && req.auth(token, null, {type: 'bearer'})
 })
 Vue.prototype.$agent.use(req => {
-    req.body = () => new Promise((resolve, reject) => req.then(res => resolve(res.body), reject))
-    req.blob = () => new Promise((resolve, reject) => req.responseType('blob').then(res => resolve(res.body), reject))
+    req.body = () => new Promise((resolve, reject) =>
+        req.then(
+            res => resolve(res.body),
+            reject
+        )
+    )
+    req.blob = (map) => res.responseType('blob').body(map)
 })
 
 /* eslint-disable no-new */

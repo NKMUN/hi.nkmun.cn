@@ -81,7 +81,6 @@ export default {
         try {
 
           let {
-            ok,
             unauthorized,
             body: { role, token }
           } = await this.$agent.post('/api/login', this.loginPayload)

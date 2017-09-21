@@ -61,21 +61,15 @@ export default {
           delete payload.hotelDate
           delete payload.arriveDepartDate
 
-          let {
-            ok,
-            body
-          } = await this.$agent.post('/api/committees/').send(payload)
-
-          if (ok) {
-            await this.$msgbox({
-              type: 'success',
-              title: '提交成功',
-              message: '点击确定返回首页',
-              showCancelButton: false,
-              showConfirmButton: true
-            })
-            this.$router.replace('/')
-          }
+          await this.$agent.post('/api/committees/').send(payload)
+          await this.$msgbox({
+            type: 'success',
+            title: '提交成功',
+            message: '点击确定返回首页',
+            showCancelButton: false,
+            showConfirmButton: true
+          })
+          this.$router.replace('/')
         } catch(e) {
           this.$notify({
             type: 'error',

@@ -114,9 +114,7 @@ export default {
       if ( confirmed ) {
         this.busy = true
         try {
-          let {
-            ok
-          } = await this.$agent.delete('/api/hotels/'+this.hotels[idx].id)
+          await this.$agent.delete('/api/hotels/'+this.hotels[idx].id)
           this.hotels.splice( idx, 1 )
           this.$notify({
             type: 'warning',
@@ -138,11 +136,9 @@ export default {
     async addHotel(hotel) {
       this.busy = true
       try {
-        let {
-          body
-        } = await this.$agent.post('/api/hotels', hotel)
         // created hotel is returned in body
-        this.hotels.push( body )
+        const newHotel = await this.$agent.post('/api/hotels', hotel).body()
+        this.hotels.push( newHotel )
         this.$notify({
           type: 'success',
           title: '酒店已添加',
@@ -163,14 +159,12 @@ export default {
     async modifyStock(id, targetStock) {
       this.busy = true
       try {
-        let {
-          body
-        } = await this.$agent.patch('/api/hotels/'+id, { stock: targetStock })
+        const updatedHotel = await this.$agent.patch('/api/hotels/'+id, { stock: targetStock }).body()
         // updated hotel is returned in body
         this.hotels.splice(
           this.hotels.findIndex( $ => $.id === id ),
           1,
-          body
+          updatedHotel
         )
         this.$notify({
           type: 'success',
@@ -191,20 +185,19 @@ export default {
       }
     }
   },
-  async mounted() {
-    try {
-      let {
-        body
-      } = await this.$agent.get('/api/hotels')
-      this.hotels = body
-    } catch(e) {
-      this.$notify({
-        type: 'error',
-        title: '获取酒店列表失败',
-        message: e.message,
-        duration: 0
-      })
-    }
+  mounted() {
+    this.$agent
+      .get('/api/hotels')
+      .body()
+      .then(
+        hotels => this.hotels = hotels,
+        err => this.$notify({
+          type: 'error',
+          title: '获取酒店列表失败',
+          message: e.message,
+          duration: 0
+        })
+      )
   },
 }
 </script>

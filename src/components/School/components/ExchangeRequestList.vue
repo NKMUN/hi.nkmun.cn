@@ -69,11 +69,10 @@ export default {
     async fetchRequests() {
       this.loadingRequests = true
       try {
-        let {
-          body
-        } = await this.$agent.get('/api/exchanges/')
-                  .query({ to: this.id, state: 0 })
-        this.requests = body
+        this.requests = await this.$agent
+          .get('/api/exchanges/')
+          .query({ to: this.id, state: 0 })
+          .body()
       } catch(e) {
         this.requests = []
       } finally {
@@ -86,12 +85,12 @@ export default {
         let {
           ok,
           status,
-          body
+          body: updatedSeat
         } = await this.$agent.post('/api/exchanges/'+req.id)
                   .ok( ({ok, status}) => ok || status === 410 )
                   .send({ accept: true })
         if (ok) {
-          this.$store.commit('school/seat', body)
+          this.$store.commit('school/seat', updatedSeat)
           this.$notify({
             type: 'success',
             title: '已接受名额交换',
@@ -120,12 +119,11 @@ export default {
     async refuseExchange(req, idx) {
       try {
         this.busy = true
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/exchanges/'+req.id)
-                  .send({ refuse: true })
-        this.$store.commit('school/seat', body)
+        const updatedSeat = await this.$agent
+          .post('/api/exchanges/'+req.id)
+          .send({ refuse: true })
+          .body()
+        this.$store.commit('school/seat', updatedSeat)
         this.requests.splice(idx, 1)
         this.$notify({
           type: 'success',

@@ -47,41 +47,43 @@ export default {
     period: null,
   }),
   methods: {
-    async fetch() {
-      try {
-        let {
-          body
-        } = await this.$agent.get('/api/config/config')
-        this.config = {
-          register: body.register,
-          apply: body.apply,
-          login: body.login,
-          conferenceName: body.conferenceName,
-          conferenceId: body.conferenceId
-        }
-        this.period = [body.conferenceStartDate, body.conferenceEndDate]
-      } catch(e) {
-        this.$notify({
+    parseConfig(config) {
+      this.config = {
+        register: config.register,
+        apply: config.apply,
+        login: config.login,
+        conferenceName: config.conferenceName,
+        conferenceId: config.conferenceId
+      }
+      this.period = [config.conferenceStartDate, config.conferenceEndDate]
+    },
+    fetch() {
+      return this.$agent
+      .get('/api/config/config')
+      .body()
+      .then(
+        config => this.parseConfig(config),
+        err => this.$notify({
           type: 'error',
           title: '获取全局设置失败',
           message: e.message,
           duration: 0
         })
-      }
+      )
     },
     async update() {
       this.busy = true
       try {
-        let {
-          body
-        } = await this.$agent.put('/api/config/config')
-                  .send({
-                    ... this.config,
-                    conferenceStartDate: toDateString(this.period[0]),
-                    conferenceEndDate: toDateString(this.period[1]),
-                  })
-        this.config = body
-        this.$store.commit('config/update', body)
+        const updatedConfig = await this.$agent
+          .put('/api/config/config')
+          .send({
+            ... this.config,
+            conferenceStartDate: toDateString(this.period[0]),
+            conferenceEndDate: toDateString(this.period[1]),
+          })
+          .body()
+        this.parseConfig(updatedConfig)
+        this.$store.commit('config/update', updatedConfig)
         this.$notify({
           type: 'success',
           title: '已更新',

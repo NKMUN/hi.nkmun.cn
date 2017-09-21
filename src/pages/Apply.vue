@@ -120,8 +120,7 @@ export default {
       try {
         let {
           status,
-          ok,
-          body
+          ok
         } = await this.$agent.post('/api/applications/', this.application)
                   .ok( ({status, ok}) => ok || status === 409 )
         if (ok) {

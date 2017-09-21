@@ -69,10 +69,8 @@ export default {
     async fetch() {
       this.users = null
       try {
-        let {
-          body
-        } = await this.$agent.get('/api/users/')
-        this.users = body.map( $ => ({
+        const users = await this.$agent.get('/api/users/').body()
+        this.users = users.map( $ => ({
           ... $,
           access: toAccessString( $.access )
         }) )
@@ -89,9 +87,7 @@ export default {
         this.busy = true
         const { user, password } = result
         try {
-          let {
-            ok
-          } = await this.$agent.patch('/api/users/'+user).send({ password })
+          await this.$agent.patch('/api/users/'+user).send({ password })
           this.$notify({
             type: 'success',
             title: '已重置密码',

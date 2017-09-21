@@ -82,12 +82,12 @@ export default {
       this.busy = true
       try {
         let {
-          ok,
-          body,
-          status
+          status,
+          body: updatedSeat
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
                   .ok( ({ok, status}) => ok || status === 410 )
+                  .body()
         if (status === 410) {
           this.$notify({
             type: 'warning',
@@ -95,7 +95,7 @@ export default {
             message: '双代会场没有偶数名额，请刷新页面！'
           })
         } else if (ok) {
-          this.$store.commit('school/seat', body)
+          this.$store.commit('school/seat', updatedSeat)
           this.$store.commit('school/stage', '1.reservation')
           this.$router.replace('/school/reservation')
           this.$notify({
@@ -123,9 +123,8 @@ export default {
       this.busy = true
       try {
         let {
-          ok,
           status,
-          body
+          body: newExchange
         } = await this.$agent.post('/api/exchanges/')
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
@@ -143,7 +142,7 @@ export default {
             title: '名额交换申请已发送',
             duration: 5000
           })
-          this.$store.commit('school/addExchange', body)
+          this.$store.commit('school/addExchange', newExchange)
         }
       } catch(e) {
         this.$notify({

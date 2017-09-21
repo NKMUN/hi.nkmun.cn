@@ -78,12 +78,10 @@ export default {
   methods: {
     async fetch() {
       try{
-        let {
-          body
-        } = await this.$agent.get('/api/config/application')
+        const updatedConfig = await this.$agent.get('/api/config/application').body()
         this.application = {
           ... DEFAULT_APPLICATION_CONFIG(),
-          ... body
+          ... updatedConfig
         }
       } catch(e) {
         this.$notify({
@@ -105,9 +103,7 @@ export default {
             question: $.question
           }))
         }
-        let {
-          ok
-        } = await this.$agent.put('/api/config/application').send( payload )
+        await this.$agent.put('/api/config/application').send( payload )
         this.$notify({
           type: 'success',
           title: '已更新报名设置',

@@ -130,10 +130,7 @@ export default {
       if (this.id) {
         this.loading = true
         try {
-          const {
-            body
-          } = await this.$agent.get('/api/schools/'+this.id)
-          this.school = body
+          this.school = await this.$agent.get('/api/schools/'+this.id).body()
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
@@ -147,12 +144,10 @@ export default {
     },
     async patch(field, payload) {
       try {
-        let {
-          ok,
-          status
-        } = await this.$agent.patch('/api/schools/'+this.id)
-                             .query({ field: field })
-                             .send(payload)
+        await this.$agent
+          .patch('/api/schools/'+this.id)
+          .query({ field: field })
+          .send(payload)
         this.$notify({
           type: 'success',
           title: '更新成功',
@@ -170,9 +165,7 @@ export default {
     async nuke() {
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.delete('/api/schools/'+this.id)
+        await this.$agent.delete('/api/schools/'+this.id)
         this.$notify({
           type: 'success',
           title: '已成功爆破',
@@ -198,21 +191,21 @@ export default {
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
                   .ok( ({ok, status}) => ok || status === 410 )
+        if (ok) {
+          this.$notify({
+            type: 'success',
+            title: '名额交换已确认',
+            duration: 5000
+          })
+        }
         if (status === 410) {
           this.$notify({
             type: 'warning',
             title: '未能确认名额交换',
             message: '双代会场没有偶数名额，请刷新页面！'
           })
-          await this.fetch()
-        } else if (ok) {
-          this.$notify({
-            type: 'success',
-            title: '名额交换已确认',
-            duration: 5000
-          })
-          await this.fetch()
         }
+        await this.fetch()
       } catch(e) {
         this.notifyError(e, '未能强制结束交换')
       } finally {
@@ -223,14 +216,13 @@ export default {
       if (value === this.leaderAttend)
         return
       try {
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .send({ leaderAttend: value })
+        const updatedSeat = await this.$agent
+          .post('/api/schools/'+this.id+'/seat')
+          .send({ leaderAttend: value })
+          .body()
         this.school = {
           ... this.school,
-          seat: body
+          seat: updatedSeat
         }
         this.$notify({
           type: 'success',
@@ -245,11 +237,10 @@ export default {
     },
     async startConfirm() {
       try {
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/schools/'+this.id+'/seat')
-                  .send({ startConfirm: true })
+        const newSeat = await this.$agent
+          .post('/api/schools/'+this.id+'/seat')
+          .send({ startConfirm: true })
+          .body()
         this.school = {
           ... this.school,
           seat: body,

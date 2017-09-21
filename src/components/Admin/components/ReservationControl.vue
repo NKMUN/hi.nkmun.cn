@@ -160,10 +160,7 @@ export default {
     async fetch() {
       if (this.school) {
         try {
-          const {
-            body
-          } = await this.$agent.get('/api/schools/'+this.school+'/reservations/')
-          this.reservations = body
+          this.reservations = await this.$agent.get('/api/schools/'+this.school+'/reservations/').body()
         } catch(e) {
           this.notifyError(e, '获取失败')
         }
@@ -206,7 +203,8 @@ export default {
       try {
         let {
           ok,
-          body
+          body,
+          status
         } = await this.$agent.post('/api/schools/'+this.school+'/reservations/')
                              .send( reservation )
                              .ok( ({ok, status}) => ok || status === 410 )
@@ -236,7 +234,8 @@ export default {
       try {
         let {
           ok,
-          body
+          body,
+          status
         } = await this.$agent.patch('/api/schools/'+this.school+'/reservations/'+reservation.id)
                              .send( reservation )
                              .ok( ({ok, status}) => ok || status === 410 )
@@ -268,9 +267,7 @@ export default {
     async deleteReservation(rid) {
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.delete('/api/schools/'+this.school+'/reservations/'+rid)
+        await this.$agent.delete('/api/schools/'+this.school+'/reservations/'+rid)
         this.reservations.splice(
           this.reservations.findIndex( $ => $.id === rid ),
           1
@@ -291,7 +288,8 @@ export default {
       try {
         let {
           ok,
-          body
+          body,
+          status
         } = await this.$agent.post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
                              .send({ accept: 1 })
                              .ok( ({ok, status}) => ok || status === 410 )
@@ -323,23 +321,20 @@ export default {
     async rejectRoomshare(reservation) {
       this.busy = true
       try {
-        let {
-          ok,
-          body
-        } = await this.$agent.post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
-                             .send({ reject: 1 })
-        if (ok) {
-          this.reservations.splice(
-            this.reservations.findIndex($ => $.id === reservation.id),
-            1,
-            body
-          )
-          this.$notify({
-            type: 'success',
-            title: '已拒绝拼房',
-            duration: 5000
-          })
-        }
+        const rejectedReservation = await this.$agent
+          .post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
+          .send({ reject: 1 })
+          .body()
+        this.reservations.splice(
+          this.reservations.findIndex($ => $.id === reservation.id),
+          1,
+          rejectedReservation
+        )
+        this.$notify({
+          type: 'success',
+          title: '已拒绝拼房',
+          duration: 5000
+        })
       } catch(e) {
         this.notifyError(e, '拼房失败')
       } finally {

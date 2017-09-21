@@ -67,19 +67,21 @@ export default {
         duration: 0
       })
     },
-    async fetch() {
-      try {
-        let {
-          body
-        } = await this.$agent.get('/api/schools/'+this.school+'/representatives/')
-        this.representatives = body.map( $ => ({
-          ... $,
-          name: $.session.name
-        }) )
-      } catch(e) {
-        this.notifyError(e)
-        this.representatives = null
-      }
+    fetch() {
+      return this.$agent
+        .get('/api/schools/'+this.school+'/representatives')
+        .then(
+          res => {
+            this.representatives = res.body.map($ => ({
+              ... $,
+              name: $.session.name
+            }))
+          },
+          err => {
+            this.notifyError(err)
+            this.representatives = null
+          }
+        )
     },
     bySessionName(a, b) {
       return a.session.name.localeCompare(b.session.name)

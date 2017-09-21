@@ -66,28 +66,28 @@ export default {
       this.$store.commit('school/stage', `${this.round}.payment`)
       this.$router.replace(`/school/payment`)
     },
-    async confirm() {
-      try {
-        const {
-          ok
-        } = await this.$agent.post('/api/schools/'+this.school+'/progress')
-                            .send({ confirmReservation: 1 })
-        if (ok) {
-          this.$notify({
-            type: 'success',
-            title: '已确认住宿预定',
-            duration: 5000
-          })
-          this.$store.commit('school/stage', this.$store.getters['school/stage'].replace('.reservation', '.payment'))
-          this.$router.replace('/school/payment/')
-        }
-      } catch(e) {
-        this.$msgbox({
-          type: 'warning',
-          title: '未能确认预定',
-          message: '请处理所有拼房请求，并撤回未被接受的拼房请求'
-        })
-      }
+    confirm() {
+      return this.$agent
+        .post('/api/schools/'+this.school+'/progress')
+        .send({ confirmReservation: 1 })
+        .then(
+          res => {
+            this.$notify({
+              type: 'success',
+              title: '已确认住宿预定',
+              duration: 5000
+            })
+            this.$store.commit('school/stage', this.$store.getters['school/stage'].replace('.reservation', '.payment'))
+            this.$router.replace('/school/payment/')
+          },
+          err => {
+            this.$msgbox({
+              type: 'warning',
+              title: '未能确认预定',
+              message: '请处理所有拼房请求，并撤回未被接受的拼房请求'
+            })
+          }
+        )
     }
   },
   filters: { roundText },

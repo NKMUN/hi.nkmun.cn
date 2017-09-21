@@ -113,12 +113,11 @@ export default {
       if (this.school && this.id) {
         this.loading = true
         try {
-          let {
-            body
-          } = await this.$agent.get('/api/schools/'+this.school+'/representatives/'+this.id)
+          this.representative = await this.$agent
+            .get('/api/schools/'+this.school+'/representatives/'+this.id)
+            .body()
           if (this.$refs.form)
             this.$refs.form.reset()
-          this.representative = body
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.representative = null
@@ -144,14 +143,11 @@ export default {
       }
       let result = false
       try {
-        let {
-          ok,
-          status,
-          body
-        } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
-                             .send( this.representativeModel )
         this.dirty = false
-        this.representative = body
+        this.representative = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send( this.representativeModel )
+          .body()
         if (!silent) {
           this.$notify({
             type: 'success',
@@ -171,10 +167,9 @@ export default {
     async setWithdraw(value) {
       this.busy = true
       try {
-        let {
-          ok
-        } = await this.$agent.patch('/api/schools/'+this.school+'/representatives/'+this.id)
-                  .send({ withdraw: value })
+        await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ withdraw: value })
         let name = this.representative && this.representative.contact && this.representative.contact.name || this.representative.session.name || ''
         this.$notify({
           type: 'success',
