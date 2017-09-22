@@ -16,7 +16,7 @@
         :payments="(payments || []).filter($ => $.round === currentRound)"
       />
 
-      <div class="controls" v-if="school && school.stage.endsWith('.paid')">
+      <div class="controls" v-if="canReviewPayment && school && school.stage.endsWith('.paid')">
         <el-button-group>
           <el-button
             type="danger"
@@ -57,6 +57,7 @@ import BillingDetail from '../../School/components/BillingDetail'
 import SchoolBrief from './SchoolBrief'
 import PaymentList from './PaymentList'
 import roundText from '@/lib/round-text'
+import { hasAccess } from '@/lib/access'
 
 export default {
   name: 'payment-review',
@@ -79,6 +80,9 @@ export default {
         case '2': return ['1']
         default:  return ['2', '1']
       }
+    },
+    canReviewPayment() {
+      return hasAccess(this.$store.getters['user/access'], 'finance')
     }
   },
   data: () => ({
