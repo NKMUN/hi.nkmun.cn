@@ -96,7 +96,7 @@ Vue.prototype.$agent.use(req => {
             reject
         )
     )
-    req.blob = (map) => res.responseType('blob').body(map)
+    req.blob = () => req.responseType('blob').body()
 })
 
 /* eslint-disable no-new */
