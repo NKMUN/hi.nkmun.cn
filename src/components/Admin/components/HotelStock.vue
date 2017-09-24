@@ -20,26 +20,12 @@
       <el-table-column prop="name" label="酒店" min-width="240" sortable />
       <el-table-column prop="type" label="房型" width="108" sortable />
       <el-table-column prop="available" label="余量" width="108" sortable />
-      <!-- <template slot="append" v-if="hotels">
-        <tr>
-          <td colspan="4" class="append-row">
-          <el-button
-            type="info"
-            size="small"
-            :loading="loading"
-            @click="refresh"
-          > <Icon name="refresh" /> <span>刷新</span> </el-button>
-          </td>
-        </tr>
-      </template> -->
     </el-table>
 
   </div>
 </template>
 
 <script>
-import 'vue-awesome/icons/refresh'
-
 export default {
   name: 'hotel-stock',
   props: {
