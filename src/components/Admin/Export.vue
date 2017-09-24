@@ -45,6 +45,12 @@
       :disabled="busy"
     > <icon name="photo"/> 组委照片 </el-button>
 
+    <el-button
+      @click="exportCsv('volunteers')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="handshake-o"/> 志愿者信息 </el-button>
+
   </div>
 
 </template>
@@ -59,6 +65,7 @@ import 'vue-awesome/icons/flag'
 import 'vue-awesome/icons/id-card'
 import 'vue-awesome/icons/jpy'
 import 'vue-awesome/icons/bed'
+import 'vue-awesome/icons/handshake-o'
 
 export default {
   name: 'export',

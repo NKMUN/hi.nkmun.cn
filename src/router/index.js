@@ -27,6 +27,7 @@ const Staff    = () => import('@/pages/Staff.vue')
 const School   = () => import('@/pages/School.vue')
 const Root     = () => import('@/pages/Root.vue')
 const Committee = () => import('@/pages/Committee.vue')
+const Volunteer = () => import('@/pages/Volunteer.vue')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -64,6 +65,7 @@ export default new Router({
     { path: '/register/', component: Register },
     { path: '/logout', component: Logout },
     { path: '/committee/', component: Committee },
+    { path: '/volunteer/', component: Volunteer },
     { path: '/staff/', component: Staff,
       beforeEnter: (to, from, next) => {
         const givenAccesses = store.getters['user/access']

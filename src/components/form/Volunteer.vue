@@ -1,32 +1,19 @@
 <template>
-  <div class="committee-member">
+  <div class="volunteer">
 
     <section>
-      <h4>组委 / 主席信息</h4>
+      <h4>志愿者信息</h4>
       <el-form
         class="form small"
         :label-width="labelWidth"
-        :model="{ role: this.role, school: this.school, photoId: this.photoId }"
-        ref="formSessionAndPhoto"
+        :model="{ school: this.school }"
+        ref="formSchool"
       >
-        <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="role" placeholder="请选择会场" @change="emit">
-            <el-option-group label="组委">
-              <el-option v-for="role in COMMITTEE_ROLES" :key="role.id" :value="'组委-'+role.name" :label="role.name" />
-            </el-option-group>
-            <el-option-group label="主席">
-              <el-option v-for="role in CHAIRMAN_ROLES" :key="role.id" :value="'主席-'+role.name" :label="role.name" />
-            </el-option-group>
-          </el-select>
-        </el-form-item>
 
         <el-form-item label="学校" prop="school" :rules="[{ required: true, message: '请填写学校', trigger: 'blur' }]">
           <el-input v-model="school" placeholder="请填写学校" @change="emit"></el-input>
         </el-form-item>
 
-        <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" @change="emit"/>
-        </el-form-item>
       </el-form>
 
       <ContactForm
@@ -74,7 +61,7 @@
       <h4>其它</h4>
 
       <div class="controls">
-        <el-checkbox v-model="isForeign">外地组委/主席请勾选</el-checkbox>
+        <el-checkbox v-model="isForeign">外地志愿者请勾选</el-checkbox>
       </div>
 
       <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/间/天</p>
@@ -126,17 +113,14 @@ import GraduationForm from './Graduation'
 import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import SessionUtils from '../../lib/session-utils'
-import ImageUpload from './ImageUpload'
-import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
 
 export default {
-  name: 'committee-member-form',
+  name: 'volunteer-form',
   components: {
     ContactForm,
     GraduationForm,
     IdentificationForm,
     GuardianForm,
-    ImageUpload,
   },
   mixins: [
     SessionUtils
@@ -169,9 +153,6 @@ export default {
         return null
       }
     },
-    CHAIRMAN_ROLES() {
-      return this.SESSIONS().filter( $ => !$.reserved && $.requiresChairman )
-    },
     datePickerDefaultValue() {
       return this.$store.getters['config/conferenceStartDate']
     },
@@ -185,9 +166,7 @@ export default {
   },
   data: () => ({
     labelWidth: '108px',
-    role: null,
     school: null,
-    photoId: null,
     contact: null,
     identification: null,
     guardian: null,
@@ -195,16 +174,13 @@ export default {
     isForeign: false,
     arriveDepartDate: null,
     hotelDate: null,
-    comment: '',
-    COMMITTEE_ROLES,
+    comment: ''
   }),
   methods: {
     emit() {
       this.$nextTick( () => {
         let M = {
-          role: this.role,
           school: this.school,
-          photoId: this.photoId,
           contact: this.contact,
           identification: this.identification,
           guardian: this.guardian,
@@ -226,7 +202,7 @@ export default {
     async validate() {
       let results = await Promise.all([
         ... this.forms.map( ref => this.$refs[ref].validate() ),
-        new Promise(r => this.$refs.formSessionAndPhoto.validate(r) )
+        new Promise(r => this.$refs.formSchool.validate(r) )
       ])
       return results.reduce( (a, v) => a && v )
     },
@@ -257,7 +233,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.committee-member
+.volunteer
   align-self: stretch
   h4
     text-align: center
