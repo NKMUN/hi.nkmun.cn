@@ -57,7 +57,6 @@
 
 <script>
 import {saveAsFile, downloadFile} from '@/lib/save-as-file'
-import Icon from 'vue-awesome'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/photo'
@@ -69,9 +68,6 @@ import 'vue-awesome/icons/handshake-o'
 
 export default {
   name: 'export',
-  components: {
-    Icon
-  },
   data: () => ({
     busy: false,
   }),

@@ -76,7 +76,6 @@ import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
 import ReservationControl from './ReservationControl'
-import Icon from 'vue-awesome/components/Icon'
 import LeaderAttendance from '../../form/LeaderAttendance'
 import 'vue-awesome/icons/exclamation-triangle'
 
@@ -87,8 +86,7 @@ export default {
     SeatUpdater,
     LeaderAttendance,
     NukeSchoolButton,
-    ReservationControl,
-    Icon,
+    ReservationControl
   },
   props: {
     sessions: { type: Array, default: () => [] },

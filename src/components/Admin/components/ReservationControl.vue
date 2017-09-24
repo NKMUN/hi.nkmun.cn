@@ -105,16 +105,12 @@
 import ReservationDialog from './ReservationDialog'
 import roundText from '@/lib/round-text'
 import { mapGetters } from 'vuex'
-import Icon from 'vue-awesome'
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/minus-square-o'
 
 export default {
   name: 'reservation-control',
-  components: {
-    ReservationDialog,
-    Icon
-  },
+  components: { ReservationDialog },
   props: {
     title: { type: String, default: '' },
     round: { type: String, default: '' },

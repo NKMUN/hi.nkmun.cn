@@ -38,14 +38,10 @@
 </template>
 
 <script>
-import Icon from 'vue-awesome'
 import 'vue-awesome/icons/refresh'
 
 export default {
   name: 'hotel-stock',
-  components: {
-    Icon
-  },
   props: {
     value: {
       default: null

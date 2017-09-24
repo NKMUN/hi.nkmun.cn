@@ -76,6 +76,9 @@ Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$serious = SeriousConfirm
 
+import Icon from 'vue-awesome/components/Icon'
+Vue.component('Icon', Icon)
+
 let token = getToken()
 if (token) {
     store.commit('user/token', token)

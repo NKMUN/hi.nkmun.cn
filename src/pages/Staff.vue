@@ -47,7 +47,6 @@
 
 <script>
 import { hasAccess } from '@/lib/access'
-import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons/wrench'
 import 'vue-awesome/icons/exclamation-circle'
 import 'vue-awesome/icons/calendar-check-o'
@@ -61,9 +60,6 @@ import 'vue-awesome/icons/institution'
 
 export default {
   name: 'admin-mgmt',
-  components: {
-    Icon
-  },
   methods: {
     logout() {
       this.$router.replace('/logout')

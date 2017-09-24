@@ -20,12 +20,10 @@
 </template>
 
 <script>
-import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
   name: 'NukeSchool',
-  components: { Icon },
   props: {
     disabled: { type: Boolean, default: false },
     busy: { type: Boolean, default: false },
