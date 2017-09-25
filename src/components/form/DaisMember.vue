@@ -2,7 +2,7 @@
   <div class="committee-member">
 
     <section>
-      <h4>组委信息</h4>
+      <h4>主席信息</h4>
       <el-form
         class="form small"
         :label-width="labelWidth"
@@ -12,7 +12,7 @@
         <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
           <el-select v-model="role" placeholder="请选择会场" @change="emit">
             <el-option-group label="组委">
-              <el-option v-for="role in COMMITTEE_ROLES" :key="role.id" :value="'组委-'+role.name" :label="role.name" />
+              <el-option v-for="role in DAIS_ROLES" :key="role.id" :value="'主席-'+role.name" :label="role.name" />
             </el-option-group>
           </el-select>
         </el-form-item>
@@ -122,6 +122,7 @@ import ContactForm from './Contact'
 import GraduationForm from './Graduation'
 import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
+import SessionUtils from '../../lib/session-utils'
 import ImageUpload from './ImageUpload'
 import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
 
@@ -134,6 +135,9 @@ export default {
     GuardianForm,
     ImageUpload,
   },
+  mixins: [
+    SessionUtils
+  ],
   props: {
     value: { type: Object },
     disabled: { type: Boolean, default: false },
@@ -161,6 +165,9 @@ export default {
       } else {
         return null
       }
+    },
+    DAIS_ROLES() {
+      return this.SESSIONS().filter( $ => !$.reserved && $.requiresChairman )
     },
     datePickerDefaultValue() {
       return this.$store.getters['config/conferenceStartDate']
