@@ -98,6 +98,7 @@ export default {
         const updatedSeat = await this.$agent
           .post('/api/schools/'+this.id+'/seat')
           .send({ confirmRelinquish: true, leaderAttend: this.leaderAttend })
+          .body()
         this.$store.commit('school/seat', updatedSeat)
         this.$store.commit('school/stage', '1.exchange')
         this.$router.replace('/school/exchange/')

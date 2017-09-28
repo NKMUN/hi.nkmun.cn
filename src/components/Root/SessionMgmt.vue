@@ -238,7 +238,7 @@ export default {
   },
   async mounted() {
     try {
-      const serverSessions = await this.$agent.get('/api/sessions/')
+      const serverSessions = await this.$agent.get('/api/sessions/').body()
       // make sure a copy of array is passed to vue
       this.serverSessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ... $ }))
       this.sessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }))
