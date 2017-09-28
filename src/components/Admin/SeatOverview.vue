@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SeatAllocationView from "../SeatAllocationView"
 
 export default {

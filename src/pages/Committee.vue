@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import LayoutCenter from '@/components/LayoutCenter'
 import Banner from '@/components/Banner'
 import Copyright from '@/components/Copyright'
