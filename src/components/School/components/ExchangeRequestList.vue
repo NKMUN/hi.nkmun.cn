@@ -49,6 +49,7 @@
 
 <script>
 import SessionUtils from '@/lib/session-utils'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'exchange-request-list',
