@@ -83,6 +83,7 @@ export default {
       try {
         let {
           status,
+          ok,
           body: updatedSeat
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
@@ -94,7 +95,8 @@ export default {
             title: '未能确认名额交换',
             message: '双代会场没有偶数名额，请刷新页面！'
           })
-        } else if (ok) {
+        } 
+        if (ok) {
           this.$store.commit('school/seat', updatedSeat)
           this.$store.commit('school/stage', '1.reservation')
           this.$router.replace('/school/reservation')
