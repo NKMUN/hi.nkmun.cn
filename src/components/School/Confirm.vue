@@ -24,7 +24,7 @@
     <RepresentativeTable @validated="handleValidated"/>
 
     <h4>酒店预订</h4>
-    <ReservationControl readonly school="id" />
+    <ReservationControl readonly :school="id" />
 
     <el-button
       v-if="!confirmed"
