@@ -48,7 +48,7 @@ export default {
     }),
     leaderEditable() {
       if (this.representatives)
-        return !this.representatives.find( $ => $.session === '_leader_nr' )
+        return !this.representatives.find( $ => $.session.id === '_leader_nr' )
       return true
     },
     showWithdraw() {
