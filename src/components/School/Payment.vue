@@ -29,7 +29,7 @@
         :on-success="onSuccess"
         :on-error="onError"
         :before-upload="beforeUpload"
-        :headers="{ Authorization: authorization[1] }"
+        :headers="{ Authorization: 'Bearer ' + token }"
         :show-file-list="false"
         :multiple="false"
         accept="image/jpeg, image/png, .jpg, .jpeg, .png"
@@ -63,6 +63,7 @@ export default {
   computed: {
     ... mapGetters({
       school: 'user/school',
+      token: 'user/token',
       round: 'school/round',
     }),
     authorization() {
