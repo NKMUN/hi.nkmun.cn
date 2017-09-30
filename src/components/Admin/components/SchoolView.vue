@@ -241,7 +241,7 @@ export default {
           .body()
         this.school = {
           ... this.school,
-          seat: body,
+          seat: newSeat,
           stage: '3.confirm'
         }
         this.$notify({
