@@ -6,7 +6,7 @@
     :order-by="bySchoolName"
     :ungroup="true"
     :id="school"
-    prefix="/admin/representatives/"
+    prefix="/staff/representatives/"
   >
 
     <Precondition
