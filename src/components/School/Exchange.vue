@@ -88,7 +88,6 @@ export default {
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
                   .ok( ({ok, status}) => ok || status === 410 )
-                  .body()
         if (status === 410) {
           this.$notify({
             type: 'warning',
