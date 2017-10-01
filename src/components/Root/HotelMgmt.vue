@@ -169,7 +169,7 @@ export default {
         this.$notify({
           type: 'success',
           title: '库存已修改',
-          message: body.name+'的库存已变更为'+body.stock+'，当前余量：'+body.available,
+          message: updatedHotel.name+'的库存已变更为'+updatedHotel.stock+'，当前余量：'+updatedHotel.available,
           duration: 5000
         })
         this.$refs.modifyStock.close()

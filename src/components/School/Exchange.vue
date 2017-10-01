@@ -125,6 +125,7 @@ export default {
       this.busy = true
       try {
         let {
+          ok,
           status,
           body: newExchange
         } = await this.$agent.post('/api/exchanges/')
