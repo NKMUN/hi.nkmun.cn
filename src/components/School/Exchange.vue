@@ -131,10 +131,10 @@ export default {
         } = await this.$agent.post('/api/exchanges/')
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
-        if (status === 409) {
+        if (status === 410) {
           this.$notify({
             type: 'warning',
-            title: 'Oops. 名额不可用',
+            title: 'Oops. 可交换名额不足',
             duration: 5000
           })
           this.$refs.exchangeDialog.close()
