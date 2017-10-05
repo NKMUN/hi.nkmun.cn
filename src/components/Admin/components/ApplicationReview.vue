@@ -1,6 +1,8 @@
 <template>
   <div class="reviewer" v-loading="id && (!application || loading)">
     <template v-if="application">
+      <InvitationCodeView v-if="application.processed" :id="id" />
+
       <ApplicationCard
         v-show="!loading"
         :data="application"
@@ -61,6 +63,7 @@
 import SeatInput from './SeatInput'
 import ApplicationCard from './ApplicationCard'
 import NukeApplicationButton from './NukeApplicationButton'
+import InvitationCodeView from './InvitationCodeView'
 
 export default {
   name: 'application-review',
@@ -68,6 +71,7 @@ export default {
     ApplicationCard,
     SeatInput,
     NukeApplicationButton,
+    InvitationCodeView,
   },
   props: {
     sessions: { type: Array, default: () => [] },
