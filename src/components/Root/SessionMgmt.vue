@@ -207,7 +207,7 @@ export default {
         const serverSessions = await this.$agent.put('/api/sessions/', this.sessions).body()
         this.serverSessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.sessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
-        this.$store.commit('config/update', { sessions: body.map( $ => ({ ...$ }) ) })
+        this.$store.commit('config/update', { sessions: serverSessions.map( $ => ({ ...$ }) ) })
         if (ok) {
           this.$notify({
             type: 'success',
