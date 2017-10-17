@@ -18,11 +18,13 @@
 </template>
 
 <script>
+import pinyinCmp from '@/lib/pinyin-cmp'
+import roundText from '@/lib/round-text'
+
 function byTypeThenName(a,b) {
-    return a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
+    return pinyinCmp(a.type, b.type) || pinyinCmp(a.name, b.name)
 }
 
-import roundText from '@/lib/round-text'
 export default {
   name: 'billing-detail',
   computed: {

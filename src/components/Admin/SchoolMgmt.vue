@@ -32,6 +32,7 @@
 import Precondition from '@/components/Precondition'
 import ListViewControl from '../ListViewControl'
 import SchoolView from './components/SchoolView'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 export default {
   name: 'school-mgmt',
@@ -44,7 +45,7 @@ export default {
   data: () => ({
     sessions: null,
     schools: null,
-    bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
+    bySchoolName: (a, b) => pinyinCmp(a.name, b.name),
   }),
   methods: {
     configLoader() {

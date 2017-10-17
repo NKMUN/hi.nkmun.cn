@@ -20,7 +20,8 @@
 
 <script>
 import { getName } from '../../STAGE_DEF'
-const bySchoolName = (a, b) => (a.name || '').localeCompare(b.name || '')
+import pinyinCmp from '@/lib/pinyin-cmp'
+const bySchoolName = (a, b) => pinyinCmp(a.name, b.name)
 
 export default {
   name: 'stage-overview',

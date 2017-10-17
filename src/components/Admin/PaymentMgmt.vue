@@ -30,6 +30,7 @@
 import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import PaymentReview from './components/PaymentReview'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 export default {
   name: 'payment-mgmt',
@@ -43,7 +44,7 @@ export default {
   },
   data: () => ({
     schools: null,
-    bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
+    bySchoolName: (a, b) => pinyinCmp(a.name, b.name),
   }),
   methods: {
     configLoader() {

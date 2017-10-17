@@ -124,6 +124,7 @@ import HotelStock from './HotelStock'
 import { toDateString, between as dateBetween } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 const ONE_DAY = 24 * 60 * 60 * 1000
 
@@ -153,7 +154,7 @@ export default {
           }))
           .filter($ => $.id !== this.school)  // can't be self
           .filter($ => !$.disabled)
-          .sort((a, b) => a.name.localeCompare(b.name))
+          .sort((a, b) => pinyinCmp(a.name, b.name))
     },
     title() {
       switch(this.mode) {

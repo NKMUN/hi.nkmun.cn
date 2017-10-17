@@ -61,17 +61,18 @@
 
 <script>
 import SessionUtils from '@/lib/session-utils'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 const bySchoolName = (a, b) => {
   if ( a && b )
-    return a.name.localeCompare(b.name)
+    return pinyinCmp(a.name, b.name)
   if ( a && !b )
     return -1
   if ( !a && b )
     return 1
   return 0
 }
-const byTypeThenName = (a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
+const byTypeThenName = (a, b) => pinyinCmp(a.type, b.type) || pinyinCmp(a.name, b.name)
 
 function mergeSeat(L, R) {
   L.sort( bySchoolName )

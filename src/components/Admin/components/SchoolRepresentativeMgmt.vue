@@ -30,6 +30,7 @@ import { mapGetters } from 'vuex'
 import Precondition from '@/components/Precondition'
 import ListViewControl from '../../ListViewControl'
 import RepresentativeView from './RepresentativeView'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 export default {
   name: 'school-representative-mgmt',
@@ -84,7 +85,7 @@ export default {
         )
     },
     bySessionName(a, b) {
-      return a.session.name.localeCompare(b.session.name)
+      return pinyinCmp(a.session.name, b.session.name)
     }
   },
   mounted() {

@@ -33,6 +33,7 @@
 import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import ApplicationReview from './components/ApplicationReview'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 export default {
   name: 'application-mgmt',
@@ -46,7 +47,7 @@ export default {
     tests: null,
     sessions: null,
     applications: null,
-    bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
+    bySchoolName: (a, b) => pinyinCmp(a.name, b.name),
   }),
   methods: {
     configLoader() {

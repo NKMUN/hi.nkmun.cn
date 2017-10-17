@@ -31,6 +31,7 @@
 import Precondition from '@/components/Precondition'
 import ReviewControl from './ReviewControl'
 import SecondRoundReview from './components/SecondRoundReview'
+import pinyinCmp from '@/lib/pinyin-cmp'
 
 export default {
   name: 'second-round-mgmt',
@@ -44,7 +45,7 @@ export default {
     tests: null,
     sessions: null,
     schools: null,
-    bySchoolName: (a, b) => (a.name || '').localeCompare(b.name || ''),
+    bySchoolName: (a, b) => pinyinCmp(a.name, b.name),
   }),
   methods: {
     configLoader() {
