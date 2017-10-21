@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="list-view-control">
 
     <slot class="default" />
 
@@ -85,8 +85,9 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
-.wrap
+.list-view-control
   flex-horz: flex-start stretch
+  align-self: stretch
   overflow: hidden
   .default
     flex-grow: 1

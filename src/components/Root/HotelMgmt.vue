@@ -214,6 +214,8 @@ export default {
 @import "../../style/flex"
 .hotel-mgmt
   flex-vert: flex-start center
+  padding-bottom: 2em
+  overflow: auto
   .note
     white-space: nowrap
     color: #475669

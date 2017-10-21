@@ -10,7 +10,6 @@
     </el-alert>
 
     <el-button
-      class="btn initialize"
       type="danger"
       size="large"
       icon="setting"
@@ -59,9 +58,9 @@ export default {
 @import "../../style/flex"
 .initialization
   flex-vert: flex-start center
+  padding-bottom: 2em
+  overflow: auto
   .alert
     width: auto
-    margin: 2em 0
-  .btn.initialize
     margin: 2em 0
 </style>

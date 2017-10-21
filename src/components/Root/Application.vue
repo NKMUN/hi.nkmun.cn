@@ -131,6 +131,8 @@ export default {
 @import "../../style/flex"
 .application-config
   flex-vert: flex-start center
+  padding-bottom: 2em
+  overflow: auto
   *
     flex-shrink: 0
   .form

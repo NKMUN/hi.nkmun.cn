@@ -175,6 +175,8 @@ export default {
 @import "../../style/flex"
 .mail-config
   flex-vert: flex-start center
+  padding-bottom: 2em
+  overflow: auto
   h4
     text-align: center
   .note

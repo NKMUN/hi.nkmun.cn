@@ -40,7 +40,9 @@
       > 退出 </el-button>
     </div>
 
-    <router-view class="wrap"/>
+    <div class="wrap">
+      <router-view class="container" />
+    </div>
 
   </div>
 </template>
@@ -88,6 +90,11 @@ export default {
       vertical-align: sub
   .wrap
     flex-grow: 1
+    overflow-y: scroll
+    overflow-x: hidden
+    flex-horz: stretch flex-start
+    .container
+      flex-grow: 1
   .el-alert
     width: auto
     align-self: center

@@ -111,6 +111,8 @@ export default {
 @import "../../style/flex"
 .system-config
   flex-vert: flex-start center
+  padding-bottom: 2em
+  overflow: auto
   .form
     white-space: nowrap
 </style>

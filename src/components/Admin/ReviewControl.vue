@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="review-control">
 
     <slot class="default" />
 
@@ -94,8 +94,9 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../style/flex"
-.wrap
+.review-control
   flex-horz: flex-start stretch
+  align-self: stretch
   overflow: hidden
   .default
     flex-grow: 1

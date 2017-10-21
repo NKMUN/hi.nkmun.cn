@@ -13,4 +13,5 @@ export default {
 <style lang="stylus" scoped>
 .overview
   text-align: center
+  padding-bottom: 2em
 </style>
