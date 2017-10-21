@@ -10,6 +10,14 @@
         @click="fetch"
       > 刷新 </el-button>
     </div>
+
+    <div class="controls">
+      <span>会场类型：</span>
+      <el-radio-group v-model="sessionType">
+        <el-radio v-for="type in sessionTypes" :key="type" :label="type">{{type}}</el-radio>
+      </el-radio-group>
+    </div>
+
     <el-table :data="schools">
       <el-table-column
         label="学校"
@@ -18,7 +26,7 @@
         fixed
       />
       <el-table-column
-        v-for="s in sessions"
+        v-for="s in activeSessions"
         :key="s.id"
         :label="s.name"
         align="center"
@@ -93,6 +101,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
+import SessionTypes from '@/lib/session-types'
 
 const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 
@@ -126,7 +135,13 @@ export default {
              .filter( $ => $.total > 0 )
     },
     sessions() {
-      return this.SESSIONS().filter( s => !s.reserved ).sort( byId )
+      return this.SESSIONS().filter( s => !s.reserved && s.exchangeable ).sort( byId )
+    },
+    activeSessions() {
+      return this.sessions.filter( s => s.type === this.sessionType )
+    },
+    sessionTypes() {
+      return SessionTypes.filter( type => this.sessions.some( s => s.type === type ) )
     }
   },
   data: () => ({
@@ -134,7 +149,8 @@ export default {
     dialogVisible: false,
     schools: [],
     exchange: {},
-    exchangeTargetName: null    // view only, do not post to server
+    exchangeTargetName: null,    // view only, do not post to server
+    sessionType: '中文',
   }),
   methods: {
     async fetch() {
@@ -169,7 +185,7 @@ export default {
 <style lang="stylus" scoped>
 @import "../../../style/flex"
 .header
-  padding: 10px 15px
+  margin: 1em 15px
 .session-line
   flex-horz: flex-start center
   .name
@@ -179,6 +195,8 @@ export default {
   .amount
     font-size: 13px
     margin-left: 3ch
+.controls
+  margin: 1em 15px
 .exchange-dialog-content
   min-width: 300px
   white-space: nowrap

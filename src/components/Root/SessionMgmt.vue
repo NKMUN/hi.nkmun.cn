@@ -68,6 +68,16 @@
         </template>
       </el-table-column>
 
+      <el-table-column prop="exchangeable" label="交换" width="64">
+        <template scope="scope">
+          <el-checkbox
+            v-model="scope.row.exchangeable"
+            :class="validation[scope.$index] && !validation[scope.$index].exchangeable ? 'error' : ''"
+            :disabled="busy || scope.row.reserved"
+          />
+        </template>
+      </el-table-column>
+
       <el-table-column prop="price" label="单价" width="96">
         <template scope="scope">
           <el-input-number
