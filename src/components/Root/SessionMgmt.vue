@@ -208,14 +208,12 @@ export default {
         this.serverSessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.sessions = serverSessions.map( $ => ({ ...DEFAULT_SESSION(), ...$ }) )
         this.$store.commit('config/update', { sessions: serverSessions.map( $ => ({ ...$ }) ) })
-        if (ok) {
-          this.$notify({
-            type: 'success',
-            title: '提交成功',
-            message: '已成功提交会场设置',
-            duration: 5000
-          })
-        }
+        this.$notify({
+          type: 'success',
+          title: '提交成功',
+          message: '已成功提交会场设置',
+          duration: 5000
+        })
         return true
       } catch(e) {
         this.$notify({
