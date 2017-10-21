@@ -57,4 +57,9 @@ body
   z-index: 99999 !important    // make sure it has greater z-index than loading mask
 .fa-icon
   width: 2ch
+.el-alert
+  // botch element's Alert import style issue, see: https://github.com/ElemeFE/element/issues/7195
+  .el-alert__icon
+    display: table-cell
+    vertical-align: middle
 </style>

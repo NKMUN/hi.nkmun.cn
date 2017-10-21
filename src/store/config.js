@@ -13,6 +13,7 @@ export default {
     apply: state => state.apply,
     register: state => state.register,
     login: state => state.login,
+    reserveHotel: state => state.reserveHotel,
     sessions: state => state.sessions,
     sessionMap: state => state.sessionMap,
     conferenceStartDate: state => state.conferenceStartDate,
@@ -23,6 +24,7 @@ export default {
       state.apply = (config && config.apply) || false
       state.register = (config && config.register) || false
       state.login = (config && config.login) || false
+      state.reserveHotel = (config && config.reserveHotel) || false
       state.sessions = ((config && config.sessions) || []).sort( (a,b) => a.id.localeCompare(b.id) )
       state.sessionMap = state.sessions.reduce(
         (ret, session) => ({ ...ret, [session.id]: session}),
@@ -32,7 +34,7 @@ export default {
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
-      ;['apply', 'register', 'login', 'sessions', 'conferenceEndDate', 'conferenceStartDate'].forEach( k => {
+      ;['apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate'].forEach( k => {
         if (update[k] !== undefined)
           state[k] = update[k]
       })

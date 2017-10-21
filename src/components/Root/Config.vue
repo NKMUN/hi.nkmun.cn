@@ -12,6 +12,9 @@
         <el-form-item label="代表登陆">
           <el-checkbox v-model="config.login" :disabled="busy" />
         </el-form-item>
+        <el-form-item label="酒店预订">
+          <el-checkbox v-model="config.reserveHotel" :disabled="busy" />
+        </el-form-item>
         <el-form-item label="会期名称">
           <el-input v-model="config.conferenceName" :disabled="busy" />
         </el-form-item>
@@ -52,6 +55,7 @@ export default {
         register: config.register,
         apply: config.apply,
         login: config.login,
+        reserveHotel: config.reserveHotel,
         conferenceName: config.conferenceName,
         conferenceId: config.conferenceId
       }

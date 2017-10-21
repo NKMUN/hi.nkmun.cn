@@ -2,29 +2,42 @@
   <div class="reservation">
     <h3>{{round | roundText}}酒店预订</h3>
 
-    <div class="top">
-      <SeatView :showRound1="this.round==='1'" :showRound2="this.round==='2'" />
-      <ul class="note">
-        <li>最多可预订 <code class="amount">{{ maxNumOfRooms }}</code> 个房间</li>
-        <li v-if="conferenceStartDate && conferenceEndDate">
-          本次会议时间为
-          <code class="date">{{conferenceStartDate}}</code>
-          至
-          <code class="date">{{conferenceEndDate}}</code>
-        </li>
-        <li>如果有特殊需求，请与组委联系</li>
-      </ul>
-    </div>
+    <template v-if="reserveHotel">
+      <div class="top">
+        <SeatView :showRound1="this.round==='1'" :showRound2="this.round==='2'" />
+        <ul class="note">
+          <li>最多可预订 <code class="amount">{{ maxNumOfRooms }}</code> 个房间</li>
+          <li v-if="conferenceStartDate && conferenceEndDate">
+            本次会议时间为
+            <code class="date">{{conferenceStartDate}}</code>
+            至
+            <code class="date">{{conferenceEndDate}}</code>
+          </li>
+          <li>如果有特殊需求，请与组委联系</li>
+        </ul>
+      </div>
 
-    <ReservationControl :disabled="busy" :round="round" :max="maxNumOfRooms" :school="school" />
+      <ReservationControl :disabled="busy" :round="round" :max="maxNumOfRooms" :school="school" />
 
-    <el-button
-      class="confirm"
-      type="primary"
-      size="large"
-      icon="circle-check"
-      @click="confirm"
-    > 确认预定 </el-button>
+      <el-button
+        class="confirm"
+        type="primary"
+        size="large"
+        icon="circle-check"
+        @click="confirm"
+      > 确认预定 </el-button>
+    </template>
+
+    <template v-else>
+      <el-alert
+        class="element-alert-icon-align-fix"
+        title="酒店预订暂未开放"
+        description="请关注组委最新通知"
+        type="info"
+        show-icon
+        :closable="false">
+      </el-alert>
+    </template>
   </div>
 </template>
 
@@ -43,6 +56,7 @@ export default {
   },
   computed: {
     ... mapGetters({
+      reserveHotel: 'config/reserveHotel',
       seat: 'school/seat',
       round: 'school/round',
       conferenceStartDate: 'config/conferenceStartDate',
@@ -123,4 +137,7 @@ export default {
     margin-bottom: 3em
   .confirm
     margin-top: 2em
+  .el-alert
+    margin: 2em auto
+    width: auto
 </style>
