@@ -196,10 +196,9 @@ export default {
   },
   watch: {
     id(val) {
-      if (id) {
-        this.update()
+      if (this.id) {
+        this.$nextTick( () => this.fetch() )
       }
-      this.$nextTick( () => this.fetch() )
     }
   }
 }
