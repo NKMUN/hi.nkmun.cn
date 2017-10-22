@@ -4,10 +4,16 @@
     <h3>导出</h3>
 
     <el-button
+      @click="exportCsv('applications/seats')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="wpforms"/> 名额分配 </el-button>
+
+    <el-button
       @click="exportCsv('seats')"
       type="primary"
       :disabled="busy"
-    > <icon name="table"/> 名额分配 </el-button>
+    > <icon name="table"/> 当前名额 </el-button>
 
     <el-button
       @click="exportCsv('leaders')"
@@ -57,6 +63,7 @@
 
 <script>
 import {saveAsFile, downloadFile} from '@/lib/save-as-file'
+import 'vue-awesome/icons/wpforms'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/photo'
