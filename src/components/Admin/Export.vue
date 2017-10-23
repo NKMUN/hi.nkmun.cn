@@ -7,7 +7,13 @@
       @click="exportCsv('applications/seats')"
       type="primary"
       :disabled="busy"
-    > <icon name="wpforms"/> 名额分配 </el-button>
+    > <icon name="wpforms"/> 报名 - 名额分配 </el-button>
+
+    <el-button
+      @click="exportCsv('applications/contacts')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="phone"/> 报名 - 联系人 </el-button>
 
     <el-button
       @click="exportCsv('seats')"
@@ -64,6 +70,7 @@
 <script>
 import {saveAsFile, downloadFile} from '@/lib/save-as-file'
 import 'vue-awesome/icons/wpforms'
+import 'vue-awesome/icons/phone'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/photo'
