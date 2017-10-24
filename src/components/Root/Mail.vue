@@ -12,27 +12,46 @@
 
       <el-form :model="M" ref="form" class="form" label-position="right" label-width="108px">
 
-        <el-form-item label="SMTP服务器" prop="host">
-          <el-input v-model="M.host" placeholder="smtp.provider.com" :disabled="busy" />
-        </el-form-item>
+        <div :class="{
+          'disabled-mask': true,
+          'active': !isInternalMailer
+        }">
+          <div class="mask"></div>
 
-        <el-form-item label="SMTP端口" prop="port">
-          <el-input type="number" :min="0" :max="65535" v-model="M.port" :disabled="busy" />
-        </el-form-item>
+          <div class="text">
+            <p>使用外部邮件配置：{{ mailer }}</p>
+          </div>
 
-        <el-form-item label="发信账号" prop="account">
-          <el-input v-model="M.account" placeholder="noreply@example.com" :disabled="busy" />
-        </el-form-item>
+          <div class="content">
+            <el-form-item label="SMTP服务器" prop="host">
+              <el-input :disabled="busy || !isInternalMailer" v-model="M.host" placeholder="smtp.provider.com" />
+            </el-form-item>
+
+            <el-form-item label="SMTP端口" prop="port">
+              <el-input :disabled="busy || !isInternalMailer" type="number" :min="0" :max="65535" v-model="M.port" />
+            </el-form-item>
+
+            <el-form-item label="发信账号" prop="account">
+              <el-input :disabled="busy || !isInternalMailer" v-model="M.account" placeholder="noreply@example.com" />
+            </el-form-item>
+
+            <el-form-item label="账号密码" prop="account">
+              <el-input :disabled="busy || !isInternalMailer" v-model="M.password" placeholder="请输入发信账号密码" />
+            </el-form-item>
+          </div>
+
+        </div>
 
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model="M.nickname" placeholder="昵称" :disabled="busy" />
         </el-form-item>
 
-        <el-form-item label="账号密码" prop="account">
-          <el-input v-model="M.password" placeholder="请输入发信账号密码" :disabled="busy" />
-        </el-form-item>
-
       </el-form>
+
+      <el-button
+        type="info"
+        @click="sendTestEmail"
+      > 发送测试邮件 </el-button>
 
       <div class="note">
         <ul>
@@ -131,8 +150,18 @@ const DEFAULT_INVITATION_MODEL = () => ({
   paymentFailure2: ''
 })
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'mail-config',
+  computed: {
+    ... mapGetters({
+      mailer: 'config/mailer'
+    }),
+    isInternalMailer() {
+      return this.mailer === 'internal'
+    }
+  },
   components: {
     Precondition
   },
@@ -166,6 +195,36 @@ export default {
       } finally {
         this.busy = false
       }
+    },
+    async sendTestEmail() {
+      await this.$prompt('请输入邮箱', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        inputErrorMessage: '邮箱格式不正确'
+      })
+      .then(
+        async ({ value }) => {
+          try {
+            await this.$agent.post('/api/config/mail/')
+              .query({ action: 'test' })
+              .send({ args: value })
+            this.$notify({
+              type: 'success',
+              title: '已发送邮件',
+              duration: 5000
+            })
+          } catch(e) {
+            this.$notify({
+              type: 'error',
+              title: '操作失败',
+              message: e.message,
+              duration: 0
+            })
+          }
+        },
+        () => null  // do nothing is user cancels input
+      )
     }
   }
 }
@@ -191,4 +250,31 @@ export default {
     max-width: 60ch
   .el-input
     max-width: 30ch
+  .disabled-mask
+    position: relative
+    // match element's form-item
+    padding: 23px 23px 1px 23px
+    margin-bottom: 22px
+    .mask
+      display: none
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background-color: #c0ccda
+      opacity: .2
+      z-index: 98
+    .text
+      display: none
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      z-index: 99
+    &.active
+      .mask, .text
+        display: block
+      .content
+        filter: blur(4px)
 </style>

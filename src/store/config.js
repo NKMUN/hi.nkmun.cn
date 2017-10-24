@@ -18,6 +18,7 @@ export default {
     sessionMap: state => state.sessionMap,
     conferenceStartDate: state => state.conferenceStartDate,
     conferenceEndDate: state => state.conferenceEndDate,
+    mailer: state => state.mailer,
   },
   mutations: {
     config( state, config ) {
@@ -25,6 +26,7 @@ export default {
       state.register = (config && config.register) || false
       state.login = (config && config.login) || false
       state.reserveHotel = (config && config.reserveHotel) || false
+      state.mailer = (config && config.mailer) || 'internal'
       state.sessions = ((config && config.sessions) || []).sort( (a,b) => a.id.localeCompare(b.id) )
       state.sessionMap = state.sessions.reduce(
         (ret, session) => ({ ...ret, [session.id]: session}),
@@ -34,7 +36,7 @@ export default {
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
-      ;['apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate'].forEach( k => {
+      ;['apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
         if (update[k] !== undefined)
           state[k] = update[k]
       })
