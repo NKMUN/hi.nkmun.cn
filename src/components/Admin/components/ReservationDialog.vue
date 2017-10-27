@@ -55,6 +55,7 @@
             :disabled="!hotel || busy || (!isStaff && roomshareState === 'accepted')"
             v-model="roomshareSchool"
             v-loading="!schools"
+            filterable
             @change="clearRoomshareState"
           >
             <el-option-group label="不拼房">
