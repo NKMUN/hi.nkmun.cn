@@ -114,7 +114,7 @@ export default {
           this.$notify({
             type: 'success',
             title: '更新成功',
-            message: '已更新 '+this.school.name,
+            message: '已更新 '+this.school.school.name,
             duration: 5000
           })
         }
