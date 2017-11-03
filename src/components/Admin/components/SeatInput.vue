@@ -57,7 +57,7 @@ export default {
       this.M = sessions.reduce((o, {id}) => ({
         ...o,
         [id]: (value && value[id]) || 0
-      }), {})
+      }), value || {})
     }
   },
   watch: {
