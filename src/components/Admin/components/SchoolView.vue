@@ -102,10 +102,13 @@ export default {
       return !stage || stage.endsWith('.paid') || stage.endsWith('complete') || stage==='3.confirm' || stage==='9.complete'
     },
     leaderAttend() {
-      return this.school && this.school.seat && this.school.seat['1'] && (
-           this.school.seat['1']['_leader_r'] >= 1
-        || !this.school.seat['1']['_leader_nr']
-      )
+      if (this.school && this.school.seat && this.school.seat['1']) {
+        if (this.school.seat['1']['_leader_r'] >= 1) return true
+        if (this.school.seat['1']['_leader_nr'] >= 1) return false
+        return null
+      } else {
+        return null
+      }
     }
   },
   data: () => ({
