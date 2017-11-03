@@ -82,11 +82,11 @@
           <td colspan="6" class="append-row">  <!-- NOTE: match with table columns -->
             <el-button
               type="success"
-              size="small"
+              icon="plus"
               :loading="busy"
               @click="add({ school: school })"
               :disabled="disabled"
-            > 增加<strong>一间</strong> … </el-button>
+            > 增加房间 </el-button>
           </td>
         </tr>
       </template>

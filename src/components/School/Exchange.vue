@@ -20,7 +20,7 @@
 
     <el-button
       size="large"
-      type="primary"
+      type="danger"
       :disabled="!seatValid"
       :loading="busy"
       @click="confirm"

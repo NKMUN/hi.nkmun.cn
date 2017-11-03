@@ -21,11 +21,11 @@
 
       <el-button
         class="confirm"
-        type="primary"
+        type="danger"
         size="large"
         icon="circle-check"
         @click="confirm"
-      > 确认预定 </el-button>
+      > 结束预定 </el-button>
     </template>
 
     <template v-else>
@@ -80,28 +80,30 @@ export default {
       this.$store.commit('school/stage', `${this.round}.payment`)
       this.$router.replace(`/school/payment`)
     },
-    confirm() {
-      return this.$agent
-        .post('/api/schools/'+this.school+'/progress')
-        .send({ confirmReservation: 1 })
-        .then(
-          res => {
-            this.$notify({
-              type: 'success',
-              title: '已确认住宿预定',
-              duration: 5000
-            })
-            this.$store.commit('school/stage', this.$store.getters['school/stage'].replace('.reservation', '.payment'))
-            this.$router.replace('/school/payment/')
-          },
-          err => {
-            this.$msgbox({
-              type: 'warning',
-              title: '未能确认预定',
-              message: '请处理所有拼房请求，并撤回未被接受的拼房请求'
-            })
-          }
-        )
+    async confirm() {
+      if ( await this.$serious('将确认酒店预订，请确定拼房请求已全部处理。', '我确认我已经完成酒店预订') ) {
+        return this.$agent
+          .post('/api/schools/'+this.school+'/progress')
+          .send({ confirmReservation: 1 })
+          .then(
+            res => {
+              this.$notify({
+                type: 'success',
+                title: '已确认住宿预定',
+                duration: 5000
+              })
+              this.$store.commit('school/stage', this.$store.getters['school/stage'].replace('.reservation', '.payment'))
+              this.$router.replace('/school/payment/')
+            },
+            err => {
+              this.$msgbox({
+                type: 'warning',
+                title: '未能确认预定',
+                message: '请处理所有拼房请求，并撤回未被接受的拼房请求'
+              })
+            }
+          )
+      }
     }
   },
   filters: { roundText },

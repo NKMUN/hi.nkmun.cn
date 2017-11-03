@@ -29,7 +29,7 @@
 
     <el-button
       size="large"
-      type="primary"
+      type="danger"
       :disabled="leaderAttend!==true && leaderAttend!==false"
       :loading="busy"
       @click="confirm"
