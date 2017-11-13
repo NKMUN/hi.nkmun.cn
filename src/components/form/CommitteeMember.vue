@@ -221,14 +221,13 @@ export default {
       return results.reduce( (a, v) => a && v )
     },
     setValue(value) {
-      this.session = (value && value.session) || null
+      this.role = (value && value.role) || null
       this.school = (value && value.school) || null
       this.contact = (value && value.contact) || {}
       this.graduation_year = (value && value.graduation_year) || null
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
-      this.is_leader = value && value.is_leader
       this.isForeign = this.isForeign || (value && (value.arriveDepartDate || value.hotelDate || false))
       this.arriveDepartDate = value && value.arriveDepartDate || null
       this.hotelDate = value && value.hotelDate || null

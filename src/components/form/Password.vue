@@ -53,6 +53,7 @@ export default {
       password: null,
       passwordConfirm: null,
       passwordValidator: [{
+        required: true,
         trigger: 'blur',
         validator: (r, v, cb)  => {
           const password = this.password
@@ -66,6 +67,7 @@ export default {
         }
       }],
       passwordConfirmValidator: [{
+        required: true,
         trigger: 'blur',
         validator: (r, v, cb, s) => {
           const password = this.password

@@ -1,18 +1,23 @@
 <template>
-  <div class="committee-member">
+  <div class="dais-member">
 
     <section>
-      <h4>主席信息</h4>
+      <h4>学术团队成员信息</h4>
       <el-form
         class="form small"
         :label-width="labelWidth"
-        :model="{ role: this.role, school: this.school, photoId: this.photoId }"
+        :model="{ session: this.session, school: this.school, photoId: this.photoId }"
         ref="formSessionAndPhoto"
       >
-        <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="role" placeholder="请选择会场" @change="emit">
-            <el-option-group label="组委">
-              <el-option v-for="role in DAIS_ROLES" :key="role.id" :value="'主席-'+role.name" :label="role.name" />
+        <el-form-item label="会场" prop="session" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
+          <el-select v-model="session" placeholder="请选择会场" @change="emit">
+            <el-option-group label="会场">
+              <el-option
+                v-for="session in DAIS_SESSIONS"
+                :key="session.id"
+                :value="session.id"
+                :label="session.name"
+              />
             </el-option-group>
           </el-select>
         </el-form-item>
@@ -71,7 +76,7 @@
       <h4>其它</h4>
 
       <div class="controls">
-        <el-checkbox v-model="isForeign">外地组委请勾选</el-checkbox>
+        <el-checkbox v-model="isForeign">外地学术团队成员请勾选</el-checkbox>
       </div>
 
       <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/间/天</p>
@@ -114,22 +119,36 @@
       </el-form>
     </section>
 
+    <section>
+      <h4>登录凭证</h4>
+      <p class="hint">用户名为<b>邮箱</b></p>
+      <PasswordForm
+        ref="password"
+        v-model="password"
+        class="form small"
+        :label-width="labelWidth"
+        :disabled="disabled"
+        @change="emit"
+      />
+    </section>
+
   </div>
 </template>
 
 <script>
 import ContactForm from './Contact'
+import PasswordForm from './Password'
 import GraduationForm from './Graduation'
 import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import SessionUtils from '../../lib/session-utils'
 import ImageUpload from './ImageUpload'
-import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
 
 export default {
-  name: 'committee-member-form',
+  name: 'dais-member-form',
   components: {
     ContactForm,
+    PasswordForm,
     GraduationForm,
     IdentificationForm,
     GuardianForm,
@@ -147,6 +166,7 @@ export default {
     forms() {
       return [
         'contact',
+        'password',
         'identification',
         'guardian',
         'guardian-identification'
@@ -166,7 +186,7 @@ export default {
         return null
       }
     },
-    DAIS_ROLES() {
+    DAIS_SESSIONS() {
       return this.SESSIONS().filter( $ => !$.reserved && $.requiresChairman )
     },
     datePickerDefaultValue() {
@@ -182,27 +202,31 @@ export default {
   },
   data: () => ({
     labelWidth: '108px',
-    role: null,
+    session: null,
     school: null,
     photoId: null,
     contact: null,
+    password: null,
     identification: null,
     guardian: null,
     guardian_identification: null,
     isForeign: false,
     arriveDepartDate: null,
     hotelDate: null,
-    comment: '',
-    COMMITTEE_ROLES,
+    comment: ''
   }),
   methods: {
     emit() {
       this.$nextTick( () => {
         let M = {
-          role: this.role,
+          session: this.session,
+          role: this.session
+              ? '主席-' + this.DAIS_SESSIONS.find($ => $.id === this.session).name
+              : null,
           school: this.school,
           photoId: this.photoId,
           contact: this.contact,
+          password: this.password,
           identification: this.identification,
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
@@ -231,11 +255,11 @@ export default {
       this.session = (value && value.session) || null
       this.school = (value && value.school) || null
       this.contact = (value && value.contact) || {}
+      this.password = (value && value.password) || null
       this.graduation_year = (value && value.graduation_year) || null
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
-      this.is_leader = value && value.is_leader
       this.isForeign = this.isForeign || (value && (value.arriveDepartDate || value.hotelDate || false))
       this.arriveDepartDate = value && value.arriveDepartDate || null
       this.hotelDate = value && value.hotelDate || null
@@ -254,8 +278,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.committee-member
+.dais-member
   align-self: stretch
+  .hint
+    text-align: center
+    font-size: 90%
+    color: #8492A6
+    b
+      font-weight: normal
+      text-decoration: underline
   h4
     text-align: center
   .form

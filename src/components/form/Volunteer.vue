@@ -59,41 +59,6 @@
 
     <section>
       <h4>其它</h4>
-
-      <div class="controls">
-        <el-checkbox v-model="isForeign">外地志愿者请勾选</el-checkbox>
-      </div>
-
-      <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/间/天</p>
-
-      <el-form
-        ref="foreign"
-        v-show="isForeign"
-        class="form small"
-        label-width="140px"
-      >
-        <el-form-item label="抵宁/离宁日期">
-          <el-date-picker
-            v-model="arriveDepartDate"
-            type="daterange"
-            placeholder="请选择"
-            :default-value="[datePickerDefaultValue, datePickerDefaultValue]"
-            :picker-options="pickerOptions"
-            @change="emit"
-          />
-        </el-form-item>
-        <el-form-item label="酒店入住/退房时间">
-          <el-date-picker
-            v-model="hotelDate"
-            type="daterange"
-            placeholder="请选择"
-            :default-value="datePickerDefaultValue"
-            :picker-options="pickerOptions"
-            @change="emit"
-          />
-        </el-form-item>
-      </el-form>
-
       <el-form
         class="form large"
         :label-width="labelWidth"
@@ -207,14 +172,12 @@ export default {
       return results.reduce( (a, v) => a && v )
     },
     setValue(value) {
-      this.session = (value && value.session) || null
       this.school = (value && value.school) || null
       this.contact = (value && value.contact) || {}
       this.graduation_year = (value && value.graduation_year) || null
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
-      this.is_leader = value && value.is_leader
       this.isForeign = this.isForeign || (value && (value.arriveDepartDate || value.hotelDate || false))
       this.arriveDepartDate = value && value.arriveDepartDate || null
       this.hotelDate = value && value.hotelDate || null

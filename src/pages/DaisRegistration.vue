@@ -1,16 +1,23 @@
 <template>
-  <div class="committee-reg">
+  <div class="dais-reg">
     <Banner />
 
     <div class="layout">
-      <CommitteeMember v-model="data" class="form" ref="committee" />
+      <DaisMember v-model="data" class="form" ref="dais" />
+
+      <h4 class="controls">声明</h4>
+      <p class="hint">本人已完全了解并同意汇文模联关于学术团队的报销政策（QQ群可下载），愿意遵守相关的细节和要求。</p>
+      <p class="hint">本人重申已经签署并愿意遵守汇文学术团队声明书的各项要求，在会议期间愿意遵守大会组委会及学术总监关于活动的各项规定与安排。若有违反，本人愿意承担相应的责任，并负担相应的损失。</p>
+      <div class="controls">
+        <el-checkbox v-model="confirm">我已阅读并同意以上声明</el-checkbox>
+      </div>
 
       <div class="controls">
         <el-button
           type="primary"
           icon="check"
           @click="submit"
-          :loading="busy"
+          :disabled="!confirm"
         > 提交 </el-button>
       </div>
     </div>
@@ -23,25 +30,26 @@
 import LayoutCenter from '@/components/LayoutCenter'
 import Banner from '@/components/Banner'
 import Copyright from '@/components/Copyright'
-import CommitteeMember from '@/components/form/CommitteeMember'
+import DaisMember from '@/components/form/DaisMember'
 import { toDateString } from '@/lib/date-util'
 
 export default {
   components: {
     Banner,
     Copyright,
-    CommitteeMember,
+    DaisMember,
     LayoutCenter
   },
   data() {
     return {
       data: null,
+      confirm: false,
       busy: false
     }
   },
   methods: {
     async submit() {
-      if (await this.$refs.committee.validate()) {
+      if (await this.$refs.dais.validate()) {
         this.busy = true
         try {
           let payload = {
@@ -54,7 +62,7 @@ export default {
           delete payload.hotelDate
           delete payload.arriveDepartDate
 
-          await this.$agent.post('/api/committees/').send(payload)
+          await this.$agent.post('/api/daises/').send(payload)
           await this.$msgbox({
             type: 'success',
             title: '提交成功',
