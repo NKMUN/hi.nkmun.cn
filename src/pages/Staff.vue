@@ -17,6 +17,7 @@
           <el-menu-item index="/staff/admin/mail/"> <icon name="envelope-o"/> 邮件 </el-menu-item>
           <el-menu-item index="/staff/admin/hotels/"> <icon name="bed"/> 酒店 </el-menu-item>
           <el-menu-item index="/staff/admin/users/"> <icon name="users"/> 用户 </el-menu-item>
+          <el-menu-item index="/staff/admin/daises/"> <icon name="user-secret"/> 会场主席 </el-menu-item>
         </el-submenu>
 
         <el-submenu index="1" v-if="hasAccess('staff')">
@@ -57,6 +58,7 @@ import 'vue-awesome/icons/comments-o'
 import 'vue-awesome/icons/envelope-o'
 import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/users'
+import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/institution'
 

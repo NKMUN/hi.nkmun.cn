@@ -48,6 +48,7 @@ const SeatOverview    = () => import('@/components/Admin/SeatOverview.vue')
 const StageOverview    = () => import('@/components/Admin/StageOverview.vue')
 const RepresentativeMgmt = () => import('@/components/Admin/RepresentativeMgmt.vue')
 const UserMgmt = () => import('@/components/Admin/UserMgmt.vue')
+const DaisMgmt = () => import('@/components/Admin/DaisMgmt.vue')
 const Export = () => import('@/components/Admin/Export.vue')
 const StaffOverview = () => import('@/components/Root/Overview.vue')
 
@@ -93,6 +94,7 @@ export default new Router({
         { path: 'representatives/:school/:id', component: RepresentativeMgmt, props: true },
         { path: 'exports/', component: Export },
         { path: 'admin/users/', component: UserMgmt },
+        { path: 'admin/daises/', component: DaisMgmt },
         { path: 'admin/initialize/', component: Initialize },
         { path: 'admin/config/', component: SystemConfig },
         { path: 'admin/application/', component: Application },

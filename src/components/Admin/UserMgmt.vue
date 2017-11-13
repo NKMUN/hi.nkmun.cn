@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { getName } from '../../STAGE_DEF'
 import PasswordDialog from './components/PasswordDialog'
 
 const toAccessString = (access) => {
