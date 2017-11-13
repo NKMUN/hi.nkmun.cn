@@ -11,7 +11,7 @@
 
     <div class="layout">
       <el-table class="table" :data="users" v-loading="!users">
-        <el-table-column label="用户名" prop="id" sortable min-width="180" />
+        <el-table-column label="用户 / 邮箱" prop="id" sortable min-width="180" />
         <el-table-column label="权限" prop="access" sortable min-width="180" />
         <el-table-column label="学校" prop="school.name" sortable min-width="180" />
         <el-table-column label="操作" min-width="90">

@@ -15,7 +15,7 @@
       ref="loginForm"
     >
 
-      <el-form-item label="用户名" prop="user">
+      <el-form-item label="邮　箱" prop="user">
         <el-input
           type="text"
           placeholder="邮箱或用户名"
@@ -87,7 +87,7 @@ export default {
                     .ok( ({ok, unauthorized}) => ok || unauthorized )
 
           if (unauthorized)
-            throw new Error('用户名或密码不正确')
+            throw new Error('邮箱或密码不正确')
 
           // TODO: store token, redirect to approperiate page
           storeToken(token)

@@ -19,7 +19,6 @@
 
     <div class="section">
       <h4>登录凭证</h4>
-      <p class="hint">用户名为<b>领队邮箱</b></p>
       <Password
         ref="password"
         v-model="password"
@@ -92,13 +91,6 @@ export default {
 <style lang="stylus" scoped>
 .registration-form
   align-self: stretch
-  .hint
-    text-align: center
-    font-size: 90%
-    color: #8492A6
-    b
-      font-weight: normal
-      text-decoration: underline
   .school
     .name
       font-size: 16px

@@ -121,7 +121,6 @@
 
     <section>
       <h4>登录凭证</h4>
-      <p class="hint">用户名为<b>邮箱</b></p>
       <PasswordForm
         ref="password"
         v-model="password"
@@ -280,13 +279,6 @@ export default {
 <style lang="stylus" scoped>
 .dais-member
   align-self: stretch
-  .hint
-    text-align: center
-    font-size: 90%
-    color: #8492A6
-    b
-      font-weight: normal
-      text-decoration: underline
   h4
     text-align: center
   .form
