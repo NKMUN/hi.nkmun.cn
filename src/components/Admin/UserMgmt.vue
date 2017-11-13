@@ -11,9 +11,36 @@
 
     <div class="layout">
       <el-table class="table" :data="users" v-loading="!users">
+
         <el-table-column label="用户 / 邮箱" prop="id" sortable min-width="180" />
-        <el-table-column label="权限" prop="access" sortable min-width="180" />
-        <el-table-column label="学校" prop="school.name" sortable min-width="180" />
+
+        <el-table-column label="权限"
+          prop="access"
+          sortable
+          min-width="180"
+        />
+
+        <el-table-column label="学校 / 会场"
+          prop="accessDesc"
+          sortable
+          min-width="180"
+        >
+          <template scope="scope">
+            <template v-if="scope.row.school">
+              <div class="icon-text">
+                <icon class="icon" name="university" />
+                <span class="text">{{ scope.row.school.name }}</span>
+              </div>
+            </template>
+            <template v-if="scope.row.session">
+              <div class="icon-text">
+                <icon class="icon" name="user-secret" />
+                <span class="text">{{ scope.row.session.name }}</span>
+              </div>
+            </template>
+          </template>
+        </el-table-column>
+
         <el-table-column label="操作" min-width="90">
           <template scope="scope">
             <el-button
@@ -23,6 +50,7 @@
               @click="resetPassword(scope.row)"
             > 重置密码 </el-button>
           </template>
+
         </el-table-column>
       </el-table>
     </div>
@@ -36,6 +64,8 @@
 
 <script>
 import PasswordDialog from './components/PasswordDialog'
+import 'vue-awesome/icons/university'
+import 'vue-awesome/icons/user-secret'
 
 const toAccessString = (access) => {
   let ret = []
@@ -55,6 +85,17 @@ const toAccessString = (access) => {
   return ret.join('、')
 }
 
+// used to sort by access + access args
+const toAccessDesc = (user) => {
+  if (user.school) {
+    return '3-' + user.school.name
+  }
+  if (user.session) {
+    return '4-' + user.session.name
+  }
+  return '1-' + user.id
+}
+
 export default {
   name: 'user-mgmt',
   components: {
@@ -71,7 +112,8 @@ export default {
         const users = await this.$agent.get('/api/users/').body()
         this.users = users.map( $ => ({
           ... $,
-          access: toAccessString( $.access )
+          access: toAccessString( $.access ),
+          accessDesc: toAccessDesc( $ )
         }) )
       } catch (e) {
         console.error(e)
@@ -128,4 +170,11 @@ export default {
       margin: 0 auto
       width: 100%
       max-width: 720px
+      .icon
+        color: #99a9bf
+.icon-text
+  flex-horz: flex-start center
+  .icon
+    margin-right: .25ch
+    transform: scale(.8, .8)
 </style>
