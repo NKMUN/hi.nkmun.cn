@@ -18,33 +18,38 @@
         />
       </el-form-item>
 
-      <el-form-item v-for="(t, idx) in application.tests" :key="idx" :label="'学测'+(idx+1)">
+      <el-form-item v-for="(t, idx) in application.tests" :key="idx">
+        <div slot="label">
+          <label class="ac-test-label">{{ '学测'+(idx+1) }}</label>
+          <el-button-group>
+            <el-button
+              icon="delete"
+              type="danger"
+              :disabled="busy"
+              size="mini"
+              @click="application.tests.splice(idx, 1)"
+            ></el-button>
+            <el-button
+              icon="plus"
+              type="primary"
+              size="mini"
+              :disabled="busy"
+              @click="application.tests.splice(idx+1, 0, { question: '' })"
+            ></el-button>
+          </el-button-group>
+        </div>
         <el-input
           type="textarea"
           v-model="application.tests[idx].question"
           :autosize="{ minRows: 2, maxRow: 10 }"
           placeholder="学测题目"
         />
-        <el-button
-          icon="plus"
-          type="success"
-          :disabled="busy"
-          size="mini"
-          @click="application.tests.splice(idx+1, 0, { question: '' })"
-        > 新增 </el-button>
-        <el-button
-          icon="delete"
-          type="danger"
-          :disabled="busy"
-          size="mini"
-          @click="application.tests.splice(idx, 1)"
-        > 删除 </el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button
           icon="plus"
-          type="info"
+          type="primary"
           size="small"
           :disabled="busy"
           @click="application.tests.push({ question: '' })"
@@ -55,7 +60,7 @@
 
     <el-button
       icon="check"
-      type="primary"
+      type="success"
       :loading="busy"
       @click="update"
     > 更新 </el-button>
@@ -138,4 +143,6 @@ export default {
   .form
     max-width: 50ch
     width: 100%
+  .ac-test-label
+    margin-right: 4ch
 </style>
