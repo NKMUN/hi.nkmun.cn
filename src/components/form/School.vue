@@ -28,7 +28,7 @@
       prop="englishName"
       :rules="[
         { required: true, message: '请输入学校英文名', trigger: 'blur' },
-        { type: 'string', pattern: /^[a-zA-Z0-9_.,'"\- ]+$/, message: '只能包含英文字符', trigger: 'blur' },
+        { type: 'string', pattern: /^[a-zA-Z0-9_.,'\- ]+$/, message: '只能包含英文字符', trigger: 'blur' },
         { type: 'string', pattern: /^[^ ].*$/, message: '首尾包含多余空格', trigger: 'blur'},
         { type: 'string', pattern: /^.*[^ ]$/, message: '首尾包含多余空格', trigger: 'blur'}
       ]"
