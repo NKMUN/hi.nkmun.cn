@@ -70,7 +70,7 @@ export default {
         err => this.$notify({
           type: 'error',
           title: '获取全局设置失败',
-          message: e.message,
+          message: err.message,
           duration: 0
         })
       )
