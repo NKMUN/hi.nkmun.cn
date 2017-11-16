@@ -13,9 +13,8 @@
 
       <el-button
         type="warning"
-        icon="upload2"
         @click="logout"
-      > 退出 </el-button>
+      > <icon name="sign-out" /> </el-button>
     </div>
 
     <div class="wrap">
@@ -28,6 +27,7 @@
 <script>
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/users'
+import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'dais-mgmt',

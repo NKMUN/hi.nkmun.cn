@@ -46,7 +46,7 @@ export default {
     value: { type: String },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
-    labelWidth: { type: String, default: '72px' }
+    labelWidth: { type: String, default: '84px' }
   },
   data() {
     return {

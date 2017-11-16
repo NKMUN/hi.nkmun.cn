@@ -37,9 +37,8 @@
 
       <el-button
         type="warning"
-        icon="upload2"
         @click="logout"
-      > 退出 </el-button>
+      > <icon name="sign-out" /> </el-button>
     </div>
 
     <div class="wrap">
@@ -63,6 +62,7 @@ import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/institution'
 import 'vue-awesome/icons/link'
+import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'admin-mgmt',
@@ -105,7 +105,7 @@ export default {
     padding-left: 4ch
     padding-right: 4ch
     margin-top: 4em
-  .fa-icon
+  .el-menu .fa-icon
     opacity: 0.7
     transform: scale(0.8, 0.8)
 </style>

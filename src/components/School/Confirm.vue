@@ -27,9 +27,11 @@
     <ReservationControl readonly :school="id" />
 
     <el-button
+      class="confirm-button"
       v-if="!confirmed"
+      icon="check"
       size="large"
-      type="primary"
+      type="danger"
       :disabled="!canConfirm"
       :loading="busy"
       @click="confirm"
@@ -111,4 +113,6 @@ export default {
     white-space: nowrap
     color: #475669
     font-size: 14px
+.confirm-button
+  margin-top: 2em
 </style>

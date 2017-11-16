@@ -37,9 +37,8 @@
 
         <el-button
           type="warning"
-          icon="upload2"
           @click="logout"
-        > 退出 </el-button>
+        > <icon name="sign-out" /> </el-button>
       </div>
 
       <div class="overview" v-if="!renderSubComponent">
@@ -83,6 +82,7 @@ import Todo from '@/components/School/Todo'
 import SeatView from '@/components/School/components/SeatView'
 import ReservationControl from '@/components/Admin/components/ReservationControl'
 import { mapGetters } from 'vuex'
+import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'school-mgmt',
