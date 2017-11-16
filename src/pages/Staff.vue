@@ -18,6 +18,7 @@
           <el-menu-item index="/staff/admin/hotels/"> <icon name="bed"/> 酒店 </el-menu-item>
           <el-menu-item index="/staff/admin/users/"> <icon name="users"/> 用户 </el-menu-item>
           <el-menu-item index="/staff/admin/daises/"> <icon name="user-secret"/> 会场主席 </el-menu-item>
+          <el-menu-item index="/staff/admin/links/"> <icon name="link"/> 内部链接 </el-menu-item>
         </el-submenu>
 
         <el-submenu index="1" v-if="hasAccess('staff')">
@@ -61,6 +62,7 @@ import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/link'
 
 export default {
   name: 'admin-mgmt',

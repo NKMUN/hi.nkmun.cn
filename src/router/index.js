@@ -52,6 +52,7 @@ const UserMgmt = () => import('@/components/Admin/UserMgmt.vue')
 const DaisMgmt = () => import('@/components/Admin/DaisMgmt.vue')
 const Export = () => import('@/components/Admin/Export.vue')
 const StaffOverview = () => import('@/components/Root/Overview.vue')
+const Links = () => import('@/components/Root/Links.vue')
 
 // School mgmt pages
 const Relinquish  = () => import('@/components/School/Relinquish.vue')
@@ -63,6 +64,8 @@ const Confirm        = () => import('@/components/School/Confirm.vue')
 
 // Dais mgmt pages
 const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
+
+// NOTE: keep router path in sync with Root/Links
 
 export default new Router({
   routes: [
@@ -105,6 +108,7 @@ export default new Router({
         { path: 'admin/sessions/', component: SessionMgmt },
         { path: 'admin/mail/', component: Mail },
         { path: 'admin/hotels/', component: HotelMgmt },
+        { path: 'admin/links', component: Links },
         { path: '*', component: StaffOverview }
       ]
     },
