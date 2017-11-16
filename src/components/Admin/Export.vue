@@ -63,6 +63,12 @@
       :disabled="busy"
     > <icon name="handshake-o"/> 志愿者信息 </el-button>
 
+    <el-button
+      @click="exportCsv('daises')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="user-secret"/> 会场主席信息 </el-button>
+
   </div>
 
 </template>
@@ -79,6 +85,7 @@ import 'vue-awesome/icons/id-card'
 import 'vue-awesome/icons/jpy'
 import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/handshake-o'
+import 'vue-awesome/icons/user-secret'
 
 export default {
   name: 'export',
