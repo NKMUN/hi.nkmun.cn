@@ -43,3 +43,8 @@ export default {
   },
 }
 </script>
+
+<style lang="stylus" scoped>
+.el-form-item__label
+  text-align: center !important
+</style>
