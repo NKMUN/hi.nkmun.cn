@@ -9,6 +9,7 @@ export default {
   getters: {
     access: state => state.payload.access || [],
     school: state => state.payload.school,
+    session: state => state.payload.session,
     token: state => state.token
   },
   mutations: {

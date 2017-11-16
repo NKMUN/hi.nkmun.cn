@@ -29,6 +29,7 @@ const Root     = () => import('@/pages/Root.vue')
 const Committee = () => import('@/pages/Committee.vue')
 const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
+const Dais      = () => import('@/pages/Dais.vue')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -59,6 +60,9 @@ const Reservation = () => import('@/components/School/Reservation.vue')
 const Payment     = () => import('@/components/School/Payment.vue')
 const Representative = () => import('@/components/School/Representative.vue')
 const Confirm        = () => import('@/components/School/Confirm.vue')
+
+// Dais mgmt pages
+const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
 
 export default new Router({
   routes: [
@@ -120,6 +124,18 @@ export default new Router({
         { path: 'representatives', component: Representative },
         { path: 'representatives/:id', component: Representative, props: true },
         { path: 'confirm', component: Confirm },
+      ]
+    },
+    { path: '/dais/', component: Dais,
+      beforeEnter: (to, from, next) => {
+        if (hasAccess(store.getters['user/access'], 'dais')) {
+          next()
+        } else {
+          next('/')
+        }
+      },
+      children: [
+        { path: 'session-seats', component: SessionSeatMgmt }
       ]
     },
     { path: '*', component: NotFound },
