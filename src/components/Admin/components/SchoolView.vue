@@ -166,15 +166,33 @@ export default {
     async nuke() {
       this.busy = true
       try {
-        await this.$agent.delete('/api/schools/'+this.id)
-        this.$notify({
-          type: 'success',
-          title: '已成功爆破',
-          message: ''+this.school.school.name+'は消えました。素晴らしの成功です！',
-          duration: 5000
-        })
-        this.$emit('next', this.id)
-        this.$emit('nuked', this.id)
+        const {
+          ok,
+          status,
+          body
+        } = await this.$agent.delete('/api/schools/'+this.id)
+                .ok(({ok, status}) => ok || status === 412)
+        if (ok) {
+          this.$notify({
+            type: 'success',
+            title: '已成功爆破',
+            message: ''+this.school.school.name+'は消えました。素晴らしの成功です！',
+            duration: 5000
+          })
+          this.$emit('next', this.id)
+          this.$emit('nuked', this.id)
+          return
+        }
+        if (status === 412 && body.cause === 'roomshare') {
+          this.$notify({
+            type: 'error',
+            title: '爆破失败',
+            message: '学校有确认的拼房预定',
+            duration: 5000
+          })
+          return
+        }
+        throw new Error('Not handled 412 error: ' + body.error)
       } catch(e) {
         this.notifyError(e, '爆破失败')
       } finally {

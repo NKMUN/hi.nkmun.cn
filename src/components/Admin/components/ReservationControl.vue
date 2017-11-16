@@ -32,7 +32,12 @@
                 scope.row.round === 'roomshare'
                 ? '已拒绝'
                 : '被拒绝' }}</el-tag>
-              <span class="school-name">{{ scope.row.roomshare.school.name }}</span>
+              <el-tag v-if="scope.row.roomshare.state === 'peer-withdraw'" type="danger">
+                <icon name="bomb"/> 对方学校退会
+              </el-tag>
+              <span v-if="scope.row.roomshare && scope.row.roomshare.school" class="school-name">{{
+                scope.row.roomshare.school.name
+              }}</span>
             </template>
           </div>
         </template>
@@ -107,6 +112,7 @@ import roundText from '@/lib/round-text'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/minus-square-o'
+import 'vue-awesome/icons/bomb'
 
 export default {
   name: 'reservation-control',
