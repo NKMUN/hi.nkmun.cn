@@ -79,17 +79,16 @@
         <el-checkbox v-model="isForeign">外地学术团队成员请勾选</el-checkbox>
       </div>
 
-      <p v-show="isForeign" class="hint red">会期外，协议酒店住宿费用： 200/人/天 或 400/间/天</p>
+      <p class="hint red">会期外，协议酒店住宿费用： 210/人/天 或 420/间/天</p>
 
       <el-form
         ref="foreign"
-        v-show="isForeign"
         class="form small"
         label-width="140px"
       >
-        <el-form-item label="抵宁/离宁日期">
+        <el-form-item label="酒店入住/退房时间">
           <el-date-picker
-            v-model="arriveDepartDate"
+            v-model="hotelDate"
             type="daterange"
             placeholder="请选择"
             :default-value="datePickerDefaultValue"
@@ -97,9 +96,9 @@
             @change="emit"
           />
         </el-form-item>
-        <el-form-item label="酒店入住/退房时间">
+        <el-form-item label="抵宁/离宁日期" v-show="isForeign">
           <el-date-picker
-            v-model="hotelDate"
+            v-model="arriveDepartDate"
             type="daterange"
             placeholder="请选择"
             :default-value="datePickerDefaultValue"
