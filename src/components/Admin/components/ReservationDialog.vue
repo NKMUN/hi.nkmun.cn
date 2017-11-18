@@ -151,7 +151,7 @@ export default {
           .map(school => ({
             id: school.id,
             name: school.name,
-            disabled: !canRoomshareWithSchool(school)
+            disabled: !this.isStaff && !canRoomshareWithSchool(school)
           }))
           .filter($ => $.id !== this.school)  // can't be self
           .filter($ => !$.disabled)
