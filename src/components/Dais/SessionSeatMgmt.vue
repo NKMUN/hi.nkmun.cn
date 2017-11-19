@@ -19,10 +19,20 @@
       <el-table-column label="席位" prop="note" min-width="180">
         <template scope="scope">
           <el-input
+            size="small"
             v-model="scope.row.note"
-            v-loading="scope.row.busy"
-            @change.native="$ev => handleNoteChange($ev, scope.row)"
+            @input="scope.row.state = null"
+            @change.native="$ev => handleNoteChange($ev.target.value, scope.row)"
+            @keydown.enter.native="$ev => handleNoteChange(scope.row.note, scope.row)"
           ></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="no-left-padding" width="36">
+        <template scope="scope">
+          <!-- last result -->
+          <i v-if="scope.row.busy" class="state busy el-icon-loading"></i>
+          <icon v-if="scope.row.state === true" class="state success" name="check" />
+          <icon v-if="scope.row.state === false" class="state warning" name="warning" />
         </template>
       </el-table-column>
     </el-table>
@@ -35,11 +45,14 @@ import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
 import genderText from '@/lib/gender-text'
 import 'vue-awesome/icons/bomb'
+import 'vue-awesome/icons/check'
+import 'vue-awesome/icons/warning'
 
 const mapRepresentative = $ => ({
   ... $,
   genderText: $.contact && $.contact.gender ? genderText($.contact.gender) : '',
-  busy: false
+  busy: false,
+  state: null
 })
 
 export default {
@@ -68,22 +81,25 @@ export default {
         this.busy = false
       }
     },
-    async handleNoteChange(nativeEvent, row) {
-      const newVal = nativeEvent.target.value
+    async handleNoteChange(val, row) {
       row.busy = true
       try {
         const {
           status,
           body
         } = await this.$agent.patch('/api/representatives/' + row.id)
-                .send({ note: newVal })
+                .send({ note: val })
         this.representatives.splice(
           this.representatives.findIndex($ => $.id === body.id),
           1,
-          mapRepresentative(body)
+          {
+            ...mapRepresentative(body),
+            state: true
+          }
         )
       } catch(e) {
         console.log(e)
+        row.state = false
       } finally {
         row.busy = false
       }
@@ -99,6 +115,13 @@ export default {
 .table
   max-width: 960px
   margin: 0 auto
+  .state
+    &.busy
+      color: #20a0ff
+    &.success
+      color: #13ce66
+    &.warning
+      color: #f7ba2a
 h4
   text-align: center
 </style>
@@ -109,4 +132,7 @@ h4
     text-align: center
     padding-left: 0
     padding-right: 0
+  .no-left-padding .cell
+    text-align: center
+    padding-left: 0
 </style>
