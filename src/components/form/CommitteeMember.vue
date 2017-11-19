@@ -10,7 +10,7 @@
         ref="formSessionAndPhoto"
       >
         <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="role" placeholder="请选择会场" @change="emit">
+          <el-select v-model="role" placeholder="请选择部门" @change="emit">
             <el-option-group label="组委">
               <el-option v-for="role in COMMITTEE_ROLES" :key="role.id" :value="'组委-'+role.name" :label="role.name" />
             </el-option-group>
