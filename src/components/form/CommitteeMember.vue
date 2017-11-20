@@ -43,7 +43,6 @@
         :label-width="labelWidth"
         :disabled="disabled"
         @change="emit"
-        :acceptable-types="['mainland']"
       />
     </section>
 
