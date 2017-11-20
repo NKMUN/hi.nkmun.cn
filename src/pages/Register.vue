@@ -125,6 +125,7 @@ export default {
       if ( await this.$refs.serviceAgreement.validate ) {
         this.serviceAgreementChecked = false
         this.step = 2
+        this.$nextTick(() => { document.querySelector('html').scrollTop = 0 })
       }
     },
     async submit() {
