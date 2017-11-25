@@ -12,18 +12,17 @@
       @loaded="configParser"
     />
 
-    <template slot="reviewer" scope="props">
-      <ApplicationReview
-        slot="reviewer"
-        ref="reviewer"
-        :tests="tests"
-        :sessions="sessions"
-        :id="props.id"
-        @next="$refs.control.handleNext"
-        @processed="$refs.control.handleProcessed"
-        @nuked="$refs.control.handleRemove"
-      />
-    </template>
+    <ApplicationReview
+      slot="reviewer"
+      slot-scope="props"
+      ref="reviewer"
+      :tests="tests"
+      :sessions="sessions"
+      :id="props.id"
+      @next="$refs.control.handleNext"
+      @processed="$refs.control.handleProcessed"
+      @nuked="$refs.control.handleRemove"
+    />
 
   </ReviewControl>
 

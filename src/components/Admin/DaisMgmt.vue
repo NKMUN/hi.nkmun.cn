@@ -16,26 +16,26 @@
         <el-table-column label="姓名" prop="contact.name" sortable min-width="90" />
         <el-table-column label="性别" prop="genderText" min-width="48" />
         <el-table-column label="状态" prop="state" sortable min-width="84">
-          <template scope="scope">
-            <el-button-group v-if="scope.row.state === null" class="no-wrap">
+          <template slot-scope="{row}">
+            <el-button-group v-if="row.state === null" class="no-wrap">
               <el-button
                 type="danger"
                 size="small"
                 icon="circle-cross"
-                @click="reject(scope.row)"
-                :loading="scope.row.busy"
+                @click="reject(row)"
+                :loading="row.busy"
               ></el-button>
               <el-button
                 type="success"
                 size="small"
                 icon="circle-check"
-                @click="accept(scope.row)"
-                :loading="scope.row.busy"
+                @click="accept(row)"
+                :loading="row.busy"
               ></el-button>
             </el-button-group>
             <div v-else>
-              <el-tag v-if="scope.row.state === true" type="success"> 已通过 </el-tag>
-              <el-tag v-if="scope.row.state === false" type="gray"> 已忽略 </el-tag>
+              <el-tag v-if="row.state === true" type="success"> 已通过 </el-tag>
+              <el-tag v-if="row.state === false" type="gray"> 已忽略 </el-tag>
             </div>
           </template>
         </el-table-column>

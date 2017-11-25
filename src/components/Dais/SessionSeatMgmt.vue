@@ -5,10 +5,8 @@
 
     <el-table class="table" :data="representatives || []" v-loading="!representatives || busy">
       <el-table-column label="退会" class-name="no-padding" prop="withdraw" width="72">
-        <template scope="scope">
-          <template v-if="scope.row.withdraw">
-            <el-tag type="danger"> <icon name="bomb"/> 退会 </el-tag>
-          </template>
+        <template slot-scope="{row}" v-if="row.withdraw">
+          <el-tag type="danger"> <icon name="bomb"/> 退会 </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="姓名" prop="contact.name" width="108" sortable />
@@ -17,22 +15,21 @@
       <el-table-column label="邮箱" prop="contact.email" width="180" />
       <el-table-column label="手机" prop="contact.phone" width="144" />
       <el-table-column label="席位" prop="note" min-width="180">
-        <template scope="scope">
-          <el-input
-            size="small"
-            v-model="scope.row.note"
-            @input="scope.row.state = null"
-            @change.native="$ev => handleNoteChange($ev.target.value, scope.row)"
-            @keydown.enter.native="$ev => handleNoteChange(scope.row.note, scope.row)"
-          ></el-input>
-        </template>
+        <el-input
+          slot-scope="{row}"
+          size="small"
+          v-model="row.note"
+          @input="row.state = null"
+          @change.native="$ev => handleNoteChange($ev.target.value, row)"
+          @keydown.enter.native="$ev => handleNoteChange(row.note, row)"
+        ></el-input>
       </el-table-column>
       <el-table-column class-name="no-left-padding" width="36">
-        <template scope="scope">
+        <template slot-scope="{row}">
           <!-- last result -->
-          <i v-if="scope.row.busy" class="state busy el-icon-loading"></i>
-          <icon v-if="scope.row.state === true" class="state success" name="check" />
-          <icon v-if="scope.row.state === false" class="state warning" name="warning" />
+          <i v-if="row.busy" class="state busy el-icon-loading"></i>
+          <icon v-if="row.state === true" class="state success" name="check" />
+          <icon v-if="row.state === false" class="state warning" name="warning" />
         </template>
       </el-table-column>
     </el-table>

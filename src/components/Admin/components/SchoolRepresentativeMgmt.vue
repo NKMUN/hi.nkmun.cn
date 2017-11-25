@@ -8,19 +8,16 @@
     :id="id"
     v-loading="!representatives"
   >
-
-    <template slot="reviewer" scope="props">
-      <RepresentativeView
-        slot="reviewer"
-        ref="reviewer"
-        :id="props.id"
-        :school="school"
-        :leader-editable="leaderEditable"
-        :show-withdraw="Boolean(showWithdraw)"
-        @next="$refs.control.handleNext"
-      />
-    </template>
-
+    <RepresentativeView
+      slot="reviewer"
+      slot-scope="props"
+      ref="reviewer"
+      :id="props.id"
+      :school="school"
+      :leader-editable="leaderEditable"
+      :show-withdraw="Boolean(showWithdraw)"
+      @next="$refs.control.handleNext"
+    />
   </ListViewControl>
 
 </template>

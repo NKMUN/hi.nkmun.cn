@@ -20,10 +20,10 @@
       <el-table-column prop="name" label="名称" min-width="160" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
       <el-table-column prop="notBefore" label="入住时间" width="120" sortable>
-        <template scope="scope"> <span>{{ scope.row.notBefore | date }}</span> </template>
+        <span slot-scope="{row}">{{ row.notBefore | date }}</span>
       </el-table-column>
       <el-table-column prop="notAfter" label="退房时间" width="120" sortable>
-        <template scope="scope"> <span>{{ scope.row.notAfter | date }}</span> </template>
+        <span slot-scope="{row}">{{ row.notAfter | date }}</span>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="72" />
       <el-table-column label="拼房费率" header-align="center">
@@ -32,23 +32,23 @@
       </el-table-column>
       <el-table-column prop="available" label="余量" width="72" />
       <el-table-column prop="stock" label="总量" width="108">
-        <template scope="scope">
-          <span class="stock">{{ scope.row.stock }}</span>
+        <template slot-scope="{row}">
+          <span class="stock">{{ row.stock }}</span>
           <el-button
             type="text"
             size="small"
-            @click="$refs.modifyStock.open(scope.row)"
+            @click="$refs.modifyStock.open(row)"
             :disabled="busy"
           > 修改 </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="96">
-        <template scope="scope">
+        <template slot-scope="{row, $index}">
           <el-button
             type="text"
             size="small"
             icon="delete"
-            @click="deleteHotel(scope.$index)"
+            @click="deleteHotel($index)"
             :disabled="busy"
           > 删除 </el-button>
         </template>

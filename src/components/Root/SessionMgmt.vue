@@ -12,96 +12,88 @@
 
     <el-table v-if="sessions" :data="sessions" class="session-table">
       <el-table-column prop="id" label="ID" width="144" sortable>
-        <template scope="scope">
-          <el-input
-            v-model="scope.row.id"
-            placeholder="cn_1"
-            :minlength="1"
-            :maxlength="16"
-            :class="validation[scope.$index] && !validation[scope.$index].id ? 'error' : ''"
-            :disabled="busy || scope.row.reserved"
-          />
-        </template>
+        <el-input
+          slot-scope="{row, $index}"
+          v-model="row.id"
+          placeholder="cn_1"
+          :minlength="1"
+          :maxlength="16"
+          :class="validation[$index] && !validation[$index].id ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
       </el-table-column>
 
       <el-table-column prop="name" label="名称" min-width="172" sortable resizable>
-        <template scope="scope">
-          <el-input
-            v-model="scope.row.name"
-            placeholder="会场名称"
-            :class="validation[scope.$index] && !validation[scope.$index].name ? 'error' : ''"
-            :disabled="busy"
-          />
-        </template>
+        <el-input
+          slot-scope="{row, $index}"
+          v-model="row.name"
+          placeholder="会场名称"
+          :class="validation[$index] && !validation[$index].name ? 'error' : ''"
+          :disabled="busy"
+        />
       </el-table-column>
 
       <el-table-column prop="type" label="类型" width="144" sortable>
-        <template scope="scope">
-          <el-select
-            v-model="scope.row.type"
-            placeholder="请选择"
-            :class="validation[scope.$index] && !validation[scope.$index].type ? 'error' : ''"
-            :disabled="busy || scope.row.reserved"
-          >
-            <el-option v-for="type in sessionTypes" :key="type" :label="type" :value="type" />
-          </el-select>
-        </template>
+        <el-select
+          slot-scope="{row, $index}"
+          v-model="row.type"
+          placeholder="请选择"
+          :class="validation[$index] && !validation[$index].type ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        >
+          <el-option v-for="type in sessionTypes" :key="type" :label="type" :value="type" />
+        </el-select>
       </el-table-column>
 
       <el-table-column prop="dual" label="双代" width="64">
-        <template scope="scope">
-          <el-checkbox
-            v-model="scope.row.dual"
-            :class="validation[scope.$index] && !validation[scope.$index].dual ? 'error' : ''"
-            :disabled="busy || scope.row.reserved"
-          />
-        </template>
+        <el-checkbox
+          slot-scope="{row, $index}"
+          v-model="row.dual"
+          :class="validation[$index] && !validation[$index].dual ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
       </el-table-column>
 
       <el-table-column prop="requiresChairman" label="主席" width="64">
-        <template scope="scope">
-          <el-checkbox
-            v-model="scope.row.requiresChairman"
-            :class="validation[scope.$index] && !validation[scope.$index].requiresChairman ? 'error' : ''"
-            :disabled="busy || scope.row.reserved"
-          />
-        </template>
+        <el-checkbox
+          slot-scope="{row, $index}"
+          v-model="row.requiresChairman"
+          :class="validation[$index] && !validation[$index].requiresChairman ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
       </el-table-column>
 
       <el-table-column prop="exchangeable" label="交换" width="64">
-        <template scope="scope">
-          <el-checkbox
-            v-model="scope.row.exchangeable"
-            :class="validation[scope.$index] && !validation[scope.$index].exchangeable ? 'error' : ''"
-            :disabled="busy || scope.row.reserved"
-          />
-        </template>
+        <el-checkbox
+          slot-scope="{row, $index}"
+          v-model="row.exchangeable"
+          :class="validation[$index] && !validation[$index].exchangeable ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
       </el-table-column>
 
       <el-table-column prop="price" label="单价" width="96">
-        <template scope="scope">
-          <el-input-number
-            v-model="scope.row.price"
-            size="small"
-            :controls="false"
-            :class="validation[scope.$index] && !validation[scope.$index].price ? 'error' : ''"
-            :disabled="busy"
-            :min="0"
-            style="display: table-cell;"
-          />
-        </template>
+        <el-input-number
+          slot-scope="{row, $index}"
+          v-model="row.price"
+          size="small"
+          :controls="false"
+          :class="validation[$index] && !validation[$index].price ? 'error' : ''"
+          :disabled="busy"
+          :min="0"
+          style="display: table-cell;"
+        />
       </el-table-column>
 
       <el-table-column label="操作" width="96">
-        <template scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            icon="delete"
-            @click="deleteSession(scope.$index)"
-            :disabled="busy || scope.row.reserved"
-          > 删除 </el-button>
-        </template>
+        <el-button
+          slot-scope="{row, $index}"
+          type="text"
+          size="small"
+          icon="el-icon-delete"
+          @click="deleteSession($index)"
+          :disabled="busy || row.reserved"
+        > 删除 </el-button>
       </el-table-column>
     </el-table>
 

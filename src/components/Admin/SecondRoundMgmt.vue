@@ -12,16 +12,15 @@
       @loaded="configParser"
     />
 
-    <template slot="reviewer" scope="props">
-      <SecondRoundReview
-        slot="reviewer"
-        ref="reviewer"
-        :sessions="sessions"
-        :id="props.id"
-        @next="$refs.reviewControl.handleNext"
-        @processed="$refs.reviewControl.handleProcessed"
-      />
-    </template>
+    <SecondRoundReview
+      slot="reviewer"
+      slot-scope="props"
+      ref="reviewer"
+      :sessions="sessions"
+      :id="props.id"
+      @next="$refs.reviewControl.handleNext"
+      @processed="$refs.reviewControl.handleProcessed"
+    />
 
   </ReviewControl>
 

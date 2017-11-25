@@ -25,32 +25,30 @@
           sortable
           min-width="180"
         >
-          <template scope="scope">
-            <template v-if="scope.row.school">
+          <template slot-scope="{row}">
+            <template v-if="row.school">
               <div class="icon-text">
                 <icon class="icon" name="university" />
-                <span class="text">{{ scope.row.school.name }}</span>
+                <span class="text">{{ row.school.name }}</span>
               </div>
             </template>
-            <template v-if="scope.row.session">
+            <template v-if="row.session">
               <div class="icon-text">
                 <icon class="icon" name="user-secret" />
-                <span class="text">{{ scope.row.session.name }}</span>
+                <span class="text">{{ row.session.name }}</span>
               </div>
             </template>
           </template>
         </el-table-column>
 
         <el-table-column label="操作" min-width="90">
-          <template scope="scope">
-            <el-button
-              type="warning"
-              size="small"
-              :disabled="scope.row.reserved || busy"
-              @click="resetPassword(scope.row)"
-            > 重置密码 </el-button>
-          </template>
-
+          <el-button
+            slot-scope="{row}"
+            type="warning"
+            size="small"
+            :disabled="row.reserved || busy"
+            @click="resetPassword(row)"
+          > 重置密码 </el-button>
         </el-table-column>
       </el-table>
     </div>

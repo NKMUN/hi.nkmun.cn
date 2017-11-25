@@ -13,16 +13,15 @@
       @loaded="configParser"
     />
 
-    <template slot="reviewer" scope="props">
-      <SchoolView
-        slot="reviewer"
-        ref="reviewer"
-        :sessions="sessions"
-        :id="props.id"
-        @nuked="$refs.control.handleRemove"
-        @next="$refs.control.handleNext"
-      />
-    </template>
+    <SchoolView
+      slot="reviewer"
+      slot-scope="props"
+      ref="reviewer"
+      :sessions="sessions"
+      :id="props.id"
+      @nuked="$refs.control.handleRemove"
+      @next="$refs.control.handleNext"
+    />
 
   </ListViewControl>
 
