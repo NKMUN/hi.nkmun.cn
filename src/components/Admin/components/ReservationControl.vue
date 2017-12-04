@@ -30,7 +30,7 @@
               ? '已拒绝'
               : '被拒绝' }}</el-tag>
             <el-tag v-if="row.roomshare.state === 'peer-withdraw'" type="danger">
-              <icon name="bomb"/> 对方学校退会
+              <icon name="bomb"/> 对方退会
             </el-tag>
             <span v-if="row.roomshare && row.roomshare.school" class="school-name">{{
               row.roomshare.school.name
@@ -42,17 +42,17 @@
         <template slot-scope="{row}">
           <el-button-group v-if="row.round !== 'roomshare' && allowsModification(row)">
             <el-button
-              type="info"
-              icon="edit"
-              size="mini"
+              type="primary"
+              icon="el-icon-edit"
+              size="small"
               :loading="busy"
               :disabled="disabled"
               @click="edit(row)"
             />
             <el-button
               type="danger"
-              icon="close"
-              size="mini"
+              icon="el-icon-close"
+              size="small"
               :loading="busy"
               :disabled="disabled"
               @click="confirmRemove(row)"
@@ -61,7 +61,7 @@
           <el-button-group v-if="row.round === 'roomshare' && row.roomshare.state === 'pending'">
             <el-button
               type="success"
-              icon="check"
+              icon="el-icon-check"
               size="mini"
               :loading="busy"
               :disabled="disabled"
@@ -69,7 +69,7 @@
             />
             <el-button
               type="danger"
-              icon="close"
+              icon="el-icon-close"
               size="mini"
               :loading="busy"
               :disabled="disabled"
@@ -79,17 +79,15 @@
         </template>
       </el-table-column>
       <template slot="append" v-if="!readonly">
-        <tr class="el-table__row">
-          <td colspan="6" class="append-row">  <!-- NOTE: match with table columns -->
-            <el-button
-              type="success"
-              icon="plus"
-              :loading="busy"
-              @click="add({ school: school })"
-              :disabled="disabled"
-            > 增加房间 </el-button>
-          </td>
-        </tr>
+        <div class="el-table__row append-row">
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            :loading="busy"
+            @click="add({ school: school })"
+            :disabled="disabled"
+          > 增加房间 </el-button>
+        </div>
       </template>
     </el-table>
 
@@ -369,6 +367,7 @@ export default {
     opacity: 0.5
   .append-row
     text-align: center
+    padding: 12px 0
   .school-name
     margin-left: 1ch
   .roomshare-state
@@ -381,4 +380,7 @@ export default {
     text-align: center
     padding-left: 0
     padding-right: 0
+  .el-button-group
+    .el-button
+      padding: 6px 6px
 </style>

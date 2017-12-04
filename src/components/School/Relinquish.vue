@@ -16,10 +16,9 @@
         v-if="!session.reserved"
         size="mini"
         type="danger"
-        icon="warning"
+        icon="el-icon-warning"
         :disabled="busy"
-        @click="relinquishSeat(
-          session)"
+        @click="relinquishSeat(session)"
       > 放弃 </el-button>
     </SeatView>
 

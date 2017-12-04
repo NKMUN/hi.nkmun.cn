@@ -23,14 +23,14 @@
           <label class="ac-test-label">{{ '学测'+(idx+1) }}</label>
           <el-button-group>
             <el-button
-              icon="delete"
+              icon="el-icon-delete"
               type="danger"
               :disabled="busy"
               size="mini"
               @click="application.tests.splice(idx, 1)"
             ></el-button>
             <el-button
-              icon="plus"
+              icon="el-icon-plus"
               type="primary"
               size="mini"
               :disabled="busy"
@@ -48,8 +48,8 @@
 
       <el-form-item>
         <el-button
-          icon="plus"
-          type="primary"
+          icon="el-icon-plus"
+          type="text"
           size="small"
           :disabled="busy"
           @click="application.tests.push({ question: '' })"
@@ -59,7 +59,7 @@
     </el-form>
 
     <el-button
-      icon="check"
+      icon="el-icon-check"
       type="success"
       :loading="busy"
       @click="update"
@@ -145,4 +145,6 @@ export default {
     width: 100%
   .ac-test-label
     margin-right: 4ch
+.el-button--mini
+  padding: 6px 8px
 </style>

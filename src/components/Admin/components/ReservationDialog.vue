@@ -97,13 +97,13 @@
     <div class="controls">
       <el-button
         :loading="busy"
-        icon="circle-cross"
+        icon="el-icon-close"
         @click="close"
       > 取消 </el-button>
       <el-button
         v-if="mode === 'add'"
         type="success"
-        icon="circle-check"
+        icon="el-icon-check"
         :loading="busy"
         :disabled="!checkIn || !checkOut"
         @click="confirm"
@@ -111,7 +111,7 @@
       <el-button
         v-if="mode === 'edit'"
         type="primary"
-        icon="edit"
+        icon="el-icon-edit"
         :loading="busy"
         :disabled="!checkIn || !checkOut"
         @click="confirm"

@@ -23,7 +23,7 @@
         class="confirm"
         type="danger"
         size="large"
-        icon="circle-check"
+        icon="el-icon-check"
         @click="confirm"
       > 结束预定 </el-button>
     </template>

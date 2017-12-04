@@ -3,18 +3,17 @@
     <div class="heading">
       <el-menu
         mode="horizontal"
-        theme="dark"
+        background-color="#56acf0"
+        text-color="#ffffff"
+        active-text-color="rgb(255, 214, 99)"
         default-active="overview"
         :router="true"
         class="menu"
       >
         <el-menu-item v-if="hasAccess('dais')" index="/dais/session-seats/"> <icon name="users" /> 席位管理 </el-menu-item>
       </el-menu>
-
-      <el-button
-        type="warning"
-        @click="logout"
-      > <icon name="sign-out" /> </el-button>
+      
+      <Logout />
     </div>
 
     <div class="wrap">

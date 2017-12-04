@@ -38,6 +38,7 @@
           v-model="M.price"
           :min="0"
           :step="50"
+          size="medium"
           :disabled="busy"
         />
       </el-form-item>
@@ -50,6 +51,7 @@
         <el-input-number
           v-model="M.stock"
           :min="0"
+          size="medium"
           :disabled="busy"
         />
       </el-form-item>
@@ -77,6 +79,7 @@
           v-model="M.roomshareInitiatorRate"
           :min="0"
           :max="1"
+          size="medium"
           :step="0.1"
           :disabled="busy"
         />
@@ -91,6 +94,7 @@
           v-model="M.roomshareRecipientRate"
           :min="0"
           :max="1"
+          size="medium"
           :step="0.1"
           :disabled="busy"
         />
@@ -104,7 +108,7 @@
         @click="cancel"
       > 取消 </el-button>
       <el-button
-        icon="check"
+        icon="el-icon-check"
         type="primary"
         :loading="busy"
         @click="confirm"

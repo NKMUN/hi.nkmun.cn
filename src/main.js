@@ -36,7 +36,8 @@ import {
     Tooltip,
     Notification,
     Loading,
-    MessageBox
+    Message,
+    MessageBox,
 } from 'element-ui'
 
 Vue.use( Alert )
@@ -67,6 +68,12 @@ Vue.use( Tag )
 Vue.use( Tooltip )
 Vue.use( Loading )
 
+import RefreshButton from '@/components/RefreshButton'
+Vue.component('RefreshButton', RefreshButton)
+
+import Logout from '@/components/Logout'
+Vue.component('Logout', Logout)
+
 import SeriousConfirm from '@/components/SeriousConfirm.js'
 
 Vue.prototype.$msgbox = MessageBox
@@ -75,6 +82,7 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$serious = SeriousConfirm
+Vue.prototype.$message = Message
 
 import Icon from 'vue-awesome/components/Icon'
 Vue.component('Icon', Icon)

@@ -1,13 +1,10 @@
 <template>
 
   <div class="dais-mgmt">
-    <h3>会场主席审核</h3>
-    <el-button
-      type="primary"
-      :loading="busy"
-      icon="information"
-      @click="fetch()"
-    > 刷新 </el-button>
+    <h3>
+      会场主席审核
+      <RefreshButton @click="fetch()" :loading="busy" throttle />
+    </h3>
 
     <div class="layout">
       <el-table class="table" :data="daises" v-loading="!daises">
@@ -20,15 +17,13 @@
             <el-button-group v-if="row.state === null" class="no-wrap">
               <el-button
                 type="danger"
-                size="small"
-                icon="circle-cross"
+                icon="el-icon-close"
                 @click="reject(row)"
                 :loading="row.busy"
               ></el-button>
               <el-button
                 type="success"
-                size="small"
-                icon="circle-check"
+                icon="el-icon-check"
                 @click="accept(row)"
                 :loading="row.busy"
               ></el-button>
@@ -48,7 +43,7 @@
 
 <script>
 import genderText from '@/lib/gender-text'
-import SessionUtils from '../../lib/session-utils'
+import SessionUtils from '@/lib/session-utils'
 
 const stateToBoolean = (state) => {
   switch (state) {
@@ -76,7 +71,7 @@ export default {
   }),
   methods: {
     async fetch() {
-      this.daises = null
+      this.busy = true
       try {
         const daises = await this.$agent.get('/api/daises/').body()
         this.daises = daises.map(mapDais)
@@ -152,4 +147,6 @@ export default {
       margin: 0 auto
       width: 100%
       max-width: 960px
+      .el-button
+        padding: 4px 6.5px
 </style>

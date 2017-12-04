@@ -2,13 +2,7 @@
   <div>
     <div class="header">
       <b>可交换名额</b>
-      <el-button
-        type="info"
-        size="small"
-        icon="information"
-        :loading="loading"
-        @click="fetch"
-      > 刷新 </el-button>
+      <RefreshButton @click="fetch" :loading="loading" throttle />
     </div>
 
     <div class="controls">

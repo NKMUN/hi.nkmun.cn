@@ -59,7 +59,7 @@
         <p class="note">开始信息录入后，不能修改会场名额、领队参会、酒店预订信息！</p>
         <el-button
           type="primary"
-          icon="document"
+          icon="el-icon-document"
           :disabled="!enableStartConfirm"
           :busy="busy"
           @click="startConfirm"

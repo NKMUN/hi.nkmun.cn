@@ -3,7 +3,9 @@
     <div class="heading">
       <el-menu
         mode="horizontal"
-        theme="dark"
+        background-color="#56acf0"
+        text-color="#ffffff"
+        active-text-color="rgb(255, 214, 99)"
         default-active="overview"
         :router="true"
         class="menu"
@@ -35,10 +37,7 @@
         <el-menu-item v-if="hasAccess('finance')" index="/staff/exports/"> 导出 </el-menu-item>
       </el-menu>
 
-      <el-button
-        type="warning"
-        @click="logout"
-      > <icon name="sign-out" /> </el-button>
+      <Logout />
     </div>
 
     <div class="wrap">
@@ -62,7 +61,7 @@ import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/institution'
 import 'vue-awesome/icons/link'
-import 'vue-awesome/icons/sign-out'
+
 
 export default {
   name: 'admin-mgmt',
@@ -106,6 +105,6 @@ export default {
     padding-right: 4ch
     margin-top: 4em
   .el-menu .fa-icon
-    opacity: 0.7
+    opacity: 0.8
     transform: scale(0.8, 0.8)
 </style>

@@ -77,9 +77,3 @@ export default {
   },
 }
 </script>
-
-<style lang="stylus">
-.el-form--label-top .el-form-item__label
-  display: block
-  text-align: left
-</style>

@@ -45,7 +45,7 @@
         </el-select>
       </el-table-column>
 
-      <el-table-column prop="dual" label="双代" width="64">
+      <el-table-column prop="dual" label="双代" width="54">
         <el-checkbox
           slot-scope="{row, $index}"
           v-model="row.dual"
@@ -54,7 +54,7 @@
         />
       </el-table-column>
 
-      <el-table-column prop="requiresChairman" label="主席" width="64">
+      <el-table-column prop="requiresChairman" label="主席" width="54">
         <el-checkbox
           slot-scope="{row, $index}"
           v-model="row.requiresChairman"
@@ -63,7 +63,7 @@
         />
       </el-table-column>
 
-      <el-table-column prop="exchangeable" label="交换" width="64">
+      <el-table-column prop="exchangeable" label="交换" width="54">
         <el-checkbox
           slot-scope="{row, $index}"
           v-model="row.exchangeable"
@@ -85,7 +85,7 @@
         />
       </el-table-column>
 
-      <el-table-column label="操作" width="96">
+      <el-table-column label="操作" width="72">
         <el-button
           slot-scope="{row, $index}"
           type="text"
@@ -101,7 +101,7 @@
       <el-button
         type="text"
         size="small"
-        icon="plus"
+        icon="el-icon-plus"
         @click="addSession"
         :disabled="busy"
       > 增加会场 </el-button>
@@ -117,13 +117,13 @@
     <div class="controls commit center" v-if="sessions">
       <el-button
         type="warning"
-        icon="close"
+        icon="el-icon-close"
         @click="abort"
         :busy="busy"
       > 放弃更改 </el-button>
       <el-button
         type="success"
-        icon="check"
+        icon="el-icon-check"
         @click="confirm"
         :busy="busy"
       > 确认更改 </el-button>
@@ -264,14 +264,6 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-// Do not use `scoped`, el-input inside el-table has different scope!
-.error
-  &.el-input, &.el-select
-    .el-input__inner
-      border-color: #FF4949
-</style>
-
 <style lang="stylus" scoped>
 @import "../../style/flex"
 .session-mgmt
@@ -283,7 +275,7 @@ export default {
     color: #475669
     font-size: 14px
   .session-table
-    max-width: 100ch
+    max-width: 120ch
   .controls.commit
     margin-top: 3em
   .el-alert

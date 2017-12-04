@@ -15,7 +15,7 @@
       <div class="controls">
         <el-button
           type="primary"
-          icon="check"
+          icon="el-icon-check"
           @click="submit"
           :disabled="!confirm"
         > 提交 </el-button>

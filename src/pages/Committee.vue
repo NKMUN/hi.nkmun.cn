@@ -8,7 +8,7 @@
       <div class="controls">
         <el-button
           type="primary"
-          icon="check"
+          icon="el-icon-check"
           @click="submit"
           :loading="busy"
         > 提交 </el-button>

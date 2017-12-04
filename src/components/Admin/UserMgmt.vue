@@ -1,13 +1,10 @@
 <template>
 
   <div class="user-mgmt">
-    <h3>用户管理</h3>
-    <el-button
-      type="primary"
-      :loading="busy"
-      icon="information"
-      @click="fetch()"
-    > 刷新 </el-button>
+    <h3>
+      用户管理
+      <RefreshButton @click="fetch()" :loading="busy" throttle />
+    </h3>
 
     <div class="layout">
       <el-table class="table" :data="users" v-loading="!users">
@@ -105,7 +102,7 @@ export default {
   }),
   methods: {
     async fetch() {
-      this.users = null
+      this.busy = true
       try {
         const users = await this.$agent.get('/api/users/').body()
         this.users = users.map( $ => ({

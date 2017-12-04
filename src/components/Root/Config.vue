@@ -31,7 +31,7 @@
       </el-form>
       <el-button
         type="primary"
-        icon="circle-check"
+        icon="el-icon-check"
         :loading="busy"
         @click="update"
       > 确定 </el-button>

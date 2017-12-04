@@ -1,14 +1,8 @@
 <template>
-  <el-card class="exchange-mgmt-requests" v-loading="loading">
+  <el-card class="exchange-mgmt-requests">
     <div class="header" slot="header">
       <b>待处理</b>
-      <el-button
-        type="info"
-        size="small"
-        icon="information"
-        :loading="loading"
-        @click="fetchRequests"
-      > 刷新 </el-button>
+      <RefreshButton @click="fetchRequests()" :loading="loadingRequests" throttle />
     </div>
     <div v-if="this.requests.length === 0">暂无交换申请</div>
     <ul v-if="this.requests.length > 0">
@@ -27,17 +21,17 @@
         <div class="controls">
           <el-button
             type="success"
-            icon="check"
+            icon="el-icon-check"
             size="mini"
-            :disabled="loading"
+            :disabled="busy || loadingRequests"
             :loading="busy"
             @click="acceptExchange(req, idx)"
           > 接受 </el-button>
           <el-button
             type="danger"
-            icon="close"
+            icon="el-icon-close"
             size="mini"
-            :disabled="loading"
+            :disabled="busy || loadingRequests"
             :loading="busy"
             @click="refuseExchange(req, idx)"
           > 拒绝 </el-button>
@@ -62,7 +56,7 @@ export default {
     })
   },
   data: () => ({
-    loading: false,
+    loadingRequests: false,
     busy: false,
     requests: []
   }),

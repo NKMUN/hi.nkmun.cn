@@ -29,7 +29,7 @@
     <el-button
       class="confirm-button"
       v-if="!confirmed"
-      icon="check"
+      icon="el-icon-check"
       size="large"
       type="danger"
       :disabled="!canConfirm"

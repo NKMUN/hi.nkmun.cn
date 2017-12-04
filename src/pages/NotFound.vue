@@ -5,8 +5,8 @@
       <div class="not-found">
         <h3>Oops. 页面不存在</h3>
         <div>
-          <el-button icon="arrow-left" type="info" size="large" @click="$router.go(-1)">返回</el-button>
-          <el-button icon="star" type="primary" size="large" @click="$router.push('/')">前往主页</el-button>
+          <el-button icon="el-icon-arrow-left" type="primary" size="large" @click="$router.go(-1)">返回</el-button>
+          <el-button icon="el-icon-star" type="primary" size="large" @click="$router.push('/')">前往主页</el-button>
         </div>
       </div>
     </LayoutMiddle>
