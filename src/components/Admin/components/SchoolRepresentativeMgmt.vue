@@ -15,8 +15,8 @@
         ref="reviewer"
         :id="props.id"
         :school="school"
-        :leaderEditable="leaderEditable"
-        :showWithdraw="showWithdraw"
+        :leader-editable="leaderEditable"
+        :show-withdraw="Boolean(showWithdraw)"
         @next="$refs.control.handleNext"
       />
     </template>
@@ -31,6 +31,7 @@ import Precondition from '@/components/Precondition'
 import ListViewControl from '../../ListViewControl'
 import RepresentativeView from './RepresentativeView'
 import pinyinCmp from '@/lib/pinyin-cmp'
+import { hasAccess } from '@/lib/access'
 
 export default {
   name: 'school-representative-mgmt',
@@ -53,7 +54,8 @@ export default {
       return true
     },
     showWithdraw() {
-      return this.access.indexOf('admin') !== -1
+      return hasAccess(this.$store.getters['user/access'], 'staff')
+          || hasAccess(this.$store.getters['user/access'], 'leader')
     }
   },
   data: () => ({

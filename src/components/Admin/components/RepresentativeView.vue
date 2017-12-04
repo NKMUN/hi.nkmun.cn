@@ -10,10 +10,10 @@
 
       <RepresentativeInfo
         v-model="representativeModel"
-        @change="dirty=true"
+        @change="dirty = true"
         class="representative-info"
         :disabled="busy"
-        :leaderEditable="leaderEditable"
+        :leaderEditable="leaderEditable && canBeLeader"
         :isAdult="isAdult"
         :session="this.representative ? this.representative.session.id : ''"
         ref="form"
@@ -23,7 +23,7 @@
         <el-checkbox
           v-model="representative.withdraw"
           @input="setWithdraw"
-          :disabled="!leaderEditable"
+          :disabled="!canWithdraw"
         > 该代表放弃参会 </el-checkbox>
       </div>
 
@@ -92,6 +92,14 @@ export default {
           ... val
         }
       }
+    },
+    canWithdraw() {
+      const { session, is_leader } = this.representative || {}
+      return session && session.id !== '_leader_nr' && !is_leader
+    },
+    canBeLeader() {
+      const { withdraw } = this.representative || {}
+      return !withdraw
     }
   },
   data: () => ({
