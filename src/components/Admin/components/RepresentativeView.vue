@@ -57,7 +57,8 @@ const pluckRepresentativeFields = (r) => pluck(
   'identification',
   'is_leader',
   'guardian',
-  'guardian_identification'
+  'guardian_identification',
+  'comment'
 )
 
 export default {
