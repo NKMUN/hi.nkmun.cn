@@ -69,6 +69,12 @@
       :disabled="busy"
     > <icon name="user-secret"/> 会场主席信息 </el-button>
 
+    <el-button
+      @click="exportAs('daises/photos', '.zip')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="photo"/> 会场主席照片 </el-button>
+
   </div>
 
 </template>
