@@ -202,7 +202,7 @@ export default {
     async fetch() {
       this.busy = true
       this.dais = await this.$agent.get('/api/daises/~').body()
-      this.isForeign = Boolean(this.dais.arriveDate || this.dais.departDate || this.dais.checkInDate || this.dais.checkOutDate)
+      this.isForeign = Boolean(this.dais.arriveDate || this.dais.departDate)
       this.busy = false
     },
     async updateImage(photoId) {
