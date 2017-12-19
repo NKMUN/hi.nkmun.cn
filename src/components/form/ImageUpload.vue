@@ -7,13 +7,34 @@
     :on-success="handleSuccess"
     :on-progress="handleProgress"
     :before-upload="beforeUpload"
-    :disabled="busy"
+    :disabled="busy || previewBusy"
+    :style="{ height: imageDimension, width: imageDimension }"
+    v-loading="previewBusy"
   >
     <div v-if="imageUrl" class="image-wrap">
-      <img v-if="imageUrl" :src="imageUrl">
+      <img v-if="imageUrl" :src="imageUrl" @load="handlePreviewLoad">
     </div>
-    <div v-if="!imageUrl && !busy "class="el-icon-plus icon"></div>
-    <el-progress v-if="busy" :width="126" type="circle" :percentage="loadingPercent"></el-progress>
+    <div
+      v-if="!busy"
+      :class="{
+        'icon': true,
+        'el-icon-plus': !imageUrl,
+        'el-icon-edit': imageUrl,
+        'show-on-hover': imageUrl
+      }"
+      :style="{
+        height: imageDimension,
+        lineHeight: imageDimension
+      }">
+    </div>
+    <div v-if="busy" class="mask">
+      <el-progress
+        :width="126"
+        type="circle"
+        :percentage="loadingPercent"
+        :style="{ top: ((parseInt(imageDimension, 10) - 126) / 2) + 'px' }"
+      />
+    </div>
   </el-upload>
 </template>
 
@@ -32,25 +53,52 @@ export default {
     maxSize: {
       type: Number,
       default: 10 * 1024 * 1024
+    },
+    value: {
+      type: String,
+      default: ''
+    },
+    imageDimension: {
+      type: String,
+      default: '178px'
+    },
+    previewSize: {
+      type: String,
+      default: 'small'
+    },
+    previewFormat: {
+      type: String,
+      default: 'jpg'
+    }
+  },
+  computed: {
+    imageUrl() {
+      return this.value ? `${this.action}${this.value}?size=${this.previewSize}&format=${this.previewFormat}` : ''
+    }
+  },
+  watch: {
+    imageUrl(val) {
+      if (val)
+        this.previewBusy = true
     }
   },
   data() {
     return {
-      imageUrl: null,
       busy: false,
+      previewBusy: false,
       loadingPercent: 0,
     }
   },
   methods: {
     handleSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
       this.$emit('input', res.id)
       this.$emit('change', res.id)
+      this.$emit('uploaded', res.id)
+      this.busy = false
     },
     beforeUpload(file) {
       this.$emit('input', null)
       this.$emit('change', null)
-      this.imageUrl = null
       const isJPG = file.type === 'image/jpeg'
       const isLtMaxSize = file.size < this.maxSize
       if (!isJPG)
@@ -68,32 +116,41 @@ export default {
       return isJPG && isLtMaxSize;
     },
     handleProgress(ev) {
+      this.busy = true
       this.loadingPercent = Math.floor(ev.percent)
-      this.busy = ev.percent !== 100
+    },
+    handlePreviewLoad() {
+      this.previewBusy = false
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-$image-size = 178px
 .upload
   border: 1px dashed #d9d9d9
   border-radius: 6px
   cursor: pointer
   position: relative
   overflow: hidden
-  height: $image-size
   display: block
 .upload:hover
   border-color: #20a0ff
+.mask, .icon
+  background-color: rgba(255, 255, 255, 0.8)
+  height: 100%
+  width: 100%
+  top: 0
+  left: 0
+  position: absolute
 .icon
   font-size: 28px
   color: #8c939d
-  width: 100%
-  height: $image-size
-  line-height: $image-size
   text-align: center
+  &.show-on-hover
+    visibility: hidden
+.upload:hover .icon.show-on-hover
+    visibility: visible
 .image-wrap
   height: 100%
   width: 100%
@@ -107,12 +164,8 @@ $image-size = 178px
     height: auto
     width: auto
     box-shadow: 0 0 1em black
-.is-error .upload {
+.is-error .upload
   border-color: #ff4949
-}
-.el-progress {
-  top: (($image-size - 126) / 2)    // match with el-progress's width
-}
 </style>
 
 <style lang="stylus">

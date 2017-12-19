@@ -27,7 +27,7 @@
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" @change="emit"/>
+          <ImageUpload v-model="photoId" action="/api/images/" @change="emit" />
         </el-form-item>
       </el-form>
 
@@ -168,6 +168,9 @@ export default {
         'guardian',
         'guardian-identification'
       ]
+    },
+    photoUrl() {
+      return this.photoId ? `/api/images/${this.photoId}?size=small&format=jpg` : ''
     },
     isAdult() {
       const idNumber = (this.value && this.value.identification && this.value.identification.number) || ''

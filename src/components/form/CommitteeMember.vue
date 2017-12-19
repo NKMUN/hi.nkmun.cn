@@ -22,7 +22,7 @@
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" @change="emit"/>
+          <ImageUpload v-model="photoId" action="/api/images/" @change="emit" />
         </el-form-item>
       </el-form>
 
@@ -169,6 +169,9 @@ export default {
           return v < new Date() -  24*60*60*1000
         }
       }
+    },
+    photoUrl() {
+      return this.photoId ? `/api/images/${photoId}?size=small&format=jpg` : ''
     }
   },
   data: () => ({

@@ -63,6 +63,7 @@ const Confirm        = () => import('@/components/School/Confirm.vue')
 
 // Dais mgmt pages
 const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
+const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
 
 // NOTE: keep router path in sync with Root/Links
 
@@ -138,7 +139,8 @@ export default new Router({
         }
       },
       children: [
-        { path: 'session-seats', component: SessionSeatMgmt }
+        { path: 'session-seats', component: SessionSeatMgmt },
+        { path: 'user-info', component: DaisUserInfo },
       ]
     },
     { path: '*', component: NotFound },
