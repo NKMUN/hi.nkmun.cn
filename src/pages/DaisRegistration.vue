@@ -66,7 +66,7 @@ export default {
           await this.$msgbox({
             type: 'success',
             title: '提交成功',
-            message: '点击确定返回首页',
+            message: '已收到注册信息，请耐心等待审核。',
             showCancelButton: false,
             showConfirmButton: true
           })
