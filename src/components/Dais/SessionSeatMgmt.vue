@@ -21,6 +21,7 @@
           <el-input
             size="small"
             v-model="scope.row.note"
+            :disabled="scope.row.withdraw"
             @input="scope.row.state = null"
             @change.native="$ev => handleNoteChange($ev.target.value, scope.row)"
             @keydown.enter.native="$ev => handleNoteChange(scope.row.note, scope.row)"
