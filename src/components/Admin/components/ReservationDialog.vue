@@ -27,7 +27,7 @@
             type="date"
             :disabled="!hotel || busy"
             placeholder="请选择入住日期"
-            :picker-options="getCheckInPickerOptions(hotel)"
+            :picker-options="checkInPickerOptions"
             @input="checkCheckOutDate"
             :default-value="conferenceStartDate"
           />
@@ -38,7 +38,7 @@
             type="date"
             :disabled="!hotel || busy"
             placeholder="请选择退房日期"
-            :picker-options="getCheckOutPickerOptions(hotel)"
+            :picker-options="checkOutPickerOptions"
             :default-value="conferenceEndDate"
           />
         </el-form-item>
@@ -163,6 +163,19 @@ export default {
         case 'edit': return '修改预定'
         default: return ''
       }
+    },
+    checkInPickerOptions() {
+      if (!this.hotel) return {}
+      const oneDayBeforeLastDay = new Date(this.hotel.notAfter) - ONE_DAY
+      const startDate = this.hotel.notBefore
+      const endDate = this.isStaff ? oneDayBeforeLastDay : this.conferenceStartDate
+      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
+    },
+    checkOutPickerOptions() {
+      if (!this.hotel || !this.checkIn) return {}
+      const startDate = this.isStaff ? +new Date(this.checkIn) + ONE_DAY : this.conferenceEndDate
+      const endDate = this.hotel.notAfter
+      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
     }
   },
   data: () => ({
@@ -203,7 +216,7 @@ export default {
       this.roomshareState = roomshare ? roomshare.state : null
       this.roomshareSchool = roomshare ? roomshare.school.id : null
       this.originalRoomshareSchool = this.roomshareSchool
-      
+
       this.$agent.get('/api/schools').then(({body}) => this.schools = body)
 
       if (this.$refs.stock)
@@ -229,19 +242,6 @@ export default {
       if (this.roomshareState && this.roomshare) {
         this.roomshareState = this.originalRoomshareSchool === this.roomshareSchool ? this.roomshare.state : 'modified'
       }
-    },
-    getCheckInPickerOptions(hotel) {
-      if (!hotel) return {}
-      const oneDayBeforeLastDay = new Date(hotel.notAfter) - ONE_DAY
-      const startDate = hotel.notBefore
-      const endDate = this.isStaff ? oneDayBeforeLastDay : this.conferenceStartDate
-      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
-    },
-    getCheckOutPickerOptions(hotel) {
-      if (!hotel || !this.checkIn) return {}
-      const startDate = this.isStaff ? +this.checkIn + ONE_DAY : this.conferenceEndDate
-      const endDate = hotel.notAfter
-      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
     },
     checkCheckOutDate() {
       if (this.checkIn && this.checkOut) {
