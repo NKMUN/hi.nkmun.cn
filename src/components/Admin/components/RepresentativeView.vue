@@ -183,7 +183,7 @@ export default {
         this.$notify({
           type: 'success',
           title: '更新成功',
-          message: '已设置 ' + name + '：' + (value ? '参会' : '放弃参会'),
+          message: '已设置 ' + name + '：' + (value ? '放弃参会' : '参会'),
           duration: 5000
         })
       } catch(e) {
