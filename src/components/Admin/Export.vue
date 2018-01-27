@@ -58,7 +58,7 @@
     > <icon name="photo"/> 组委照片 </el-button>
 
     <el-button
-      @click="exportAs('volunteers', 'csv')"
+      @click="exportAs('volunteers', '.csv')"
       type="primary"
       :disabled="busy"
     > <icon name="handshake-o"/> 志愿者信息 </el-button>
