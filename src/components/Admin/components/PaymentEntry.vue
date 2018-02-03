@@ -1,50 +1,79 @@
 <template>
   <div class="payment-entry">
-    <ImageLoader
-      class="image"
-      :defaultHeight="480"
-      :defaultWidth="640"
-      :width="640"
-      :loader="createImageLoader(data)"
-    />
+    <ol>
+      <ImageLoader
+        v-for="imageUrl in imageUrls"
+        :key="imageUrl"
+        tag="li"
+        class="preview-image"
+        width="320px"
+        height="320px"
+        default-width="320px"
+        default-height="320px"
+        :src="`${imageUrl}&size=small`"
+        previewable
+        @click="handlePreview(imageUrl)"
+      />
+    </ol>
+
     <div class="brief">
-      <b>{{ data.round | toRoundText }}</b>，上传时间：{{ data.time | date }}
+      <b>{{ data.round | roundText }}</b>，上传时间：{{ data.time | date }}
     </div>
+
+    <el-dialog title="预览" size="large" v-model="dialogVisible">
+      <ImageLoader default-width="720px" default-height="480px" :src="dialogVisible ? dialogImageUrl : ''" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import ImageLoader from './ImageLoader'
 import { toDateTimeString } from '../../../lib/date-util'
+import roundText from '../../../lib/round-text'
 export default {
   name: 'payment-entry',
   components: { ImageLoader },
   props: {
     data: { type: Object, required: true }
   },
-  methods: {
-    createImageLoader(payment) {
-      return () => this.$agent.get('/api/schools/'+payment.school.id+'/payments/'+payment.id).blob()
-    },
-  },
-  filters: {
-    date(val) {
-      return toDateTimeString(val)
-    },
-    toRoundText(val) {
-      return ({'1': '一轮', '2': '二轮'}[val] || '其他')
+  computed: {
+    imageUrls() {
+      const images = this.data && this.data.images || []
+      return images.map(id => `/api/images/${id}?format=jpg`)
     }
   },
+  data() {
+    return {
+      dialogVisible: false,
+      dialogImageUrl: ''
+    }
+  },
+  filters: {
+    date: toDateTimeString,
+    roundText
+  },
+  methods: {
+    handlePreview(url) {
+      this.dialogImageUrl = url + '&size=large'
+      this.dialogVisible = true
+    }
+  }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+@import "../../../style/flex.styl"
 .payment-entry
   margin: 2em 0
-  .image
-    max-width: 640px
-    display: block
-    margin: .5em auto
   .brief
     text-align: center
+  ol
+    list-style: none
+    padding: 0
+    margin: 0 auto
+    flex-horz: flex-start center
+    flex-wrap: wrap
+    width: 704px
+    li
+      margin: 16px
 </style>
