@@ -38,6 +38,7 @@
           v-model="M.price"
           :min="0"
           :step="50"
+          size="medium"
           :disabled="busy"
         />
       </el-form-item>
@@ -50,6 +51,7 @@
         <el-input-number
           v-model="M.stock"
           :min="0"
+          size="medium"
           :disabled="busy"
         />
       </el-form-item>
@@ -63,6 +65,7 @@
         <el-date-picker
           v-model="M.period"
           type="daterange"
+          value-format="yyyy-MM-dd"
           :disabled="busy"
           :default-value="conferenceStartDate"
         />
@@ -77,6 +80,7 @@
           v-model="M.roomshareInitiatorRate"
           :min="0"
           :max="1"
+          size="medium"
           :step="0.1"
           :disabled="busy"
         />
@@ -91,6 +95,7 @@
           v-model="M.roomshareRecipientRate"
           :min="0"
           :max="1"
+          size="medium"
           :step="0.1"
           :disabled="busy"
         />
@@ -104,7 +109,7 @@
         @click="cancel"
       > 取消 </el-button>
       <el-button
-        icon="check"
+        icon="el-icon-check"
         type="primary"
         :loading="busy"
         @click="confirm"
@@ -124,7 +129,6 @@ const DEFAULT_HOTEL_MODEL = () => ({
   roomshareRecipientRate: 0,
 })
 
-import { toDateString } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -165,8 +169,8 @@ export default {
             type: this.M.type,
             price: this.M.price,
             stock: this.M.stock,
-            notBefore: toDateString(this.M.period[0]),
-            notAfter: toDateString(this.M.period[1]),
+            notBefore: this.M.period[0],
+            notAfter: this.M.period[1],
             roomshareInitiatorRate: this.M.roomshareInitiatorRate,
             roomshareRecipientRate: this.M.roomshareRecipientRate,
           })

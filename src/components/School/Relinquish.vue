@@ -11,16 +11,15 @@
     </div>
 
     <SeatView :seat="seat" style="align-self: center">
-      <template slot="operation" scope="scope">
-        <el-button
-          v-if="!scope.session.reserved"
-          size="mini"
-          type="danger"
-          icon="warning"
-          :disabled="busy"
-          @click="relinquishSeat(scope.session)"
-        > 放弃 </el-button>
-      </template>
+      <el-button
+        slot-scope="{session}"
+        v-if="!session.reserved"
+        size="mini"
+        type="danger"
+        icon="el-icon-warning"
+        :disabled="busy"
+        @click="relinquishSeat(session)"
+      > 放弃 </el-button>
     </SeatView>
 
     <div class="leader-attendance">

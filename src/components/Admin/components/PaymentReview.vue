@@ -21,17 +21,17 @@
           <el-button
             type="danger"
             :loading="busy"
-            icon="circle-cross"
+            icon="el-icon-check"
             @click="reject"
           > 不通过 </el-button>
           <el-button
             type="success"
             :loading="busy"
-            icon="circle-check"
+            icon="el-icon-close"
             @click="confirm"
           > 通过 </el-button>
           <el-button
-            type="info"
+            type="primary"
             :loading="busy"
             @click="next"
           > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>

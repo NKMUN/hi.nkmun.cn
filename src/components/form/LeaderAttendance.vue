@@ -5,7 +5,7 @@
         use el-radio to avoid a possible edge case in el-select
         this problem can not be reliably reproduced!
       -->
-      <el-radio-group :value="eleValue" @change="emit" @input="emit" :disabled="disabled">
+      <el-radio-group :value="eleValue" @input="emit" :disabled="disabled">
         <el-radio label="yes">是</el-radio>
         <el-radio label="no">否</el-radio>
       </el-radio-group>
@@ -35,10 +35,8 @@ export default {
       let emitted = null
       if (val === 'yes') emitted = true
       if (val === 'no') emitted = false
-      this.$nextTick( () => {
-        this.$emit('input', emitted)
-        this.$emit('change', emitted)
-      })
+      this.$emit('input', emitted)
+      this.$emit('change', emitted)
     },
   },
 }

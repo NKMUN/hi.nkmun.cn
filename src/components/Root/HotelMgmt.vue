@@ -16,39 +16,38 @@
     </div>
 
     <el-table v-if="hotels" :data="hotels" class="hotel-table">
-      <!-- <el-table-column prop="id" label="ID" width="144" sortable fixed /> -->
       <el-table-column prop="name" label="名称" min-width="160" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
-      <el-table-column prop="notBefore" label="入住时间" width="120" sortable>
-        <template scope="scope"> <span>{{ scope.row.notBefore | date }}</span> </template>
+      <el-table-column prop="notBefore" label="入住时间" width="96" sortable>
+        <span slot-scope="{row}">{{ row.notBefore }}</span>
       </el-table-column>
-      <el-table-column prop="notAfter" label="退房时间" width="120" sortable>
-        <template scope="scope"> <span>{{ scope.row.notAfter | date }}</span> </template>
+      <el-table-column prop="notAfter" label="退房时间" width="96" sortable>
+        <span slot-scope="{row}">{{ row.notAfter }}</span>
       </el-table-column>
-      <el-table-column prop="price" label="单价" width="72" />
+      <el-table-column prop="price" label="单价" width="64" />
       <el-table-column label="拼房费率" header-align="center">
-        <el-table-column prop="roomshareInitiatorRate" header-align="center" label="发起" width="64" />
-        <el-table-column prop="roomshareRecipientRate" header-align="center" label="接受" width="64" />
+        <el-table-column prop="roomshareInitiatorRate" header-align="center" label="发起" width="54" />
+        <el-table-column prop="roomshareRecipientRate" header-align="center" label="接受" width="54" />
       </el-table-column>
-      <el-table-column prop="available" label="余量" width="72" />
-      <el-table-column prop="stock" label="总量" width="108">
-        <template scope="scope">
-          <span class="stock">{{ scope.row.stock }}</span>
+      <el-table-column prop="available" label="余量" width="54" />
+      <el-table-column prop="stock" label="总量" width="84">
+        <template slot-scope="{row}">
+          <span class="stock">{{ row.stock }}</span>
           <el-button
             type="text"
             size="small"
-            @click="$refs.modifyStock.open(scope.row)"
+            @click="$refs.modifyStock.open(row)"
             :disabled="busy"
           > 修改 </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="96">
-        <template scope="scope">
+      <el-table-column label="操作" width="72">
+        <template slot-scope="{row, $index}">
           <el-button
             type="text"
             size="small"
-            icon="delete"
-            @click="deleteHotel(scope.$index)"
+            icon="el-icon-delete"
+            @click="deleteHotel($index)"
             :disabled="busy"
           > 删除 </el-button>
         </template>
@@ -59,7 +58,7 @@
       <el-button
         type="text"
         size="small"
-        icon="plus"
+        icon="el-icon-plus"
         @click="$refs.addHotel.open()"
         :disabled="busy"
       > 新增酒店 </el-button>
@@ -85,7 +84,6 @@ import { mapGetters } from 'vuex'
 
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
-import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'hotel-mgmt',
@@ -102,11 +100,6 @@ export default {
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),
-  },
-  filters: {
-    date(val) {
-      return toDateString(val)
-    }
   },
   methods: {
     async deleteHotel(idx) {

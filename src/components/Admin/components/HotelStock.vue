@@ -7,15 +7,13 @@
       @click.native="handleClick"
     >
       <el-table-column v-if="enableSelection" width="48">
-        <template scope="scope">
-          <el-radio
-            :value="value"
-            :data-id="scope.row.id"
-            :label="scope.row"
-            :disabled="isHotelDisabled(scope.row)"
-            @input="val => $emit('input', val)"
-          />
-        </template>
+        <el-radio
+          slot-scope="{row}"
+          :value="value"
+          :data-id="row.id"
+          :disabled="isHotelDisabled(row)"
+          @input="val => $emit('input', val)"
+        />
       </el-table-column>
       <el-table-column prop="name" label="酒店" min-width="240" sortable />
       <el-table-column prop="type" label="房型" width="108" sortable />

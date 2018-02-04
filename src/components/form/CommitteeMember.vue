@@ -77,14 +77,16 @@
 
       <el-form
         ref="foreign"
-        class="form small"
+        class="form large"
         label-width="140px"
       >
-        <el-form-item label="酒店入住/退房时间">
+        <el-form-item label="酒店入住/退房日期">
           <el-date-picker
             v-model="hotelDate"
             type="daterange"
-            placeholder="请选择"
+            value-format="yyyy-MM-dd"
+            start-placeholder="入住日期"
+            end-placeholder="退房日期"
             :default-value="datePickerDefaultValue"
             :picker-options="pickerOptions"
             @change="emit"
@@ -94,7 +96,9 @@
           <el-date-picker
             v-model="arriveDepartDate"
             type="daterange"
-            placeholder="请选择"
+            value-format="yyyy-MM-dd"
+            start-placeholder="抵宁日期"
+            end-placeholder="离宁日期"
             :default-value="datePickerDefaultValue"
             :picker-options="pickerOptions"
             @change="emit"
@@ -201,9 +205,11 @@ export default {
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
           comment: this.comment,
-          hotelDate: this.hotelDate,
+          checkInDate: this.hotelDate ? this.hotelDate[0] : null,
+          checkOutDate: this.hotelDate ? this.hotelDate[1] : null,
           ...(this.isForeign ? {
-            arriveDepartDate: this.arriveDepartDate
+            arriveDate: this.arriveDepartDate ? this.arriveDepartDate[0] : null,
+            departDate: this.arriveDepartDate ? this.arriveDepartDate[1] : null
           } : {})
         }
         this.$emit('input', M)
@@ -230,8 +236,8 @@ export default {
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
       this.isForeign = this.isForeign || (value && (value.arriveDepartDate || false))
-      this.arriveDepartDate = value && value.arriveDepartDate || null
-      this.hotelDate = value && value.hotelDate || null
+      this.arriveDepartDate = value && value.arriveDate && value.departDate ? [value.arriveDate, value.departDate] : null
+      this.hotelDate = value && value.checkInDate && value.checkOutDate ? [value.checkInDate, value.checkOutDate] : null
       this.comment = value && value.comment || ''
     }
   },

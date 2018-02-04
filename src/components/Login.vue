@@ -1,32 +1,26 @@
 <template>
   <div class="login-ctrl">
-    <el-alert
-      :style=" alert.show ? 'visibility: initial' : 'visibility: hidden' "
-      show-icon
-      :type="alert.type"
-      :title="alert.title"
-      :closable="false"
-    />
-
     <el-form
       class="login-form"
-      label-width="64px"
+      label-width="48px"
       :model="loginPayload"
       ref="loginForm"
     >
 
-      <el-form-item label="邮　箱" prop="user">
+      <el-form-item label="邮箱" prop="user">
         <el-input
           type="text"
           placeholder="邮箱或用户名"
           autofocus
           :disabled="busy"
           v-model="loginPayload.user"
+          @keydown.enter.native="$refs.inputPassword.focus()"
         />
       </el-form-item>
 
-      <el-form-item label="密　码" prop="password">
+      <el-form-item label="密码" prop="password">
         <el-input
+          ref="inputPassword"
           type="password"
           placeholder="密码"
           :disabled="busy"
@@ -34,7 +28,6 @@
           @keydown.enter.native="login"
         />
       </el-form-item>
-
     </el-form>
 
     <el-button
@@ -42,8 +35,10 @@
       type="success"
       :loading="busy"
       @click="login"
-    > 登录 </el-button>
-
+    >
+      <i v-if="success" class="el-icon--right el-icon-success"></i>
+      <template v-else> 登录 </template>
+    </el-button>
   </div>
 </template>
 
@@ -55,25 +50,13 @@ export default {
   name: 'login',
   data: () => ({
     busy: false,
-    alert: {
-      show: false,
-      type: "warning",
-      title: "placeholder"    // use placeholder to provide proper height computation ?
-    },
+    success: false,
     loginPayload: {
       user: null,
       password: null
     }
   }),
   methods: {
-    showAlert(title, type="warning") {
-      this.alert.title = title
-      this.alert.type = type
-      this.alert.show = true
-    },
-    clearAlert() {
-      this.alert.show = false
-    },
     async login() {
       // TODO: login with credential
       if ( await this.validateForm() ) {
@@ -95,9 +78,13 @@ export default {
           this.$router.push( getRoleRoute(this.$store.getters['user/access']) )
 
           // Note: this.busy is NOT cleared for successful login
-          this.showAlert('登录成功，请稍等……')
+          // Should be lazy loading subsequent page
+          this.success = true
         } catch(e) {
-          this.showAlert(e.message, 'error')
+          this.$message({
+            type: 'error',
+            message: e.message
+          })
           this.busy = false
         }
       }

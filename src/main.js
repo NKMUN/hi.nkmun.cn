@@ -68,6 +68,12 @@ Vue.use( Tag )
 Vue.use( Tooltip )
 Vue.use( Loading )
 
+import RefreshButton from '@/components/RefreshButton'
+Vue.component('RefreshButton', RefreshButton)
+
+import Logout from '@/components/Logout'
+Vue.component('Logout', Logout)
+
 import SeriousConfirm from '@/components/SeriousConfirm.js'
 
 Vue.prototype.$msgbox = MessageBox

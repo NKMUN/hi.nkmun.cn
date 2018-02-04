@@ -29,7 +29,7 @@
 
       <div class="controls">
         <el-button
-          type="info"
+          type="primary"
           :loading="busy"
           @click="updateAndNext"
         > 保存并填写下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>

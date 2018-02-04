@@ -8,7 +8,7 @@
       <div class="controls">
         <el-button
           type="primary"
-          icon="check"
+          icon="el-icon-check"
           @click="submit"
           :loading="busy"
         > 提交 </el-button>
@@ -24,7 +24,6 @@ import LayoutCenter from '@/components/LayoutCenter'
 import Banner from '@/components/Banner'
 import Copyright from '@/components/Copyright'
 import CommitteeMember from '@/components/form/CommitteeMember'
-import { toDateString } from '@/lib/date-util'
 
 export default {
   components: {
@@ -44,17 +43,7 @@ export default {
       if (await this.$refs.committee.validate()) {
         this.busy = true
         try {
-          let payload = {
-            ... this.data,
-            arriveDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[0]) : null,
-            departDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[1]) : null,
-            checkInDate: this.data.hotelDate ? toDateString(this.data.hotelDate[0]) : null,
-            checkOutDate: this.data.hotelDate ? toDateString(this.data.hotelDate[1]) : null
-          }
-          delete payload.hotelDate
-          delete payload.arriveDepartDate
-
-          await this.$agent.post('/api/committees/').send(payload)
+          await this.$agent.post('/api/committees/').send(this.data)
           await this.$msgbox({
             type: 'success',
             title: '提交成功',

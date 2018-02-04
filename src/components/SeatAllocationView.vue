@@ -14,7 +14,7 @@
       </el-radio-group>
     </div>
 
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th></th>
@@ -145,6 +145,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
+@import "../style/table"
 .seat-allocation-view
   padding-bottom: 3em
 .controls
@@ -161,16 +162,12 @@ export default {
     &[data-amount="0"]
       color: #99A9BF
 table
-  border-collapse: collapse
-  border: 1px solid rgb(223, 229, 236)
-  th, .session, .summary
-    background-color: rgb(238, 241, 246)
-  th, td
-    border: 1px solid rgb(223, 229, 236)
+  .session, .summary
     text-align: center
     padding: .5em 2ch
   .session
     min-width: 12ch
   .summary
     font-weight: bolder
+    color: #878d99
 </style>

@@ -49,7 +49,7 @@
       </el-form>
 
       <el-button
-        type="info"
+        type="primary"
         @click="sendTestEmail"
       > 发送测试邮件 </el-button>
 
@@ -123,7 +123,7 @@
       </el-form>
 
       <el-button
-        icon="check"
+        icon="el-icon-check"
         type="primary"
         :loading="busy"
         @click="update"

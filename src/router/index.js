@@ -72,7 +72,6 @@ export default new Router({
     { path: '/', component: Index },
     { path: '/apply/', component: Apply },
     { path: '/register/', component: Register },
-    { path: '/logout', component: Logout },
     { path: '/committee/', component: Committee },
     { path: '/volunteer/', component: Volunteer },
     { path: '/dais-registration/', component: DaisReg },

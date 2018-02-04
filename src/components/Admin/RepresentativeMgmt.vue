@@ -14,16 +14,15 @@
       @loaded="configParser"
     />
 
-    <template slot="reviewer" scope="props">
-      <SchoolRepresentativeMgmt
-        v-if="props.id"
-        slot="reviewer"
-        ref="reviewer"
-        :school="props.id"
-        :id="id"
-        class="school-representative-mgmt"
-      />
-    </template>
+    <SchoolRepresentativeMgmt
+      v-if="props.id"
+      slot="reviewer"
+      slot-scope="props"
+      ref="reviewer"
+      :school="props.id"
+      :id="id"
+      class="school-representative-mgmt"
+    />
 
   </ListViewControl>
 
