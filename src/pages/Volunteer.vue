@@ -31,7 +31,6 @@ import LayoutCenter from '@/components/LayoutCenter'
 import Banner from '@/components/Banner'
 import Copyright from '@/components/Copyright'
 import Volunteer from '@/components/form/Volunteer'
-import { toDateString } from '@/lib/date-util'
 
 export default {
   components: {
@@ -52,17 +51,7 @@ export default {
       if (await this.$refs.volunteer.validate()) {
         this.busy = true
         try {
-          let payload = {
-            ... this.data,
-            arriveDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[0]) : null,
-            departDate: this.data.arriveDepartDate ? toDateString(this.data.arriveDepartDate[1]) : null,
-            checkInDate: this.data.hotelDate ? toDateString(this.data.hotelDate[0]) : null,
-            checkOutDate: this.data.hotelDate ? toDateString(this.data.hotelDate[1]) : null
-          }
-          delete payload.hotelDate
-          delete payload.arriveDepartDate
-
-          await this.$agent.post('/api/volunteers/').send(payload)
+          await this.$agent.post('/api/volunteers/').send(this.data)
           await this.$msgbox({
             type: 'success',
             title: '提交成功',

@@ -135,9 +135,6 @@ export default {
     identification: null,
     guardian: null,
     guardian_identification: null,
-    isForeign: false,
-    arriveDepartDate: null,
-    hotelDate: null,
     comment: ''
   }),
   methods: {
@@ -150,10 +147,6 @@ export default {
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
           comment: this.comment,
-          ...(this.isForeign ? {
-            arriveDepartDate: this.arriveDepartDate,
-            hotelDate: this.hotelDate
-          } : {})
         }
         this.$emit('input', M)
         this.$emit('change', M)
@@ -177,9 +170,6 @@ export default {
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
-      this.isForeign = this.isForeign || (value && (value.arriveDepartDate || value.hotelDate || false))
-      this.arriveDepartDate = value && value.arriveDepartDate || null
-      this.hotelDate = value && value.hotelDate || null
       this.comment = value && value.comment || ''
     }
   },

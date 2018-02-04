@@ -25,6 +25,7 @@
           <el-date-picker
             v-model="period"
             type="daterange"
+            value-format="yyyy-MM-dd"
             :disabled="busy"
           />
         </el-form-item>
@@ -40,8 +41,6 @@
 </template>
 
 <script>
-import { toDateString } from '@/lib/date-util'
-
 export default {
   name: 'global-config',
   data: () => ({
@@ -59,7 +58,9 @@ export default {
         conferenceName: config.conferenceName,
         conferenceId: config.conferenceId
       }
-      this.period = [config.conferenceStartDate, config.conferenceEndDate]
+      this.period = config.conferenceStartDate && config.conferenceEndDate
+          ? [config.conferenceStartDate, config.conferenceEndDate]
+          : null
     },
     fetch() {
       return this.$agent
@@ -82,8 +83,8 @@ export default {
           .put('/api/config/config')
           .send({
             ... this.config,
-            conferenceStartDate: toDateString(this.period[0]),
-            conferenceEndDate: toDateString(this.period[1]),
+            conferenceStartDate: this.period ? this.period[0] : null,
+            conferenceEndDate: this.period ? this.period[1] : null
           })
           .body()
         this.parseConfig(updatedConfig)

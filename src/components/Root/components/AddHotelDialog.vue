@@ -65,6 +65,7 @@
         <el-date-picker
           v-model="M.period"
           type="daterange"
+          value-format="yyyy-MM-dd"
           :disabled="busy"
           :default-value="conferenceStartDate"
         />
@@ -128,7 +129,6 @@ const DEFAULT_HOTEL_MODEL = () => ({
   roomshareRecipientRate: 0,
 })
 
-import { toDateString } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -169,8 +169,8 @@ export default {
             type: this.M.type,
             price: this.M.price,
             stock: this.M.stock,
-            notBefore: toDateString(this.M.period[0]),
-            notAfter: toDateString(this.M.period[1]),
+            notBefore: this.M.period[0],
+            notAfter: this.M.period[1],
             roomshareInitiatorRate: this.M.roomshareInitiatorRate,
             roomshareRecipientRate: this.M.roomshareRecipientRate,
           })

@@ -25,6 +25,7 @@
           <el-date-picker
             v-model="checkIn"
             type="date"
+            value-format="yyyy-MM-dd"
             :disabled="!hotel || busy"
             placeholder="请选择入住日期"
             :picker-options="getCheckInPickerOptions(hotel)"
@@ -36,6 +37,7 @@
            <el-date-picker
             v-model="checkOut"
             type="date"
+            value-format="yyyy-MM-dd"
             :disabled="!hotel || busy"
             placeholder="请选择退房日期"
             :picker-options="getCheckOutPickerOptions(hotel)"
@@ -122,7 +124,7 @@
 
 <script>
 import HotelStock from './HotelStock'
-import { toDateString, between as dateBetween } from '@/lib/date-util'
+import { between as dateBetween } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
 import pinyinCmp from '@/lib/pinyin-cmp'
@@ -203,7 +205,7 @@ export default {
       this.roomshareState = roomshare ? roomshare.state : null
       this.roomshareSchool = roomshare ? roomshare.school.id : null
       this.originalRoomshareSchool = this.roomshareSchool
-      
+
       this.$agent.get('/api/schools').then(({body}) => this.schools = body)
 
       if (this.$refs.stock)
@@ -215,8 +217,8 @@ export default {
       if (this.resolve)
         this.resolve = this.resolve({
           hotel: this.hotel.id,
-          checkIn: toDateString(this.checkIn),
-          checkOut: toDateString(this.checkOut),
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
           roomshare: this.roomshareSchool
         })
     },
@@ -239,13 +241,15 @@ export default {
     },
     getCheckOutPickerOptions(hotel) {
       if (!hotel || !this.checkIn) return {}
-      const startDate = this.isStaff ? +this.checkIn + ONE_DAY : this.conferenceEndDate
+      const checkIn = new Date(this.checkIn).getTime()
+      const startDate = this.isStaff ? checkIn + ONE_DAY : this.conferenceEndDate
       const endDate = hotel.notAfter
       return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
     },
     checkCheckOutDate() {
       if (this.checkIn && this.checkOut) {
-        const oneDayAfterCheckIn = +this.checkIn + ONE_DAY
+        const checkIn = new Date(this.checkIn).getTime()
+        const oneDayAfterCheckIn = checkIn + ONE_DAY
         if (this.checkOut < oneDayAfterCheckIn)
           this.checkOut = new Date(oneDayAfterCheckIn)
       }

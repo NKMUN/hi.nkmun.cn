@@ -19,10 +19,10 @@
       <el-table-column prop="name" label="名称" min-width="160" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
       <el-table-column prop="notBefore" label="入住时间" width="96" sortable>
-        <span slot-scope="{row}">{{ row.notBefore | date }}</span>
+        <span slot-scope="{row}">{{ row.notBefore }}</span>
       </el-table-column>
       <el-table-column prop="notAfter" label="退房时间" width="96" sortable>
-        <span slot-scope="{row}">{{ row.notAfter | date }}</span>
+        <span slot-scope="{row}">{{ row.notAfter }}</span>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="64" />
       <el-table-column label="拼房费率" header-align="center">
@@ -84,7 +84,6 @@ import { mapGetters } from 'vuex'
 
 import AddHotelDialog from './components/AddHotelDialog'
 import ModifyHotelStockDialog from './components/ModifyHotelStockDialog'
-import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'hotel-mgmt',
@@ -101,11 +100,6 @@ export default {
       conferenceStartDate: 'config/conferenceStartDate',
       conferenceEndDate: 'config/conferenceEndDate',
     }),
-  },
-  filters: {
-    date(val) {
-      return toDateString(val)
-    }
   },
   methods: {
     async deleteHotel(idx) {
