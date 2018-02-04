@@ -20,7 +20,7 @@
       <b>{{ data.round | roundText }}</b>，上传时间：{{ data.time | date }}
     </div>
 
-    <el-dialog title="预览" size="large" v-model="dialogVisible">
+    <el-dialog title="预览" width="70%" :visible.sync="dialogVisible" top="5vh">
       <ImageLoader default-width="720px" default-height="480px" :src="dialogVisible ? dialogImageUrl : ''" />
     </el-dialog>
   </div>

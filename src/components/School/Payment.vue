@@ -34,7 +34,7 @@
         <i class="el-icon-plus" />
       </el-upload>
 
-      <el-dialog v-model="previewVisible" title="预览">
+      <el-dialog :visible.sync="previewVisible" title="预览">
         <img class="preview-image" :src="previewImageUrl" />
       </el-dialog>
 

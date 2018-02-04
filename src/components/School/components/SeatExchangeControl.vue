@@ -37,8 +37,7 @@
 
     <el-dialog
       title="选择己方名额"
-      :visible="dialogVisible"
-      :before-close="() => {dialogVisible = false}"
+      :visible.sync="dialogVisible"
     >
       <div class="exchange-dialog-content">
 

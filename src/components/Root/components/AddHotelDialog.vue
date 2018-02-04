@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增酒店" :visible="visible" :before-close="() => visible = false">
+  <el-dialog title="新增酒店" :visible.sync="visible">
     <el-form
       :model="M"
       ref="form"
