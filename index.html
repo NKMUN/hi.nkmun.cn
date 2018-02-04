@@ -17,10 +17,10 @@
 
         function isAcceptable() {
           return (
-               ( chrome && Number(chrome[1]) > 39 )
-            || ( safari && Number(safari[1]) > 8 )
-            || ( firefox && Number(firefox[1]) > 45 )
-            || ( edge && Number(edge[1]) > 11 )
+               ( chrome && Number(chrome[1]) >= 56 )
+            || ( safari && Number(safari[1]) >= 10 )
+            || ( firefox && Number(firefox[1]) >= 50 )
+            || ( edge && Number(edge[1]) >= 13 )
           )
         }
 
@@ -29,7 +29,7 @@
         }
       } else {
         // must be really ancient one
-        document.write('<div><h1>请使用最新版Chrome访问</h1><a href="https://www.google.cn/chrome/">下载链接1</a> <a href="http://sw.bos.baidu.com/sw-search-sp/software/ba34c905dbdd4/ChromeStandalone_57.0.2987.98_Setup.exe">下载链接2</a></div>')
+        document.write('<div><h1>请使用最新版Chrome访问</h1><a href="https://www.google.cn/chrome/">下载链接1</a> <a href="http://rj.baidu.com/soft/detail/25718.html">下载链接2</a></div>')
       }
     })();
     </script>
