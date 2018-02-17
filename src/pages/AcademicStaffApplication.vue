@@ -9,16 +9,15 @@ export default {
   render(h, ctx) {
     const router = ctx.parent.$router
     const store = ctx.parent.$store
-    return (
+    const applyAcademicStaff = store.getters['config/applyAcademicStaff']
+
+    return applyAcademicStaff
+    ? (
       <div class="academic-staff-register">
         <Banner />
         <div class="layout">
-          <h4> 学术团队申请 </h4>
-
-          <p class="hint">
-            创建帐号
-          </p>
-
+          <h4> 学术团队申请 </h4>,
+          <p class="hint"> 创建帐号 </p>,
           <UnifiedRegistration
             access={['transient.academic-staff.apply']}
             onSuccess={({token}) => {
@@ -30,6 +29,15 @@ export default {
               router.replace('/academic-staff/apply/basic')
             }}
           />
+        </div>
+        <Copyright />
+      </div>
+    )
+    : (
+      <div class="academic-staff-register">
+        <Banner />
+        <div class="layout">
+          <h4> 现在不是学术团队申请时间 </h4>,
         </div>
         <Copyright />
       </div>
