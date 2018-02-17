@@ -32,13 +32,13 @@
           type="success"
           :disabled="!canAlloc"
           :loading="busy"
-          icon="message"
+          icon="el-icon-message"
           @click="allocSecondRound"
         > 确认分配 </el-button>
         <el-button
-          type="info"
+          type="primary"
           :loading="busy"
-          icon="check"
+          icon="el-icon-check"
           @click="updateAndNext"
         > 保存 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>

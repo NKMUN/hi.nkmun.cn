@@ -1,13 +1,10 @@
 <template>
 
   <div class="user-mgmt">
-    <h3>用户管理</h3>
-    <el-button
-      type="primary"
-      :loading="busy"
-      icon="information"
-      @click="fetch()"
-    > 刷新 </el-button>
+    <h3>
+      用户管理
+      <RefreshButton @click="fetch()" :loading="busy" throttle />
+    </h3>
 
     <div class="layout">
       <el-table class="table" :data="users" v-loading="!users">
@@ -25,32 +22,30 @@
           sortable
           min-width="180"
         >
-          <template scope="scope">
-            <template v-if="scope.row.school">
+          <template slot-scope="{row}">
+            <template v-if="row.school">
               <div class="icon-text">
                 <icon class="icon" name="university" />
-                <span class="text">{{ scope.row.school.name }}</span>
+                <span class="text">{{ row.school.name }}</span>
               </div>
             </template>
-            <template v-if="scope.row.session">
+            <template v-if="row.session">
               <div class="icon-text">
                 <icon class="icon" name="user-secret" />
-                <span class="text">{{ scope.row.session.name }}</span>
+                <span class="text">{{ row.session.name }}</span>
               </div>
             </template>
           </template>
         </el-table-column>
 
         <el-table-column label="操作" min-width="90">
-          <template scope="scope">
-            <el-button
-              type="warning"
-              size="small"
-              :disabled="scope.row.reserved || busy"
-              @click="resetPassword(scope.row)"
-            > 重置密码 </el-button>
-          </template>
-
+          <el-button
+            slot-scope="{row}"
+            type="warning"
+            size="small"
+            :disabled="row.reserved || busy"
+            @click="resetPassword(row)"
+          > 重置密码 </el-button>
         </el-table-column>
       </el-table>
     </div>
@@ -107,7 +102,7 @@ export default {
   }),
   methods: {
     async fetch() {
-      this.users = null
+      this.busy = true
       try {
         const users = await this.$agent.get('/api/users/').body()
         this.users = users.map( $ => ({

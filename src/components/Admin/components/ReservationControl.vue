@@ -3,97 +3,91 @@
     <h4 v-if="title">{{ title }}</h4>
     <el-table :data="reservations || []" class="reservations">
       <el-table-column label="类型" width="88" align="center" sortable>
-        <template scope="scope">
-          <span>{{ scope.row.round | parseRound }}</span>
-        </template>
+        <span slot-scope="{row}">{{ row.round | parseRound }}</span>
       </el-table-column>
       <el-table-column prop="hotel.name" label="酒店" min-width="180" sortable fit />
       <el-table-column prop="hotel.type" label="房型" width="108" sortable />
       <el-table-column label="时间" width="180">
-        <template scope="scope">
-          <div><span class="hint">入住：</span><span class="date">{{ scope.row.checkIn }}</span></div>
-          <div><span class="hint">退房：</span><span class="date">{{ scope.row.checkOut }}</span></div>
+        <template slot-scope="{row}">
+          <div><span class="hint">入住：</span><span class="date">{{ row.checkIn }}</span></div>
+          <div><span class="hint">退房：</span><span class="date">{{ row.checkOut }}</span></div>
         </template>
       </el-table-column>
       <el-table-column label="拼房状态" align="left" width="240">
-        <template scope="scope">
-          <div class="roomshare-state">
-            <el-tag v-if="!scope.row.roomshare" type="gray">未拼房</el-tag>
-            <template v-if="scope.row.roomshare">
-              <el-tag v-if="scope.row.roomshare.state === 'pending'" type="primary">{{
-                scope.row.round === 'roomshare'
-                ? '待处理'
-                : '已发出' }}</el-tag>
-              <el-tag v-if="scope.row.roomshare.state === 'accepted'" type="success">{{
-                scope.row.round === 'roomshare'
-                ? '已接受'
-                : '已确认' }}</el-tag>
-              <el-tag v-if="scope.row.roomshare.state === 'rejected'" type="danger">{{
-                scope.row.round === 'roomshare'
-                ? '已拒绝'
-                : '被拒绝' }}</el-tag>
-              <el-tag v-if="scope.row.roomshare.state === 'peer-withdraw'" type="danger">
-                <icon name="bomb"/> 对方学校退会
-              </el-tag>
-              <span v-if="scope.row.roomshare && scope.row.roomshare.school" class="school-name">{{
-                scope.row.roomshare.school.name
-              }}</span>
-            </template>
-          </div>
-        </template>
+        <div class="roomshare-state" slot-scope="{row}">
+          <el-tag v-if="!row.roomshare" type="gray">未拼房</el-tag>
+          <template v-if="row.roomshare">
+            <el-tag v-if="row.roomshare.state === 'pending'" type="primary">{{
+              row.round === 'roomshare'
+              ? '待处理'
+              : '已发出' }}</el-tag>
+            <el-tag v-if="row.roomshare.state === 'accepted'" type="success">{{
+              row.round === 'roomshare'
+              ? '已接受'
+              : '已确认' }}</el-tag>
+            <el-tag v-if="row.roomshare.state === 'rejected'" type="danger">{{
+              row.round === 'roomshare'
+              ? '已拒绝'
+              : '被拒绝' }}</el-tag>
+            <el-tag v-if="row.roomshare.state === 'peer-withdraw'" type="danger">
+              <icon name="bomb"/> 对方退会
+            </el-tag>
+            <span v-if="row.roomshare && row.roomshare.school" class="school-name">{{
+              row.roomshare.school.name
+            }}</span>
+          </template>
+        </div>
       </el-table-column>
       <el-table-column width="64" class-name="no-padding" v-if="!readonly">
-        <template scope="scope">
-          <el-button-group v-if="scope.row.round !== 'roomshare' && allowsModification(scope.row)">
+        <template slot-scope="{row}">
+          <el-button-group v-if="row.round !== 'roomshare' && allowsModification(row)">
             <el-button
-              type="info"
-              icon="edit"
-              size="mini"
+              type="primary"
+              icon="el-icon-edit"
+              size="small"
               :loading="busy"
               :disabled="disabled"
-              @click="edit(scope.row)"
+              @click="edit(row)"
             />
             <el-button
               type="danger"
-              icon="close"
-              size="mini"
+              icon="el-icon-close"
+              size="small"
               :loading="busy"
               :disabled="disabled"
-              @click="confirmRemove(scope.row)"
+              @click="confirmRemove(row)"
             />
           </el-button-group>
-          <el-button-group v-if="scope.row.round === 'roomshare' && scope.row.roomshare.state === 'pending'">
+          <el-button-group v-if="row.round === 'roomshare' && row.roomshare.state === 'pending'">
             <el-button
               type="success"
-              icon="check"
+              icon="el-icon-check"
               size="mini"
               :loading="busy"
               :disabled="disabled"
-              @click="acceptRoomshare(scope.row)"
+              @click="acceptRoomshare(row)"
             />
             <el-button
               type="danger"
-              icon="close"
+              icon="el-icon-close"
               size="mini"
               :loading="busy"
               :disabled="disabled"
-              @click="rejectRoomshare(scope.row)"
+              @click="rejectRoomshare(row)"
             />
           </el-button-group>
         </template>
       </el-table-column>
       <template slot="append" v-if="!readonly">
-        <tr class="el-table__row">
-          <td colspan="6" class="append-row">  <!-- NOTE: match with table columns -->
-            <el-button
-              type="success"
-              icon="plus"
-              :loading="busy"
-              @click="add({ school: school })"
-              :disabled="disabled"
-            > 增加房间 </el-button>
-          </td>
-        </tr>
+        <div class="el-table__row append-row">
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            :loading="busy"
+            @click="add({ school: school })"
+            :disabled="disabled"
+          > 增加房间 </el-button>
+        </div>
       </template>
     </el-table>
 
@@ -373,6 +367,7 @@ export default {
     opacity: 0.5
   .append-row
     text-align: center
+    padding: 12px 0
   .school-name
     margin-left: 1ch
   .roomshare-state
@@ -385,4 +380,7 @@ export default {
     text-align: center
     padding-left: 0
     padding-right: 0
+  .el-button-group
+    .el-button
+      padding: 6px 6px
 </style>

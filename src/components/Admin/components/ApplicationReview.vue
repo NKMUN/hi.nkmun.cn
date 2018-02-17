@@ -30,11 +30,11 @@
           type="success"
           :disabled="!canInvite"
           :loading="busy"
-          icon="message"
+          icon="el-icon-message"
           @click="sendInvitation"
         > 发送邀请 </el-button>
         <el-button
-          type="info"
+          type="primary"
           :loading="busy"
           @click="updateAndNext"
         > 保存 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
@@ -45,11 +45,11 @@
           v-if="application.processed && !application.registered"
           type="success"
           :loading="busy"
-          icon="message"
+          icon="el-icon-message"
           @click="sendInvitation"
         > 重发邀请 </el-button>
         <el-button
-          type="info"
+          type="primary"
           :loading="busy"
           @click="next"
         > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>

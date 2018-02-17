@@ -62,4 +62,10 @@ body
   .el-alert__icon
     display: table-cell
     vertical-align: middle
+.el-header, .el-footer, .el-main
+  padding-left: 0
+  padding-right: 0
+// el-menu arrow color
+.el-submenu__title .el-submenu__icon-arrow
+  color: #ffffff
 </style>

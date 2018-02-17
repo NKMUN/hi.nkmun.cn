@@ -63,14 +63,14 @@
 
     <section>
       <h4>其它</h4>
-      
+
       <div class="controls">
         <el-checkbox v-model="isForeign">外地组委请勾选</el-checkbox>
       </div>
 
       <p class="hint red">会期外，协议酒店住宿费用： 210/人/天 或 420/间/天</p>
 
-      <el-form class="form small" label-width="140px" required>
+      <el-form class="form large" label-width="140px" required>
         <el-form-item label="酒店入住/退房时间">
           <el-date-picker
             :value="dais ? [dais.checkInDate, dais.checkOutDate] : null"
@@ -121,7 +121,6 @@ import GuardianForm from '@/components/form/Guardian'
 import IdentificationForm from '@/components/form/Identification'
 import genderText from '@/lib/gender-text'
 import { mapGetters } from 'vuex'
-import { toDateString } from '@/lib/date-util'
 
 export default {
   name: 'dais-user-info',
@@ -180,8 +179,8 @@ export default {
     updateHotelDate(val) {
       if (this.dais) {
         if (val && val.length === 2) {
-          this.dais.checkInDate = toDateString(val[0])
-          this.dais.checkOutDate = toDateString(val[1])
+          this.dais.checkInDate = val[0]
+          this.dais.checkOutDate = val[1]
         } else {
           this.dais.checkInDate = null
           this.dais.checkOutDate = null
@@ -191,8 +190,8 @@ export default {
     updateArriveDepartDate(val) {
       if (this.dais) {
         if (val && val.length === 2) {
-          this.dais.arriveDate = toDateString(val[0])
-          this.dais.departDate = toDateString(val[1])
+          this.dais.arriveDate = val[0]
+          this.dais.departDate = val[1]
         } else {
           this.dais.arriveDate = null
           this.dais.departDate = null

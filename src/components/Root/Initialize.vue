@@ -12,7 +12,7 @@
     <el-button
       type="danger"
       size="large"
-      icon="setting"
+      icon="el-icon-setting"
       :loading="busy"
       @click="confirmInitialization"
     >{{ busy ? '正在初始化...' : '系统初始化' }}</el-button>

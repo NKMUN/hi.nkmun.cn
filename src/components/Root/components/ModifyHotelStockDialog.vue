@@ -19,6 +19,7 @@
       <el-form-item label="目标库存" >
         <el-input-number
           :min="minStock"
+          size="medium"
           v-model="targetStock"
           :disabled="busy"
         />
@@ -49,7 +50,7 @@
         @click="cancel"
       > 取消 </el-button>
       <el-button
-        icon="check"
+        icon="el-icon-check"
         type="primary"
         :loading="busy"
         @click="confirm"

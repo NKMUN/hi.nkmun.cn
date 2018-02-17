@@ -32,7 +32,7 @@
               class="btn admin-login"
               v-if="!showLogin"
               size="mini"
-              :plain="true"
+              plain
               type="text"
               @click="toggleAdminLogin()"
             > 管理员登录 </el-button>

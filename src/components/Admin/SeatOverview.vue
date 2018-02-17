@@ -1,9 +1,12 @@
 <template>
 
   <div class="seat-overview">
-    <h3>名额总览</h3>
+    <h3>
+      名额总览
+      <RefreshButton @click="fetch" :loading="busy" throttle />
+    </h3>
     <div class="layout">
-      <SeatAllocationView class="seat-allocation-view" />
+      <SeatAllocationView ref="seatAllocation" />
     </div>
   </div>
 
@@ -17,6 +20,18 @@ export default {
   components: {
     SeatAllocationView
   },
+  data() {
+    return {
+      busy: false
+    }
+  },
+  methods: {
+    async fetch() {
+      this.busy = true
+      await this.$refs.seatAllocation.fetch()
+      this.busy = false
+    }
+  }
 }
 </script>
 

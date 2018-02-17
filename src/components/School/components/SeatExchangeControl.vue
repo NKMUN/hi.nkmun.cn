@@ -2,13 +2,7 @@
   <div>
     <div class="header">
       <b>可交换名额</b>
-      <el-button
-        type="info"
-        size="small"
-        icon="information"
-        :loading="loading"
-        @click="fetch"
-      > 刷新 </el-button>
+      <RefreshButton @click="fetch" :loading="loading" throttle />
     </div>
 
     <div class="controls">
@@ -31,21 +25,19 @@
         :label="s.name"
         align="center"
       >
-        <template scope="scope">
           <el-button
-            v-if="scope.row.seat['1'][s.id] > 0"
+            slot-scope="{row}"
+            v-if="row.seat['1'][s.id] > 0"
             :type="s.dual ? 'warning' : 'success'"
             size="mini"
-            @click="tryExchange(scope.row.id, s.id, scope.row.name)"
-          > {{ s.dual ? '双代交换' : '交换' }} | <code>{{ scope.row.seat['1'][s.id] }}</code> </el-button>
-        </template>
+            @click="tryExchange(row.id, s.id, row.name)"
+          > {{ s.dual ? '双代交换' : '交换' }} | <code>{{ row.seat['1'][s.id] }}</code> </el-button>
       </el-table-column>
     </el-table>
 
     <el-dialog
       title="选择己方名额"
-      :visible="dialogVisible"
-      :before-close="() => {dialogVisible = false}"
+      :visible.sync="dialogVisible"
     >
       <div class="exchange-dialog-content">
 

@@ -14,6 +14,7 @@
         v-model="chinese"
         :min="0"
         :max="20"
+        size="small"
         :disabled="disabled"
         @change="emit"
       />
@@ -28,6 +29,7 @@
         v-model="english"
         :min="0"
         :max="20"
+        size="small"
         :disabled="disabled"
         @change="emit"
       />
@@ -43,6 +45,7 @@
         v-model="press"
         :min="0"
         :max="20"
+        size="small"
         :disabled="disabled"
         @change="emit"
       />
@@ -57,6 +60,7 @@
         v-model="supervisor"
         :min="0"
         :max="20"
+        size="small"
         :disabled="disabled"
         @change="emit"
       />
@@ -71,6 +75,7 @@
         v-model="observer"
         :min="0"
         :max="20"
+        size="small"
         :disabled="disabled"
         @change="emit"
       />

@@ -27,7 +27,7 @@
       <template slot="prepend">重复上面的字符串：</template>
       <el-button
         slot="append"
-        icon="check"
+        icon="el-icon-check"
         :disabled="input !== repeat"
         @click="handleConfirm"
       ></el-button>

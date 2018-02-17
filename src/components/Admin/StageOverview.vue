@@ -1,13 +1,10 @@
 <template>
 
   <div class="seat-overview">
-    <h3>学校状态总览</h3>
-    <el-button
-      type="primary"
-      :loading="busy"
-      icon="information"
-      @click="fetch()"
-    > 刷新 </el-button>
+    <h3>
+      学校状态总览
+      <RefreshButton @click="fetch()" :loading="busy" throttle />
+    </h3>
     <div class="layout">
       <el-table class="table" :data="schools" v-loading="!schools">
         <el-table-column label="学校" prop="name" sortable min-width="180" />
@@ -31,6 +28,7 @@ export default {
   }),
   methods: {
     async fetch() {
+      this.busy = true
       try {
         const schools = await this.$agent.get('/api/schools/').body()
         this.schools = schools

@@ -14,7 +14,7 @@
     <el-button
       v-if="!disabled"
       type="success"
-      icon="check"
+      icon="el-icon-check"
       :loading="busy"
       @click="$emit('confirm', value)"
     > 更新 </el-button>

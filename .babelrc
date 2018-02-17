@@ -1,16 +1,27 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
+    ["env", {
+      "targets": {
+        "browsers": [
+          "Chrome >= 56",
+          "last 2 edge versions",
+          "last 2 firefox versions",
+          "last 2 safari versions",
+          "last 2 iOS versions",
+          "last 2 and_chr versions"
+        ]
+      },
+      "modules": false
+    }],
     "stage-2"
   ],
   "plugins": [
     "transform-runtime",
-    "transform-object-rest-spread",
     "transform-vue-jsx",
     ["component", [
       {
         "libraryName": "element-ui",
-        "styleLibraryName": "theme-default"
+        "styleLibraryName": "theme-chalk"
       }
     ]]
   ],

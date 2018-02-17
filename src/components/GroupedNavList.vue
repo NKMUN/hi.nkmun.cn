@@ -1,7 +1,6 @@
 <template>
   <el-menu
     mode="vertical"
-    theme="dark"
     :router="false"
     class="list"
     ref="list"
