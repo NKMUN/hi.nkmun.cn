@@ -6,11 +6,11 @@
       <el-form
         class="form small"
         :label-width="labelWidth"
-        :model="{ role: this.role, school: this.school, photoId: this.photoId }"
+        :model="form"
         ref="formSessionAndPhoto"
       >
         <el-form-item label="职能" prop="role" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="role" placeholder="请选择部门" @change="emit">
+          <el-select v-model="form.role" placeholder="请选择部门" @change="emit">
             <el-option-group label="组委">
               <el-option v-for="role in COMMITTEE_ROLES" :key="role.id" :value="'组委-'+role.name" :label="role.name" />
             </el-option-group>
@@ -18,11 +18,11 @@
         </el-form-item>
 
         <el-form-item label="学校" prop="school" :rules="[{ required: true, message: '请填写学校', trigger: 'blur' }]">
-          <el-input v-model="school" placeholder="请填写学校" @change="emit"></el-input>
+          <el-input v-model="form.school" placeholder="请填写学校" @change="emit"></el-input>
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" @change="emit" />
+          <ImageUpload v-model="form.photoId" action="/api/images/" @change="emit" />
         </el-form-item>
       </el-form>
 
@@ -180,9 +180,11 @@ export default {
   },
   data: () => ({
     labelWidth: '108px',
-    role: null,
-    school: null,
-    photoId: null,
+    form: {
+      role: null,
+      school: null,
+      photoId: null,
+    },
     contact: null,
     identification: null,
     guardian: null,
@@ -197,9 +199,7 @@ export default {
     emit() {
       this.$nextTick( () => {
         let M = {
-          role: this.role,
-          school: this.school,
-          photoId: this.photoId,
+          ...this.form,
           contact: this.contact,
           identification: this.identification,
           guardian: this.guardian,
@@ -228,9 +228,9 @@ export default {
       return results.reduce( (a, v) => a && v )
     },
     setValue(value) {
-      this.role = (value && value.role) || null
-      this.school = (value && value.school) || null
-      this.contact = (value && value.contact) || {}
+      this.form.role = (value && value.role) || null
+      this.form.school = (value && value.school) || null
+      this.form.contact = (value && value.contact) || {}
       this.graduation_year = (value && value.graduation_year) || null
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}

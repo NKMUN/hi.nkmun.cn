@@ -2,7 +2,7 @@
   <el-form
     :class="className"
     :label-width="labelWidth"
-    :model="M"
+    :model="form"
     ref="form"
   >
     <el-form-item
@@ -10,7 +10,7 @@
       prop="type"
       :rules="[{ required: true, message: '请选择监护人关系', trigger: 'change' }]"
     >
-      <el-select v-model="type" @change="emit" class="el-input">
+      <el-select v-model="form.type" @change="emit" class="el-input">
         <el-option label="父" value="father" />
         <el-option label="母" value="mother" />
         <el-option label="其他" value="other" />
@@ -27,7 +27,7 @@
       ]"
     >
       <el-input
-        v-model="name"
+        v-model="form.name"
         type="text"
         placeholder="姓名"
         :disabled="disabled"
@@ -44,7 +44,7 @@
       ]"
     >
       <el-input
-        v-model="phone"
+        v-model="form.phone"
         type="text"
         placeholder="手机"
         :disabled="disabled"
@@ -68,25 +68,16 @@ export default {
     labelWidth: { type: String, default: '72px' }
   },
   data: () => ({
-    type: null,
-    phone: null,
-    name: null,
-  }),
-  computed: {
-    M() {    // model to be emitted for 'input' event
-      return {
-        type: this.type,
-        name: this.name,
-        phone: this.phone,
-      }
+    form: {
+      type: null,
+      phone: null,
+      name: null,
     }
-  },
+  }),
   methods: {
     emit() {
-      this.$nextTick( () => {
-        this.$emit('input', this.M)
-        this.$emit('change', this.M)
-      })
+      this.$emit('input', this.form)
+      this.$emit('change', this.form)
     },
     validate() {
       return new Promise( resolve => {
@@ -98,9 +89,9 @@ export default {
       this.emit()
     },
     setValue(value) {
-      this.type = (value && value.type) || null
-      this.name = (value && value.name) || null
-      this.phone = (value && value.phone) || null
+      this.form.type = (value && value.type) || null
+      this.form.name = (value && value.name) || null
+      this.form.phone = (value && value.phone) || null
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     }
