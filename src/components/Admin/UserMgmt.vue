@@ -4,6 +4,14 @@
     <h3>
       用户管理
       <RefreshButton @click="fetch()" :loading="busy" throttle />
+      <el-button
+        style="padding: 6px 10px"
+        type="primary"
+        icon="el-icon-plus"
+        round
+        size="mini"
+        @click="createNewUser"
+      > 新建用户 </el-button>
     </h3>
 
     <div class="layout">
@@ -38,27 +46,39 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" min-width="90">
-          <el-button
-            slot-scope="{row}"
-            type="warning"
-            size="small"
-            :disabled="row.reserved || busy"
-            @click="resetPassword(row)"
-          > 重置密码 </el-button>
+        <el-table-column label="操作" min-width="120">
+          <el-button-group slot-scope="{row}">
+            <el-button
+              type="warning"
+              class="no-padding"
+              size="small"
+              :disabled="row.reserved || busy"
+              icon="el-icon-edit"
+              @click="resetPassword(row)"
+            />
+            <el-button
+              type="danger"
+              class="no-padding"
+              size="small"
+              :disabled="row.reserved || busy"
+              icon="el-icon-delete"
+              @click="deleteUser(row)"
+            />
+          </el-button-group>
         </el-table-column>
       </el-table>
     </div>
 
-    <PasswordDialog
-      ref="password"
-    />
+    <PasswordDialog ref="password" />
+
+    <UserDialog ref="user" />
   </div>
 
 </template>
 
 <script>
 import PasswordDialog from './components/PasswordDialog'
+import UserDialog from './components/UserDialog'
 import 'vue-awesome/icons/university'
 import 'vue-awesome/icons/user-secret'
 
@@ -75,6 +95,8 @@ const toAccessString = (access) => {
       case 'leader':   ret.push('领队'); break
       case 'dais':     ret.push('会场主席'); break
       case 'delegate': ret.push('参会代表'); break
+      case 'academic-director': ret.push('学术总监'); break
+      case 'academic-staff': ret.push('学术团队'); break
     }
   }
   return ret.join('、')
@@ -94,7 +116,8 @@ const toAccessDesc = (user) => {
 export default {
   name: 'user-mgmt',
   components: {
-    PasswordDialog
+    PasswordDialog,
+    UserDialog
   },
   data: () => ({
     users: null,
@@ -140,6 +163,65 @@ export default {
           this.busy = false
         }
       }
+    },
+    async deleteUser(user) {
+      this.$confirm(`确定删除 ${user.id}，此操作无法恢复`, '确认', { type: 'error', confirmButtonClass: 'el-button--danger' })
+      .then(
+        async confirm => {
+          await this.$agent.delete(`/api/users/${user.id}`)
+          this.fetch()
+          this.$message({
+            type: 'success',
+            message: `已删除 ${user.id}`
+          })
+        },
+        cancel => { }
+      )
+    },
+    async createNewUser() {
+      const result = await this.$refs.user.open()
+      if (result) {
+        try {
+          const {
+            status,
+            body
+          } = await this.$agent.post('/api/users/')
+              .ok(({status}) => status === 200 || status === 410)
+              .send({
+                email: result.email,
+                password: result.password,
+                access: result.access,
+                school: result.school,
+                session: result.session
+              })
+          if (status === 200) {
+            this.$message({
+              type: 'success',
+              message: '已创建用户：' + result.email
+            })
+          }
+          if (status === 410) {
+            this.$message({
+              type: 'error',
+              message: '用户已存在：' + result.email
+            })
+          }
+          await this.fetch()
+          if (status === 200 && this.users) {
+            const newlyInsertedIndex = this.users.findIndex(user => user.id === body.id)
+            this.users = [
+              this.users[newlyInsertedIndex],
+              ...this.users.slice(0, newlyInsertedIndex),
+              ...this.users.slice(newlyInsertedIndex + 1)
+            ]
+          }
+        } catch(e) {
+          this.$message({
+            type: 'error',
+            message: e.message
+          })
+        }
+      }
     }
   },
   mounted() {
@@ -172,4 +254,7 @@ export default {
   .icon
     margin-right: .25ch
     transform: scale(.8, .8)
+.el-button.no-padding
+  padding-left: 7px
+  padding-right: 7px
 </style>
