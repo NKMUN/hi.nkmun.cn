@@ -7,6 +7,7 @@ export default {
     payload: {}
   },
   getters: {
+    user: state => state.payload.user,
     access: state => state.payload.access || [],
     school: state => state.payload.school,
     session: state => state.payload.session,

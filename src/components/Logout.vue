@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" @click="logout"> <icon name="sign-out" /> </el-button>
+  <el-button :type="type" :plain="plain" @click="logout"> <icon name="sign-out" /> </el-button>
 </template>
 
 <script>
@@ -8,11 +8,21 @@ import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'logout',
+  props: {
+    type: {
+      type: String,
+      default: "primary"
+    },
+    plain: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     logout() {
       this.$store.commit('user/token', null)
       clearToken()
-      this.$router.replace('/') 
+      this.$router.replace('/')
     }
   }
 }

@@ -12,6 +12,7 @@ export function getRoleRoute(givenAccesses = []) {
   if (hasAccess(givenAccesses, 'leader')) return '/school/'
   if (hasAccess(givenAccesses, 'dais')) return '/dais/'
   if (hasAccess(givenAccesses, 'delegate')) return '/delegate/'
+  if (hasAccess(givenAccesses, 'transient.academic-staff.apply')) return '/academic-staff/apply/'
   return '/not-found'
 }
 
@@ -30,6 +31,9 @@ const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
 const Dais      = () => import('@/pages/Dais.vue')
 const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
+const AcademicStaffApplyDetail = () => import('@/pages/AcademicStaffApplyDetail')
+const AcademicStaffApplyIntro = () => import('@/components/AcademicStaffApply/Intro')
+const AcademicStaffApplyBasic = () => import('@/components/AcademicStaffApply/Basic')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -144,6 +148,12 @@ export default new Router({
       ]
     },
     { path: '/apply/academic/', component: AcademicStaffApply },
+    { path: '/academic-staff/apply/', component: AcademicStaffApplyDetail,
+      children: [
+        { path: 'basic', component: AcademicStaffApplyBasic },
+        { path: '*', component: AcademicStaffApplyIntro },
+      ]
+    },
     { path: '*', component: NotFound },
   ]
 })
