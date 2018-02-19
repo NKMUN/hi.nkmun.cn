@@ -82,7 +82,7 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$serious = SeriousConfirm
-Vue.prototype.$message = Message
+Vue.prototype.$message = (opts) => Message({ ...opts, showClose: true })
 
 import Icon from 'vue-awesome/components/Icon'
 Vue.component('Icon', Icon)
