@@ -31,14 +31,6 @@ const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
 const Dais      = () => import('@/pages/Dais.vue')
 const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
-const AcademicStaffApplyDetail = () => import('@/pages/AcademicStaffApplyDetail')
-const AcademicStaffApplyIntro = () => import('@/components/AcademicStaffApply/Intro')
-const AcademicStaffApplyBasic = () => import('@/components/AcademicStaffApply/Basic')
-const AcademicStaffApplyRoles = () => import('@/components/AcademicStaffApply/Roles')
-const AcademicStaffApplyExperiences = () => import('@/components/AcademicStaffApply/Experiences')
-const AcademicStaffApplyAcademics = () => import('@/components/AcademicStaffApply/Academics')
-const AcademicStaffApplyExtras = () => import('@/components/AcademicStaffApply/Extras')
-const AcademicStaffApplyConfirm = () => import('@/components/AcademicStaffApply/Confirm')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -77,6 +69,16 @@ const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
 
 // Academic Director
 const AcademicStaffApplicationConfig = () => import('@/components/AcademicDirector/AcademicStaffApplicationConfig')
+
+// Academic Staff Apply Detail
+const AcademicStaffApplyDetail = () => import(/* webpackChunkName: "asa" */ '@/pages/AcademicStaffApplyDetail')
+const AcademicStaffApplyIntro = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Intro')
+const AcademicStaffApplyBasic = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Basic')
+const AcademicStaffApplyRoles = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Roles')
+const AcademicStaffApplyExperiences = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Experiences')
+const AcademicStaffApplyAcademics = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Academics')
+const AcademicStaffApplyExtras = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Extras')
+const AcademicStaffApplyConfirm = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Confirm')
 
 // NOTE: keep router path in sync with Root/Links
 
