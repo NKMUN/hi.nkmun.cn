@@ -179,7 +179,7 @@ export default {
       this.$emit('change', value)
     }
   },
-  mounted() {
+  created() {
     this.fetchConfig()
   }
 }

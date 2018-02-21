@@ -135,7 +135,7 @@ export default {
         this.form[key] = val && val[key] || []
     }
   },
-  mounted() {
+  created() {
     this.setValue(this.value)
   }
 }

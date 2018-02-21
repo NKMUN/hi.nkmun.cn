@@ -123,7 +123,7 @@ export default {
       return this.$refs.form.validate().then(_ => true, _ => false)
     }
   },
-  mounted() {
+  created() {
     this.setValue(this.value)
     this.fetchConfig()
   }

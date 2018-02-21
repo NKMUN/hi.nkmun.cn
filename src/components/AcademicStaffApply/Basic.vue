@@ -227,7 +227,7 @@ export default {
       ]).then(result => result.reduce((a,b) => a && b))
     }
   },
-  mounted() {
+  created() {
     this.setValue(this.value)
   }
 }
