@@ -57,16 +57,15 @@
 </template>
 
 <script>
-const { mapGetters } = require('vuex')
 import FileListUpload from './components/FileListUpload'
 export default {
   components: {
     FileListUpload
   },
   computed: {
-    ...mapGetters({
-      token: 'user/token'
-    }),
+    token() {
+      return this.$store && this.$store.getters['user/token'] || null
+    },
     applyDepartmentIds() {
       return (this.value && this.value.roles || []).map(role => role.department_id)
     },
@@ -126,7 +125,8 @@ export default {
         academic_design: [],
         previous_work: []
       },
-      config: null
+      config: null,
+      configResolve: null
     }
   },
   watch: {
@@ -139,11 +139,11 @@ export default {
   },
   methods: {
     fetchConfig() {
-      this.$agent.get(`/api/config/academic-staff-application`).body()
-      .then(
-        body => this.config = body,
-        _ => null
-      )
+      this.configResolve = this.$agent.get(`/api/config/academic-staff-application`).body()
+        .then(
+          body => this.config = body,
+          _ => null
+        )
     },
     setValue(val) {
       this.form = {
@@ -156,11 +156,13 @@ export default {
       }
     },
     validate() {
-      return Promise.all([
-        this.$refs.form.validate().then(_ => true, _ => false),
-        this.$refs.files.validate().then(_ => true, _ => false)
-      ]).then(
-        results => results.reduce((a, b) => a && b)
+      return this.configResolve.then(_ =>
+        Promise.all([
+          this.$refs.form.validate().then(_ => true, _ => false),
+          this.$refs.files.validate().then(_ => true, _ => false)
+        ]).then(
+          results => results.reduce((a, b) => a && b)
+        )
       )
     },
     beforeUpload(file) {

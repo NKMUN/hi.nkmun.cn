@@ -7,7 +7,8 @@
           :key="step.title"
           :title="step.title"
           :status="
-              idx === activeStep ? 'finish'
+              applyComplete ? 'success'
+            : idx === activeStep ? 'finish'
             : idx === reachedStep ? 'process'
             : idx < reachedStep ? 'success'
             : idx > reachedStep ? 'wait'
@@ -15,7 +16,7 @@
           "
           @click.native="handleStepClick(idx)"
           :class="{
-            clickable: step.route,
+            clickable: !applyComplete && step.route,
             disabled: idx <= reachedStep
           }"
         />
@@ -24,9 +25,17 @@
     </header>
 
     <main ref="view">
-      <router-view ref="form" :value="application" @input="handleInput" />
+      <router-view
+        v-if="application && !applyComplete"
+        ref="form"
+        :value="application"
+        @input="handleInput"
+        :finishStep="finishStep"
+        @page-validation-error="handlePageValidationError"
+        @success="handleSuccess"
+      />
 
-      <div class="layout">
+      <div class="layout" v-if="application && !applyComplete && activeStep < finishStep - 1">
         <el-button-group>
           <el-button
             type="primary"
@@ -40,7 +49,10 @@
           > 下一步 </el-button>
         </el-button-group>
       </div>
+
+      <h4 class="layout" v-if="application && applyComplete">申请已提交，请等待组委审核</h4>
     </main>
+
   </div>
 </template>
 
@@ -64,9 +76,15 @@ export default {
         { title: '确认', route: 'confirm' }
       ]
     },
+    finishStep() {
+      return this.steps.length
+    },
     reachedStep() {
       return this.application && this.application.reachedStep || 1
     },
+    applyComplete() {
+      return this.application && this.application.submitted
+    }
   },
   data() {
     return {
@@ -76,6 +94,8 @@ export default {
   },
   methods: {
     handleStepClick(idx) {
+      if (this.applyComplete) return
+      if (idx >= this.steps.length) return
       const step = this.steps[idx]
       if (this.activeStep === idx && this.$route.path.includes(`/academic-staff/apply/${step.route}`)) return
       if (step.route && this.reachedStep >= idx) {
@@ -131,6 +151,18 @@ export default {
       this.application = { ...(this.application || {}), ...val }
       return this.update(val, false)
     },
+    async scrollToFirstError() {
+      const firstError = this.$refs.view.querySelector('.is-error')
+      if (firstError) {
+        firstError.scrollIntoView()
+        const { top } = firstError.getBoundingClientRect()
+        const headerHeight = this.$refs.header.offsetHeight
+        if (top < headerHeight) {
+          document.scrollingElement.scrollTop -= headerHeight
+        }
+        return true
+      }
+    },
     async nextStep() {
       if (this.$refs.form.validate && await this.$refs.form.validate()) {
         const reachedStep = this.application.reachedStep || 1
@@ -142,14 +174,7 @@ export default {
         }
       } else {
         this.$nextTick(_ => {
-          const firstError = this.$refs.view.querySelector('.is-error')
-          if (firstError) {
-            firstError.scrollIntoView()
-            const { top } = firstError.getBoundingClientRect()
-            const headerHeight = this.$refs.header.offsetHeight
-            if (top < headerHeight) {
-              document.scrollingElement.scrollTop -= headerHeight
-            }
+          if (this.scrollToFirstError()) {
             this.$message({
               type: 'error',
               message: '请先修正表单中用红色标出的错误项'
@@ -157,6 +182,21 @@ export default {
           }
         })
       }
+    },
+    handleSuccess() {
+      this.fetch()
+      this.$router.push('/academic-staff/apply/')
+    },
+    handlePageValidationError(idx) {
+      this.$message({
+        type: 'error',
+        message: this.steps[idx].title + ' 中的信息有错误，请修正。'
+      })
+      this.handleStepClick(idx)
+      this.$refs.form.$nextTick(_ => {
+        this.$refs.form.validate()
+        .then(result => !result && this.scrollToFirstError())
+      })
     }
   },
   mounted() {

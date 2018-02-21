@@ -96,7 +96,8 @@ export default {
         past_roles: [],
         past_note: null,
       },
-      config: null
+      config: null,
+      configResolve: null
     }
   },
   methods: {
@@ -104,11 +105,11 @@ export default {
       this.$emit('input', this.form)
     },
     fetchConfig() {
-      this.$agent.get(`/api/config/academic-staff-application`).body()
-      .then(
-        body => this.config = body,
-        _ => null
-      )
+      this.configResolve = this.$agent.get(`/api/config/academic-staff-application`).body()
+        .then(
+          body => this.config = body,
+          _ => null
+        )
     },
     setValue(value) {
       this.form.roles = value && value.roles || []
@@ -120,7 +121,9 @@ export default {
       this.form.past_note = value && value.past_note || null
     },
     validate() {
-      return this.$refs.form.validate().then(_ => true, _ => false)
+      return this.configResolve.then(_ =>
+        this.$refs.form.validate().then(_ => true, _ => false)
+      )
     }
   },
   created() {
