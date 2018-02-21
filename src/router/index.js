@@ -37,6 +37,7 @@ const AcademicStaffApplyBasic = () => import('@/components/AcademicStaffApply/Ba
 const AcademicStaffApplyRoles = () => import('@/components/AcademicStaffApply/Roles')
 const AcademicStaffApplyExperiences = () => import('@/components/AcademicStaffApply/Experiences')
 const AcademicStaffApplyAcademics = () => import('@/components/AcademicStaffApply/Academics')
+const AcademicStaffApplyExtras = () => import('@/components/AcademicStaffApply/Extras')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -161,6 +162,7 @@ export default new Router({
         { path: 'roles', component: AcademicStaffApplyRoles },
         { path: 'experiences', component: AcademicStaffApplyExperiences },
         { path: 'academics', component: AcademicStaffApplyAcademics },
+        { path: 'extras', component: AcademicStaffApplyExtras },
         { path: '*', component: AcademicStaffApplyIntro },
       ]
     },
