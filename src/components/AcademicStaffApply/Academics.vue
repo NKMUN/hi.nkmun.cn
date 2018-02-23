@@ -20,6 +20,7 @@
           @change="emit"
           :autosize="{ minRows: 6 }"
         />
+        <WordCount :value="form[test.id]" />
       </el-form-item>
     </el-form>
 
@@ -58,9 +59,11 @@
 
 <script>
 import FileListUpload from './components/FileListUpload'
+import WordCount from './components/WordCount'
 export default {
   components: {
-    FileListUpload
+    FileListUpload,
+    WordCount
   },
   computed: {
     token() {
@@ -193,6 +196,9 @@ h4
 .el-form
   max-width: 70ch
   margin: 0 auto
+.word-count
+  font-size: 90%
+  color: #909399
 </style>
 
 <style lang="stylus">
