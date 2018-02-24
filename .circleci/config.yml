@@ -45,5 +45,4 @@ jobs:
           command: |
             BUNDLE=${BUILD_PREFIX}-$(git rev-parse --short HEAD)-circle-${CIRCLE_BUILD_NUM}
             TARGET=$([ $CIRCLE_BRANCH == master ] && echo $PRODUCTION_TARGET || echo $TEST_TARGET)
-            scp -o ${SSH_OPTS} -Cr dist ${NK_HOST}:/tmp/${BUNDLE}
-            ssh -o ${SSH_OPTS} ${NK_HOST} "cp -vr /tmp/${BUNDLE}/* ${TARGET} && rm -rf /tmp/${BUNDLE}"
+            tar -C dist -zcf - ./ | ssh -o ${SSH_OPTS} ${NK_HOST} "mkdir -p /tmp/${BUNDLE}/ && tar -C /tmp/${BUNDLE}/ -zxvf - && cp -vr /tmp/${BUNDLE}/* ${TARGET} && rm -rf /tmp/${BUNDLE}"
