@@ -199,10 +199,12 @@ h4
 .word-count
   font-size: 90%
   color: #909399
+.text
+  white-space: pre-wrap
 </style>
 
 <style lang="stylus">
 .academic-staff-apply-academics-tests
   .el-form-item__label
-    line-height: 2
+    line-height: 1.5
 </style>
