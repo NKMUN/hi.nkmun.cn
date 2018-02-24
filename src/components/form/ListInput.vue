@@ -20,7 +20,7 @@
     </table>
     <div v-if="!value || !value.length" style="text-align: center; color: #909399">{{ emptyText }}</div>
     <div v-if="showAddButton" style="text-align: center">
-      <el-button type="primary" size="mini" icon="el-icon-plus" @click="addItem" plai :disabled="disabled"> 新增 </el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="addItem" plain :disabled="disabled"> 新增 </el-button>
     </div>
   </div>
 </template>

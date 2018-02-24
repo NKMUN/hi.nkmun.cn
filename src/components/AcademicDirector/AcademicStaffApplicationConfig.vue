@@ -36,12 +36,12 @@
 
       <el-form-item label="学术测试">
         <ListInput
-          v-if="form.tests.length"
           v-model="form.tests"
           :item-model="() => ({ tag: '', text: '', departments: [], word_count_mode: 'no', minlength: 0, maxlength: 0 })"
           empty-text="暂无测试"
           class="tests"
           :disabled="busy"
+          show-add-button
         >
           <table slot-scope="{ item: test, handleInput, handleChange }">
             <tbody>
