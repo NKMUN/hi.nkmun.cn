@@ -22,8 +22,9 @@
           <el-table-column label="题目" min-width="30ch">
             <div slot-scope="{row}">{{
               form.tests
+                .map((test, idx) => ({departments: test.departments, idx: idx + 1}))
                 .filter(test => test.departments.includes(row.id))
-                .map((test, idx) => `${idx + 1}`)
+                .map(test => test.idx)
                 .join(', ')
               || '无'
             }}</div>
