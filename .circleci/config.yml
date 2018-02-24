@@ -1,0 +1,51 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+
+version: 2
+jobs:
+  build:    # build is equivalent to build_and_deploy
+    branches:
+      only:
+        - master
+
+    docker:
+      - image: circleci/node:9
+
+    environment:
+      SSH_OPTS: 'UserKnownHostsFile=.circleci/ssh_hosts'
+      NK_HOST: 'root@nkmun.cn'
+      BUILD_PREFIX: 'hi-nkmun'
+      WWW_TARGET: '/www/hi.nkmun.cn/'
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn build
+
+      - add_ssh_keys:
+          fingerprints:
+            "74:29:4e:89:d2:fa:1f:02:62:93:fd:f5:6c:60:e4:f4"
+
+      - run:
+          name: Push to production
+          command: |
+            BUNDLE=${BUILD_PREFIX}-$(git rev-parse --short HEAD)-circle-${CIRCLE_BUILD_NUM}
+            scp -o ${SSH_OPTS} -Cr dist ${NK_HOST}:/tmp/${BUNDLE}
+            ssh -o ${SSH_OPTS} ${NK_HOST} "cp -vr /tmp/${BUNDLE}/* ${WWW_TARGET} && rm -rf /tmp/${BUNDLE}"
