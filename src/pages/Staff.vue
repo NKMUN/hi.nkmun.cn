@@ -23,7 +23,12 @@
           <el-menu-item index="/staff/admin/links/"> <icon name="link"/> 内部链接 </el-menu-item>
         </el-submenu>
 
-        <el-submenu index="1" v-if="hasAccess('staff')">
+        <el-submenu index="1" v-if="hasAccess('academic-director') || hasAccess('admin')">
+          <template slot="title"> <icon name="pencil"/> 学术总监 </template>
+          <el-menu-item index="/staff/academic-director/application/"> <icon name="file-text-o"/> 学术团队申请 </el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="2" v-if="hasAccess('staff')">
           <template slot="title"> 总览 </template>
           <el-menu-item index="/staff/overview/seat"> <icon name="table"/> 名额 </el-menu-item>
           <el-menu-item index="/staff/overview/stage"> <icon name="institution"/> 学校 </el-menu-item>
@@ -50,6 +55,7 @@
 <script>
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/wrench'
+import 'vue-awesome/icons/pencil'
 import 'vue-awesome/icons/exclamation-circle'
 import 'vue-awesome/icons/calendar-check-o'
 import 'vue-awesome/icons/file-text-o'

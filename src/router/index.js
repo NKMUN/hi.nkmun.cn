@@ -34,6 +34,7 @@ const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
 const AcademicStaffApplyDetail = () => import('@/pages/AcademicStaffApplyDetail')
 const AcademicStaffApplyIntro = () => import('@/components/AcademicStaffApply/Intro')
 const AcademicStaffApplyBasic = () => import('@/components/AcademicStaffApply/Basic')
+const AcademicStaffApplyRoles = () => import('@/components/AcademicStaffApply/Roles')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -69,6 +70,9 @@ const Confirm        = () => import('@/components/School/Confirm.vue')
 // Dais mgmt pages
 const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
+
+// Academic Director
+const AcademicStaffApplicationConfig = () => import('@/components/AcademicDirector/AcademicStaffApplicationConfig')
 
 // NOTE: keep router path in sync with Root/Links
 
@@ -113,6 +117,7 @@ export default new Router({
         { path: 'admin/mail/', component: Mail },
         { path: 'admin/hotels/', component: HotelMgmt },
         { path: 'admin/links', component: Links },
+        { path: 'academic-director/application/', component: AcademicStaffApplicationConfig },
         { path: '*', component: StaffOverview }
       ]
     },
@@ -151,6 +156,7 @@ export default new Router({
     { path: '/academic-staff/apply/', component: AcademicStaffApplyDetail,
       children: [
         { path: 'basic', component: AcademicStaffApplyBasic },
+        { path: 'roles', component: AcademicStaffApplyRoles },
         { path: '*', component: AcademicStaffApplyIntro },
       ]
     },
