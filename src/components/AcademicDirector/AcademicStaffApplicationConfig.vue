@@ -76,6 +76,10 @@
         </ListInput>
       </el-form-item>
 
+      <el-form-item label="承诺书">
+        <el-input type="textarea" v-model="form.promise" placeholder="请输入html" :autosize="{ minRows: 8 }"/>
+      </el-form-item>
+
     </el-form>
 
     <el-button class="update" type="primary" icon="el-icon-check" @click="update" :loading="busy">保存</el-button>
@@ -95,7 +99,8 @@ export default {
       form: {
         past_conferences: '',
         departments: [],
-        tests: []
+        tests: [],
+        promise: ''
       }
     }
   },
@@ -136,7 +141,8 @@ export default {
       const payload = {
         past_conferences: this.form.past_conferences.split(/\s+/g),
         departments: this.form.departments,
-        tests: this.form.tests
+        tests: this.form.tests,
+        promise: this.form.promise
       }
       return this.$agent.put(`/api/config/academic-staff-application`)
         .send(payload)
@@ -159,6 +165,7 @@ export default {
       this.form.past_conferences = val && val.past_conferences && val.past_conferences.join(' ') || ''
       this.form.departments = val && val.departments || []
       this.form.tests = val && val.tests || []
+      this.form.promise = val && val.promise || ''
     }
   },
   mounted() {

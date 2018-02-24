@@ -1,24 +1,10 @@
 <template>
-  <div>
-
+  <div v-loading="!config">
     <p class="hint">你已完成全部信息的填写，请签署承诺书并提交。<br/>你也可以查看并修改已填写的资料。</p>
 
     <h4>签署承诺书</h4>
 
-    <div class="promise">
-      <p>本人谨以诚心正意向全体汇文家人承诺:</p>
-      <ol>
-        <li>承诺此份主席团申请表个人资料部分全部真实有效， 学术水平测试部分全部由本人自主完成。</li>
-        <li>承诺仅以个人身份参与2018年汇文国际中学生模拟联合国大会(以下简称汇文模联)，不代表任何组织以任何形式在汇文模联的平台上或以汇文模联的名义发布任何宣传信息。</li>
-        <li>承诺以认真严肃的态度对待会议的学术准备工作，对于背景文件写作/名额分配等工作做到不拖延不推诿，在学术准备期间保持联系方式畅通。</li>
-        <li>承诺在会议准备期间以及会议期间，对于代表及时给予悉心指导，适当鼓励。</li>
-        <li>承诺自2018年寒假起，于汇文模联2018举办之前不参加其他模联会议，寒假期间参会场次仅限汇文模联一场。</li>
-        <li>承诺在会议期间，不迟到，不早退，在会议期间不出现饮酒/抽烟/夜不归宿等行为。</li>
-        <li>承诺在会议期间不在互联网上发表对于会议的任何评价。</li>
-        <li>承诺遵守组委会制定的路费报销细则，并保证向组委会提供的报销单据真实有效。</li>
-      </ol>
-      <p>承诺书一经签署即代表作出承诺。如有违反，汇文模联组委会将保留追究其责任的权利。</p>
-    </div>
+    <div class="promise" v-html="config && config.promise"></div>
 
     <div class="signature-block">
       <div class="layout">
@@ -93,6 +79,7 @@ export default {
   },
   data() {
     return {
+      config: null,
       busy: false,
       signature: '',
       compo: null,
@@ -101,6 +88,13 @@ export default {
     }
   },
   methods: {
+    fetchConfig() {
+      this.configResolve = this.$agent.get(`/api/config/academic-staff-application`).body()
+        .then(
+          body => this.config = body,
+          _ => null
+        )
+    },
     async validate() {
       for (let i = 0; i !== pages.length; ++i) {
         this.curStep = i
@@ -146,6 +140,9 @@ export default {
         this.busy = false
       }
     },
+  },
+  mounted() {
+    this.fetchConfig()
   }
 }
 </script>
