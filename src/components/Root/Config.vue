@@ -2,7 +2,10 @@
   <div class="system-config" v-loading.body="!config">
     <h3>全局设置</h3>
     <template v-if="config">
-      <el-form label-position="right" label-width="10ch" class="form">
+      <el-form label-position="right" label-width="14ch" class="form">
+        <el-form-item label="学术团队申请">
+          <el-checkbox v-model="config.applyAcademicStaff" :disabled="busy" />
+        </el-form-item>
         <el-form-item label="报名">
           <el-checkbox v-model="config.apply" :disabled="busy" />
         </el-form-item>
@@ -51,6 +54,7 @@ export default {
   methods: {
     parseConfig(config) {
       this.config = {
+        applyAcademicStaff: config.applyAcademicStaff,
         register: config.register,
         apply: config.apply,
         login: config.login,
@@ -68,11 +72,9 @@ export default {
       .body()
       .then(
         config => this.parseConfig(config),
-        err => this.$notify({
+        err => this.$message({
           type: 'error',
-          title: '获取全局设置失败',
-          message: err.message,
-          duration: 0
+          message: '获取全局设置失败：' + err.message
         })
       )
     },
@@ -89,17 +91,14 @@ export default {
           .body()
         this.parseConfig(updatedConfig)
         this.$store.commit('config/update', updatedConfig)
-        this.$notify({
+        this.$message({
           type: 'success',
-          title: '已更新',
-          duration: 5000
+          message: '已更新'
         })
       } catch(e) {
-        this.$notify({
+        this.$message({
           type: 'error',
-          title: '更新全局设置失败',
-          message: e.message,
-          duration: 0
+          message: '更新全局设置失败：'+ e.message
         })
       } finally {
         this.busy = false

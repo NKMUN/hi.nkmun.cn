@@ -1,6 +1,7 @@
 export default {
   namespaced: true,
   state: {
+    applyAcademicStaff: false,
     apply: false,
     register: false,
     login: false,
@@ -10,6 +11,7 @@ export default {
     conferenceEndDate: null
   },
   getters: {
+    applyAcademicStaff: state => state.applyAcademicStaff,
     apply: state => state.apply,
     register: state => state.register,
     login: state => state.login,
@@ -22,6 +24,7 @@ export default {
   },
   mutations: {
     config( state, config ) {
+      state.applyAcademicStaff = (config && config.applyAcademicStaff) || false
       state.apply = (config && config.apply) || false
       state.register = (config && config.register) || false
       state.login = (config && config.login) || false
@@ -36,7 +39,7 @@ export default {
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
-      ;['apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
+      ;['applyAcademicStaff', 'apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
         if (update[k] !== undefined)
           state[k] = update[k]
       })

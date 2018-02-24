@@ -6,11 +6,11 @@
       <el-form
         class="form small"
         :label-width="labelWidth"
-        :model="{ session: this.session, school: this.school, photoId: this.photoId }"
+        :model="form"
         ref="formSessionAndPhoto"
       >
         <el-form-item label="会场" prop="session" :rules="[{ required: true, message: '请选择会场', trigger: 'change' }]">
-          <el-select v-model="session" placeholder="请选择会场" @change="emit">
+          <el-select v-model="form.session" placeholder="请选择会场" @change="emit">
             <el-option-group label="会场">
               <el-option
                 v-for="session in DAIS_SESSIONS"
@@ -23,11 +23,11 @@
         </el-form-item>
 
         <el-form-item label="学校" prop="school" :rules="[{ required: true, message: '请填写学校', trigger: 'blur' }]">
-          <el-input v-model="school" placeholder="请填写学校" @change="emit"></el-input>
+          <el-input v-model="form.school" placeholder="请填写学校" @change="emit" />
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="photoId" action="/api/images/" @change="emit" />
+          <ImageUpload v-model="form.photoId" action="/api/images/" @change="emit" />
         </el-form-item>
       </el-form>
 
@@ -206,9 +206,11 @@ export default {
   },
   data: () => ({
     labelWidth: '108px',
-    session: null,
-    school: null,
-    photoId: null,
+    form: {
+      session: null,
+      school: null,
+      photoId: null,
+    },
     contact: null,
     password: null,
     identification: null,
@@ -223,12 +225,10 @@ export default {
     emit() {
       this.$nextTick( () => {
         let M = {
-          session: this.session,
-          role: this.session
-              ? '主席-' + this.DAIS_SESSIONS.find($ => $.id === this.session).name
+          ...this.form,
+          role: this.form.session
+              ? '主席-' + this.DAIS_SESSIONS.find($ => $.id === this.form.session).name
               : null,
-          school: this.school,
-          photoId: this.photoId,
           contact: this.contact,
           password: this.password,
           identification: this.identification,

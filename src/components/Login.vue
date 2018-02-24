@@ -65,12 +65,15 @@ export default {
 
           let {
             unauthorized,
+            forbidden,
             body: { role, token }
           } = await this.$agent.post('/api/login', this.loginPayload)
-                    .ok( ({ok, unauthorized}) => ok || unauthorized )
+                    .ok( ({ok, unauthorized, forbidden}) => ok || unauthorized || forbidden)
 
           if (unauthorized)
             throw new Error('邮箱或密码不正确')
+          if (forbidden)
+            throw new Error('账号未启用，请等待组委审核')
 
           // TODO: store token, redirect to approperiate page
           storeToken(token)

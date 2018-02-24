@@ -12,6 +12,7 @@ export function getRoleRoute(givenAccesses = []) {
   if (hasAccess(givenAccesses, 'leader')) return '/school/'
   if (hasAccess(givenAccesses, 'dais')) return '/dais/'
   if (hasAccess(givenAccesses, 'delegate')) return '/delegate/'
+  if (hasAccess(givenAccesses, 'transient.academic-staff.apply')) return '/academic-staff/apply/'
   return '/not-found'
 }
 
@@ -29,6 +30,7 @@ const Committee = () => import('@/pages/Committee.vue')
 const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
 const Dais      = () => import('@/pages/Dais.vue')
+const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -64,6 +66,19 @@ const Confirm        = () => import('@/components/School/Confirm.vue')
 // Dais mgmt pages
 const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
+
+// Academic Director
+const AcademicStaffApplicationConfig = () => import('@/components/AcademicDirector/AcademicStaffApplicationConfig')
+
+// Academic Staff Apply Detail
+const AcademicStaffApplyDetail = () => import(/* webpackChunkName: "asa" */ '@/pages/AcademicStaffApplyDetail')
+const AcademicStaffApplyIntro = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Intro')
+const AcademicStaffApplyBasic = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Basic')
+const AcademicStaffApplyRoles = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Roles')
+const AcademicStaffApplyExperiences = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Experiences')
+const AcademicStaffApplyAcademics = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Academics')
+const AcademicStaffApplyExtras = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Extras')
+const AcademicStaffApplyConfirm = () => import(/* webpackChunkName: "asa" */ '@/components/AcademicStaffApply/Confirm')
 
 // NOTE: keep router path in sync with Root/Links
 
@@ -108,6 +123,7 @@ export default new Router({
         { path: 'admin/mail/', component: Mail },
         { path: 'admin/hotels/', component: HotelMgmt },
         { path: 'admin/links', component: Links },
+        { path: 'academic-director/application/', component: AcademicStaffApplicationConfig },
         { path: '*', component: StaffOverview }
       ]
     },
@@ -140,6 +156,18 @@ export default new Router({
       children: [
         { path: 'session-seats', component: SessionSeatMgmt },
         { path: 'user-info', component: DaisUserInfo },
+      ]
+    },
+    { path: '/apply/academic/', component: AcademicStaffApply },
+    { path: '/academic-staff/apply/', component: AcademicStaffApplyDetail,
+      children: [
+        { path: 'basic', component: AcademicStaffApplyBasic },
+        { path: 'roles', component: AcademicStaffApplyRoles },
+        { path: 'experiences', component: AcademicStaffApplyExperiences },
+        { path: 'academics', component: AcademicStaffApplyAcademics },
+        { path: 'extras', component: AcademicStaffApplyExtras },
+        { path: 'confirm', component: AcademicStaffApplyConfirm },
+        { path: '*', component: AcademicStaffApplyIntro },
       ]
     },
     { path: '*', component: NotFound },

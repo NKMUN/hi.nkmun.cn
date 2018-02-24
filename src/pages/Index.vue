@@ -16,14 +16,21 @@
               class="btn"
               v-if="showRegister"
               type="primary"
-              @click="goRegister()"
+              @click="$router.push('/register/')"
             > 领队注册 </el-button>
+
+            <el-button
+              class="btn"
+              v-if="showApplyAcademicStaff"
+              type="primary"
+              @click="$router.push('/apply/academic/')"
+            > 学术团队报名 </el-button>
 
             <el-button
               class="btn"
               v-if="showApply"
               type="primary"
-              @click="goApply()"
+              @click="$router.push('/apply/')"
             > 报名 </el-button>
           </div>
 
@@ -34,7 +41,7 @@
               size="mini"
               plain
               type="text"
-              @click="toggleAdminLogin()"
+              @click="showAdminLogin = !showAdminLogin"
             > 管理员登录 </el-button>
           </div>
         </div>
@@ -62,30 +69,16 @@ export default {
     Copyright
   },
   data: () => ({
-    showAdminLogin: false,
-    loadingRegister: false,
-    loadingApply: false,
+    showAdminLogin: false
   }),
   computed: {
     ...mapGetters({
-      showApply:       'config/apply',
-      showRegister:    'config/register',
+      showApplyAcademicStaff: 'config/applyAcademicStaff',
+      showApply: 'config/apply',
+      showRegister: 'config/register',
       showLeaderLogin: 'config/login',
     }),
     showLogin() { return this.showLeaderLogin || this.showAdminLogin }
-  },
-  methods: {
-    toggleAdminLogin() {
-      this.showAdminLogin = !this.showAdminLogin
-    },
-    goRegister() {
-      this.loadingRegister = true
-      this.$router.push('/register/')
-    },
-    goApply() {
-      this.loadingApply = true
-      this.$router.push('/apply/')
-    }
   }
 }
 </script>

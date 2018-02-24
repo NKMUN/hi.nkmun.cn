@@ -2,15 +2,17 @@
   <el-form
     :class="className"
     :label-width="labelWidth"
-    :model="M"
+    :model="form"
     ref="form"
   >
     <el-form-item
       label="证件类型"
       prop="type"
-      :rules="[{ required: true, message: '请选择证件类型', trigger: 'change'}]"
+      :rules="[
+        { required: true, message: '请选择证件类型', trigger: 'change' }
+      ]"
     >
-      <el-select v-model="type" @change="emit" class="el-input">
+      <el-select v-model="form.type" @change="emit" class="el-input">
         <el-option label="中国大陆身份证" value="mainland" v-if="typeAccepts('mainland')" />
         <el-option label="港澳往来内地通行证" value="sar" v-if="typeAccepts('sar')" />
         <el-option label="台湾居民来往大陆通行证" value="taiwan" v-if="typeAccepts('taiwan')" />
@@ -25,7 +27,7 @@
       :rules="idNumberRules"
     >
       <el-input
-        v-model="number"
+        v-model="form.number"
         type="text"
         placeholder="证件号码"
         :disabled="disabled"
@@ -50,8 +52,10 @@ export default {
     acceptableTypes: { type: Array, default: () => ['mainland', 'sar', 'taiwan', 'passport', 'other'] },
   },
   data: () => ({
-    type: null,
-    number: null
+    form: {
+      type: null,
+      number: null
+    }
   }),
   computed: {
     idNumberRules() {
@@ -60,7 +64,7 @@ export default {
         validator: (rule, val, cbk) => cbk( idValidator.isValid(val) ? [] : [new Error('身份证格式不正确')] ),
         trigger: 'blur'
       }
-      switch(this.type) {
+      switch(this.form.type) {
         case 'mainland': return [ REQUIRED, MAINLAND_RESIDENCE_ID ]
         case 'sar':      return [ REQUIRED, {type: 'string', pattern: /^[HMhm]{1}([0-9]{10}|[0-9]{8})$/, message: '证件号不正确', trigger: 'blur'} ]
         case 'taiwan':   return [ REQUIRED, {type: 'string', pattern: /^([0-9]{10}|[0-9]{8})$/, message: '证件号不正确', trigger: 'blur'} ]
@@ -68,19 +72,11 @@ export default {
         default: return [ REQUIRED ]
       }
     },
-    M() {    // model to be emitted for 'input' event
-      return {
-        type: this.type,
-        number: this.number
-      }
-    },
   },
   methods: {
     emit() {
-      this.$nextTick( () => {
-        this.$emit('input', this.M)
-        this.$emit('change', this.M)
-      })
+      this.$emit('input', this.form)
+      this.$emit('change', this.form)
     },
     validate() {
       return new Promise( resolve => {
@@ -92,8 +88,8 @@ export default {
       this.emit()
     },
     setValue(value) {
-      this.type = (value && value.type) || null
-      this.number = (value && value.number) || null
+      this.form.type = (value && value.type) || null
+      this.form.number = (value && value.number) || null
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
     },
