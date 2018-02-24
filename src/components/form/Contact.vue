@@ -56,8 +56,7 @@
       prop="email"
       :rules="[
         { required: true, message: '请输入邮箱', trigger: 'blur' },
-        { type: 'string', pattern: emailRegex, message: '邮箱格式不正确', trigger: 'blur' },
-        { type: 'string', pattern: emailDomainRegexp, message: '请检查邮箱后缀。建议使用QQ、163、126、Outlook等常用邮箱。', trigger: 'blur' }
+        { validator: emailValidator, trigger: 'blur' }
       ]"
     >
       <el-input
@@ -90,8 +89,8 @@
 </template>
 
 <script>
-const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-const emailDomainRegexp = /\.(cn|com|net|org|edu)$/i
+import emailValidator from '@/lib/email-validator'
+
 const qqRegex = /^[0-9]{6,15}$/
 export default {
   name: 'contact-form',
@@ -103,8 +102,6 @@ export default {
     showQq: { type: Boolean, default: false },
   },
   data: () => ({
-    emailRegex,
-    emailDomainRegexp,
     qqRegex,
     name: null,
     gender: null,
@@ -121,6 +118,9 @@ export default {
         email:  this.email,
         ... (this.showQq ? { qq: this.qq } : {})
       }
+    },
+    emailValidator() {
+      return emailValidator
     }
   },
   methods: {
