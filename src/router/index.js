@@ -29,6 +29,7 @@ const Committee = () => import('@/pages/Committee.vue')
 const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
 const Dais      = () => import('@/pages/Dais.vue')
+const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -142,6 +143,7 @@ export default new Router({
         { path: 'user-info', component: DaisUserInfo },
       ]
     },
+    { path: '/apply/academic/', component: AcademicStaffApply },
     { path: '*', component: NotFound },
   ]
 })
