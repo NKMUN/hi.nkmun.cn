@@ -26,7 +26,7 @@
 
     <h4>学术作品</h4>
     <el-form :model="files" ref="files" label-width="12ch" label-position="right">
-      <el-form-item label="学术作品" prop="academic_design" :rules="academicDesignRules">
+      <el-form-item label="会场设计" prop="academic_design" :rules="academicDesignRules">
         <FileListUpload
           :action="uploadEndpoint"
           :headers="{ Authorization: 'Bearer ' + token }"
