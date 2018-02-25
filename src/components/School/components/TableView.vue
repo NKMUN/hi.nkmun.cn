@@ -1,11 +1,11 @@
 <template>
   <table>
     <thead>
-      <tr> <th v-for="field in fields">{{field.name}}</th> </tr>
+      <tr> <th v-for="field in fields" :key="field.key">{{field.name}}</th> </tr>
     </thead>
     <tbody>
-      <tr v-for="r in data">
-        <td v-for="field in fields">
+      <tr v-for="(r, idx) in data" :key="r.id || idx">
+        <td v-for="field in fields" :key="field.key">
           <div v-if="getValue(r, field.key)" class="cell">
             <span v-if="field.mapper">{{ field.mapper( getValue(r, field.key) ) }} </span>
             <span v-else>{{ getValue(r, field.key) }}</span>

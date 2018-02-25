@@ -28,7 +28,7 @@ export default {
   },
   watch: {
     id() {
-      this.invitation = null;
+      this.invitation = null
       this.fetch()
     }
   },

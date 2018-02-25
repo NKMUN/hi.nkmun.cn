@@ -1,4 +1,4 @@
-const decode = require('jwt-decode')
+import decode from 'jwt-decode'
 
 export default {
   namespaced: true,

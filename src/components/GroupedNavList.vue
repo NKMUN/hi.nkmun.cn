@@ -22,7 +22,7 @@
 export default {
   name: 'grouped-nav-list',
   props: {
-    groups: { type: Array, default: [] },
+    groups: { type: Array, default: () => [] },
     actived: { type: String, default: '' }
   },
   data: () => ({

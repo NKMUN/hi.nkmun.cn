@@ -19,7 +19,6 @@ export function getRoleRoute(givenAccesses = []) {
 // Statically bundled
 import Index from '@/pages/Index.vue'
 import NotFound from '@/pages/NotFound.vue'
-import Logout from '@/components/Logout.vue'
 
 // Lazy load:
 const Apply    = () => import('@/pages/Apply.vue')
@@ -34,7 +33,6 @@ const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
-const RootOverview = () => import('@/components/Root/Overview.vue')
 const SystemConfig = () => import('@/components/Root/Config.vue')
 const Application  = () => import('@/components/Root/Application.vue')
 const Initialize   = () => import('@/components/Root/Initialize.vue')

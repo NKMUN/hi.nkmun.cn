@@ -10,7 +10,7 @@
 
         <div class="right">
           <div class="top">
-            <Login v-if="showLogin" @success="" @failure="" />
+            <Login v-if="showLogin" />
 
             <el-button
               class="btn"

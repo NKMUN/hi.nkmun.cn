@@ -257,7 +257,7 @@ export default {
   },
   mounted() {
     const interval = 1000
-    const itvl = setInterval(() => {
+    setInterval(() => {
       if (this.$refs.stock && this.resolve) {
         this.$refs.stock.refresh()
       }

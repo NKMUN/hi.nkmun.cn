@@ -175,7 +175,7 @@ export default {
       }
     },
     photoUrl() {
-      return this.photoId ? `/api/images/${photoId}?size=small&format=jpg` : ''
+      return this.photoId ? `/api/images/${this.photoId}?size=small&format=jpg` : ''
     }
   },
   data: () => ({

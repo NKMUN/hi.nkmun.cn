@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in seatArray">
+      <tr v-for="row in seatArray" :key="row.session.id">
         <td class="session-name">
           <span>{{ row.session.name }}</span>
           <el-tag v-if="row.session.dual" type="warning" class="tag">双代</el-tag>

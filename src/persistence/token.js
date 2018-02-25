@@ -12,6 +12,13 @@ export function isTokenStored() {
   return window.localStorage && window.localStorage.getItem(TOKEN_KEY)
 }
 
+export function clearToken() {
+  if (window.sessionStorage)
+    window.sessionStorage.removeItem(TOKEN_KEY)
+  if (window.localStorage)
+    window.localStorage.removeItem(TOKEN_KEY)
+}
+
 export function storeToken(token, remember = false) {
   if (!token)
     return clearToken()
@@ -19,11 +26,4 @@ export function storeToken(token, remember = false) {
     window.sessionStorage.setItem(TOKEN_KEY, token)
   if (remember && window.localStorage)
     window.localStorage.setItem(TOKEN_KEY, token)
-}
-
-export function clearToken() {
-  if (window.sessionStorage)
-    window.sessionStorage.removeItem(TOKEN_KEY)
-  if (window.localStorage)
-    window.localStorage.removeItem(TOKEN_KEY)
 }

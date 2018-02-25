@@ -26,23 +26,21 @@
           {{ altContact.email }}
         </div>
       </div>
-      <div class="section test" v-for="test in tests">
+      <div class="section test" v-for="test in tests" :key="test.id">
         <div class="question hint">{{ test.question }}</div>
         <div class="answer">
           <!-- do not use v-html, it leads to XSS injection -->
-          <p v-for="p in toParagraphs(acTest[test.id])">{{ p }}</p>
+          <p v-for="(p, idx) in toParagraphs(acTest[test.id])" :key="idx">{{ p }}</p>
         </div>
       </div>
       <div class="section request">
         <div class="primary">名额申请</div>
         <table>
           <tbody>
-            <template v-for="r in requestRows">
-              <tr v-if="request[r.key]">
-                <td class="session">{{ r.text }}</td>
-                <td class="amount">{{ request[r.key] }}</td>
-              </tr>
-            </template>
+            <tr v-for="(r, idx) in requestRows" :key="idx" v-if="request[r.key]">
+              <td class="session">{{ r.text }}</td>
+              <td class="amount">{{ request[r.key] }}</td>
+            </tr>
           </tbody>
         </table>
       </div>

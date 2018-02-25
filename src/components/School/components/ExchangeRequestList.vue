@@ -6,7 +6,7 @@
     </div>
     <div v-if="this.requests.length === 0">暂无交换申请</div>
     <ul v-if="this.requests.length > 0">
-      <li v-for="(req, idx) in this.requests">
+      <li v-for="(req, idx) in this.requests" :key="req.id">
         <div class="detail">
           <div>
             <el-tag type="gray">{{ req.from.name }}</el-tag>
@@ -74,7 +74,7 @@ export default {
         this.loadingRequests = false
       }
     },
-    async acceptExchange(req, idx) {
+    async acceptExchange(req) {
       try {
         this.busy = true
         let {

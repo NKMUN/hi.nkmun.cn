@@ -162,7 +162,7 @@ export default {
     return this.fetch()
   },
   watch: {
-    id(val) {
+    id() {
       this.$nextTick( () => this.fetch() )
     }
   }

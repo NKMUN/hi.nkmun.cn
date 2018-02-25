@@ -14,7 +14,7 @@
         <li>交换中的名额不能再次用于交换</li>
         <li>结束交换时，双代会场必须有偶数名额</li>
         <li>结束交换时，待处理的交换申请将<b>全部拒绝</b></li>
-        <li>结束交换时，己方已发出，但对方未确认的交换申请会<b>全部取消</b></li></li>
+        <li>结束交换时，己方已发出，但对方未确认的交换申请会<b>全部取消</b></li>
       </ul>
     </div>
 
@@ -42,7 +42,6 @@ import SeatView from './components/SeatView'
 import SeatExchangeControl from './components/SeatExchangeControl'
 import { mapGetters } from 'vuex'
 import store from '@/store/index'
-import groupSeatsBySession from '@/lib/group-seats'
 import SessionUtils from '@/lib/session-utils'
 
 
@@ -94,7 +93,7 @@ export default {
             title: '未能确认名额交换',
             message: '双代会场没有偶数名额，请刷新页面！'
           })
-        } 
+        }
         if (ok) {
           this.$store.commit('school/seat', updatedSeat)
           this.$store.commit('school/stage', '1.reservation')

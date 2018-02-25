@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import Precondition from '@/components/Precondition'
-
 export default {
   name: 'leader-attendance',
   props: {

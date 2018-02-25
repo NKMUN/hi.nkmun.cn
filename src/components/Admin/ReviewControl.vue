@@ -59,18 +59,18 @@ export default {
   },
   methods: {
     handleSelect(id) {
-      id = id ? id+'/' : ''
+      const nextId = id ? id+'/' : ''
       this.$router.push(
           this.id
-        ? (this.prefix || '../') + id
-        : id
+        ? (this.prefix || '../') + nextId
+        : nextId
       )
     },
     handleNext(id) {
       let listPending = this.groups[0].list
       let nextIdx = listPending.findIndex( $ => $.id === id ) + 1
       if (nextIdx < listPending.length) {
-        this.handleSelect(list[nextIdx].id)
+        this.handleSelect(listPending[nextIdx].id)
       } else {
         this.$notify({
           type: 'info',

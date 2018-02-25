@@ -39,7 +39,7 @@ export default {
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
-      ;['applyAcademicStaff', 'apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
+      ['applyAcademicStaff', 'apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
         if (update[k] !== undefined)
           state[k] = update[k]
       })

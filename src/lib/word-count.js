@@ -1,4 +1,4 @@
-export default function wordCount(s) {
+export default function wordCount(str) {
     // only take care of mixed {English, Number, Chinese} text
 
     /*
@@ -10,6 +10,8 @@ export default function wordCount(s) {
      *  - someone's
      *  - 1st
      */
+
+    let s = str
 
     s = s.replace(/[a-zA-Z0-9'-]+/g, '\ue000')
 

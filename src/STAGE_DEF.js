@@ -28,7 +28,7 @@ function getName(s) {
 
 function getStages() {
     if (!stages)
-        stages = def.filter( (_, i) => i % 2 == 0 )
+        stages = def.filter( (_, i) => i % 2 === 0 )
     return stages
 }
 

@@ -35,7 +35,7 @@ export default {
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     labelWidth: { type: String, default: '72px' },
-    tests: { type: Array, default: [] }
+    tests: { type: Array, default: () => [] }
   },
   data: () => ({
     M: {}
@@ -58,7 +58,7 @@ export default {
         this.M[key] = null
       this.emit()
     },
-    setValue(value, tests) {
+    setValue(value) {
       this.M = this.tests.reduce((o, {id}) => ({
         ...o,
         [id]: (value && value[id]) || null

@@ -60,6 +60,7 @@ export default {
     emailValidator() {
       return emailValidator
     },
+    /* eslint-disable vue/no-async-in-computed-properties */
     userExistValidator() {
       return (rules, value, cbk) => {
         if (!value) return cbk([ ])
@@ -69,6 +70,7 @@ export default {
         )
       }
     },
+    /* eslint-enable vue/no-async-in-computed-properties */
     passwordValidator() {
       return (rules, value, cbk) => {
         if ( typeof value !== 'string' || value.length === 0 )
@@ -85,7 +87,7 @@ export default {
         const password = this.password
         if ( typeof value !== 'string' || value.length === 0 )
           return cbk([ new Error('请重复上面输入的密码') ])
-        if (this.password !== value)
+        if (password !== value)
           return cbk([ new Error('两次输入的密码不一致') ])
         cbk([ ])
       }

@@ -1,6 +1,6 @@
 <template>
   <span class="bank-number">
-    <span v-for="seg in segments" class="segment">{{ seg }}</span>
+    <span v-for="(seg, idx) in segments" :key="idx" class="segment">{{ seg }}</span>
   </span>
 </template>
 
