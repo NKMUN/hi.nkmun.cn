@@ -38,6 +38,7 @@ export default {
 
 <style lang="stylus">
 @import "style/flex"
+@import "./typo.css"
 html, body
   padding: 0
   margin: 0
