@@ -12,6 +12,7 @@ export function getRoleRoute(givenAccesses = []) {
   if (hasAccess(givenAccesses, 'leader')) return '/school/'
   if (hasAccess(givenAccesses, 'dais')) return '/dais/'
   if (hasAccess(givenAccesses, 'delegate')) return '/delegate/'
+  if (hasAccess(givenAccesses, 'academic-director')) return '/academic-director/'
   if (hasAccess(givenAccesses, 'transient.academic-staff.apply')) return '/academic-staff/apply/'
   return '/not-found'
 }
@@ -31,6 +32,7 @@ const Volunteer = () => import('@/pages/Volunteer.vue')
 const DaisReg   = () => import('@/pages/DaisRegistration.vue')
 const Dais      = () => import('@/pages/Dais.vue')
 const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
+const AcademicDirector = () => import('@/pages/AcademicDirector')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
@@ -68,7 +70,10 @@ const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
 
 // Academic Director
+const AcademicDirectorDashboard = () => import('@/components/AcademicDirector/Dashboard')
 const AcademicStaffApplicationConfig = () => import('@/components/AcademicDirector/AcademicStaffApplicationConfig')
+const AcademicStaffApplicationList = () => import('@/components/AcademicDirector/AcademicStaffApplicationList')
+const AcademicStaffApplicationView = () => import('@/components/AcademicDirector/AcademicStaffApplicationView')
 
 // Academic Staff Apply Detail
 const AcademicStaffApplyDetail = () => import(/* webpackChunkName: "asa" */ '@/pages/AcademicStaffApplyDetail')
@@ -168,6 +173,14 @@ export default new Router({
         { path: 'extras', component: AcademicStaffApplyExtras },
         { path: 'confirm', component: AcademicStaffApplyConfirm },
         { path: '*', component: AcademicStaffApplyIntro },
+      ]
+    },
+    { path: '/academic-director/', component: AcademicDirector,
+      children: [
+        { path: 'config', component: AcademicStaffApplicationConfig },
+        { path: 'applications', component: AcademicStaffApplicationList },
+        { path: 'applications/:id', component: AcademicStaffApplicationView, props: true },
+        { path: '*', component: AcademicDirectorDashboard },
       ]
     },
     { path: '*', component: NotFound },
