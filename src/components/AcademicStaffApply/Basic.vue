@@ -106,7 +106,7 @@
       </el-form-item>
 
       <el-form-item label="备注" prop="note">
-        <el-input v-model="form.note" placeholder="备注" />
+        <el-input v-model="form.note" placeholder="备注" @change="emit" />
       </el-form-item>
     </el-form>
 
