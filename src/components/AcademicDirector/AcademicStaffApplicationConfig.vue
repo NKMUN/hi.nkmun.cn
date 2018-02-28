@@ -202,6 +202,8 @@ h4
   margin: 0 auto
 .academic-staff-application
   padding-bottom: 3em
+  .el-button.no-padding
+    padding: 7px
 </style>
 
 <style lang="stylus">
