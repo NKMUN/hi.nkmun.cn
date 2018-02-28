@@ -20,4 +20,9 @@ function toDateTimeString(d) {
     return `${yyyy}-${pad2(month)}-${pad2(monthDate)} ${pad2(hour)}:${pad2(minute)}:${pad2(second)}`
 }
 
-export { toDateTimeString, between }
+function toDateString(d) {
+    const ret = toDateTimeString(d)
+    return ret.slice(0, ret.indexOf(' '))
+}
+
+export { between, toDateTimeString, toDateString }

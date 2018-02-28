@@ -69,7 +69,7 @@ export default {
     fetchTests() {
       return this.$agent.get(`/api/config/academic-staff-application`).then(
         res => {
-          this.tests = res.body
+          this.tests = res.body.tests
         }
       )
     },
