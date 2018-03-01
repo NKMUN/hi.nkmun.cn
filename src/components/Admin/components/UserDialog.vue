@@ -15,7 +15,6 @@
           <el-option value="finance" label="财务 / Finance" />
           <el-option value="dais" label="会场主席 / Dais" />
           <el-option value="academic-director" label="学术总监 / Academic Director" />
-          <el-option value="academic-staff" label="学术团队 / Academic Staff" />
           <el-option value="leader" label="学校领队 / Leader" />
           <!--
           <el-option value="individual" label="个人代表 / Individual" />
