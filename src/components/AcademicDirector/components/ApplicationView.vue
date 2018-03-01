@@ -52,7 +52,7 @@ export default {
             <SimpleField name='生日' value={value.birthday} />
             <SimpleField name="手机" value={value.phone} />
             <SimpleField name="QQ" value={value.qq} />
-            { value.skype && <SimpleField name="Skype" value={value.school} /> }
+            { value.skype && <SimpleField name="Skype" value={value.skype} /> }
             { value.note && <SimpleField name="备注" value={value.note} /> }
             <SimpleField name="提交日期" value={ value.signature_date } />
           </div>
@@ -157,13 +157,11 @@ export default {
                 <div class="tag">{ test.tag}</div>
                 <div class="right">
                   <div class="question">{ buildParagraphs(test.text) }</div>
-                  <div class="answer-block">
-                    <div class="answer">
-                      { value.test[`q${idx}`]
-                        ? <div class="answers value">{ buildParagraphs(value.test[`q${idx}`]) }</div>
-                        : <div class="answers secondary value"> 未作答 </div>
-                      }
-                    </div>
+                  <div class="answer">
+                    { value.test[`q${idx}`]
+                      ? <div class="answers value">{ buildParagraphs(value.test[`q${idx}`]) }</div>
+                      : <div class="answers secondary value"> 未作答 </div>
+                    }
                   </div>
                 </div>
               </div>
@@ -274,6 +272,8 @@ export default {
       .name
         min-width: 8ch
   .tests
+    min-width: 60ch
+    max-width: 80ch
     .test
       display: flex
       flex-direction: row
@@ -289,7 +289,7 @@ export default {
       p ~ p
         margin: 1em 0
       p:last-child
-        margin: 1em 0 0 0
+        margin-bottom: 0
       .tag
         color: #606266
         width: 8ch
@@ -308,6 +308,8 @@ export default {
         border-radius: .5em
         margin: 1em 0
         flex-grow: 1
+        min-height: 3em
+        box-sizing: content-box
   .files
     .name
       width: 8ch
@@ -330,5 +332,5 @@ export default {
     p ~ p
       margin: 1em 0
     p:last-child
-      margin: 1em 0 0 0
+      margin-bottom: 0
 </style>

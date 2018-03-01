@@ -6,7 +6,7 @@ export default {
     return (
       <div class="simple-field">
         <span class="name">{ name }</span>
-        <span class="value">{ ctx.children ? ctx.children : value }</span>
+        <span class="value">{ value !== undefined ? value : ctx.children }</span>
       </div>
     )
   }
