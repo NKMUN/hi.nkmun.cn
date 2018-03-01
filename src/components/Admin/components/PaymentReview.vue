@@ -38,7 +38,7 @@
         </el-button-group>
       </div>
 
-      <template v-for="round in previousRounds">
+      <div v-for="round in previousRounds" :key="round">
         <hr/>
         <BillingDetail
           class="billing"
@@ -46,7 +46,7 @@
           :round="round"
         />
         <PaymentList :payments="(payments || []).filter($ => $.round === round)" />
-      </template>
+      </div>
     </template>
 
   </div>
