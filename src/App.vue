@@ -37,6 +37,7 @@ export default {
 </script>
 
 <style lang="stylus">
+@import "style/scrollbar.css"
 @import "style/flex"
 html, body
   padding: 0
