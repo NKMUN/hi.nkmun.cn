@@ -1,5 +1,5 @@
 <template>
-  <div class="dais-mgmt">
+  <div class="academic-director-mgmt">
     <div class="heading">
       <el-menu
         mode="horizontal"
@@ -10,8 +10,10 @@
         :router="true"
         class="menu"
       >
-        <el-menu-item v-if="hasAccess('dais')" index="/dais/session-seats/"> <icon name="users" /> 席位管理 </el-menu-item>
-        <el-menu-item v-if="hasAccess('dais')" index="/dais/user-info/"> <icon name="user" /> 个人信息 </el-menu-item>
+        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/"> <i class="icon el-icon-menu" /> </el-menu-item>
+        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/config/"> 报名设置 </el-menu-item>
+        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/applications/"> 报名审核  </el-menu-item>
+        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/export/"> 导出 </el-menu-item>
       </el-menu>
 
       <Logout />
@@ -26,16 +28,23 @@
 
 <script>
 import { hasAccess } from '@/lib/access'
+import 'vue-awesome/icons/wrench'
+import 'vue-awesome/icons/pencil'
+import 'vue-awesome/icons/exclamation-circle'
+import 'vue-awesome/icons/calendar-check-o'
+import 'vue-awesome/icons/file-text-o'
+import 'vue-awesome/icons/comments-o'
+import 'vue-awesome/icons/envelope-o'
+import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/users'
-import 'vue-awesome/icons/user'
-import 'vue-awesome/icons/sign-out'
-import DaisUserInfo from '@/components/Dais/DaisUserInfo'
+import 'vue-awesome/icons/user-secret'
+import 'vue-awesome/icons/table'
+import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/link'
+
 
 export default {
-  name: 'dais-mgmt',
-  components: {
-    DaisUserInfo
-  },
+  name: 'admin-mgmt',
   methods: {
     logout() {
       this.$router.replace('/logout')
@@ -49,7 +58,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
-.dais-mgmt
+.academic-director-mgmt
   flex-vert: flex-start stretch
   max-height: 100vh
   overflow-y: auto
@@ -75,7 +84,9 @@ export default {
     padding-left: 4ch
     padding-right: 4ch
     margin-top: 4em
-  .fa-icon
-    opacity: 0.7
+  .el-menu .fa-icon
+    opacity: 0.8
     transform: scale(0.8, 0.8)
+  .icon
+    color: inherit
 </style>

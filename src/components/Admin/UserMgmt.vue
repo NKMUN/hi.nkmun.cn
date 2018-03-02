@@ -96,7 +96,6 @@ const toAccessString = (access) => {
       case 'dais':     ret.push('会场主席'); break
       case 'delegate': ret.push('参会代表'); break
       case 'academic-director': ret.push('学术总监'); break
-      case 'academic-staff': ret.push('学术团队'); break
       case 'transient.academic-staff.apply': ret.push('学术团队报名'); break
     }
   }

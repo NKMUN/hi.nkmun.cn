@@ -1,5 +1,5 @@
 <template>
-
+  <!-- TODO: migrate to new Dais / AcademicDirector flow -->
   <div class="dais-mgmt">
     <h3>
       会场主席审核
