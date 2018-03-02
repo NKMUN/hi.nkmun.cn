@@ -146,20 +146,22 @@ export default {
         <h5>学术测试</h5>
         <div class="tests">
           {
-            tests.filter(test =>
+            tests
+            .map((test, idx) => ({...test, id: `q${idx}`}))
+            .filter(test =>
               // filter questions that are required to answer accodring to roles
               test.departments.find(departmentId =>
                 value.roles.find(role => role.department_id === departmentId)
               )
             )
-            .map((test, idx) =>
+            .map(test =>
               <div class="test">
-                <div class="tag">{ test.tag}</div>
+                <div class="tag">{ test.tag }</div>
                 <div class="right">
                   <div class="question">{ buildParagraphs(test.text) }</div>
                   <div class="answer">
-                    { value.test[`q${idx}`]
-                      ? <div class="answers value">{ buildParagraphs(value.test[`q${idx}`]) }</div>
+                    { value.test[test.id]
+                      ? <div class="answers value">{ buildParagraphs(value.test[test.id]) }</div>
                       : <div class="answers secondary value"> 未作答 </div>
                     }
                   </div>
@@ -267,6 +269,8 @@ export default {
       border-bottom: 0
     .name
       min-width: 10ch
+    .value
+      max-width: 56ch
     .simple-field .simple-field
       margin: .25em 0
       .name
