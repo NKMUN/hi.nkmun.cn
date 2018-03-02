@@ -37,7 +37,7 @@ export default {
   .icon
     color: rgb(247, 186, 42)
   .text
-    width: 3.5ch
+    width: 4.5ch
     margin-left: .5ch
     vertical-align: text-bottom
   &.unavailable
