@@ -73,7 +73,7 @@ export default {
       vertical-align: sub
   .wrap
     flex-grow: 1
-    overflow-y: scroll
+    overflow-y: auto
     overflow-x: hidden
     flex-horz: stretch flex-start
     .container
