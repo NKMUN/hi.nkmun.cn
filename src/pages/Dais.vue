@@ -13,7 +13,7 @@
         <el-menu-item v-if="hasAccess('dais')" index="/dais/session-seats/"> <icon name="users" /> 席位管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('dais')" index="/dais/user-info/"> <icon name="user" /> 个人信息 </el-menu-item>
       </el-menu>
-      
+
       <Logout />
     </div>
 
@@ -64,7 +64,7 @@ export default {
       vertical-align: sub
   .wrap
     flex-grow: 1
-    overflow-y: scroll
+    overflow-y: auto
     overflow-x: hidden
     flex-horz: stretch flex-start
     .container
