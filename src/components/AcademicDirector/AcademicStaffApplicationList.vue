@@ -31,6 +31,7 @@
             icon="el-icon-view"
             @click="view(row.id)"
           > 查看 </el-button>
+          <!--
           <el-button-group v-if="!row.processed">
             <el-tooltip content="Waitlist" placement="top" popper-class="asa-list-button-tooltip">
               <el-button
@@ -57,6 +58,7 @@
               > <icon name="check" /> </el-button>
             </el-tooltip>
           </el-button-group>
+          -->
         </div>
       </el-table-column>
     </el-table>
