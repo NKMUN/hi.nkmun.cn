@@ -109,6 +109,8 @@ export default {
 @import "../style/flex"
 .login-ctrl
   flex-vert: flex-start center
+  .login-form
+    width: 100%
   .el-form-item
     margin-bottom: .5em
   .el-button

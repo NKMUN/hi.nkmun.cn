@@ -37,7 +37,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import "style/scrollbar.css"
 @import "style/flex"
 @import "./typo.css"
 html, body
