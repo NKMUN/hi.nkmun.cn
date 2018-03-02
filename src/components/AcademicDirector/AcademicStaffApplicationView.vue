@@ -97,7 +97,7 @@ export default {
     },
     back() {
       this.saveReview(false)
-      this.$router.push('/academic-director/applications/')
+      this.$router.push('./')
     }
   },
   created() {

@@ -24,7 +24,8 @@
 
         <el-submenu index="1" v-if="hasAccess('academic-director') || hasAccess('admin')">
           <template slot="title"> <icon name="pencil"/> 学术总监 </template>
-          <el-menu-item index="/staff/academic-director/application/"> <icon name="file-text-o"/> 学术团队申请 </el-menu-item>
+          <el-menu-item index="/staff/academic-director/config/"> <icon name="file-text-o"/> 学术团队申请 </el-menu-item>
+          <el-menu-item index="/staff/academic-director/applications/"> <icon name="check-square-o"/> 报名审核  </el-menu-item>
         </el-submenu>
 
         <el-submenu index="2" v-if="hasAccess('staff')">
@@ -58,6 +59,7 @@ import 'vue-awesome/icons/pencil'
 import 'vue-awesome/icons/exclamation-circle'
 import 'vue-awesome/icons/calendar-check-o'
 import 'vue-awesome/icons/file-text-o'
+import 'vue-awesome/icons/check-square-o'
 import 'vue-awesome/icons/comments-o'
 import 'vue-awesome/icons/envelope-o'
 import 'vue-awesome/icons/bed'
@@ -65,6 +67,7 @@ import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/institution'
 import 'vue-awesome/icons/link'
+
 
 
 export default {

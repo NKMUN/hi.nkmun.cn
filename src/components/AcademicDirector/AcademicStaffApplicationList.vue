@@ -105,7 +105,7 @@ export default {
       .then(_ => this.busy = false)
     },
     view(id) {
-      this.$router.push('/academic-director/applications/' + id)
+      this.$router.push(id)
     },
     invite(id) {
 

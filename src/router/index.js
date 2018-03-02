@@ -124,7 +124,9 @@ export default new Router({
         { path: 'admin/mail/', component: Mail },
         { path: 'admin/hotels/', component: HotelMgmt },
         { path: 'admin/links', component: Links },
-        { path: 'academic-director/application/', component: AcademicStaffApplicationConfig },
+        { path: 'academic-director/config/', component: AcademicStaffApplicationConfig },
+        { path: 'academic-director/applications/', component: AcademicStaffApplicationList },
+        { path: 'academic-director/applications/:id', component: AcademicStaffApplicationView, props: true },
         { path: '*', component: StaffOverview }
       ]
     },
@@ -174,7 +176,7 @@ export default new Router({
     { path: '/academic-director/', component: AcademicDirector,
       children: [
         { path: 'config', component: AcademicStaffApplicationConfig },
-        { path: 'applications', component: AcademicStaffApplicationList },
+        { path: 'applications/', component: AcademicStaffApplicationList },
         { path: 'applications/:id', component: AcademicStaffApplicationView, props: true },
         { path: '*', component: AcademicDirectorDashboard },
       ]
