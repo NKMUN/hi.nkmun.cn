@@ -6,7 +6,7 @@
         <th v-if="showRound1">一轮</th>
         <th v-if="showExchange">交换中</th>
         <th v-if="showExchange">可交换</th>
-        <th v-if="showRound2">二轮</th>
+        <th v-if="showRound2">追加</th>
         <th v-if="showTotal">总计</th>
         <th v-if="$scopedSlots.operation">操作</th>
       </tr>

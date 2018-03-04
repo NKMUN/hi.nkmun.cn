@@ -99,7 +99,7 @@
       </el-form>
 
       <el-form :model="M" ref="form" class="form large" label-position="top">
-        <el-form-item label="二轮缴费成功模版" prop="paymentSuccess2">
+        <el-form-item label="追加缴费成功模版" prop="paymentSuccess2">
           <el-input
             type="textarea"
             :rows="10"
@@ -111,7 +111,7 @@
       </el-form>
 
       <el-form :model="M" ref="form" class="form large" label-position="top">
-        <el-form-item label="二轮缴费失败模版" prop="paymentFailure2">
+        <el-form-item label="追加缴费失败模版" prop="paymentFailure2">
           <el-input
             type="textarea"
             :rows="10"

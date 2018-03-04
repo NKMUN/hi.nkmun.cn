@@ -6,10 +6,10 @@ const def = [
     '1.payment',        '一轮付款',
     '1.paid',           '一轮付款审核',
     '1.complete',       '一轮完成',
-    '2.reservation',    '二轮酒店预订',
-    '2.payment',        '二轮付款',
-    '2.paid',           '二轮付款审核',
-    '2.complete',       '二轮完成',
+    '2.reservation',    '追加酒店预订',
+    '2.payment',        '追加付款',
+    '2.paid',           '追加付款审核',
+    '2.complete',       '追加完成',
     '3.confirm',        '信息确认',
     '9.complete',       '完成'
 ]

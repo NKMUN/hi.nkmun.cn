@@ -3,7 +3,7 @@
     <div class="controls">
       <span>显示：</span>
       <el-checkbox v-model="round1">一轮</el-checkbox>
-      <el-checkbox v-model="round2">二轮</el-checkbox>
+      <el-checkbox v-model="round2">追加</el-checkbox>
       <el-checkbox v-model="sum">总数</el-checkbox>
     </div>
 

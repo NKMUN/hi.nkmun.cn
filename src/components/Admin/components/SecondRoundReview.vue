@@ -87,7 +87,7 @@ export default {
         this.loading = true
         try {
           this.school = await this.$agent.get('/api/schools/'+this.id).body()
-          this.seat = this.school.seat['2']
+          this.seat = this.school.seat['2pre']
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
@@ -107,7 +107,7 @@ export default {
       try {
         await this.$agent
           .patch('/api/schools/'+this.id)
-          .query({ field: 'seat.2' })
+          .query({ field: 'seat.2pre' })
           .send( this.seat )
         this.dirty = false
         if (!silent) {

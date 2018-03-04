@@ -177,14 +177,6 @@ pre {
   -webkit-overflow-scrolling: touch;
 }
 
-/* 一致化 horizontal rule */
-hr {
-  border: none;
-  border-bottom: 1px solid #cfcfcf;
-  margin-bottom: 0.8em;
-  height: 10px;
-}
-
 /* 底部印刷体、版本等标记 */
 small,
   /* 图片说明 */

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="seat-updater">
     <h4 v-if="title">{{ title }}</h4>
     <!-- admin can bypass dual session requirement -->
     <SeatInput
@@ -13,6 +13,7 @@
     />
     <el-button
       v-if="!disabled"
+      size="small"
       type="success"
       icon="el-icon-check"
       :loading="busy"
@@ -44,13 +45,15 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import "../../../style/flex"
-div
+.seat-updater
   flex-vert: flex-start center
   &:first-child
     margin-right: 8ch
   *
     flex-shrink: 0
     flex-grow: 0
+  .el-button
+    margin: .5em 0
 </style>

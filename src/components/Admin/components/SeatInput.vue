@@ -1,7 +1,7 @@
 <template>
   <table>
     <tbody>
-      <tr v-for="session in sessions" class="session">
+      <tr v-for="session in sessions" :key="session.id" class="session">
         <td class="name">
           <span v-if="session.dual" class="hint">（双代）</span>
           <span> {{ session.name }} </span>

@@ -48,7 +48,6 @@ const Mail         = () => import('@/components/Root/Mail')
 const ApplicationMgmt = () => import('@/components/Admin/ApplicationMgmt')
 const SchoolMgmt      = () => import('@/components/Admin/SchoolMgmt')
 const PaymentMgmt     = () => import('@/components/Admin/PaymentMgmt')
-const SecondRoundMgmt = () => import('@/components/Admin/SecondRoundMgmt')
 const SeatOverview    = () => import('@/components/Admin/SeatOverview')
 const StageOverview    = () => import('@/components/Admin/StageOverview')
 const RepresentativeMgmt = () => import('@/components/Admin/RepresentativeMgmt')
@@ -112,8 +111,6 @@ export default new Router({
         { path: 'schools/:id', component: SchoolMgmt, props: true },
         { path: 'payments/', component: PaymentMgmt },
         { path: 'payments/:id', component: PaymentMgmt, props: true },
-        { path: 'second-round/', component: SecondRoundMgmt },
-        { path: 'second-round/:id', component: SecondRoundMgmt, props: true },
         { path: 'overview/seat', component: SeatOverview },
         { path: 'overview/stage', component: StageOverview },
         { path: 'representatives/', component: RepresentativeMgmt },

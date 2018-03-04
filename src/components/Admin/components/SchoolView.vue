@@ -8,20 +8,45 @@
 
       <div class="seat-view">
         <SeatUpdater
-          v-show="!loading"
           v-model="school.seat['1']"
           title="一轮名额"
           :sessions="sessions"
-          :disabled="round!=='1' || disableModification"
+          :disabled="!canModifyRound1"
           :busy="busy"
           @confirm="patch('seat.1', school.seat['1'])"
         />
+        <div class="seat-updater" v-if="school.stage === '1.complete'">
+          <h4>{{ school.seat['2'] ? '修改追加名额' : '分配追加名额'}}</h4>
+          <SeatInput
+            class="seat-input"
+            v-model="school.seat['2pre']"
+            :sessions="sessions"
+            :disabled="busy"
+            :check-dual="false"
+          />
+          <el-button-group class="controls">
+            <el-button
+              type="danger"
+              :loading="busy"
+              size="small"
+              icon="el-icon-message"
+              @click="allocSecondRound"
+            >{{ school.seat['2'] ? '修改' : '分配' }}</el-button>
+            <el-button
+              type="primary"
+              :loading="busy"
+              size="small"
+              icon="el-icon-edit"
+              @click="patch('seat.2pre', school.seat['2pre'])"
+            > 保存 </el-button>
+          </el-button-group>
+        </div>
         <SeatUpdater
-          v-show="!loading"
+          v-if="school.stage[0] === '2'"
           v-model="school.seat['2']"
-          title="二轮名额"
+          title="追加名额"
           :sessions="sessions"
-          :disabled="round!=='2' || disableModification"
+          :disabled="!canModifyRound2"
           :busy="busy"
           @confirm="patch('seat.2', school.seat['2'])"
         />
@@ -77,12 +102,14 @@ import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
 import ReservationControl from './ReservationControl'
 import LeaderAttendance from '../../form/LeaderAttendance'
+import SeatInput from './SeatInput'
 import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
   name: 'school-view',
   components: {
     SchoolBrief,
+    SeatInput,
     SeatUpdater,
     LeaderAttendance,
     NukeSchoolButton,
@@ -93,13 +120,21 @@ export default {
     id: { type: String, default: null }
   },
   computed: {
-    round() {
-      return (this.school && this.school.stage && this.school.stage[0]) || null
+    stage() {
+      return (this.school && this.school.stage) || ''
     },
-    disableModification() {
-      // certain stage does not allow modification
-      let stage = (this.school && this.school.stage) || ''
-      return !stage || stage.endsWith('.paid') || stage.endsWith('complete') || stage==='3.confirm' || stage==='9.complete'
+    round() {
+      return this.stage && this.stage[0] || null
+    },
+    canModify() {
+      const stage = this.stage
+      return stage && stage !== '3.confirm' || stage !== '9.complete'
+    },
+    canModifyRound1() {
+      return this.canModify && this.stage !== '1.paid'
+    },
+    canModifyRound2() {
+      return this.canModify && this.stage !== '2.paid'
     },
     leaderAttend() {
       if (this.school && this.school.seat && this.school.seat['1']) {
@@ -275,7 +310,27 @@ export default {
       } finally {
         this.busy = false
       }
-    }
+    },
+    async allocSecondRound() {
+      if ( ! await this.patch('seat.2pre', this.school.seat['2pre']) )
+        return
+
+      this.busy = true
+      try {
+        await this.$agent.post('/api/schools/'+this.id+'/progress')
+              .send({ confirmSecondRound: 1 })
+        this.$notify({
+          type: 'success',
+          title: '已分配追加名额',
+          duration: 5000
+        })
+        await this.fetch()
+      } catch(e) {
+        this.notifyError(e)
+      } finally {
+        this.busy = false
+      }
+    },
   },
   mounted() {
     return this.fetch()

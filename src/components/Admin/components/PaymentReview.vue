@@ -21,13 +21,13 @@
           <el-button
             type="danger"
             :loading="busy"
-            icon="el-icon-check"
+            icon="el-icon-close"
             @click="reject"
           > 不通过 </el-button>
           <el-button
             type="success"
             :loading="busy"
-            icon="el-icon-close"
+            icon="el-icon-check"
             @click="confirm"
           > 通过 </el-button>
           <el-button
@@ -78,7 +78,8 @@ export default {
         case '0': return []
         case '1': return []
         case '2': return ['1']
-        default:  return ['2', '1']
+        case '3': return ['2', '1']
+        default:  return ['3', '2', '1']
       }
     },
     canReviewPayment() {
@@ -108,7 +109,7 @@ export default {
         try {
           let [ school, payments ] = await Promise.all([
             this.$agent.get('/api/schools/'+this.id).body(),
-            this.$agent.get('/api/schools/'+this.id+'/payments/').body()
+            this.$agent.get('/api/schools/'+this.id+'/payments/').query({ state: 'all' }).body()
           ])
           this.school = school
           this.payments = payments
@@ -162,6 +163,7 @@ export default {
           message: status === 200 ? '通知邮件已发送' : '通知邮件未能成功发送',
           duration: 5000,
         })
+        this.school.stage = this.school.stage.replace('.paid', '.payment')
         this.processed()
         this.next()
       } catch(e) {

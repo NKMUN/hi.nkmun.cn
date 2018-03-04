@@ -35,7 +35,6 @@
         </el-submenu>
 
         <el-menu-item v-if="hasAccess('staff.application')" index="/staff/applications/"> 报名管理 </el-menu-item>
-        <el-menu-item v-if="hasAccess('staff.application')" index="/staff/second-round/"> 二轮分配 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff')" index="/staff/schools/"> 学校管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff', 'finance')" index="/staff/payments/"> 缴费管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff.representative')" index="/staff/representatives/"> 代表管理 </el-menu-item>
