@@ -3,7 +3,7 @@
     <div slot="header" class="section school">
       <div class="primary name">{{ school.name }}</div>
       <div class="secondary english-name">{{ school.englishName }}</div>
-      <div class="secondary address">{{ school.address }}</div>
+      <div class="secondary address">{{ school.administrative_area }} <span class="delimiter" /> {{ school.address }}</div>
     </div>
     <div>
       <div class="section contact">
@@ -26,23 +26,21 @@
           {{ altContact.email }}
         </div>
       </div>
-      <div class="section test" v-for="test in tests">
+      <div class="section test" v-for="test in tests" :key="test.id">
         <div class="question hint">{{ test.question }}</div>
         <div class="answer">
           <!-- do not use v-html, it leads to XSS injection -->
-          <p v-for="p in toParagraphs(acTest[test.id])">{{ p }}</p>
+          <p v-for="(p, idx) in toParagraphs(acTest[test.id])" :key="test.id + idx">{{ p }}</p>
         </div>
       </div>
       <div class="section request">
         <div class="primary">名额申请</div>
         <table>
           <tbody>
-            <template v-for="r in requestRows">
-              <tr v-if="request[r.key]">
-                <td class="session">{{ r.text }}</td>
-                <td class="amount">{{ request[r.key] }}</td>
-              </tr>
-            </template>
+            <tr v-for="r in requestRows" :key="r.key" v-if="request[r.key]">
+              <td class="session">{{ r.text }}</td>
+              <td class="amount">{{ request[r.key] }}</td>
+            </tr>
           </tbody>
         </table>
       </div>
