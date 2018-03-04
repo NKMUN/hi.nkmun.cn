@@ -61,6 +61,7 @@
 
     <el-dialog
       :visible="showFailure"
+      :before-close="applyError = null"
       title="报名失败"
     >
       <pre>{{ applyError }}</pre>
