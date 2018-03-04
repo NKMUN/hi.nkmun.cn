@@ -18,50 +18,52 @@ export function getRoleRoute(givenAccesses = []) {
 }
 
 // Statically bundled
-import Index from '@/pages/Index.vue'
-import NotFound from '@/pages/NotFound.vue'
-import Logout from '@/components/Logout.vue'
+import Index from '@/pages/Index'
+import NotFound from '@/pages/NotFound'
+import Logout from '@/components/Logout'
+import ApplyIntro from '@/pages/ApplyIntro'
 
 // Lazy load:
-const Apply    = () => import('@/pages/Apply.vue')
-const Register = () => import('@/pages/Register.vue')
-const Staff    = () => import('@/pages/Staff.vue')
-const School   = () => import('@/pages/School.vue')
-const Committee = () => import('@/pages/Committee.vue')
-const Volunteer = () => import('@/pages/Volunteer.vue')
-const Dais      = () => import('@/pages/Dais.vue')
+const ApplySchool = () => import('@/pages/ApplySchool')
+// const ApplyIndividual = () => import('@/pages/ApplyIndividual')
+const Register = () => import('@/pages/Register')
+const Staff    = () => import('@/pages/Staff')
+const School   = () => import('@/pages/School')
+const Committee = () => import('@/pages/Committee')
+const Volunteer = () => import('@/pages/Volunteer')
+const Dais      = () => import('@/pages/Dais')
 const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
 const AcademicDirector = () => import('@/pages/AcademicDirector')
 
 // Root mgmt pages
-const SessionMgmt  = () => import('@/components/Root/SessionMgmt.vue')
-const RootOverview = () => import('@/components/Root/Overview.vue')
-const SystemConfig = () => import('@/components/Root/Config.vue')
-const Application  = () => import('@/components/Root/Application.vue')
-const Initialize   = () => import('@/components/Root/Initialize.vue')
-const HotelMgmt    = () => import('@/components/Root/HotelMgmt.vue')
-const Mail         = () => import('@/components/Root/Mail.vue')
+const SessionMgmt  = () => import('@/components/Root/SessionMgmt')
+const RootOverview = () => import('@/components/Root/Overview')
+const SystemConfig = () => import('@/components/Root/Config')
+const Application  = () => import('@/components/Root/Application')
+const Initialize   = () => import('@/components/Root/Initialize')
+const HotelMgmt    = () => import('@/components/Root/HotelMgmt')
+const Mail         = () => import('@/components/Root/Mail')
 
 // Admin mgmt pages
-const ApplicationMgmt = () => import('@/components/Admin/ApplicationMgmt.vue')
-const SchoolMgmt      = () => import('@/components/Admin/SchoolMgmt.vue')
-const PaymentMgmt     = () => import('@/components/Admin/PaymentMgmt.vue')
-const SecondRoundMgmt = () => import('@/components/Admin/SecondRoundMgmt.vue')
-const SeatOverview    = () => import('@/components/Admin/SeatOverview.vue')
-const StageOverview    = () => import('@/components/Admin/StageOverview.vue')
-const RepresentativeMgmt = () => import('@/components/Admin/RepresentativeMgmt.vue')
-const UserMgmt = () => import('@/components/Admin/UserMgmt.vue')
-const Export = () => import('@/components/Admin/Export.vue')
-const StaffOverview = () => import('@/components/Root/Overview.vue')
-const Links = () => import('@/components/Root/Links.vue')
+const ApplicationMgmt = () => import('@/components/Admin/ApplicationMgmt')
+const SchoolMgmt      = () => import('@/components/Admin/SchoolMgmt')
+const PaymentMgmt     = () => import('@/components/Admin/PaymentMgmt')
+const SecondRoundMgmt = () => import('@/components/Admin/SecondRoundMgmt')
+const SeatOverview    = () => import('@/components/Admin/SeatOverview')
+const StageOverview    = () => import('@/components/Admin/StageOverview')
+const RepresentativeMgmt = () => import('@/components/Admin/RepresentativeMgmt')
+const UserMgmt = () => import('@/components/Admin/UserMgmt')
+const Export = () => import('@/components/Admin/Export')
+const StaffOverview = () => import('@/components/Root/Overview')
+const Links = () => import('@/components/Root/Links')
 
 // School mgmt pages
-const Relinquish  = () => import('@/components/School/Relinquish.vue')
-const Exchange    = () => import('@/components/School/Exchange.vue')
-const Reservation = () => import('@/components/School/Reservation.vue')
-const Payment     = () => import('@/components/School/Payment.vue')
-const Representative = () => import('@/components/School/Representative.vue')
-const Confirm        = () => import('@/components/School/Confirm.vue')
+const Relinquish  = () => import('@/components/School/Relinquish')
+const Exchange    = () => import('@/components/School/Exchange')
+const Reservation = () => import('@/components/School/Reservation')
+const Payment     = () => import('@/components/School/Payment')
+const Representative = () => import('@/components/School/Representative')
+const Confirm        = () => import('@/components/School/Confirm')
 
 // Dais mgmt pages
 const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
@@ -88,7 +90,9 @@ const AcademicStaffApplyConfirm = () => import(/* webpackChunkName: "asa" */ '@/
 export default new Router({
   routes: [
     { path: '/', component: Index },
-    { path: '/apply/', component: Apply },
+    { path: '/apply', component: ApplyIntro },
+    { path: '/apply/school/', component: ApplySchool },
+    // { path: '/apply/individual/', component: ApplySchool },
     { path: '/register/', component: Register },
     { path: '/committee/', component: Committee },
     { path: '/volunteer/', component: Volunteer },

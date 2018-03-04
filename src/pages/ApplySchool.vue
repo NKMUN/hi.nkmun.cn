@@ -6,7 +6,7 @@
       @loaded="configParser"
     />
 
-    <div v-if="config && !canApply">
+    <div class="application" v-if="config && !canApply">
       <el-alert
         class="application-period-alert"
         title="现在不能报名"
@@ -18,9 +18,9 @@
     </div>
 
     <div class="application" v-if="config && canApply">
-      <h2>报名</h2>
+      <h2>代表团报名</h2>
       <div class="disclaimer" v-html="config.disclaimer"></div>
-      <ApplicationForm
+      <ApplicationSchoolForm
         :tests="config.tests"
         :press="config.press"
         :disabled="busy"
@@ -73,7 +73,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Banner from '@/components/Banner'
-import ApplicationForm from '@/components/form/Application'
+import ApplicationSchoolForm from '@/components/form/ApplicationSchool'
 import Precondition from '@/components/Precondition'
 import Copyright from '@/components/Copyright'
 
@@ -81,7 +81,7 @@ export default {
   name: 'apply',
   components: {
     Banner,
-    ApplicationForm,
+    ApplicationSchoolForm,
     Precondition,
     Copyright
   },
@@ -96,7 +96,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      canApply: 'config/apply'
+      canApply: 'config/applySchool'
     }),
     showFailure() {
       return Boolean(this.applyError || this.error)

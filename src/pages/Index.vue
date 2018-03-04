@@ -10,7 +10,7 @@
 
         <div class="right">
           <div class="top">
-            <Login v-if="showLogin" @success="" @failure="" />
+            <Login v-if="showLogin" />
 
             <el-button
               class="btn"
@@ -74,10 +74,12 @@ export default {
   computed: {
     ...mapGetters({
       showApplyAcademicStaff: 'config/applyAcademicStaff',
-      showApply: 'config/apply',
       showRegister: 'config/register',
       showLeaderLogin: 'config/login',
+      applySchool: 'config/applySchool',
+      applyIndividual: 'config/applyIndividual',
     }),
+    showApply() { return this.applySchool || this.applyIndividual },
     showLogin() { return this.showLeaderLogin || this.showAdminLogin }
   }
 }
