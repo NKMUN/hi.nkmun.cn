@@ -72,7 +72,19 @@
         />
       </el-table-column>
 
-      <el-table-column prop="price" label="单价" width="96">
+      <el-table-column prop="estimatedAttendance" label="预计人数" width="84">
+        <el-input-number
+          slot-scope="{row, $index}"
+          v-model="row.estimatedAttendance"
+          size="small"
+          :controls="false"
+          :disabled="busy"
+          :min="0"
+          style="display: table-cell;"
+        />
+      </el-table-column>
+
+      <el-table-column prop="price" label="单价" width="84">
         <el-input-number
           slot-scope="{row, $index}"
           v-model="row.price"
@@ -147,6 +159,7 @@ const DEFAULT_SESSION = () => ({
   name: null,
   type: null,
   dual: false,
+  estimatedAttendance: 0,
   requiresChairman: false,
 })
 
