@@ -8,7 +8,7 @@
       已提交：<el-tag type="primary">{{submittedCount}}</el-tag>，申请中：<el-tag type="info">{{pendingCount}}</el-tag>
     </p>
     <p v-if="tests" class="legend">
-      图例： <RateScore v-for="cat in categories" :key="cat.id" :text="cat.name" :value="50" :hue="cat.hue" />
+      图例： <RateScore v-for="cat in categories" :key="cat.id" :text="cat.name" :value="50" :palette="cat.palette" />
     </p>
     <p v-if="tests" class="category-filter">
       筛选：
@@ -24,7 +24,7 @@
             v-for="{score, category} in row.winningCategories"
             :key="category.id"
             :value="score"
-            :hue="category.hue"
+            :palette="category.palette"
           />
           <RateScore
             v-if="row.winningCategories.length === 0"

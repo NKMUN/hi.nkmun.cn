@@ -1,15 +1,17 @@
 <script>
 import 'vue-awesome/icons/heartbeat'
+import { getColor } from '@/lib/color-palette'
+
 export default {
   functional: true,
   render(h, ctx) {
-    const { value = null, hue = 0, emptyText = '暂无', text = null} = ctx.props
+    const { value = null, palette = 'red', emptyText = '暂无', text = null} = ctx.props
     const score = value === undefined || value === null ? null : Math.floor(value)
 
     // heartbeat factor!
     const s = score || 0
     const scale = 0.5 + 0.5 * (s / 100)
-    const color = `hsl(${hue}, ${Math.max(100, 67 + s/3)}%, ${90 - s/3.5}%)`
+    const color = getColor(palette, value)
     const displayText = text !== null
                         ? text
                         : score === null

@@ -3,11 +3,11 @@
     <div class="score">
       <div class="field-name">图例：</div>
       <div class="legend">
-        <RateScore v-for="cat in categories" :key="cat.id" :value="50" :text="cat.name" :hue="cat.hue" />
+        <RateScore v-for="cat in categories" :key="cat.id" :value="50" :text="cat.name" :palette="cat.palette" />
       </div>
       <div class="field-name">评价：</div>
       <div class="slider" v-for="cat in categories" :key="cat.id">
-        <RateScore :value="value && value.score && value.score[cat.id]" :hue="cat.hue" />
+        <RateScore :value="value && value.score && value.score[cat.id]" :palette="cat.palette" />
         <el-slider
           :value="value && value.score && value.score[cat.id]"
           @input="val => emitScore(cat.id, val)"
