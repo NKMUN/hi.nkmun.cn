@@ -1,9 +1,8 @@
 <template>
   <div class="academic-staff-application-view" v-loading="busy">
     <ApplicationView class="viewer" :value="this.application" :tests="this.tests" />
-    <div class="vr"></div>
     <div class="review">
-      <RateInput v-model="review" :disabled="busyReview || !application"/>
+      <RateInput v-model="review" :categories="categories" :disabled="busyReview || !application"/>
       <div class="buttons">
         <el-button
           type="info"
@@ -28,6 +27,7 @@
 <script>
 import RateInput from './components/RateInput'
 import ApplicationView from './components/ApplicationView'
+import { computeCategoriesFromTests } from './lib/compute-categories'
 export default {
   components: {
     RateInput,
@@ -35,6 +35,11 @@ export default {
   },
   props: {
     id: {}
+  },
+  computed: {
+    categories() {
+      return computeCategoriesFromTests(this.tests)
+    }
   },
   watch: {
     id() {
@@ -116,12 +121,6 @@ export default {
   margin: 0 auto
   max-width: 150ch
   align-self: stretch
-.vr
-  width: 1px
-  margin: 2em 0
-  align-self: stretch
-  content: ""
-  border-left: 1px solid #cdcfe6
 .review
   min-width: 30ch
   max-width: 50ch

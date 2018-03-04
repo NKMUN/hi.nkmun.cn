@@ -3,13 +3,18 @@ import 'vue-awesome/icons/heartbeat'
 export default {
   functional: true,
   render(h, ctx) {
-    const { value } = ctx.props
+    const { value = null, hue = 0, emptyText = '暂无', text = null} = ctx.props
     const score = value === undefined || value === null ? null : Math.floor(value)
 
     // heartbeat factor!
     const s = score || 0
     const scale = 0.5 + 0.5 * (s / 100)
-    const color = `hsl(${48 - s * 0.48}, 100%, ${95 - s/3.5}%)`
+    const color = `hsl(${hue}, ${Math.max(100, 67 + s/3)}%, ${90 - s/3.5}%)`
+    const displayText = text !== null
+                        ? text
+                        : score === null
+                          ? emptyText
+                          : score
     return (
       <span class={{
         rate: true,
@@ -17,11 +22,11 @@ export default {
       }}>
         <icon class="icon" name="heartbeat" width="48" height="48" style={{
           transform: `scale(${scale}, ${scale})`,
-          color: score !== null ? color : null,
+          color: color,
           width: '1.5em',
           height: '1.5em'
         }} />
-        <span class="text">{ score === null ? '暂无' : score }</span>
+        <span class="text">{ displayText }</span>
       </span>
     )
   }
@@ -37,12 +42,10 @@ export default {
   .icon
     color: rgb(247, 186, 42)
   .text
-    width: 4.5ch
+    min-width: 4.5ch
     margin-left: .5ch
     vertical-align: text-bottom
   &.unavailable
-    .icon
-      color: rgb(239, 242, 247)
     .text
       color: #909399
 </style>
