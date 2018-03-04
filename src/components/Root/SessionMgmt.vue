@@ -160,6 +160,7 @@ const DEFAULT_SESSION = () => ({
   type: null,
   dual: false,
   estimatedAttendance: 0,
+  price: 0,
   requiresChairman: false,
 })
 
