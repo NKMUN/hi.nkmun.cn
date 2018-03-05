@@ -65,8 +65,6 @@ import SchoolForm from './School'
 import RequestForm from './Request'
 import AcademicTestForm from './AcademicTest'
 
-const MAX_NUM_OF_SEATS = 10
-
 export default {
   name: 'school-application-form',
   components: {

@@ -99,10 +99,7 @@
         :model="M"
         ref="form"
       >
-        <el-form-item
-          prop="checked"
-          :rules="validator"
-        >
+        <el-form-item prop="checked">
           <el-checkbox v-model="checked" @change="emit"> <b>我理解并同意以上服务协议</b> </el-checkbox>
         </el-form-item>
       </el-form>
@@ -127,16 +124,7 @@ export default {
   },
   data: () => ({
     serviceAgreement: null,
-    checked: false,
-    validator: {
-      validator(r, v, cb) {
-        return
-        if ( v!== true )
-          cb([ new Error('你必须同意许可协议才能继续') ])
-        else
-          cb([])
-      }
-    }
+    checked: false
   }),
   computed: {
     M() { return { checked: this.checked } }
@@ -153,9 +141,7 @@ export default {
       this.emit()
     },
     validate() {
-      return new Promise( resolve => {
-        this.$refs.form.validate( resolve )
-      })
+      return Promise.resolve(true)
     },
     setValue(value) {
       this.checked = value || false

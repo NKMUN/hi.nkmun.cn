@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getToken, storeToken, clearToken } from '@/persistence/token'
+import { storeToken } from '@/persistence/token'
 import { getRoleRoute } from '@/router'
 
 export default {
@@ -66,7 +66,7 @@ export default {
           let {
             unauthorized,
             forbidden,
-            body: { role, token }
+            body: { token }
           } = await this.$agent.post('/api/login', this.loginPayload)
                     .ok( ({ok, unauthorized, forbidden}) => ok || unauthorized || forbidden)
 
@@ -91,9 +91,6 @@ export default {
           this.busy = false
         }
       }
-    },
-    async refreshToken(token) {
-      // TODO: refresh previously stored token
     },
     validateForm() {
       return new Promise( resolve => this.$refs.loginForm.validate(resolve) )

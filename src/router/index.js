@@ -20,7 +20,6 @@ export function getRoleRoute(givenAccesses = []) {
 // Statically bundled
 import Index from '@/pages/Index'
 import NotFound from '@/pages/NotFound'
-import Logout from '@/components/Logout'
 import ApplyIntro from '@/pages/ApplyIntro'
 
 // Lazy load:
@@ -37,7 +36,6 @@ const AcademicDirector = () => import('@/pages/AcademicDirector')
 
 // Root mgmt pages
 const SessionMgmt  = () => import('@/components/Root/SessionMgmt')
-const RootOverview = () => import('@/components/Root/Overview')
 const SystemConfig = () => import('@/components/Root/Config')
 const Application  = () => import('@/components/Root/Application')
 const Initialize   = () => import('@/components/Root/Initialize')

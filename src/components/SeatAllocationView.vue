@@ -79,7 +79,6 @@ const bySchoolName = (a, b) => {
     return 1
   return 0
 }
-const byTypeThenName = (a, b) => pinyinCmp(a.type, b.type) || pinyinCmp(a.name, b.name)
 
 function mergeSeat(L, R) {
   L.sort( bySchoolName )

@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
-
 export default {
   name: 'refresh-button',
   watch: {

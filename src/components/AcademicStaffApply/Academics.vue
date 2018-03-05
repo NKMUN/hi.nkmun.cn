@@ -136,8 +136,8 @@ export default {
     formModel() {
       this.setValue(this.value)
     },
-    value() {
-      this.setValue(this.value)
+    value(val) {
+      this.setValue(val)
     }
   },
   methods: {
@@ -151,11 +151,11 @@ export default {
     setValue(val) {
       this.form = {
         ...this.formModel,
-        ...(this.value && this.value.test || {})
+        ...(val && val.test || {})
       }
       this.files = {
-        academic_design: this.value && this.value.academic_design || [],
-        previous_work: this.value && this.value.previous_work || []
+        academic_design: val && val.academic_design || [],
+        previous_work: val && val.previous_work || []
       }
     },
     validate() {

@@ -96,7 +96,6 @@
 </template>
 
 <script>
-import Precondition from '@/components/Precondition'
 import SchoolBrief from './SchoolBrief'
 import SeatUpdater from './SeatUpdater'
 import NukeSchoolButton from './NukeSchoolButton'
@@ -336,7 +335,7 @@ export default {
     return this.fetch()
   },
   watch: {
-    id(val) {
+    id() {
       this.$nextTick( () => this.fetch() )
     }
   }

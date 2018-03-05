@@ -50,8 +50,8 @@ export default {
         'login',
         'reserveHotel',
         'sessions',
-        'conferenceEndDate',
         'conferenceStartDate',
+        'conferenceEndDate',
         'mailer'
       ].forEach( k => {
         if (update[k] !== undefined)

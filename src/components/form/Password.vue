@@ -69,12 +69,12 @@ export default {
       passwordConfirmValidator: [{
         required: true,
         trigger: 'blur',
-        validator: (r, v, cb, s) => {
+        validator: (r, v, cb) => {
           const password = this.password
           const passwordConfirm = this.passwordConfirm
-          if ( typeof passwordConfirm !== 'string' || passwordConfirm.length === 0 )
+          if (typeof passwordConfirm !== 'string' || passwordConfirm.length === 0)
             return cb([ new Error('请重复上面输入的密码') ])
-          if (this.password !== passwordConfirm)
+          if (password !== passwordConfirm)
             return cb([ new Error('两次输入的密码不一致') ])
           cb([ ])
         }

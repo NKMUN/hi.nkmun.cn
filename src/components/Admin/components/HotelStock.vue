@@ -75,7 +75,7 @@ export default {
         }
       }
     },
-    getRowClassName(row, index) {
+    getRowClassName(row) {
       if (this.enableSelection) {
         if (row.available === 0)
           return 'disabled'

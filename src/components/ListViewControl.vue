@@ -54,11 +54,11 @@ export default {
   },
   methods: {
     handleSelect(id) {
-      id = id ? id+'/' : ''
+      const nextId = id ? id+'/' : ''
       this.$router.push(
           this.id
-        ? (this.prefix || '../') + id
-        : id
+        ? (this.prefix || '../') + nextId
+        : nextId
       )
     },
     handleNext(id) {

@@ -101,7 +101,7 @@ export default {
               .forEach(key => ret[key] = this[key])
           this.resolve(ret)
         },
-        failure => {
+        err => {
           // nop
         }
       )

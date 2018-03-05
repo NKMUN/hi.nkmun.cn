@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    handleSuccess(res, file) {
+    handleSuccess(res) {
       this.$emit('input', res.id)
       this.$emit('change', res.id)
       this.$emit('uploaded', res.id)
@@ -111,7 +111,7 @@ export default {
           type: 'error',
           message: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
         })
-      return isJPG && isLtMaxSize;
+      return isJPG && isLtMaxSize
     },
     handleProgress(ev) {
       this.busy = true
