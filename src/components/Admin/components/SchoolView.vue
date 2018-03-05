@@ -16,7 +16,7 @@
           @confirm="patch('seat.1', school.seat['1'])"
         />
         <div class="seat-updater" v-if="school.stage === '1.complete'">
-          <h4>{{ school.seat['2'] ? '修改追加名额' : '分配追加名额'}}</h4>
+          <h4>追加轮增加</h4>
           <SeatInput
             class="seat-input"
             v-model="school.seat['2pre']"
@@ -31,23 +31,24 @@
               size="small"
               icon="el-icon-message"
               @click="allocSecondRound"
-            >{{ school.seat['2'] ? '修改' : '分配' }}</el-button>
+            > 分配 </el-button>
             <el-button
               type="primary"
               :loading="busy"
               size="small"
               icon="el-icon-edit"
               @click="patch('seat.2pre', school.seat['2pre'])"
-            > 保存 </el-button>
+            > 暂存 </el-button>
           </el-button-group>
         </div>
         <SeatUpdater
-          v-if="school.stage[0] === '2'"
+          v-if="school.stage[0] === '2' || school.stage === '1.complete'"
           v-model="school.seat['2']"
-          title="追加名额"
+          title="追加轮减少"
           :sessions="sessions"
           :disabled="!canModifyRound2"
           :busy="busy"
+          :max="serverSeat2"
           @confirm="patch('seat.2', school.seat['2'])"
         />
       </div>
@@ -151,6 +152,7 @@ export default {
     school: null,
     reservations: null,
     enableStartConfirm: false,
+    serverSeat2: null
   }),
   methods: {
     notifyError(e, title='操作失败') {
@@ -166,6 +168,7 @@ export default {
         this.loading = true
         try {
           this.school = await this.$agent.get('/api/schools/'+this.id).body()
+          this.serverSeat2 = { ... (this.school.seat['2'] || {}) }
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.school = null
@@ -189,6 +192,7 @@ export default {
           message: '已更新 '+this.school.school.name,
           duration: 5000
         })
+        await this.fetch()
         return true
       } catch(e) {
         this.notifyError(e, '更新失败')

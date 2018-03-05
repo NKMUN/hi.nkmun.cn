@@ -8,6 +8,7 @@
       :sessions="sessions"
       :disabled="disabled"
       :checkDual="false"
+      :max="max"
       @input="emit"
       @change="emit"
     />
@@ -35,6 +36,7 @@ export default {
     value: { type: Object },
     disabled: { type: Boolean, default: false },
     busy: { type: Boolean, default: false },
+    max: { type: Object, default: () => ({}) },
   },
   methods: {
     emit(val) {
@@ -49,8 +51,8 @@ export default {
 @import "../../../style/flex"
 .seat-updater
   flex-vert: flex-start center
-  &:first-child
-    margin-right: 8ch
+  &:not(:first-child)
+    margin-left: 8ch
   *
     flex-shrink: 0
     flex-grow: 0

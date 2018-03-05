@@ -10,7 +10,7 @@
           <el-input-number
             v-model="M[session.id]"
             :min="0"
-            :max="20"
+            :max="max && max[session.id] !== undefined ? max[session.id] : 20"
             :disabled="disabled"
             @change="checkAndEmit(session.id, session.dual)"
             :step="(checkDual && session.dual) ? 2 : 1"
@@ -32,6 +32,7 @@ export default {
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     checkDual: { type: Boolean, default: true },
+    max: { type: Object, default: () => ({}) },
   },
   data: () => ({
     created: false,
