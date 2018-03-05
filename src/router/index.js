@@ -65,14 +65,14 @@ const Representative = () => import('@/components/School/Representative')
 const Confirm        = () => import('@/components/School/Confirm')
 
 // Dais mgmt pages
-const SessionSeatMgmt = () => import('@/components/Dais/SessionSeatMgmt')
-const DaisUserInfo = () => import('@/components/Dais/DaisUserInfo')
+const SessionSeatMgmt = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/SessionSeatMgmt')
+const DaisUserInfo = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/DaisUserInfo')
 
 // Academic Director
-const AcademicDirectorDashboard = () => import('@/components/AcademicDirector/Dashboard')
-const AcademicStaffApplicationConfig = () => import('@/components/AcademicDirector/AcademicStaffApplicationConfig')
-const AcademicStaffApplicationList = () => import('@/components/AcademicDirector/AcademicStaffApplicationList')
-const AcademicStaffApplicationView = () => import('@/components/AcademicDirector/AcademicStaffApplicationView')
+const AcademicDirectorDashboard = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/Dashboard')
+const AcademicStaffApplicationConfig = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationConfig')
+const AcademicStaffApplicationList = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationList')
+const AcademicStaffApplicationView = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationView')
 
 // Academic Staff Apply Detail
 const AcademicStaffApplyDetail = () => import(/* webpackChunkName: "asa" */ '@/pages/AcademicStaffApplyDetail')
