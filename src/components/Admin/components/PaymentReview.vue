@@ -5,40 +5,7 @@
 
       <SchoolBrief class="brief" :data="school" />
 
-      <hr/>
-      <BillingDetail
-        class="billing"
-        :school="id"
-        :round="currentRound"
-      />
-      <PaymentList
-        v-loading="!payments"
-        :payments="(payments || []).filter($ => $.round === currentRound)"
-      />
-
-      <div class="controls" v-if="canReviewPayment && school && school.stage.endsWith('.paid')">
-        <el-button-group>
-          <el-button
-            type="danger"
-            :loading="busy"
-            icon="el-icon-close"
-            @click="reject"
-          > 不通过 </el-button>
-          <el-button
-            type="success"
-            :loading="busy"
-            icon="el-icon-check"
-            @click="confirm"
-          > 通过 </el-button>
-          <el-button
-            type="primary"
-            :loading="busy"
-            @click="next"
-          > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
-        </el-button-group>
-      </div>
-
-      <div v-for="round in previousRounds" :key="round">
+      <div v-for="round in rounds" :key="round">
         <hr/>
         <BillingDetail
           class="billing"
@@ -46,6 +13,28 @@
           :round="round"
         />
         <PaymentList :payments="(payments || []).filter($ => $.round === round)" />
+
+        <div class="controls" v-if="canReviewPayment && school && school.stage === `${round}.paid`">
+          <el-button-group>
+            <el-button
+              type="danger"
+              :loading="busy"
+              icon="el-icon-close"
+              @click="reject"
+            > 不通过 </el-button>
+            <el-button
+              type="success"
+              :loading="busy"
+              icon="el-icon-check"
+              @click="confirm"
+            > 通过 </el-button>
+            <el-button
+              type="primary"
+              :loading="busy"
+              @click="next"
+            > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
+          </el-button-group>
+        </div>
       </div>
     </template>
 
@@ -70,16 +59,16 @@ export default {
     id: { type: String, default: null },
   },
   computed: {
-    currentRound() {
-      return this.school ? this.school.stage[0] : '1'
-    },
-    previousRounds() {
-      switch (this.currentRound) {
-        case '0': return []
-        case '1': return []
-        case '2': return ['1']
-        case '3': return ['2', '1']
-        default:  return ['3', '2', '1']
+    rounds() {
+      const hasSecondRound = Object.keys(this.school && this.school.seat['2'] || {}).length
+      const stage = this.school && this.school.stage
+      const round = this.school && this.school.stage[0]
+      if (stage === '1.complete') {
+        return hasSecondRound ? ['2', '1'] : ['1']
+      } else {
+        if (round === '1') return ['1']
+        if (round === '2') return ['2', '1']
+        return ['2', '1']
       }
     },
     canReviewPayment() {

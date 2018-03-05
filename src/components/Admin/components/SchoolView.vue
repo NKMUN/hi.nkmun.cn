@@ -8,20 +8,23 @@
 
       <div class="seat-view">
         <SeatUpdater
+          v-if="Number(school.stage[0]) >= 1"
           v-model="school.seat['1']"
           title="一轮名额"
           :sessions="sessions"
-          :disabled="!canModifyRound1"
+          :disabled="busy || !canModifyRound1"
           :busy="busy"
           @confirm="patch('seat.1', school.seat['1'])"
         />
-        <div class="seat-updater" v-if="school.stage === '1.complete'">
+        <div class="seat-updater"
+          v-if="school.stage === '1.complete' || school.stage[0] === '2'"
+        >
           <h4>追加轮增加</h4>
           <SeatInput
             class="seat-input"
             v-model="school.seat['2pre']"
             :sessions="sessions"
-            :disabled="busy"
+            :disabled="busy || !canModifyRound2"
             :check-dual="false"
           />
           <el-button-group class="controls">
@@ -30,6 +33,8 @@
               :loading="busy"
               size="small"
               icon="el-icon-message"
+              :busy="busy"
+              :disabled="!canModifyRound2"
               @click="allocSecondRound"
             > 分配 </el-button>
             <el-button
@@ -37,18 +42,29 @@
               :loading="busy"
               size="small"
               icon="el-icon-edit"
+              :busy="busy"
+              :disabled="!canModifyRound2"
               @click="patch('seat.2pre', school.seat['2pre'])"
             > 暂存 </el-button>
           </el-button-group>
         </div>
         <SeatUpdater
-          v-if="school.stage[0] === '2' || school.stage === '1.complete'"
+          v-if="school.stage[0] === '2' || (school.stage === '1.complete' && Object.keys(serverSeat2).length > 0)"
           v-model="school.seat['2']"
           title="追加轮减少"
           :sessions="sessions"
-          :disabled="!canModifyRound2"
+          :disabled="busy || !canModifyRound2"
           :busy="busy"
           :max="serverSeat2"
+          @confirm="setSecondRound"
+        />
+        <SeatUpdater
+          v-if="Number(school.stage[0]) >= 3"
+          v-model="school.seat['2']"
+          title="追加名额"
+          :sessions="sessions"
+          :disabled="busy || !canModifyRound2"
+          :busy="busy"
           @confirm="patch('seat.2', school.seat['2'])"
         />
       </div>
@@ -128,7 +144,7 @@ export default {
     },
     canModify() {
       const stage = this.stage
-      return stage && stage !== '3.confirm' || stage !== '9.complete'
+      return stage && stage !== '3.confirm' && stage !== '9.complete'
     },
     canModifyRound1() {
       return this.canModify && this.stage !== '1.paid'
@@ -334,6 +350,10 @@ export default {
         this.busy = false
       }
     },
+    async setSecondRound() {
+      await this.patch('seat.2', this.school.seat['2'])
+      await this.patch('seat.2pre', this.school.seat['2'])
+    }
   },
   mounted() {
     return this.fetch()
