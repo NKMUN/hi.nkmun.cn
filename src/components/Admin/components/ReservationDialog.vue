@@ -38,7 +38,7 @@
             v-model="checkOut"
             type="date"
             value-format="yyyy-MM-dd"
-            :disabled="!hotel || busy"
+            :disabled="!hotel || busy || !checkIn"
             placeholder="请选择退房日期"
             :picker-options="checkOutPickerOptions"
             :default-value="conferenceEndDate"
@@ -124,7 +124,7 @@
 
 <script>
 import HotelStock from './HotelStock'
-import { between as dateBetween } from '@/lib/date-util'
+import { between as dateBetween, parseDate } from '@/lib/date-util'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
 import pinyinCmp from '@/lib/pinyin-cmp'
@@ -168,17 +168,16 @@ export default {
     },
     checkInPickerOptions() {
       if (!this.hotel) return {}
-      const oneDayBeforeLastDay = new Date(this.hotel.notAfter) - ONE_DAY
-      const startDate = this.hotel.notBefore
-      const endDate = this.isStaff ? oneDayBeforeLastDay : this.conferenceStartDate
+      const oneDayBeforeLastDay = parseDate(this.hotel.notAfter).getTime() - ONE_DAY
+      const startDate = parseDate(this.hotel.notBefore)
+      const endDate = this.isStaff ? oneDayBeforeLastDay : parseDate(this.conferenceStartDate)
       return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
     },
     checkOutPickerOptions() {
       if (!this.hotel || !this.checkIn) return {}
-      const checkIn = new Date(this.checkIn).getTime()
-      const startDate = this.isStaff ? checkIn + ONE_DAY : this.conferenceEndDate
-      const endDate = this.hotel.notAfter
-      return { disabledDate: date => ! dateBetween(date, startDate, endDate) }
+      const startDate = this.isStaff ? parseDate(this.checkIn).getTime() + ONE_DAY : parseDate(this.conferenceEndDate)
+      const endDate = parseDate(this.hotel.notAfter)
+      return { disabledDate: date => ! dateBetween(date, startDate, endDate)}
     }
   },
   data: () => ({

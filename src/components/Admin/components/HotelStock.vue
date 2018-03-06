@@ -7,12 +7,11 @@
       @click.native="handleClick"
     >
       <el-table-column v-if="enableSelection" width="48">
-        <el-radio
+        <el-checkbox
           slot-scope="{row}"
-          :value="value"
+          :value="value && value.id === row.id"
           :data-id="row.id"
           :disabled="isHotelDisabled(row)"
-          @input="val => $emit('input', val)"
         />
       </el-table-column>
       <el-table-column prop="name" label="酒店" min-width="240" sortable />
@@ -90,7 +89,7 @@ export default {
       let cur = ev.target
       while (!cur.classList.contains('el-table')) {
         if (cur.classList.contains('el-table__row')) {
-          const hotelId = cur.querySelector('.el-radio').getAttribute('data-id')
+          const hotelId = cur.querySelector('.el-checkbox').getAttribute('data-id')
           if (hotelId) {
             const hotel = this.hotels.find(hotel => hotel.id === hotelId)
             if (!this.isHotelDisabled(hotel))

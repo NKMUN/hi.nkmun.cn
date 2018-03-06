@@ -25,4 +25,11 @@ function toDateString(d) {
     return ret.slice(0, ret.indexOf(' '))
 }
 
-export { between, toDateTimeString, toDateString }
+function parseDate(str) {
+    const yyyy = parseInt(str.slice(0, 4), 10)
+    const mm = parseInt(str.slice(5, 7), 10)
+    const dd = parseInt(str.slice(8, 10), 10)
+    return new Date(yyyy, mm - 1, dd, 0, 0, 0, 0)
+}
+
+export { between, toDateTimeString, toDateString, parseDate }
