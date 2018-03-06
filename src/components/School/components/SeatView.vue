@@ -15,7 +15,7 @@
       <tr v-for="row in seatArray" :key="row.session.id">
         <td class="session-name">
           <span>{{ row.session.name }}</span>
-          <el-tag v-if="row.session.dual" type="warning" class="tag">双代</el-tag>
+          <DualSessionWarning v-if="row.session.dual" />
         </td>
         <td v-if="showRound1" class="amount">{{ row.round1 }}</td>
         <td v-if="showExchange" class="amount">{{ row.inExchange }}</td>
@@ -33,10 +33,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
+import DualSessionWarning from './DualSessionWarning'
 const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.session))
 
 export default {
   name: 'seat-view',
+  components: {
+    DualSessionWarning
+  },
   mixins: [
     SessionUtils
   ],
