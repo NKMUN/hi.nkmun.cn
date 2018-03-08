@@ -56,9 +56,6 @@
 </template>
 
 <script>
-import IdValidator from 'id-validator'
-const idValidator = new IdValidator()
-
 export default {
   name: 'guardian-form',
   props: {

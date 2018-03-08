@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    handleSuccess(res, file) {
+    handleSuccess(res) {
       this.$emit('input', res.id)
       this.$emit('change', res.id)
       this.$emit('uploaded', res.id)
@@ -102,18 +102,16 @@ export default {
       const isJPG = file.type === 'image/jpeg'
       const isLtMaxSize = file.size < this.maxSize
       if (!isJPG)
-        this.$notify({
+        this.$message({
           type: 'error',
-          title: '上传的图片只能是 JPG 格式!',
-          duration: 5000,
+          message: '上传的图片只能是 JPG 格式!',
         })
       if (!isLtMaxSize)
-        this.$notify({
+        this.$message({
           type: 'error',
-          title: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
-          duration: 5000,
+          message: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
         })
-      return isJPG && isLtMaxSize;
+      return isJPG && isLtMaxSize
     },
     handleProgress(ev) {
       this.busy = true

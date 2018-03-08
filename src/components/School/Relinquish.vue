@@ -12,6 +12,7 @@
 
     <SeatView :seat="seat" style="align-self: center">
       <el-button
+        slot="operation"
         slot-scope="{session}"
         v-if="!session.reserved"
         size="mini"

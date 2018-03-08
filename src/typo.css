@@ -177,14 +177,6 @@ pre {
   -webkit-overflow-scrolling: touch;
 }
 
-/* 一致化 horizontal rule */
-hr {
-  border: none;
-  border-bottom: 1px solid #cfcfcf;
-  margin-bottom: 0.8em;
-  height: 10px;
-}
-
 /* 底部印刷体、版本等标记 */
 small,
   /* 图片说明 */
@@ -211,7 +203,6 @@ strong, b {
 h1, h2, h3, h4, h5, h6 {
   font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-weight: bolder;
-  color: #000;
   line-height: 1.35;
   margin: 1em 0;
 }

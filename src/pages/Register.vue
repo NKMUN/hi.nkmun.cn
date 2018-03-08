@@ -169,7 +169,7 @@ export default {
             this.$alert('请重新注册', '操作超时', {
               type: 'warning',
               confirmButtonText: '返回',
-              callback: (action) => { this.reset() }
+              callback: _ => { this.reset() }
             })
           }
         } catch(e) {

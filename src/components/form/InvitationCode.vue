@@ -18,7 +18,7 @@
         type="text"
         placeholder="请输入邀请码"
         :disabled="disabled"
-        @change="emit"
+        @input="emit"
       />
     </el-form-item>
 

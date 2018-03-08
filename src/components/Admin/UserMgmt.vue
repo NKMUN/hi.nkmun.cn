@@ -167,7 +167,7 @@ export default {
     async deleteUser(user) {
       this.$confirm(`确定删除 ${user.id}，此操作无法恢复`, '确认', { type: 'error', confirmButtonClass: 'el-button--danger' })
       .then(
-        async confirm => {
+        async _ => {
           await this.$agent.delete(`/api/users/${user.id}`)
           this.fetch()
           this.$message({
@@ -175,7 +175,7 @@ export default {
             message: `已删除 ${user.id}`
           })
         },
-        cancel => { }
+        _ => { }
       )
     },
     async createNewUser() {

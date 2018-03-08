@@ -6,8 +6,11 @@
         <el-form-item label="学术团队申请">
           <el-checkbox v-model="config.applyAcademicStaff" :disabled="busy" />
         </el-form-item>
-        <el-form-item label="报名">
-          <el-checkbox v-model="config.apply" :disabled="busy" />
+        <el-form-item label="学校报名">
+          <el-checkbox v-model="config.applySchool" :disabled="busy" />
+        </el-form-item>
+        <el-form-item label="个人代表报名">
+          <el-checkbox v-model="config.applyIndividual" :disabled="busy" />
         </el-form-item>
         <el-form-item label="代表注册">
           <el-checkbox v-model="config.register" :disabled="busy" />
@@ -56,7 +59,8 @@ export default {
       this.config = {
         applyAcademicStaff: config.applyAcademicStaff,
         register: config.register,
-        apply: config.apply,
+        applySchool: config.applySchool,
+        applyIndividual: config.applyIndividual,
         login: config.login,
         reserveHotel: config.reserveHotel,
         conferenceName: config.conferenceName,

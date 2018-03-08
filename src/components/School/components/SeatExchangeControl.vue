@@ -64,7 +64,7 @@
               >
                 <div class="session-line">
                   <span class="name">{{ ss.name }}</span>
-                  <el-tag v-if="ss.dual" type="warning" style="line-height: 22px !important;">双代</el-tag>
+                  <DualSessionWarning v-if="ss.dual" />
                   <span class="amount">{{
                     ss.reserved ? '不可交换' : (
                       ss.id === exchange.targetSession ? '同一会场' : (
@@ -94,11 +94,15 @@
 import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
 import SessionTypes from '@/lib/session-types'
+import DualSessionWarning from './DualSessionWarning'
 
 const byId = (a,b) => String(a.id).localeCompare(String(b.id))
 
 export default {
   name: 'seat-exchange-control',
+  components: {
+    DualSessionWarning
+  },
   mixins: [
     SessionUtils
   ],

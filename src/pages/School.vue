@@ -28,9 +28,9 @@
           <el-menu-item v-if="stage === '1.payment'"
                         index="/school/payment/"> 一轮付款 </el-menu-item>
           <el-menu-item v-if="stage === '2.reservation'"
-                        index="/school/reservation/"> 二轮酒店预订 </el-menu-item>
+                        index="/school/reservation/"> 追加酒店预订 </el-menu-item>
           <el-menu-item v-if="stage === '2.payment'"
-                        index="/school/payment/"> 二轮付款 </el-menu-item>
+                        index="/school/payment/"> 追加付款 </el-menu-item>
           <el-menu-item v-if="stage === '3.confirm'"
                         index="/school/representatives/"> 代表信息 </el-menu-item>
           <el-menu-item v-if="stage === '3.confirm' || stage === '9.complete'"

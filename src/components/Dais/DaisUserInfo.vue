@@ -120,7 +120,6 @@ import ImageUpload from '@/components/form/ImageUpload'
 import GuardianForm from '@/components/form/Guardian'
 import IdentificationForm from '@/components/form/Identification'
 import genderText from '@/lib/gender-text'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'dais-user-info',
@@ -215,6 +214,7 @@ export default {
       let results = await Promise.all(
         this.forms.map( ref => this.$refs[ref].validate() ),
         () => new Promise(resolve => {
+          const dais = this.dais
           // validate arrive / depart / checkIn / checkOut
           return dais && dais.checkInDate && dais.checkOutDate && (
             this.isForeign

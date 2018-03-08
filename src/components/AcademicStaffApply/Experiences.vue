@@ -123,11 +123,11 @@ export default {
     },
     validate() {
       return Promise.all(
-        this.$refs.forms.map(
+        (this.$refs.forms || []).map(
           form => form.validate().then(_ => true, _ => false)
         )
       ).then(
-        results => results.reduce((a, b) => a && b)
+        results => results.reduce((a, b) => a && b, true)
       )
     },
     setValue(val) {

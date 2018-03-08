@@ -6,16 +6,16 @@
         <th v-if="showRound1">一轮</th>
         <th v-if="showExchange">交换中</th>
         <th v-if="showExchange">可交换</th>
-        <th v-if="showRound2">二轮</th>
+        <th v-if="showRound2">追加</th>
         <th v-if="showTotal">总计</th>
         <th v-if="$scopedSlots.operation">操作</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in seatArray">
+      <tr v-for="row in seatArray" :key="row.session.id">
         <td class="session-name">
           <span>{{ row.session.name }}</span>
-          <el-tag v-if="row.session.dual" type="warning" class="tag">双代</el-tag>
+          <DualSessionWarning v-if="row.session.dual" />
         </td>
         <td v-if="showRound1" class="amount">{{ row.round1 }}</td>
         <td v-if="showExchange" class="amount">{{ row.inExchange }}</td>
@@ -33,10 +33,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import SessionUtils from '@/lib/session-utils'
+import DualSessionWarning from './DualSessionWarning'
 const bySessionId = (a={}, b={}) => String(a.session).localeCompare(String(b.session))
 
 export default {
   name: 'seat-view',
+  components: {
+    DualSessionWarning
+  },
   mixins: [
     SessionUtils
   ],

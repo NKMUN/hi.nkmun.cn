@@ -14,7 +14,7 @@
         <li>交换中的名额不能再次用于交换</li>
         <li>结束交换时，双代会场必须有偶数名额</li>
         <li>结束交换时，待处理的交换申请将<b>全部拒绝</b></li>
-        <li>结束交换时，己方已发出，但对方未确认的交换申请会<b>全部取消</b></li></li>
+        <li>结束交换时，己方已发出，但对方未确认的交换申请会<b>全部取消</b></li>
       </ul>
     </div>
 
@@ -29,7 +29,10 @@
 
     <hr style="align-self: stretch; width: 80%; color: #D3DCE6; border-style: solid; border-width: 1px" />
 
-    <ExchangeRequestList class="requests" @accept="handleAccept" />
+    <div class="request-lists">
+      <ExchangeRequestList class="requests" @accept="handleAccept" />
+      <ExchangeRequestCancelList class="requests" />
+    </div>
 
     <SeatExchangeControl class="seat-overview" ref="list" @exchange="exchange" :busy="busy" />
 
@@ -38,11 +41,11 @@
 
 <script>
 import ExchangeRequestList from './components/ExchangeRequestList'
+import ExchangeRequestCancelList from './components/ExchangeRequestCancelList'
 import SeatView from './components/SeatView'
 import SeatExchangeControl from './components/SeatExchangeControl'
 import { mapGetters } from 'vuex'
 import store from '@/store/index'
-import groupSeatsBySession from '@/lib/group-seats'
 import SessionUtils from '@/lib/session-utils'
 
 
@@ -50,6 +53,7 @@ export default {
   name: 'school-exchange',
   components: {
     ExchangeRequestList,
+    ExchangeRequestCancelList,
     SeatView,
     SeatExchangeControl
   },
@@ -94,7 +98,7 @@ export default {
             title: '未能确认名额交换',
             message: '双代会场没有偶数名额，请刷新页面！'
           })
-        } 
+        }
         if (ok) {
           this.$store.commit('school/seat', updatedSeat)
           this.$store.commit('school/stage', '1.reservation')
@@ -195,6 +199,14 @@ export default {
   .seat-overview
     min-width: 480px
     width: 80%
+  .request-lists
+    align-self: stretch
+    flex-horz: center flex-start
+    > *
+      flex: 1 0 auto
+      max-width: 45ch
+      &:first-child
+        margin-right: 4ch
 .exchange-dialog-content
   flex-vert: flex-start center
 </style>

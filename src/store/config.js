@@ -2,7 +2,8 @@ export default {
   namespaced: true,
   state: {
     applyAcademicStaff: false,
-    apply: false,
+    applySchool: false,
+    applyIndividual: false,
     register: false,
     login: false,
     sessions: [],
@@ -12,7 +13,8 @@ export default {
   },
   getters: {
     applyAcademicStaff: state => state.applyAcademicStaff,
-    apply: state => state.apply,
+    applySchool: state => state.applySchool,
+    applyIndividual: state => state.applyIndividual,
     register: state => state.register,
     login: state => state.login,
     reserveHotel: state => state.reserveHotel,
@@ -25,7 +27,8 @@ export default {
   mutations: {
     config( state, config ) {
       state.applyAcademicStaff = (config && config.applyAcademicStaff) || false
-      state.apply = (config && config.apply) || false
+      state.applySchool = (config && config.applySchool) || false
+      state.applyIndividual = (config && config.applyIndividual) || false
       state.register = (config && config.register) || false
       state.login = (config && config.login) || false
       state.reserveHotel = (config && config.reserveHotel) || false
@@ -39,7 +42,18 @@ export default {
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
     },
     update( state, update ) {
-      ;['applyAcademicStaff', 'apply', 'register', 'login', 'reserveHotel', 'sessions', 'conferenceEndDate', 'conferenceStartDate', 'mailer'].forEach( k => {
+      ;[
+        'applyAcademicStaff',
+        'applySchool',
+        'applyIndividual',
+        'register',
+        'login',
+        'reserveHotel',
+        'sessions',
+        'conferenceStartDate',
+        'conferenceEndDate',
+        'mailer'
+      ].forEach( k => {
         if (update[k] !== undefined)
           state[k] = update[k]
       })

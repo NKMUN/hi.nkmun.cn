@@ -65,10 +65,8 @@ import SchoolForm from './School'
 import RequestForm from './Request'
 import AcademicTestForm from './AcademicTest'
 
-const MAX_NUM_OF_SEATS = 10
-
 export default {
-  name: 'application-form',
+  name: 'school-application-form',
   components: {
     ContactForm,
     SchoolForm,
@@ -94,6 +92,8 @@ export default {
     emit() {
       this.$nextTick( () => {
         let M = {
+          type: 'school',
+          identifier: this.school && this.school.name,
           school: this.school,
           contact: this.contact,
           altContact: this.altContact,

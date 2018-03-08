@@ -3,7 +3,7 @@
     <div class="controls">
       <span>显示：</span>
       <el-checkbox v-model="round1">一轮</el-checkbox>
-      <el-checkbox v-model="round2">二轮</el-checkbox>
+      <el-checkbox v-model="round2">追加</el-checkbox>
       <el-checkbox v-model="sum">总数</el-checkbox>
     </div>
 
@@ -18,13 +18,13 @@
       <thead>
         <tr>
           <th></th>
-          <th class="session" v-for="s in activeSessions">{{s.name}}</th>
+          <th class="session" v-for="s in activeSessions" :key="s.id">{{s.name}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="$ in schools">
+        <tr v-for="$ in schools" :key="$.id">
           <td class="school">{{$.name}}</td>
-          <td v-for="s in activeSessions">
+          <td v-for="s in activeSessions" :key="s.id">
             <div class="seat-amount no-wrap">
               <span v-if="round1" class="amount" :data-amount="$.r1[s.id] || 0">
                 {{ $.r1[s.id] || '-' }}
@@ -40,17 +40,24 @@
         </tr>
         <tr class="summary" v-if="schools">
           <td>总数</td>
-          <td v-for="s in activeSessions">
-            <div class="seat-amount no-wrap">
-            <span v-if="round1" class="amount">
-              {{ schools.map($ => $.r1[s.id]).reduce(add, 0) }}
-            </span>
-            <span v-if="round2" class="amount">
-              {{ schools.map($ => $.r2[s.id]).reduce(add, 0) }}
-            </span>
-            <span v-if="sum" class="amount">
-              {{ schools.map($ => add($.r1[s.id], $.r2[s.id])).reduce(add, 0) }}
-            </span>
+          <td v-for="s in activeSessions" :key="s.id">
+            <div :class="{
+              'seat-amount': true,
+              'no-wrap': true,
+              'estimated': true,
+              'exceeded': s.sum > s.estimatedAttendance
+            }">
+              <span v-if="round1" class="amount"> {{ s.round1 }} </span>
+              <span v-if="round2" class="amount"> {{ s.round2 }} </span>
+              <span v-if="sum" class="amount"> {{ s.sum }} </span>
+            </div>
+          </td>
+        </tr>
+        <tr class="summary">
+          <td>预计</td>
+          <td v-for="s in activeSessions" :key="s.id">
+            <div class="seat-amount no-wrap estimated">
+              <span class="amount">{{ s.estimatedAttendance }}</span>
             </div>
           </td>
         </tr>
@@ -72,7 +79,6 @@ const bySchoolName = (a, b) => {
     return 1
   return 0
 }
-const byTypeThenName = (a, b) => pinyinCmp(a.type, b.type) || pinyinCmp(a.name, b.name)
 
 function mergeSeat(L, R) {
   L.sort( bySchoolName )
@@ -102,6 +108,8 @@ function mergeSeat(L, R) {
   return result
 }
 
+const add = (acc, v) => (acc || 0) + (v || 0)
+
 import sessionTypes from '@/lib/session-types'
 
 export default {
@@ -111,7 +119,14 @@ export default {
   ],
   computed: {
     activeSessions() {
-      return this.SESSIONS().filter( $ => $.type === this.sessionType )
+      return this.SESSIONS()
+        .filter($ => $.type === this.sessionType)
+        .map(s => ({
+          ...s,
+          round1: (this.schools || []).map($ => $.r1[s.id]).reduce(add, 0),
+          round2: (this.schools || []).map($ => $.r2[s.id]).reduce(add, 0),
+          sum:    (this.schools || []).map($ => add($.r1[s.id], $.r2[s.id])).reduce(add, 0)
+        }))
     }
   },
   data: () => ({
@@ -135,7 +150,7 @@ export default {
         this.schools = null
       }
     },
-    add: (acc, v) => (acc || 0) + (v || 0)
+    add
   },
   mounted() {
     this.fetch()
@@ -170,4 +185,6 @@ table
   .summary
     font-weight: bolder
     color: #878d99
+    .exceeded
+      color: #f56c6c
 </style>

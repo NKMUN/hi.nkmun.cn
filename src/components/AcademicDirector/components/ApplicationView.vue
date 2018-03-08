@@ -2,22 +2,15 @@
 import ImageLoader from '@/components/Admin/components/ImageLoader'
 import genderText from '@/lib/gender-text'
 import SimpleField from './SimpleField'
-import SimpleFieldVue from './SimpleField.vue';
-import { mapGetters } from 'vuex';
 import 'vue-awesome/icons/file-text-o'
 
 export default {
-  computed: {
-    ...mapGetters({
-      token: 'user/token'
-    })
-  },
   props: {
     value: {},
     tests: {}
   },
-  render(h) {
-    const { value, tests, token } = this
+  render() {
+    const { value, tests } = this
     if (!value || !tests)
       return (<div></div>)
 

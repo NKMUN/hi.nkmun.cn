@@ -17,7 +17,7 @@
         :closable="false"
       />
       <ul>
-        <li v-for="problem in validationResult">{{ problem }}</li>
+        <li v-for="(problem, idx) in validationResult" :key="idx">{{ problem }}</li>
       </ul>
     </div>
 
@@ -45,7 +45,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import store from '@/store/index'
 import ReservationControl from '@/components/Admin/components/ReservationControl'
 import RepresentativeTable from './components/RepresentativeTable'
 

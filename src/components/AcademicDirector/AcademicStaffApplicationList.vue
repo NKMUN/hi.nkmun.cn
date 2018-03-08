@@ -7,9 +7,31 @@
     <p v-if="pendingCount !== null && submittedCount !== null">
       已提交：<el-tag type="primary">{{submittedCount}}</el-tag>，申请中：<el-tag type="info">{{pendingCount}}</el-tag>
     </p>
-    <el-table :data="applications || []" v-loading="busy" :default-sort="{ prop: 'score', order: 'descending' }">
+    <p v-if="tests" class="legend">
+      图例： <RateScore v-for="cat in categories" :key="cat.id" :text="cat.name" :value="50" :palette="cat.palette" />
+    </p>
+    <p v-if="tests" class="category-filter">
+      筛选：
+      <el-select v-model="category" size="small" value-key="id">
+        <el-option label="全部" :value="null" />
+        <el-option v-for="cat in categories" :key="cat.id" :label="cat.name" :value="cat" />
+      </el-select>
+    </p>
+    <el-table :data="displayApplications || []" v-loading="busy" :default-sort="{ prop: 'score', order: 'descending' }">
       <el-table-column label="评分" width="84px" sortable prop="score">
-        <RateScore :value="row.aggregate_review" slot-scope="{row}" />
+        <div slot-scope="{row}">
+          <RateScore
+            v-for="{score, category} in row.winningCategories"
+            :key="category.id"
+            :value="score"
+            :palette="category.palette"
+          />
+          <RateScore
+            v-if="row.winningCategories.length === 0"
+            :value="0"
+            text="暂无"
+          />
+        </div>
       </el-table-column>
       <el-table-column label="姓名" prop="name" width="108px"/>
       <el-table-column label="性别" prop="gender" width="64px">
@@ -71,9 +93,47 @@ import 'vue-awesome/icons/check'
 import 'vue-awesome/icons/clock-o'
 import genderText from '@/lib/gender-text'
 import RateScore from './components/RateScore'
+import { computeCategoriesFromTests } from './lib/compute-categories'
 export default {
   components: {
     RateScore
+  },
+  computed: {
+    categories() {
+      return computeCategoriesFromTests(this.tests)
+    },
+    displayApplications() {
+      if (this.category === null) {
+        return this.applications.map(app => {
+          const scores = app.aggregate_review || {}
+          const highest = Math.max(...Object.values(scores))
+          const winningCategories = Object.keys(scores).filter(cat => scores[cat] === highest)
+          return {
+            ...app,
+            score: highest,
+            winningCategories: winningCategories.map(catId => ({
+              category: this.categories.find(category => category.id === catId),
+              score: scores[catId],
+            })),
+          }
+        })
+      } else {
+        return this.applications.filter(app =>
+          app.roles.find(role => this.category.departments.includes(role.department_id))
+        ).map(app => {
+          const scores = app.aggregate_review || {}
+          const catId = this.category.id
+          return {
+            ...app,
+            score: scores[catId],
+            winningCategories: [{
+              category: {...this.category},
+              score: scores[catId]
+            }],
+          }
+        })
+      }
+    }
   },
   data() {
     return {
@@ -81,19 +141,27 @@ export default {
       pendingCount: null,
       submittedCount: null,
       applications: [],
+      tests: null,
+      category: null
     }
   },
   methods: {
+    fetchTests() {
+      this.busy = true
+      return this.$agent.get(`/api/config/academic-staff-application/`).then(
+        res => this.tests = res.body.tests,
+        err => this.$message({
+          type: 'error',
+          message: err.message
+        })
+      )
+      .then(_ => this.busy = false)
+    },
     fetch() {
       this.busy = true
       this.$agent.get(`/api/academic-staff-applications/`).then(
         res => {
-          this.applications = res.body.data.map($ => ({
-            ...$,
-            score: $.refused ? 0 : $.aggregate_review || 0
-          })).sort(
-            (a, b) => a.score - b.score
-          )
+          this.applications = res.body.data
           this.pendingCount = res.body.pending
           this.submittedCount = res.body.submitted
         },
@@ -119,7 +187,8 @@ export default {
     genderText
   },
   mounted() {
-    this.fetch()
+    this.fetchTests()
+    .then(_ => this.fetch())
   }
 }
 </script>
@@ -128,6 +197,13 @@ export default {
 .academic-staff-application-list
   max-width: 100ch
   margin: 0 auto
+  .legend
+    margin: .5em 0
+    .rate
+      vertical-align: bottom
+      margin-right: 3ch
+    &:last-child
+      margin-right: 0
   h4
     text-align: center
   .el-tag

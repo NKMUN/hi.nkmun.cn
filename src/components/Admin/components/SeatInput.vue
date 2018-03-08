@@ -1,7 +1,7 @@
 <template>
   <table>
     <tbody>
-      <tr v-for="session in sessions" class="session">
+      <tr v-for="session in sessions" :key="session.id" class="session">
         <td class="name">
           <span v-if="session.dual" class="hint">（双代）</span>
           <span> {{ session.name }} </span>
@@ -10,8 +10,8 @@
           <el-input-number
             v-model="M[session.id]"
             :min="0"
-            :max="20"
-            :disabled="disabled"
+            :max="max && max[session.id] !== undefined ? max[session.id] : 20"
+            :disabled="disabled || (max && max[session.id] === 0)"
             @change="checkAndEmit(session.id, session.dual)"
             :step="(checkDual && session.dual) ? 2 : 1"
             size="small"
@@ -32,6 +32,7 @@ export default {
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     checkDual: { type: Boolean, default: true },
+    max: { type: Object, default: () => ({}) },
   },
   data: () => ({
     created: false,

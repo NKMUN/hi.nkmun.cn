@@ -18,10 +18,10 @@
     <el-table v-if="hotels" :data="hotels" class="hotel-table">
       <el-table-column prop="name" label="名称" min-width="160" sortable />
       <el-table-column prop="type" label="房型" width="96" sortable />
-      <el-table-column prop="notBefore" label="入住时间" width="96" sortable>
+      <el-table-column prop="notBefore" label="入住时间" width="108" sortable>
         <span slot-scope="{row}">{{ row.notBefore }}</span>
       </el-table-column>
-      <el-table-column prop="notAfter" label="退房时间" width="96" sortable>
+      <el-table-column prop="notAfter" label="退房时间" width="108" sortable>
         <span slot-scope="{row}">{{ row.notAfter }}</span>
       </el-table-column>
       <el-table-column prop="price" label="单价" width="64" />
@@ -187,7 +187,7 @@ export default {
         err => this.$notify({
           type: 'error',
           title: '获取酒店列表失败',
-          message: e.message,
+          message: err.message,
           duration: 0
         })
       )

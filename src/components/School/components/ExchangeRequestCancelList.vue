@@ -1,42 +1,34 @@
 <template>
   <el-card class="exchange-mgmt-requests">
     <div class="header" slot="header">
-      <b>待处理</b>
+      <b>发出的请求</b>
       <RefreshButton @click="fetchRequests()" :loading="loadingRequests" throttle />
     </div>
-    <div v-if="this.requests.length === 0">暂无交换申请</div>
+    <div v-if="this.requests.length === 0">暂无发出的交换申请</div>
     <ul v-if="this.requests.length > 0">
       <li v-for="(req, idx) in this.requests" :key="req.id">
         <div class="detail">
           <div>
-            来自：
-            <el-tag type="gray">{{ req.from.name }}</el-tag>
-            <el-tag type="success">{{ SESSION(req.from.session).name }}</el-tag>
-            <DualSessionWarning v-if="SESSION(req.from.session).dual" />
+            与：
+            <el-tag type="gray">{{ req.to.name }}</el-tag>
+            <el-tag type="success">{{ SESSION(req.to.session).name }}</el-tag>
+            <DualSessionWarning v-if="SESSION(req.to.session).dual" />
           </div>
           <div style="margin-top: .5em">
             交换：
-            <el-tag type="primary">{{ SESSION(req.to.session).name }}</el-tag>
-            <DualSessionWarning v-if="SESSION(req.to.session).dual" />
+            <el-tag type="primary">{{ SESSION(req.from.session).name }}</el-tag>
+            <DualSessionWarning v-if="SESSION(req.from.session).dual" />
           </div>
         </div>
         <div class="controls">
-          <el-button
-            type="success"
-            icon="el-icon-check"
-            size="mini"
-            :disabled="busy || loadingRequests"
-            :loading="busy"
-            @click="acceptExchange(req, idx)"
-          > 接受 </el-button>
           <el-button
             type="danger"
             icon="el-icon-close"
             size="mini"
             :disabled="busy || loadingRequests"
             :loading="busy"
-            @click="refuseExchange(req, idx)"
-          > 拒绝 </el-button>
+            @click="cancelExchange(req, idx)"
+          > 撤回 </el-button>
         </div>
       </li>
     </ul>
@@ -72,7 +64,7 @@ export default {
       try {
         this.requests = await this.$agent
           .get('/api/exchanges/')
-          .query({ to: this.id, state: 0 })
+          .query({ from: this.id, state: 0 })
           .body()
       } catch(e) {
         this.requests = []
@@ -80,55 +72,18 @@ export default {
         this.loadingRequests = false
       }
     },
-    async acceptExchange(req) {
-      try {
-        this.busy = true
-        let {
-          ok,
-          status,
-          body: updatedSeat
-        } = await this.$agent.post('/api/exchanges/'+req.id)
-                  .ok( ({ok, status}) => ok || status === 410 )
-                  .send({ accept: true })
-        if (ok) {
-          this.$store.commit('school/seat', updatedSeat)
-          this.$notify({
-            type: 'success',
-            title: '已接受名额交换',
-            duration: 5000
-          })
-        }
-        if (status === 410) {
-          this.$notify({
-            type: 'warning',
-            title: 'Oops! 该名额已被交换',
-            duration: 5000
-          })
-        }
-      } catch(e) {
-        this.$notify({
-          type: 'error',
-          title: '未能处理请求',
-          message: e.message,
-          duration: 0
-        })
-      } finally {
-        await this.fetchRequests()
-        this.busy = false
-      }
-    },
-    async refuseExchange(req, idx) {
+    async cancelExchange(req, idx) {
       try {
         this.busy = true
         const updatedSeat = await this.$agent
           .post('/api/exchanges/'+req.id)
-          .send({ refuse: true })
+          .send({ cancel: true })
           .body()
         this.$store.commit('school/seat', updatedSeat)
         this.requests.splice(idx, 1)
         this.$notify({
           type: 'success',
-          title: '已拒绝名额交换',
+          title: '已撤回名额交换',
           duration: 5000
         })
       } catch(e) {

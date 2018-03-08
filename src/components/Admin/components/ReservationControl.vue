@@ -149,8 +149,9 @@ export default {
         // allows modification from staff at all times
         return true
       } else {
+        const roomshareAccepted = reservation.roomshare && reservation.roomshare.state === 'accepted'
         // strict check for school
-        return this.round === reservation.round
+        return this.round === reservation.round && !roomshareAccepted
       }
     },
     async fetch() {
