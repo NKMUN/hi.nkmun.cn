@@ -1,39 +1,80 @@
 <template>
-  <el-card class="application">
-    <div slot="header" class="section school">
-      <div class="primary name">{{ school.name }}</div>
-      <div class="secondary english-name">{{ school.englishName }}</div>
-      <div class="secondary address">{{ school.administrative_area }} <span class="delimiter" /> {{ school.address }}</div>
+  <el-card :class="['application', type]">
+    <div slot="header" class="section header">
+      <div class="type primary">
+        <template v-if="type === 'school'">
+          <icon name="institution" />
+          <span class="text">学校申请</span>
+        </template>
+        <template v-if="type === 'individual'">
+          <icon name="users" />
+          <span class="text">个人申请</span>
+        </template>
+      </div>
     </div>
     <div>
-      <div class="section contact">
-        <div class="primary name show-hint">{{ contact.name }}</div>
-        <div class="secondary">
-          {{ contact.gender | genderText }}
-          <span class="delimiter" />
-          {{ contact.phone }}
-          <span class="delimiter" />
-          {{ contact.email }}
+      <template v-if="type === 'school'">
+        <div class="section school">
+          <div class="primary name">{{ school.name }}</div>
+          <div class="secondary english-name">{{ school.englishName }}</div>
+          <div class="secondary address">{{ school.administrative_area }} <span class="delimiter" /> {{ school.address }}</div>
         </div>
-      </div>
-      <div class="section contact alt-contact">
-        <div class="primary name show-hint">{{ altContact.name }}</div>
-        <div class="secondary">
-          {{ altContact.gender | genderText }}
-          <span class="delimiter" />
-          {{ altContact.phone }}
-          <span class="delimiter" />
-          {{ altContact.email }}
+        <div v-if="type === 'school'" class="section contact">
+          <div class="primary name show-hint">{{ contact.name }}</div>
+          <div class="secondary">
+            {{ contact.gender | genderText }}
+            <span class="delimiter" />
+            {{ contact.phone }}
+            <span class="delimiter" />
+            {{ contact.email }}
+          </div>
         </div>
-      </div>
+        <div v-if="type === 'school'" class="section contact alt-contact">
+          <div class="primary name show-hint">{{ alt_contact.name }}</div>
+          <div class="secondary">
+            {{ alt_contact.gender | genderText }}
+            <span class="delimiter" />
+            {{ alt_contact.phone }}
+            <span class="delimiter" />
+            {{ alt_contact.email }}
+          </div>
+        </div>
+      </template>
+
+      <template v-if="type === 'individual'">
+        <div class="section individual">
+          <div class="primary name">{{ contact.name }}</div>
+          <div class="secondary">
+            {{ contact.gender | genderText }}
+            <span class="delimiter" />
+            {{ contact.phone }}
+            <span class="delimiter" />
+            {{ contact.email }}
+          </div>
+        </div>
+        <div class="section school">
+          <div class="primary name show-hint">{{ school.name }}</div>
+          <div class="secondary english-name">{{ school.englishName }}</div>
+          <div class="secondary address">{{ school.administrative_area }} <span class="delimiter" /> {{ school.address }}</div>
+        </div>
+        <div class="section contact guardian">
+          <div class="primary name show-hint">{{ guardian.name }}</div>
+          <div class="secondary">
+            {{ guardian.type | guardianTypeText }}
+            <span class="delimiter" />
+            {{ guardian.phone }}
+          </div>
+        </div>
+      </template>
+
       <div class="section test" v-for="test in tests" :key="test.id">
         <div class="question hint">{{ test.question }}</div>
         <div class="answer">
           <!-- do not use v-html, it leads to XSS injection -->
-          <p v-for="(p, idx) in toParagraphs(acTest[test.id])" :key="test.id + idx">{{ p }}</p>
+          <p v-for="(p, idx) in toParagraphs(ac_test[test.id] || '')" :key="test.id + idx">{{ p }}</p>
         </div>
       </div>
-      <div class="section request">
+      <div class="section request" v-if="type === 'school'">
         <div class="primary">名额申请</div>
         <table>
           <tbody>
@@ -44,12 +85,22 @@
           </tbody>
         </table>
       </div>
+      <div class="section individual-request" v-if="type === 'individual'">
+        <div class="primary">
+          <span class="secondary">名额申请：</span>
+          {{ requestIndividual && requestIndividual.text || `未知：${data.request_individual}`}}
+        </div>
+      </div>
     </div>
   </el-card>
 </template>
 
 <script>
+import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/user'
+
 import genderText from '@/lib/gender-text'
+import guardianTypeText from '@/lib/guardian-type-text'
 
 export default {
   name: 'application-card',
@@ -58,11 +109,14 @@ export default {
     tests: { type: Array, required: true },
   },
   computed: {
+    type() { return this.data.type || 'school' },
     school() { return this.data.school || {} },
     contact() { return this.data.contact || {} },
-    altContact() { return this.data.altContact || {} },
-    acTest() { return this.data.acTest || {} },
-    request() { return this.data.request || {} }
+    alt_contact() { return this.data.alt_contact || {} },
+    guardian() { return this.data.guardian || {} },
+    ac_test() { return this.data.ac_test || {} },
+    request() { return this.data.request || {} },
+    requestIndividual() { return this.requestRows.find($ => $.key === this.data.request_individual) },
   },
   data: () => ({
     requestRows: [
@@ -80,7 +134,8 @@ export default {
     }
   },
   filters: {
-    genderText
+    genderText,
+    guardianTypeText
   }
 }
 </script>
@@ -102,6 +157,13 @@ hint-text()
   max-width: 70ch
   width: 100%
   text-align: center
+  .type
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    .text
+      margin-left: 1ch
   .section
     &:not(:first-child)
       margin-top: 40px    // match primary-text size
@@ -131,11 +193,16 @@ hint-text()
         padding-left: 1ch
         transform-origin: left center
         hint-text()
+  &.individual .section
+    &.school .name::after
+      content: "（学校）"
   .section
     &.contact .name::after
       content: "（第一联系人）"
     &.alt-contact .name::after
       content: "（第二联系人）"
+    &.guardian .name::after
+      content: "（监护人）"
     &.test
       .answer
         margin: .5em auto
@@ -162,4 +229,16 @@ hint-text()
         text-align: left
         min-width: 2ch
         font-size: 16px
+</style>
+
+<style lang="stylus">
+.application
+  &.school
+    .el-card__header
+      background-color: #f6ffed
+      color: #135200
+  &.individual
+    .el-card__header
+      background-color: #e6f7ff
+      color: #003a8c
 </style>

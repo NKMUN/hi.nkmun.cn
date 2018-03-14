@@ -49,7 +49,7 @@
         { required: true, message: '请选择所在地', trigger: 'change' }
       ]"
     >
-      <el-select v-model="form.administrative_area" placeholder="请选择所在地" filterable>
+      <el-select v-model="form.administrative_area" placeholder="请选择所在地" filterable default-first-option>
         <el-option v-for="area in administrativeAreas" :key="area" :value="area" :label="area" />
       </el-select>
     </el-form-item>
