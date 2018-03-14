@@ -4,7 +4,7 @@
       <h4>学校</h4>
       <SchoolForm
         ref="school"
-        v-model="school"
+        v-model="form.school"
         :disabled="disabled"
         class="form small"
         @change="emit"
@@ -15,7 +15,7 @@
       <h4>第一联系人</h4>
       <ContactForm
         ref="contact"
-        v-model="contact"
+        v-model="form.contact"
         :disabled="disabled"
         class="form small"
         @change="emit"
@@ -25,8 +25,8 @@
     <div class="section">
       <h4>第二联系人</h4>
       <ContactForm
-        ref="altContact"
-        v-model="altContact"
+        ref="alt_contact"
+        v-model="form.alt_contact"
         :disabled="disabled"
         class="form small"
         @change="emit"
@@ -37,7 +37,7 @@
       <h4>名额申请</h4>
       <RequestForm
         ref="request"
-        v-model="request"
+        v-model="form.request"
         :disabled="disabled"
         :showPress="press"
         class="form small"
@@ -48,8 +48,8 @@
     <div class="section ac-test">
       <h4>学术水平测试</h4>
       <AcademicTestForm
-        ref="acTest"
-        v-model="acTest"
+        ref="ac_test"
+        v-model="form.ac_test"
         :disabled="disabled"
         :tests="tests"
         class="form large"
@@ -81,43 +81,42 @@ export default {
   },
   data: () => ({
     MAX_SEATS: 10,
-    school: {},
-    contact: {},
-    altContact: {},
-    request: {},
-    acTest: {},
-    forms: ['school', 'contact', 'altContact', 'request', 'acTest']
+    form: {
+      school: null,
+      contact: null,
+      alt_contact: null,
+      request: null,
+      ac_test: null
+    }
   }),
   methods: {
     emit() {
       this.$nextTick( () => {
-        let M = {
+        let payload = {
           type: 'school',
-          identifier: this.school && this.school.name,
-          school: this.school,
-          contact: this.contact,
-          altContact: this.altContact,
-          request: this.request,
-          acTest: this.acTest
+          identifier: this.form.school && this.form.school.name,
+          ...this.form
         }
-        this.$emit('input', M)
-        this.$emit('change', M)
+        this.$emit('input', payload)
+        this.$emit('change', payload)
       })
     },
     reset() {
       this.setValue(null)
       this.emit()
     },
-    async validate() {
-      let results = await Promise.all( this.forms.map( ref => this.$refs[ref].validate() ) )
-      return results.reduce( (a, v) => a && v )
+    validate() {
+      return Promise.all(
+        Object.keys(this.form)
+          .map(key => this.$refs[key])
+          .filter($ => $ && $.validate)
+          .map(ref => ref.validate())
+      )
+      .then(results => results.reduce((s, v) => s && v))
     },
     setValue(value) {
-      this.school = (value && value.school) || {}
-      this.contact = (value && value.contact) || {}
-      this.altContact = (value && value.altContact) || {}
-      this.request = (value && value.request) || {}
-      this.acTest = (value && value.acTest) || {}
+      for (let key in this.form)
+        this.form[key] = value && value[key]
     }
   },
   watch: {

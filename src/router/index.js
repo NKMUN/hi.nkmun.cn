@@ -24,7 +24,7 @@ import ApplyIntro from '@/pages/ApplyIntro'
 
 // Lazy load:
 const ApplySchool = () => import('@/pages/ApplySchool')
-// const ApplyIndividual = () => import('@/pages/ApplyIndividual')
+const ApplyIndividual = () => import('@/pages/ApplyIndividual')
 const Register = () => import('@/pages/Register')
 const Staff    = () => import('@/pages/Staff')
 const School   = () => import('@/pages/School')
@@ -89,7 +89,7 @@ export default new Router({
     { path: '/', component: Index },
     { path: '/apply', component: ApplyIntro },
     { path: '/apply/school/', component: ApplySchool },
-    // { path: '/apply/individual/', component: ApplySchool },
+    { path: '/apply/individual/', component: ApplyIndividual },
     { path: '/register/', component: Register },
     { path: '/committee/', component: Committee },
     { path: '/volunteer/', component: Volunteer },

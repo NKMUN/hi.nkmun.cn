@@ -54,6 +54,15 @@
         />
       </el-table-column>
 
+      <el-table-column prop="allowsIndividual" label="个代" width="54">
+        <el-checkbox
+          slot-scope="{row, $index}"
+          v-model="row.allowsIndividual"
+          :class="validation[$index] && !validation[$index].allowsIndividual ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
+      </el-table-column>
+
       <el-table-column prop="requiresChairman" label="主席" width="54">
         <el-checkbox
           slot-scope="{row, $index}"
@@ -162,6 +171,7 @@ const DEFAULT_SESSION = () => ({
   estimatedAttendance: 0,
   price: 0,
   requiresChairman: false,
+  allowsIndividual: false
 })
 
 function objectsAreSame(a, b) {

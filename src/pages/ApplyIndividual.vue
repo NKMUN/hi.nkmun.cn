@@ -18,9 +18,9 @@
     </div>
 
     <div class="application" v-if="config && canApply">
-      <h2>代表团报名</h2>
+      <h2>个人代表报名</h2>
       <div class="disclaimer" v-html="config.disclaimer"></div>
-      <ApplicationSchoolForm
+      <ApplicationIndividualForm
         :tests="config.tests"
         :press="config.press"
         :disabled="busy"
@@ -29,6 +29,7 @@
       />
 
       <el-button
+        ref="submit"
         class="btn submit"
         type="success"
         :loading="busy"
@@ -36,7 +37,6 @@
         @click="submit()"
       > 提交 </el-button>
     </div>
-
     <Copyright />
   </div>
 </template>
@@ -44,16 +44,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import Banner from '@/components/Banner'
-import ApplicationSchoolForm from '@/components/form/ApplicationSchool'
+import ApplicationIndividualForm from '@/components/form/ApplicationIndividual'
 import Precondition from '@/components/Precondition'
 import Copyright from '@/components/Copyright'
 import popoverAt from '@/lib/popover-at'
 
 export default {
-  name: 'apply',
+  name: 'apply-individual',
   components: {
     Banner,
-    ApplicationSchoolForm,
+    ApplicationIndividualForm,
     Precondition,
     Copyright
   },
@@ -61,10 +61,11 @@ export default {
     busy: false,
     config: null,
     application: {},
+    msg: null,
   }),
   computed: {
     ...mapGetters({
-      canApply: 'config/applySchool'
+      canApply: 'config/applyIndividual'
     })
   },
   methods: {
@@ -90,7 +91,7 @@ export default {
           status,
           ok,
           body
-        } = await this.$agent.post('/api/applications/')
+        } = await this.$agent.post('/api/individual-applications/')
                   .ok( ({status, ok}) => ok || status === 409 )
                   .send(this.application)
         if (ok) {
@@ -126,10 +127,6 @@ export default {
       } finally {
         this.busy = false
       }
-    },
-    onSuccessDialogClose() {
-      this.$refs.applicationForm.reset()
-      this.$router.push('/')
     }
   },
 }

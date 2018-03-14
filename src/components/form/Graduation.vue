@@ -2,15 +2,15 @@
   <el-form
     :class="className"
     :label-width="labelWidth"
-    :model="M"
+    :model="form"
     ref="form"
   >
     <el-form-item
       label="毕业时间"
-      prop="year"
-      :rules="[{ required: true, type: 'number', message: '请选择毕业年份', trigger: 'change' }]"
+      prop="graduation"
+      :rules="[{ required: true, message: '请选择毕业年份', trigger: 'change' }]"
     >
-      <el-select :value="value" @input="emit" class="el-input">
+      <el-select v-model="form.graduation" @change="emit" class="el-input">
         <el-option v-for="year in graduationYears" :key="year" :label="year" :value="year" />
       </el-select>
     </el-form-item>
@@ -32,34 +32,36 @@ export default {
     graduationYears() {
       let conferenceYear = new Date(this.$store.getters['config/conferenceStartDate']).getFullYear()
       return ConsecutiveIntegers(conferenceYear, 3)
-    },
-    M() {    // model for validation
-      return {
-        year: this.value
+    }
+  },
+  data() {
+    return {
+      form: {
+        graduation: null
       }
-    },
+    }
   },
   methods: {
-    emit(value) {
+    emit() {
       this.$nextTick( () => {
-        this.$emit('input', value)
-        this.$emit('change', value)
+        this.$emit('input', this.form.graduation)
+        this.$emit('change', this.form.graduation)
       })
     },
     validate() {
-      return new Promise( resolve => {
-        this.$refs.form.validate( resolve )
-      })
+      return this.$refs.form.validate()
     },
     reset() {
       this.setValue(null)
       this.emit()
     },
+    setValue(value) {
+      this.form.graduation = value
+    }
   },
   watch: {
     value(value) {
-      if (this.$refs.form && !value)
-        this.$refs.form.resetFields()
+      this.setValue(value)
     }
   }
 }
