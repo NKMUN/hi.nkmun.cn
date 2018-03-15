@@ -58,13 +58,15 @@
       var safari = /Safari/.exec(ua) ? /Version\/(\d+)\./.exec(ua) : null
       var firefox = /Firefox\/(\d+)\./.exec(ua)
       var edge = /Edge\/(\d+)\./.exec(ua)
+      var appleWebkit = /AppleWebKit\/(\d+)\./.exec(ua)
 
       function isAcceptable() {
         return (
-             ( chrome && Number(chrome[1]) > 56 )
-          || ( safari && Number(safari[1]) > 10 )
-          || ( firefox && Number(firefox[1]) > 50 )
-          || ( edge && Number(edge[1]) > 13 )
+             ( chrome && Number(chrome[1]) >= 56 )
+          || ( safari && Number(safari[1]) >= 10 )
+          || ( firefox && Number(firefox[1]) >= 50 )
+          || ( edge && Number(edge[1]) >= 13 )
+          || ( appleWebkit && Number(appleWebkit[1]) >= 602 )
         )
       }
 
