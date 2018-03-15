@@ -1,38 +1,58 @@
 <template>
-  <!-- TODO: migrate to new Dais / AcademicDirector flow -->
   <div class="dais-mgmt">
     <h3>
-      会场主席审核
+      会场主席管理
       <RefreshButton @click="fetch()" :loading="busy" throttle />
+      <el-button
+        @click="exportAs('daises', '.csv')"
+        type="primary"
+        size="small"
+        :disabled="busy"
+      > 导出 </el-button>
     </h3>
 
     <div class="layout">
       <el-table class="table" :data="daises" v-loading="!daises">
         <el-table-column label="用户 / 邮箱" prop="contact.email" sortable min-width="120" />
-        <el-table-column label="会场" prop="sessionText" sortable min-width="180" />
-        <el-table-column label="姓名" prop="contact.name" sortable min-width="90" />
         <el-table-column label="性别" prop="genderText" min-width="48" />
-        <el-table-column label="状态" prop="state" sortable min-width="84">
-          <template slot-scope="{row}">
-            <el-button-group v-if="row.state === null" class="no-wrap">
-              <el-button
-                type="danger"
-                icon="el-icon-close"
-                @click="reject(row)"
-                :loading="row.busy"
-              ></el-button>
-              <el-button
-                type="success"
-                icon="el-icon-check"
-                @click="accept(row)"
-                :loading="row.busy"
-              ></el-button>
-            </el-button-group>
-            <div v-else>
-              <el-tag v-if="row.state === true" type="success"> 已通过 </el-tag>
-              <el-tag v-if="row.state === false" type="gray"> 已忽略 </el-tag>
-            </div>
-          </template>
+        <el-table-column label="姓名" prop="contact.name" sortable min-width="90" />
+        <el-table-column label="会场" prop="session" sortable width="240">
+          <el-select
+            slot-scope="{row}"
+            v-model="row.session"
+            placeholder="请选择会场"
+            size="small"
+            @change="val => updateSession(row, val)"
+            :disabled="row.busy"
+          >
+            <el-option
+              label="[无]"
+              :value="null"
+            />
+            <el-option
+              v-for="s in SESSIONS()"
+              :key="s.id"
+              v-if="s.requiresChairman"
+              :label="s.name"
+              :value="s.id"
+            />
+          </el-select>
+        </el-table-column>
+        <el-table-column label="" prop="state" min-width="84">
+          <el-tooltip
+            slot-scope="{row}"
+            content="惩罚不听话的小朋友"
+            placement="top"
+            popper-class="dais-mgmt-list-button-tooltip"
+          >
+            <el-button
+              type="danger"
+              @click="nuke(row)"
+              :loading="row.busy"
+            >
+              <icon v-if="!row.busy" name="wheelchair" />
+            </el-button>
+          </el-tooltip>
         </el-table-column>
       </el-table>
     </div>
@@ -44,21 +64,12 @@
 <script>
 import genderText from '@/lib/gender-text'
 import SessionUtils from '@/lib/session-utils'
-
-const stateToBoolean = (state) => {
-  switch (state) {
-    case 'accepted': return true
-    case 'activated': return true
-    case 'rejected': return false
-    default: return null
-  }
-}
+import "vue-awesome/icons/wheelchair"
+import { downloadFile } from '@/lib/save-as-file'
 
 const mapDais = $ => ({
   ... $,
-  state: stateToBoolean($.state),
   genderText: genderText($.contact.gender),
-  sessionText: SessionUtils.methods.SESSION($.session).name,
   busy: false,
 })
 
@@ -82,45 +93,77 @@ export default {
         this.busy = false
       }
     },
-    async accept(dais) {
+    updateSession(dais, val) {
       dais.busy = true
-      try {
-        const {
-          status,
-          body
-        } = await this.$agent.post('/api/daises/' + dais.id)
-            .send({ activate: true })
-            .ok(({ok, status}) => ok || status === 409)
-        if (status === 409) {
-          this.$notify({
-            type: 'warning',
-            title: '用户已存在',
-            duration: 500
+      return this.$agent.post(`/api/daises/${dais.id}`).send({
+        session: val,
+        activate: true
+      }).then(
+        res => {
+          this.$message({
+            type: 'success',
+            message: `已指定 ${dais.contact.name} 到 ${this.SESSION(val).name} 会场`
           })
-        }
-        this.daises.splice(
-          this.daises.findIndex($ => $.id === dais.id),
-          1,
-          mapDais(body)
-        )
-      } catch(e) {
-        console.error(e)
-      } finally {
-        dais.busy = false
-      }
+          this.daises.splice(
+            this.daises.findIndex($ => $.id === dais.id),
+            1,
+            mapDais(res.body)
+          )
+        },
+        err => this.$message({
+          type: 'error',
+          message: err.message
+        })
+      ).then(_ => dais.busy = false)
     },
-    async reject(dais) {
+    nuke(dais) {
+      return this.$msgbox({
+        title: '确认',
+        message: `真的要永久性惩罚 ${dais.contact.name} 吗？`,
+        type: 'warning',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonClass: 'el-button--primary',
+        cancelButtonClass: 'el-button--success'
+      }).then(
+        success => {
+          dais.busy = true
+          this.$agent.delete(`/api/daises/${dais.id}`).then(
+            success => {
+              this.$message({
+                type: 'success',
+                message: `不听话的 ${dais.contact.name} 被扔进黑洞了。`
+              })
+              this.daises.splice(
+                this.daises.findIndex($ => $.id === dais.id),
+                1
+              )
+            },
+            err => this.$message({
+              type: 'error',
+              message: err.message
+            })
+          )
+        },
+        err => null
+      )
+    },
+    async exportAs(type, extension) {
+      this.busy = true
       try {
-        const body = await this.$agent.post('/api/daises/' + dais.id).send({ reject: true }).body()
-        this.daises.splice(
-          this.daises.findIndex($ => $.id === dais.id),
-          1,
-          mapDais(body)
-        )
+        let {
+          header
+        } = await this.$agent.get('/api/export/'+type)
+        downloadFile('/api/export/'+type+header.location, 'NKMUN-'+type.replace(/\//g, '-')+extension)
       } catch(e) {
-        console.error(e)
+        this.$notify({
+          type: 'warning',
+          title: '未能导出',
+          message: e.message,
+          duration: 0
+        })
       } finally {
-        dais.busy = false
+        this.busy = false
       }
     }
   },
@@ -148,5 +191,14 @@ export default {
       width: 100%
       max-width: 960px
       .el-button
-        padding: 4px 6.5px
+        padding: 4px
+        height: 28px
+        width: 28px
+</style>
+
+<style lang="stylus">
+.dais-mgmt-list-button-tooltip
+  font-size: 75%
+  padding: 5px
+  transform: translate(0, 4px)
 </style>

@@ -45,7 +45,6 @@
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model="M.nickname" placeholder="昵称" :disabled="busy" />
         </el-form-item>
-
       </el-form>
 
       <el-button
@@ -56,9 +55,10 @@
       <div class="note">
         <ul>
           <li>邮件模版需要为有效HTML文档</li>
-          <li>用<code>{school}</code>表示学校</li>
-          <li>用<code>{code}</code>表示邀请码</li>
-          <li>用<code>{reason}</code>表示缴费审核不通过的理由</li>
+          <li><code>{school}</code> 表示学校</li>
+          <li><code>{name}</code> 表示联系人/申请人姓名</li>
+          <li><code>{code}</code> 表示邀请码</li>
+          <li><code>{reason}</code> 表示缴费审核不通过的理由</li>
         </ul>
       </div>
 
@@ -72,9 +72,7 @@
             :disabled="busy"
           />
         </el-form-item>
-      </el-form>
 
-      <el-form :model="M" ref="form" class="form large" label-position="top">
         <el-form-item label="一轮缴费成功模版" prop="paymentSuccess">
           <el-input
             type="textarea"
@@ -84,9 +82,7 @@
             :disabled="busy"
           />
         </el-form-item>
-      </el-form>
 
-      <el-form :model="M" ref="form" class="form large" label-position="top">
         <el-form-item label="一轮缴费失败模版" prop="paymentFailure">
           <el-input
             type="textarea"
@@ -96,9 +92,7 @@
             :disabled="busy"
           />
         </el-form-item>
-      </el-form>
 
-      <el-form :model="M" ref="form" class="form large" label-position="top">
         <el-form-item label="追加缴费成功模版" prop="paymentSuccess2">
           <el-input
             type="textarea"
@@ -108,15 +102,43 @@
             :disabled="busy"
           />
         </el-form-item>
-      </el-form>
 
-      <el-form :model="M" ref="form" class="form large" label-position="top">
         <el-form-item label="追加缴费失败模版" prop="paymentFailure2">
           <el-input
             type="textarea"
             :rows="10"
             :autosize="{ minRows: 10, maxRows: 30 }"
             v-model="M.paymentFailure2"
+            :disabled="busy"
+          />
+        </el-form-item>
+
+        <el-form-item label="学术团队申请：录取" prop="academic_staff_admit">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.academic_staff_admit"
+            :disabled="busy"
+          />
+        </el-form-item>
+
+        <el-form-item label="学术团队申请：Waitlist" prop="academic_staff_waitlist">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.academic_staff_waitlist"
+            :disabled="busy"
+          />
+        </el-form-item>
+
+        <el-form-item label="学术团队申请：拒绝" prop="academic_staff_refuse">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.academic_staff_refuse"
             :disabled="busy"
           />
         </el-form-item>
@@ -137,7 +159,7 @@
 <script>
 import Precondition from '@/components/Precondition'
 
-const DEFAULT_INVITATION_MODEL = () => ({
+const DEFAULT_MAIL_MODEL = () => ({
   host: '',
   port: 465,
   account: '',
@@ -147,7 +169,10 @@ const DEFAULT_INVITATION_MODEL = () => ({
   paymentSuccess: '',
   paymentFailure: '',
   paymentSuccess2: '',
-  paymentFailure2: ''
+  paymentFailure2: '',
+  academic_staff_admit: '',
+  academic_staff_waitlist: '',
+  academic_staff_refuse: ''
 })
 
 import { mapGetters } from 'vuex'
@@ -174,7 +199,7 @@ export default {
       return this.$agent.get('/api/config/mail').body()
     },
     configParser(conf) {
-      this.M = { ...DEFAULT_INVITATION_MODEL(), ...conf }
+      this.M = { ...DEFAULT_MAIL_MODEL(), ...conf }
     },
     async update() {
       this.busy = true
@@ -239,6 +264,7 @@ export default {
   h4
     text-align: center
   .note
+    margin: 1em 0
     white-space: nowrap
     color: #475669
     font-size: 14px

@@ -71,6 +71,7 @@ const AcademicDirectorDashboard = () => import(/* webpackChunkName: "ad" */ '@/c
 const AcademicStaffApplicationConfig = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationConfig')
 const AcademicStaffApplicationList = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationList')
 const AcademicStaffApplicationView = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationView')
+const DaisMgmt = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/DaisMgmt')
 
 // Academic Staff Apply Detail
 const AcademicStaffApplyDetail = () => import(/* webpackChunkName: "asa" */ '@/pages/AcademicStaffApplyDetail')
@@ -126,6 +127,7 @@ export default new Router({
         { path: 'academic-director/config/', component: AcademicStaffApplicationConfig },
         { path: 'academic-director/applications/', component: AcademicStaffApplicationList },
         { path: 'academic-director/applications/:id', component: AcademicStaffApplicationView, props: true },
+        { path: 'academic-director/daises/', component: DaisMgmt },
         { path: '*', component: StaffOverview }
       ]
     },
@@ -177,6 +179,7 @@ export default new Router({
         { path: 'config', component: AcademicStaffApplicationConfig },
         { path: 'applications/', component: AcademicStaffApplicationList },
         { path: 'applications/:id', component: AcademicStaffApplicationView, props: true },
+        { path: 'daises/', component: DaisMgmt },
         { path: '*', component: AcademicDirectorDashboard },
       ]
     },

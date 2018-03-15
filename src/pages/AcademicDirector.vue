@@ -13,7 +13,7 @@
         <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/"> <i class="icon el-icon-menu" /> </el-menu-item>
         <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/config/"> 报名设置 </el-menu-item>
         <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/applications/"> 报名审核  </el-menu-item>
-        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/export/"> 导出 </el-menu-item>
+        <el-menu-item v-if="hasAccess('academic-director')" index="/academic-director/daises/"> 主席管理  </el-menu-item>
       </el-menu>
 
       <Logout />

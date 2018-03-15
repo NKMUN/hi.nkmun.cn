@@ -44,43 +44,65 @@
           </div>
         </div>
       </el-table-column>
-      <el-table-column width="210px">
+      <el-table-column width="84px">
+        <el-button
+          slot-scope="{row}"
+          type="primary"
+          size="small"
+          class="no-padding"
+          icon="el-icon-view"
+          @click="view(row.id)"
+        > 查看 </el-button>
+      </el-table-column>
+
+      <el-table-column width="180px">
         <div slot-scope="{row}">
-          <el-button
-            type="primary"
-            size="small"
-            class="no-padding"
-            icon="el-icon-view"
-            @click="view(row.id)"
-          > 查看 </el-button>
-          <!--
-          <el-button-group v-if="!row.processed">
-            <el-tooltip content="Waitlist" placement="top" popper-class="asa-list-button-tooltip">
+          <el-tag v-if="row.admission_status === 'admitted'" type="success"> 已录取 </el-tag>
+          <el-tag v-if="row.admission_status === 'waitlist'" type="info"> 待定中 </el-tag>
+          <el-tag v-if="row.admission_status === 'refused'" type="danger"> 已拒绝 </el-tag>
+
+          <el-button-group v-if="row.admission_status !== 'admitted' && row.admission_status !== 'refused'">
+            <el-tooltip
+              v-if="row.admission_status !== 'waitlist'"
+              content="备胎"
+              placement="top"
+              popper-class="asa-list-button-tooltip"
+            >
               <el-button
                 type="info"
                 size="mini"
                 class="no-padding"
                 @click="waitlist(row.id)"
-              > <icon name="clock-o" /> </el-button>
+                :loading="row.busy"
+              > <icon v-if="!row.busy" name="clock-o" /> </el-button>
             </el-tooltip>
-            <el-tooltip content="好人卡" placement="top" popper-class="asa-list-button-tooltip">
+            <el-tooltip
+              content="好人卡"
+              placement="top"
+              popper-class="asa-list-button-tooltip"
+            >
               <el-button
                 type="danger"
                 size="mini"
                 class="no-padding"
                 @click="refuse(row.id)"
-              > <icon name="bomb" /> </el-button>
+                :loading="row.busy"
+              > <icon v-if="!row.busy" name="bomb" /> </el-button>
             </el-tooltip>
-            <el-tooltip content="邀请" placement="top" popper-class="asa-list-button-tooltip">
+            <el-tooltip
+              content="❤️"
+              placement="top"
+              popper-class="asa-list-button-tooltip"
+            >
               <el-button
                 type="success"
                 size="mini"
                 class="no-padding"
-                @click="invite(row.id)"
-              > <icon name="check" /> </el-button>
+                @click="admit(row.id)"
+                :loading="row.busy"
+              > <icon v-if="!row.busy" name="check" /> </el-button>
             </el-tooltip>
           </el-button-group>
-          -->
         </div>
       </el-table-column>
     </el-table>
@@ -161,7 +183,7 @@ export default {
       this.busy = true
       this.$agent.get(`/api/academic-staff-applications/`).then(
         res => {
-          this.applications = res.body.data
+          this.applications = res.body.data.map(app => ({...app, busy: false}))
           this.pendingCount = res.body.pending
           this.submittedCount = res.body.submitted
         },
@@ -175,14 +197,37 @@ export default {
     view(id) {
       this.$router.push(id)
     },
-    invite(id) {
-
+    post(action, id) {
+      const idx = this.applications.findIndex(app => app.id === id)
+      this.applications[idx].busy = true
+      return this.$agent.post(`/api/academic-staff-applications/${id}`).send({ [action]: true }).then(
+        res => {
+          this.applications = [
+            ...this.applications.slice(0, idx),
+            {
+              ...this.applications[idx],
+              admission_status: res.body.admission_status
+            },
+            ...this.applications.slice(idx + 1)
+          ]
+        },
+        err => {
+          this.$message({
+            type: 'error',
+            message: err.message
+          })
+          return this.fetch()
+        }
+      ).then(_ => this.applications[idx].busy = false)
+    },
+    admit(id) {
+      return this.post('admit', id)
     },
     waitlist(id) {
-
+      return this.post('waitlist', id)
     },
     refuse(id) {
-
+      return this.post('refuse', id)
     },
     genderText
   },
@@ -221,6 +266,9 @@ export default {
     vertical-align: middle
   .el-button-group
     margin-left: 1ch
+    .el-button
+      width: 36px
+      height: 36px
 </style>
 
 <style lang="stylus">
