@@ -19,6 +19,7 @@
 
     <div class="section">
       <h4>登录凭证</h4>
+      <p class="hint">请使用 <b>领队邮箱</b> 和 <b>密码</b> 登陆</p>
       <Password
         ref="password"
         v-model="password"
@@ -87,35 +88,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-.registration-form
-  align-self: stretch
-  .school
-    .name
-      font-size: 16px
-      font-weight: bolder
-      text-align: center
-    .english-name
-      margin-top: 1em
-      font-size: 13px
-      font-weight: normal
-      text-align: center
-      color: #8492A6
-  .section
-    min-width: 360px
-    width: 80%
-    margin: 0 auto
-    padding: 2em 0
-    &:not(:first-child)
-      border-top: 1px solid #D3DCE6
-    h4
-      margin-top: 0
-      text-align: center
-    .form
-      margin: 0 auto
-      &.small
-        max-width: 36ch
-      &.large
-        max-width: 80ch
-</style>

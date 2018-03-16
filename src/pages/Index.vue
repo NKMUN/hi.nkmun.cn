@@ -17,7 +17,7 @@
               v-if="showRegister"
               type="primary"
               @click="$router.push('/register/')"
-            > 领队注册 </el-button>
+            > 参会注册 </el-button>
 
             <el-button
               class="btn"
