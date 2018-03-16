@@ -1,11 +1,12 @@
 <template>
   <div class="payment">
-    <h3>{{round | roundText}}缴费</h3>
+    <h3>{{ getRoundText(round) }}缴费</h3>
 
     <BillingDetail
       class="payment-detail"
       :school="school"
       :round="round"
+      :round-text="getRoundText(round)"
       @loaded="billsLoaded=true"
     />
 
@@ -65,6 +66,7 @@ export default {
     ... mapGetters({
       school: 'user/school',
       token: 'user/token',
+      type: 'school/type',
       round: 'school/round',
     }),
     authorization() {
@@ -75,6 +77,11 @@ export default {
         name: String(idx),
         url: `/api/images/${id}?size=tiny&format=jpg`
       }))
+    },
+    baseRoute() {
+      return this.type === 'school' ? '/school/'
+           : this.type === 'individual' ? '/individual/'
+           : '/'
     }
   },
   data: () => ({
@@ -156,33 +163,36 @@ export default {
         const {
           body
         } = await await this.$agent.post(`/api/schools/${this.school}/progress`).send({ confirmPayment: true })
-        this.$notify({
+        this.$message({
           type: 'success',
-          title: '缴费凭证已提交',
-          message: '请等待审核',
-          duration: 5000
+          message: '缴费凭证已提交，请等待审核',
         })
-        this.$router.replace('/school/')
+        this.$router.replace(this.baseRoute)
         this.$store.commit('school/stage', body.nextStage)
       } catch(err) {
-        this.$notify({
+        this.$message({
           type: 'error',
-          title: '提交失败，请稍后再试。',
-          message: err.message,
-          duration: 0
+          message: '提交失败，请稍后再试：' + err.message,
         })
       } finally {
         this.busy = false
       }
+    },
+    getRoundText(str) {
+      return this.type === 'individual' ? '个人' : roundText(str)
     }
   },
-  filters: { roundText },
+  filters: {
+    roundText
+  },
   beforeRouteEnter(from, to, next) {
+    const match = /\/[^\/]+\//.exec(from.path)
+    const baseRoute = match && match[0] || '/'
     // guard against wrong stage
     if ( (store.getters['school/stage'] || '').endsWith('.payment') )
       next()
     else
-      next('/school/')
+      next(baseRoute)
   },
   mounted() {
     this.fetchUploadedReceipts()

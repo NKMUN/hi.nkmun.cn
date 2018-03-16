@@ -12,7 +12,7 @@
         { required: true, message: '请选择证件类型', trigger: 'change' }
       ]"
     >
-      <el-select v-model="form.type" @change="emit" class="el-input">
+      <el-select v-model="form.type" @change="emit" class="el-input" :disabled="disabled">
         <el-option label="中国大陆身份证" value="mainland" v-if="typeAccepts('mainland')" />
         <el-option label="港澳往来内地通行证" value="sar" v-if="typeAccepts('sar')" />
         <el-option label="台湾居民来往大陆通行证" value="taiwan" v-if="typeAccepts('taiwan')" />

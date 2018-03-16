@@ -68,6 +68,10 @@ const Confirm        = () => import('@/components/School/Confirm')
 const SessionSeatMgmt = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/DaisUserInfo')
 
+// Individual mgmt page
+const IndividualPayment = () => import(/* webpackChunkName: "individual " */ '@/components/School/Payment')
+const IndividualInfo = () => import(/* webpackChunkName: "individual " */ '@/components/Individual/Info')
+
 // Academic Director
 const AcademicDirectorDashboard = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/Dashboard')
 const AcademicStaffApplicationConfig = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationConfig')
@@ -167,7 +171,8 @@ export default new Router({
     },
     { path: '/individual/', component: Individual,
       children: [
-
+        { path: 'payment/', component: IndividualPayment },
+        { path: 'info/', component: IndividualInfo }
       ]
     },
     { path: '/academic-staff/apply/', component: AcademicStaffApplyDetail,

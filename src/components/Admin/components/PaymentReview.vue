@@ -186,6 +186,8 @@ export default {
 @import "../../../style/flex"
 h3, h4
   text-align: center
+.brief
+  max-width: 70ch
 .billing
   display: block
   margin: 0 auto

@@ -10,31 +10,19 @@
 
       <div class="heading">
         <el-menu
+          ref="menu"
           mode="horizontal"
           background-color="#56acf0"
           text-color="#ffffff"
           active-text-color="rgb(255, 214, 99)"
-          default-active="/school/"
+          default-active="/individual/"
           :router="true"
           class="menu"
         >
-          <el-menu-item index="/school/"> 概要 </el-menu-item>
-          <el-menu-item v-if="stage === '1.relinquishment'"
-                        index="/school/relinquishment/"> 一轮名额确认 </el-menu-item>
-          <el-menu-item v-if="stage === '1.exchange'"
-                        index="/school/exchange/"> 一轮名额交换 </el-menu-item>
-          <el-menu-item v-if="stage === '1.reservation'"
-                        index="/school/reservation/"> 一轮酒店预订 </el-menu-item>
+          <el-menu-item index="/individual/"> 概要 </el-menu-item>
           <el-menu-item v-if="stage === '1.payment'"
-                        index="/school/payment/"> 一轮付款 </el-menu-item>
-          <el-menu-item v-if="stage === '2.reservation'"
-                        index="/school/reservation/"> 追加酒店预订 </el-menu-item>
-          <el-menu-item v-if="stage === '2.payment'"
-                        index="/school/payment/"> 追加付款 </el-menu-item>
-          <el-menu-item v-if="stage === '3.confirm'"
-                        index="/school/representatives/"> 代表信息 </el-menu-item>
-          <el-menu-item v-if="stage === '3.confirm' || stage === '9.complete'"
-                        index="/school/confirm/"> 确认 </el-menu-item>
+                        index="/individual/payment/"> 付款 </el-menu-item>
+          <el-menu-item index="/individual/info/"> 个人信息 </el-menu-item>
         </el-menu>
 
         <Logout />
@@ -51,21 +39,23 @@
           show-icon
         />
         <div class="layout">
-          <Todo class="todo" :stage="stage" />
-          <div class="right">
-            <SeatView
-              :showRound1="true"
-              :showExchange="stage === '1.exchange'"
-              :showRound2="parseInt(stage[0], 10) >= 2"
-              :showTotal="parseInt(stage[0], 10) >= 2"
-            />
-            <ReservationControl
-              style="margin-top: 2em;"
-              readonly
-              :school="id"
-            />
-          </div>
+          <h4>{{ identifier }}</h4>
+          <IndividualSeatView />
+          <IndividualReservation style="margin: 2em 0"/>
         </div>
+
+        <el-button
+          v-if="stage.endsWith('.payment')"
+          type="primary"
+          icon="el-icon-arrow-right"
+          @click="ev => { $router.push('/individual/payment/'); $refs.menu.activeIndex = '/individual/payment/' }"
+        > 去缴费 </el-button>
+
+        <p v-if="stage.endsWith('.paid')"> 已付款，请等待组委审核。 </p>
+
+        <p v-if="stage === '1.complete' || stage === '3.confirm'"> 请核对 <router-link to='/individual/info/'>个人信息</router-link>。 </p>
+
+        <p v-if="stage === '9.complete'"> 个人流程已完成 </p>
       </div>
 
       <router-view class="wrap" v-if="renderSubComponent" />
@@ -77,25 +67,25 @@
 
 <script>
 import Precondition from '@/components/Precondition'
-import Todo from '@/components/School/Todo'
-import SeatView from '@/components/School/components/SeatView'
-import ReservationControl from '@/components/Admin/components/ReservationControl'
+import IndividualSeatView from '@/components/Individual/components/IndividualSeatView'
+import IndividualReservation from '@/components/Individual/components/IndividualReservation'
 import { mapGetters } from 'vuex'
 import 'vue-awesome/icons/sign-out'
 
 export default {
-  name: 'school-mgmt',
+  name: 'individual-mgmt',
   components: {
     Precondition,
-    Todo,
-    SeatView,
-    ReservationControl,
+    IndividualSeatView,
+    IndividualReservation,
   },
   computed: {
     ... mapGetters({
       id: 'user/school',
+      identifier: 'school/identifier',
       stage: 'school/stage',
       messages: 'school/messages',
+      reserveHotel: 'config/reserveHotel',
     }),
     loaded() {
       return this.stage
@@ -121,7 +111,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../style/flex"
-.school-mgmt
+.individual-mgmt
   flex-vert: flex-start stretch
   max-height: 100vh
   overflow-y: auto
@@ -146,14 +136,8 @@ export default {
     margin-top: 2em
     align-self: center
     width: 100%
-    .layout
-      align-self: stretch
-      flex-horz: center flex-start
-      .todo
-        flex-shrink: 0
-        margin-right: 48px
-      .right
-        min-width: 25ch
+    h4
+      text-align: center
     .el-alert
       width: auto
       align-self: center

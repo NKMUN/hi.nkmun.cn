@@ -10,7 +10,7 @@
       prop="type"
       :rules="[{ required: true, message: '请选择监护人关系', trigger: 'change' }]"
     >
-      <el-select v-model="form.type" @change="emit" class="el-input">
+      <el-select v-model="form.type" @change="emit" class="el-input" :disabled="disabled">
         <el-option label="父" value="father" />
         <el-option label="母" value="mother" />
         <el-option label="其他" value="other" />

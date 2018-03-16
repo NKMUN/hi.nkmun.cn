@@ -7,7 +7,7 @@
           <span class="text">学校申请</span>
         </template>
         <template v-if="type === 'individual'">
-          <icon name="users" />
+          <icon name="user" />
           <span class="text">个人申请</span>
         </template>
       </div>
