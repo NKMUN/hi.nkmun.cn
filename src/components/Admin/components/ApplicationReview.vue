@@ -37,7 +37,7 @@
       <el-button-group class="controls" v-show="!loading && !application.processed">
         <el-button
           type="success"
-          :disabled="!canInvite"
+          :disabled="!canInvite || !seatAllocated"
           :loading="busy"
           icon="el-icon-message"
           @click="sendInvitation"
@@ -89,6 +89,16 @@ export default {
     tests: { type: Array, default: () => [] },
     id: { type: String, default: null }
   },
+  computed: {
+    seatAllocated() {
+      const seat = this.seat || this.application && this.application.seat
+      if (!seat) return false
+      for (let key in seat)
+        if (seat[key] > 0)
+          return true
+      return false
+    }
+  },
   data: () => ({
     busy: false,
     loading: true,
@@ -130,6 +140,7 @@ export default {
       let result = false
       try {
         await this.$agent.patch('/api/applications/'+this.id).send({ seat: this.seat })
+        await this.fetch()
         this.dirty = false
         if (!silent) {
           this.$notify({

@@ -119,7 +119,7 @@
           :sessions="sessions"
           :disabled="busy || !canModifyRound1"
           :busy="busy"
-          @confirm="patch('seat.1', school.seat['1'])"
+          @change="patch('seat.1', school.seat['1'])"
         />
 
         <ReservationControl
