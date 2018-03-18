@@ -1,5 +1,5 @@
 <template>
-  <div class="academic-staff-application-list">
+  <div class="academic-staff-application-list" ref="compo">
     <h4>
       学术团队申请
       <RefreshButton @click="fetch()" :loading="busy" throttle />
@@ -116,6 +116,7 @@ import 'vue-awesome/icons/clock-o'
 import genderText from '@/lib/gender-text'
 import RateScore from './components/RateScore'
 import { computeCategoriesFromTests } from './lib/compute-categories'
+import { rememberScroll, clearScroll, restoreScroll } from '@/lib/remember-scroll'
 export default {
   components: {
     RateScore
@@ -181,7 +182,7 @@ export default {
     },
     fetch() {
       this.busy = true
-      this.$agent.get(`/api/academic-staff-applications/`).then(
+      return this.$agent.get(`/api/academic-staff-applications/`).then(
         res => {
           this.applications = res.body.data.map(app => ({...app, busy: false}))
           this.pendingCount = res.body.pending
@@ -195,6 +196,7 @@ export default {
       .then(_ => this.busy = false)
     },
     view(id) {
+      rememberScroll(this.$refs.compo.parentElement)
       this.$router.push(id)
     },
     post(action, id) {
@@ -234,6 +236,7 @@ export default {
   mounted() {
     this.fetchTests()
     .then(_ => this.fetch())
+    .then(_ => restoreScroll(this.$refs.compo.parentElement) && clearScroll())
   }
 }
 </script>
