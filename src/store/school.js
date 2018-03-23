@@ -4,6 +4,8 @@ export default {
     school: {}
   },
   getters: {
+    type: state => (state.school && state.school.type) || null,
+    identifier: state => (state.school && state.school.identifier) || null,
     stage: state => (state.school && state.school.stage) || null,
     seat: state => (state.school && state.school.seat) || {},
     messages: state => (state.school && state.school.messages) || [],

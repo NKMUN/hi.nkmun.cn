@@ -10,7 +10,7 @@
       prop="graduation"
       :rules="[{ required: true, message: '请选择毕业年份', trigger: 'change' }]"
     >
-      <el-select v-model="form.graduation" @change="emit" class="el-input">
+      <el-select v-model="form.graduation" @change="emit" class="el-input" :disabled="disabled">
         <el-option v-for="year in graduationYears" :key="year" :label="year" :value="year" />
       </el-select>
     </el-form-item>
@@ -63,6 +63,9 @@ export default {
     value(value) {
       this.setValue(value)
     }
+  },
+  created() {
+    this.setValue(this.value)
   }
 }
 </script>

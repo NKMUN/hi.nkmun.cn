@@ -28,7 +28,7 @@
       prop="gender"
       :rules="[ { required: true, message: '请选择性别', trigger: 'change'} ]"
     >
-      <el-radio-group v-model="gender" @change="emit">
+      <el-radio-group v-model="gender" @change="emit" :disabled="disabled">
         <el-radio label="m">男</el-radio>
         <el-radio label="f">女</el-radio>
       </el-radio-group>

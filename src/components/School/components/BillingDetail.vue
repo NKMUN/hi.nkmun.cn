@@ -9,10 +9,10 @@
         <el-table-column prop="sum" label="总价" />
       </el-table>
       <h4 v-if="!detail">正在获取应付款信息……</h4>
-      <h4 v-if="detail">{{round | roundText}}应缴费：<b>CNY ¥{{ total }}</b></h4>
+      <h4 v-if="detail">{{ getRoundText(round) }}应缴费：<b>CNY ¥{{ total }}</b></h4>
     </template>
     <template v-else>
-      <h4>{{round | roundText}}无需缴费</h4>
+      <h4>{{ getRoundText(round) }}无需缴费</h4>
     </template>
   </div>
 </template>
@@ -34,13 +34,16 @@ export default {
   },
   props: {
     school: { type: String, default: '' },
-    round: { type: String, default: '1' }
+    round: { type: String, default: '1' },
+    roundText: {}
   },
   data: () => ({
     detail: null,
   }),
-  filters: {
-    roundText
+  methods: {
+    getRoundText(str) {
+      return this.roundText || roundText(str)
+    }
   },
   async mounted() {
     try {

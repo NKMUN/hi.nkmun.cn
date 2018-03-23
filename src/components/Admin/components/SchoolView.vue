@@ -6,107 +6,140 @@
 
       <NukeSchoolButton :repeat="school.school.name" @click="nuke" />
 
-      <div class="seat-view">
-        <SeatUpdater
-          v-if="Number(school.stage[0]) >= 1"
+      <!-- stuff for school -->
+      <template v-if="type === 'school'">
+        <div class="seat-view" >
+          <SeatUpdater
+            v-if="Number(school.stage[0]) >= 1"
+            v-model="school.seat['1']"
+            title="一轮名额"
+            :sessions="sessions"
+            :disabled="busy || !canModifyRound1"
+            :busy="busy"
+            @confirm="patch('seat.1', school.seat['1'])"
+          />
+          <div class="seat-updater"
+            v-if="school.stage === '1.complete' || school.stage[0] === '2'"
+          >
+            <h4>追加轮增加</h4>
+            <SeatInput
+              class="seat-input"
+              v-model="school.seat['2pre']"
+              :sessions="sessions"
+              :disabled="busy || !canModifyRound2"
+              :check-dual="false"
+            />
+            <el-button-group class="controls">
+              <el-button
+                type="danger"
+                :loading="busy"
+                size="small"
+                icon="el-icon-message"
+                :busy="busy"
+                :disabled="!canModifyRound2"
+                @click="allocSecondRound"
+              > 分配 </el-button>
+              <el-button
+                type="primary"
+                :loading="busy"
+                size="small"
+                icon="el-icon-edit"
+                :busy="busy"
+                :disabled="!canModifyRound2"
+                @click="patch('seat.2pre', school.seat['2pre'])"
+              > 暂存 </el-button>
+            </el-button-group>
+          </div>
+          <SeatUpdater
+            v-if="school.stage[0] === '2' || (school.stage === '1.complete' && Object.keys(serverSeat2).length > 0)"
+            v-model="school.seat['2']"
+            title="追加轮减少"
+            :sessions="sessions"
+            :disabled="busy || !canModifyRound2"
+            :busy="busy"
+            :max="serverSeat2"
+            @confirm="setSecondRound"
+          />
+          <SeatUpdater
+            v-if="Number(school.stage[0]) >= 3"
+            v-model="school.seat['2']"
+            title="追加名额"
+            :sessions="sessions"
+            :disabled="busy || !canModifyRound2"
+            :busy="busy"
+            @confirm="patch('seat.2', school.seat['2'])"
+          />
+        </div>
+
+        <div class="leader-type">
+          <LeaderAttendance
+            v-show="!loading"
+            @change="setLeaderAttend"
+            :value="leaderAttend"
+            :disabled="Number(round)>=3 || busy"
+          />
+        </div>
+
+        <div v-if="school.stage==='1.exchange'" class="controls end-exchange">
+          <el-button
+            type="warning"
+            :busy="busy"
+            @click="endExchange"
+          >
+            <icon class="el-icon-" name="exclamation-triangle" style="vertical-align: bottom;" />
+            强制结束名额交换
+          </el-button>
+        </div>
+
+        <ReservationControl
+          title="酒店预订"
+          :round="round"
+          :busy="busy"
+          :school="id"
+        />
+
+        <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
+          <el-checkbox v-model="enableStartConfirm">信息录入</el-checkbox>
+          <p class="note">开始信息录入后，不能修改会场名额、领队参会、酒店预订信息！</p>
+          <el-button
+            type="primary"
+            icon="el-icon-document"
+            :disabled="!enableStartConfirm"
+            :busy="busy"
+            @click="startConfirm"
+          >开始信息录入</el-button>
+        </div>
+      </template>
+
+      <!-- stuff for individual -->
+      <template v-if="type === 'individual'">
+        <SeatSelect
           v-model="school.seat['1']"
-          title="一轮名额"
+          style="margin: 2em auto; text-align: center"
           :sessions="sessions"
           :disabled="busy || !canModifyRound1"
           :busy="busy"
-          @confirm="patch('seat.1', school.seat['1'])"
+          @change="patch('seat.1', school.seat['1'])"
         />
-        <div class="seat-updater"
-          v-if="school.stage === '1.complete' || school.stage[0] === '2'"
-        >
-          <h4>追加轮增加</h4>
-          <SeatInput
-            class="seat-input"
-            v-model="school.seat['2pre']"
-            :sessions="sessions"
-            :disabled="busy || !canModifyRound2"
-            :check-dual="false"
-          />
-          <el-button-group class="controls">
-            <el-button
-              type="danger"
-              :loading="busy"
-              size="small"
-              icon="el-icon-message"
-              :busy="busy"
-              :disabled="!canModifyRound2"
-              @click="allocSecondRound"
-            > 分配 </el-button>
-            <el-button
-              type="primary"
-              :loading="busy"
-              size="small"
-              icon="el-icon-edit"
-              :busy="busy"
-              :disabled="!canModifyRound2"
-              @click="patch('seat.2pre', school.seat['2pre'])"
-            > 暂存 </el-button>
-          </el-button-group>
+
+        <ReservationControl
+          :round="round"
+          :busy="busy"
+          :school="id"
+        />
+
+        <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
+          <el-checkbox v-model="enableStartConfirm">信息确认</el-checkbox>
+          <p class="note">确认个人代表信息后，不能再修改会场、酒店预订信息！</p>
+          <el-button
+            type="primary"
+            icon="el-icon-document"
+            :disabled="!enableStartConfirm"
+            :busy="busy"
+            @click="startConfirm"
+          > 确认信息 </el-button>
         </div>
-        <SeatUpdater
-          v-if="school.stage[0] === '2' || (school.stage === '1.complete' && Object.keys(serverSeat2).length > 0)"
-          v-model="school.seat['2']"
-          title="追加轮减少"
-          :sessions="sessions"
-          :disabled="busy || !canModifyRound2"
-          :busy="busy"
-          :max="serverSeat2"
-          @confirm="setSecondRound"
-        />
-        <SeatUpdater
-          v-if="Number(school.stage[0]) >= 3"
-          v-model="school.seat['2']"
-          title="追加名额"
-          :sessions="sessions"
-          :disabled="busy || !canModifyRound2"
-          :busy="busy"
-          @confirm="patch('seat.2', school.seat['2'])"
-        />
-      </div>
-
-      <div class="leader-type">
-        <LeaderAttendance
-          v-show="!loading"
-          @change="setLeaderAttend"
-          :value="leaderAttend"
-          :disabled="Number(round)>=3 || busy"
-        />
-      </div>
-
-      <div v-if="school.stage==='1.exchange'" class="controls end-exchange">
-        <el-button
-          type="warning"
-          :busy="busy"
-          @click="endExchange"
-        >
-          <icon class="el-icon-" name="exclamation-triangle" style="vertical-align: bottom;" />
-          强制结束名额交换
-        </el-button>
-      </div>
-
-      <ReservationControl
-        title="酒店预订"
-        :round="round"
-        :busy="busy"
-        :school="id"
-      />
-
-      <div v-if="school.stage==='1.complete' || school.stage==='2.complete'" class="start-confirm">
-        <el-checkbox v-model="enableStartConfirm">信息录入</el-checkbox>
-        <p class="note">开始信息录入后，不能修改会场名额、领队参会、酒店预订信息！</p>
-        <el-button
-          type="primary"
-          icon="el-icon-document"
-          :disabled="!enableStartConfirm"
-          :busy="busy"
-          @click="startConfirm"
-        >开始信息录入</el-button>
-      </div>
+      </template>
 
     </template>
   </div>
@@ -119,6 +152,7 @@ import NukeSchoolButton from './NukeSchoolButton'
 import ReservationControl from './ReservationControl'
 import LeaderAttendance from '../../form/LeaderAttendance'
 import SeatInput from './SeatInput'
+import SeatSelect from './SeatSelect'
 import 'vue-awesome/icons/exclamation-triangle'
 
 export default {
@@ -127,6 +161,7 @@ export default {
     SchoolBrief,
     SeatInput,
     SeatUpdater,
+    SeatSelect,
     LeaderAttendance,
     NukeSchoolButton,
     ReservationControl
@@ -137,10 +172,13 @@ export default {
   },
   computed: {
     stage() {
-      return (this.school && this.school.stage) || ''
+      return this.school && this.school.stage || ''
     },
     round() {
       return this.stage && this.stage[0] || null
+    },
+    type() {
+      return this.school && this.school.type || null
     },
     canModify() {
       const stage = this.stage
@@ -311,7 +349,7 @@ export default {
     async startConfirm() {
       try {
         const newSeat = await this.$agent
-          .post('/api/schools/'+this.id+'/seat')
+          .post(`/api/schools/${this.id}/progress`)
           .send({ startConfirm: true })
           .body()
         this.school = {

@@ -99,8 +99,8 @@ export default {
       return session && session.id !== '_leader_nr' && !is_leader
     },
     canBeLeader() {
-      const { withdraw } = this.representative || {}
-      return !withdraw
+      const { withdraw, is_leader } = this.representative || {}
+      return !withdraw && is_leader !== null
     }
   },
   data: () => ({

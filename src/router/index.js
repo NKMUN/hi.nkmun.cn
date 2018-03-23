@@ -11,6 +11,7 @@ export function getRoleRoute(givenAccesses = []) {
   if (hasAccess(givenAccesses, 'admin')) return '/staff/'
   if (hasAccess(givenAccesses, 'leader')) return '/school/'
   if (hasAccess(givenAccesses, 'dais')) return '/dais/'
+  if (hasAccess(givenAccesses, 'individual')) return '/individual/'
   if (hasAccess(givenAccesses, 'delegate')) return '/delegate/'
   if (hasAccess(givenAccesses, 'academic-director')) return '/academic-director/'
   if (hasAccess(givenAccesses, 'transient.academic-staff.apply')) return '/academic-staff/apply/'
@@ -25,13 +26,14 @@ import ApplyIntro from '@/pages/ApplyIntro'
 // Lazy load:
 const ApplySchool = () => import('@/pages/ApplySchool')
 const ApplyIndividual = () => import('@/pages/ApplyIndividual')
+const ApplyAcademicStaff = () => import('@/pages/ApplyAcademicStaff')
 const Register = () => import('@/pages/Register')
 const Staff    = () => import('@/pages/Staff')
 const School   = () => import('@/pages/School')
 const Committee = () => import('@/pages/Committee')
 const Volunteer = () => import('@/pages/Volunteer')
 const Dais      = () => import('@/pages/Dais')
-const AcademicStaffApply = () => import('@/pages/AcademicStaffApplication')
+const Individual = () => import('@/pages/Individual')
 const AcademicDirector = () => import('@/pages/AcademicDirector')
 
 // Root mgmt pages
@@ -66,6 +68,10 @@ const Confirm        = () => import('@/components/School/Confirm')
 const SessionSeatMgmt = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/DaisUserInfo')
 
+// Individual mgmt page
+const IndividualPayment = () => import(/* webpackChunkName: "individual " */ '@/components/School/Payment')
+const IndividualInfo = () => import(/* webpackChunkName: "individual " */ '@/components/Individual/Info')
+
 // Academic Director
 const AcademicDirectorDashboard = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/Dashboard')
 const AcademicStaffApplicationConfig = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/AcademicStaffApplicationConfig')
@@ -91,6 +97,7 @@ export default new Router({
     { path: '/apply', component: ApplyIntro },
     { path: '/apply/school/', component: ApplySchool },
     { path: '/apply/individual/', component: ApplyIndividual },
+    { path: '/apply/academic/', component: ApplyAcademicStaff },
     { path: '/register/', component: Register },
     { path: '/committee/', component: Committee },
     { path: '/volunteer/', component: Volunteer },
@@ -162,7 +169,12 @@ export default new Router({
         { path: 'user-info', component: DaisUserInfo },
       ]
     },
-    { path: '/apply/academic/', component: AcademicStaffApply },
+    { path: '/individual/', component: Individual,
+      children: [
+        { path: 'payment/', component: IndividualPayment },
+        { path: 'info/', component: IndividualInfo }
+      ]
+    },
     { path: '/academic-staff/apply/', component: AcademicStaffApplyDetail,
       children: [
         { path: 'basic', component: AcademicStaffApplyBasic },

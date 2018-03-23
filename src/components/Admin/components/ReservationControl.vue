@@ -78,9 +78,10 @@
           </el-button-group>
         </template>
       </el-table-column>
-      <template slot="append" v-if="!readonly">
+      <template slot="append" v-if="!readonly && (max === null || reservations.length < max)">
         <div class="el-table__row append-row">
           <el-button
+            size="small"
             type="success"
             icon="el-icon-plus"
             :loading="busy"
@@ -137,11 +138,9 @@ export default {
   },
   methods: {
     notifyError(e, title='操作失败') {
-      this.$notify({
+      this.$message({
         type: 'error',
-        title,
-        message: e.message,
-        duration: 0
+        message: e.message
       })
     },
     allowsModification(reservation) {
@@ -207,17 +206,15 @@ export default {
                              .ok( ({ok, status}) => ok || status === 410 )
         if (ok) {
           this.reservations.push(body)
-          this.$notify({
+          this.$message({
             type: 'success',
-            title: '已新增预订',
-            duration: 5000
+            message: '已新增预订',
           })
         }
         if (status === 410) {
-          this.$notify({
+          this.$message({
             type: 'warning',
-            title: '酒店已被抢订，请重新预订！',
-            duration: 5000
+            message: '酒店已被抢订，请重新预订！',
           })
         }
       } catch(e) {
@@ -242,17 +239,15 @@ export default {
             1,
             body
           )
-          this.$notify({
+          this.$message({
             type: 'success',
-            title: '已修改预订',
-            duration: 5000
+            message: '已修改预订',
           })
         }
         if (status === 410) {
-          this.$notify({
+          this.$message({
             type: 'warning',
-            title: '对方已确认预定信息，不能发起拼房',
-            duration: 5000
+            message: '对方已确认预定信息，不能发起拼房'
           })
         }
       } catch(e) {
@@ -269,10 +264,9 @@ export default {
           this.reservations.findIndex( $ => $.id === rid ),
           1
         )
-        this.$notify({
+        this.$message({
           type: 'success',
-          title: '已删除预订',
-          duration: 5000
+          message: '已删除预订'
         })
       } catch(e) {
         this.notifyError(e, '删除失败')
@@ -296,17 +290,15 @@ export default {
             1,
             body
           )
-          this.$notify({
+          this.$message({
             type: 'success',
-            title: '已接受拼房',
-            duration: 5000
+            message: '已接受拼房'
           })
         }
         if (status === 410) {
-          this.$notify({
+          this.$message({
             type: 'warning',
-            title: '对方已取消拼房请求',
-            duration: 5000
+            message: '对方已取消拼房请求'
           })
         }
       } catch(e) {
@@ -327,10 +319,9 @@ export default {
           1,
           rejectedReservation
         )
-        this.$notify({
+        this.$message({
           type: 'success',
-          title: '已拒绝拼房',
-          duration: 5000
+          message: '已拒绝拼房'
         })
       } catch(e) {
         this.notifyError(e, '拼房失败')
