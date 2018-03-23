@@ -64,7 +64,7 @@
           <el-button-group v-if="row.admission_status !== 'admitted' && row.admission_status !== 'refused'">
             <el-tooltip
               v-if="row.admission_status !== 'waitlist'"
-              content="备胎"
+              content="候选"
               placement="top"
               popper-class="asa-list-button-tooltip"
             >
@@ -77,7 +77,7 @@
               > <icon v-if="!row.busy" name="clock-o" /> </el-button>
             </el-tooltip>
             <el-tooltip
-              content="好人卡"
+              content="拒绝"
               placement="top"
               popper-class="asa-list-button-tooltip"
             >
@@ -90,7 +90,7 @@
               > <icon v-if="!row.busy" name="bomb" /> </el-button>
             </el-tooltip>
             <el-tooltip
-              content="❤️"
+              content="录取"
               placement="top"
               popper-class="asa-list-button-tooltip"
             >
