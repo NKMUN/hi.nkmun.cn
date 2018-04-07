@@ -48,7 +48,6 @@
 <script>
 import ReservationControl from '@/components/Admin/components/ReservationControl'
 import { mapGetters } from 'vuex'
-import store from '@/store/index'
 
 export default {
   name: 'reservation',

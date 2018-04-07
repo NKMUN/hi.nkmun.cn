@@ -102,7 +102,9 @@ export default {
         res => {
           this.$message({
             type: 'success',
-            message: `已指定 ${dais.contact.name} 到 ${this.SESSION(val).name} 会场`
+            message: val
+                ? `已指定 ${dais.contact.name} 到 ${this.SESSION(val).name} 会场`
+                : `已取消 ${dais.contact.name} 的会场分配`
           })
           this.daises.splice(
             this.daises.findIndex($ => $.id === dais.id),

@@ -101,7 +101,7 @@ import GraduationForm from '../form/Graduation'
 import IdentificationForm from '../form/Identification'
 import GuardianForm from '../form/Guardian'
 import SessionUtils from '../../lib/session-utils'
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'representative-form',
