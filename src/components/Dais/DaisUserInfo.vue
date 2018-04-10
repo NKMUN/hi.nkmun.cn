@@ -75,6 +75,7 @@
           <el-date-picker
             :value="dais ? [dais.checkInDate, dais.checkOutDate] : null"
             @input="updateHotelDate"
+            value-format="yyyy-MM-dd"
             type="daterange"
             placeholder="请选择"
             :default-value="datePickerDefaultValue"
@@ -85,6 +86,7 @@
           <el-date-picker
             :value="dais ? [dais.arriveDate, dais.departDate] : null"
             @input="updateArriveDepartDate"
+            value-format="yyyy-MM-dd"
             type="daterange"
             placeholder="请选择"
             :default-value="datePickerDefaultValue"
