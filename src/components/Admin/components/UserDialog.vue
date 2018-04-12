@@ -16,8 +16,8 @@
           <el-option value="dais" label="会场主席 / Dais" />
           <el-option value="academic-director" label="学术总监 / Academic Director" />
           <el-option value="leader" label="学校领队 / Leader" />
-          <!--
           <el-option value="individual" label="个人代表 / Individual" />
+          <!--
           <el-option value="delegate" label="参会代表 / Delegate" />
           -->
         </el-select>

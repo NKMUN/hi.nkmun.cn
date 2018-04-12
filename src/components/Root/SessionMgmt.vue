@@ -171,7 +171,8 @@ const DEFAULT_SESSION = () => ({
   estimatedAttendance: 0,
   price: 0,
   requiresChairman: false,
-  allowsIndividual: false
+  allowsIndividual: false,
+  exchangeable: false
 })
 
 function objectsAreSame(a, b) {

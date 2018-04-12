@@ -4,6 +4,7 @@ function roundText(r) {
     case '2': return '追加'
     case '3': return '追加'
     case 'roomshare': return '拼房'
+    case 'individual': return '个人'
     default:  return '未知'
   }
 }

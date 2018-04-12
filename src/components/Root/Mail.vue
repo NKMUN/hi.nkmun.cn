@@ -63,17 +63,27 @@
       </div>
 
       <el-form :model="M" ref="form" class="form large" label-position="top">
-        <el-form-item label="邀请信模版" prop="invitation">
+        <el-form-item label="邀请信：学校/代表团邀请信" prop="invitation_school">
           <el-input
             type="textarea"
             :rows="10"
             :autosize="{ minRows: 10, maxRows: 30 }"
-            v-model="M.invitation"
+            v-model="M.invitation_school"
             :disabled="busy"
           />
         </el-form-item>
 
-        <el-form-item label="一轮缴费成功模版" prop="paymentSuccess">
+        <el-form-item label="邀请信：个人代表" prop="invitation_individual">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.invitation_individual"
+            :disabled="busy"
+          />
+        </el-form-item>
+
+        <el-form-item label="一轮缴费成功" prop="paymentSuccess">
           <el-input
             type="textarea"
             :rows="10"
@@ -83,7 +93,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="一轮缴费失败模版" prop="paymentFailure">
+        <el-form-item label="一轮缴费失败" prop="paymentFailure">
           <el-input
             type="textarea"
             :rows="10"
@@ -93,7 +103,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="追加缴费成功模版" prop="paymentSuccess2">
+        <el-form-item label="追加缴费成功" prop="paymentSuccess2">
           <el-input
             type="textarea"
             :rows="10"
@@ -103,7 +113,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="追加缴费失败模版" prop="paymentFailure2">
+        <el-form-item label="追加缴费失败" prop="paymentFailure2">
           <el-input
             type="textarea"
             :rows="10"
@@ -165,7 +175,8 @@ const DEFAULT_MAIL_MODEL = () => ({
   account: '',
   password: '',
   nickname: '',
-  invitation: '',
+  invitation_school: '',
+  invitation_individual: '',
   paymentSuccess: '',
   paymentFailure: '',
   paymentSuccess2: '',
@@ -201,54 +212,41 @@ export default {
     configParser(conf) {
       this.M = { ...DEFAULT_MAIL_MODEL(), ...conf }
     },
-    async update() {
+    update() {
       this.busy = true
-      try {
-        await this.$agent.put('/api/config/mail', this.M)
-        this.$notify({
+      return this.$agent.put('/api/config/mail', this.M).then(
+        success => this.$message({
           type: 'success',
-          title: '邀请邮件模版已设置',
-          duration: 5000
-        })
-      } catch(e) {
-        this.$notify({
+          message: '邀请邮件模版已设置',
+        }),
+        err => this.$message({
           type: 'error',
-          title: '操作失败',
-          message: e.message,
-          duration: 0
+          message: '操作失败：' + err.message
         })
-      } finally {
-        this.busy = false
-      }
+      ).then(_ => this.busy = false)
     },
-    async sendTestEmail() {
-      await this.$prompt('请输入邮箱', '提示', {
+    sendTestEmail() {
+      return this.$prompt('请输入邮箱', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
         inputErrorMessage: '邮箱格式不正确'
-      })
-      .then(
-        async ({ value }) => {
-          try {
-            await this.$agent.post('/api/config/mail/')
-              .query({ action: 'test' })
-              .send({ args: value })
-            this.$notify({
+      }).then(
+        ({ value }) =>
+          this.$agent.post('/api/config/mail/')
+          .query({ action: 'test' })
+          .send({ args: value })
+          .then(
+            success => this.$message({
               type: 'success',
-              title: '已发送邮件',
-              duration: 5000
-            })
-          } catch(e) {
-            this.$notify({
+              message: '已发送邮件',
+            }),
+            err => this.$message({
               type: 'error',
-              title: '操作失败',
-              message: e.message,
-              duration: 0
+              message: '邮件发送失败：' + err.message,
             })
-          }
-        },
-        () => null  // do nothing is user cancels input
+          ),
+        _ => null  // do nothing is user cancels input
       )
     }
   }

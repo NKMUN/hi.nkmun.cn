@@ -27,7 +27,7 @@
       class="btn-confirm"
     > 结束名额交换 </el-button>
 
-    <hr style="align-self: stretch; width: 80%; color: #D3DCE6; border-style: solid; border-width: 1px" />
+    <hr style="align-self: center; width: 80%; color: #D3DCE6; border-style: solid; border-width: 1px" />
 
     <div class="request-lists">
       <ExchangeRequestList class="requests" @accept="handleAccept" />
