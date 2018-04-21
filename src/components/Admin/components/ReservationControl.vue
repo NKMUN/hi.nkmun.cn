@@ -343,9 +343,6 @@ export default {
 @import "../../../style/flex"
 .reservation-updater
   flex-vert: flex-start center
-  & > *
-    flex-shrink: 0
-    flex-grow: 0
   .reservations
     margin: 0 auto
     min-width: 50%
