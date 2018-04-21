@@ -301,7 +301,7 @@ export default {
           status
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
-                  .ok( ({ok, status}) => ok || status === 410 )
+                  .ok( ({ok, status}) => ok || status === 409 )
         if (ok) {
           this.$notify({
             type: 'success',
@@ -309,7 +309,7 @@ export default {
             duration: 5000
           })
         }
-        if (status === 410) {
+        if (status === 409) {
           this.$notify({
             type: 'warning',
             title: '未能确认名额交换',

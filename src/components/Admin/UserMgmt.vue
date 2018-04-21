@@ -184,10 +184,11 @@ export default {
       if (result) {
         try {
           const {
+            ok,
             status,
             body
           } = await this.$agent.post('/api/users/')
-              .ok(({status}) => status === 200 || status === 410)
+              .ok(({ok, status}) => ok || status === 409)
               .send({
                 email: result.email,
                 password: result.password,
@@ -195,13 +196,13 @@ export default {
                 school: result.school,
                 session: result.session
               })
-          if (status === 200) {
+          if (ok) {
             this.$message({
               type: 'success',
               message: '已创建用户：' + result.email
             })
           }
-          if (status === 410) {
+          if (status === 409) {
             this.$message({
               type: 'error',
               message: '用户已存在：' + result.email

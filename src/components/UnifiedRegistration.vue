@@ -107,17 +107,18 @@ export default {
         this.busy = true
         try {
           const {
+            ok,
             status,
             body
           } = await this.$agent
             .post('/api/users/')
-            .ok(({status}) => status === 410 || status === 200)
+            .ok(({ok, status}) => ok || status === 409)
             .send({
               email: this.email,
               password: this.password,
               access: this.access
             })
-          if (status === 200) {
+          if (ok) {
             this.$emit('success', {
               user: body.user,
               uid: body.uid,
@@ -131,7 +132,7 @@ export default {
               })
             }
           }
-          if (status === 410) {
+          if (status === 409) {
             return this.$msgbox({
               type: 'warning',
               title: '注册失败',

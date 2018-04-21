@@ -88,7 +88,7 @@ export default {
           status,
           body: updatedSeat
         } = await this.$agent.post('/api/exchanges/'+req.id)
-                  .ok( ({ok, status}) => ok || status === 410 )
+                  .ok( ({ok, status}) => ok || status === 409 )
                   .send({ accept: true })
         if (ok) {
           this.$store.commit('school/seat', updatedSeat)
@@ -98,7 +98,7 @@ export default {
             duration: 5000
           })
         }
-        if (status === 410) {
+        if (status === 409) {
           this.$notify({
             type: 'warning',
             title: 'Oops! 该名额已被交换',

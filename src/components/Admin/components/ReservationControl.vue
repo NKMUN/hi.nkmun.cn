@@ -203,7 +203,7 @@ export default {
           status
         } = await this.$agent.post('/api/schools/'+this.school+'/reservations/')
                              .send( reservation )
-                             .ok( ({ok, status}) => ok || status === 410 )
+                             .ok( ({ok, status}) => ok || status === 409 )
         if (ok) {
           this.reservations.push(body)
           this.$message({
@@ -211,7 +211,7 @@ export default {
             message: '已新增预订',
           })
         }
-        if (status === 410) {
+        if (status === 409) {
           this.$message({
             type: 'warning',
             message: '酒店已被抢订，请重新预订！',
@@ -232,7 +232,7 @@ export default {
           status
         } = await this.$agent.patch('/api/schools/'+this.school+'/reservations/'+reservation.id)
                              .send( reservation )
-                             .ok( ({ok, status}) => ok || status === 410 )
+                             .ok( ({ok, status}) => ok || status === 409 )
         if (ok) {
           this.reservations.splice(
             this.reservations.findIndex($ => $.id === reservation.id),
@@ -244,7 +244,7 @@ export default {
             message: '已修改预订',
           })
         }
-        if (status === 410) {
+        if (status === 409) {
           this.$message({
             type: 'warning',
             message: '对方已确认预定信息，不能发起拼房'
@@ -283,7 +283,7 @@ export default {
           status
         } = await this.$agent.post('/api/schools/'+this.school+'/roomshare/'+reservation.id)
                              .send({ accept: 1 })
-                             .ok( ({ok, status}) => ok || status === 410 )
+                             .ok( ({ok, status}) => ok || status === 409 )
         if (ok) {
           this.reservations.splice(
             this.reservations.findIndex($ => $.id === reservation.id),
@@ -295,7 +295,7 @@ export default {
             message: '已接受拼房'
           })
         }
-        if (status === 410) {
+        if (status === 409) {
           this.$message({
             type: 'warning',
             message: '对方已取消拼房请求'

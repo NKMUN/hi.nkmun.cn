@@ -116,7 +116,7 @@ export default {
       this.showInvitationCodeError = false
       return this.$agent
         .get('/api/invitations/' + this.invitationCode)
-        .ok(({ok, status}) => ok || status === 410 || status === 404)
+        .ok(({ok, status}) => ok || status === 409 || status === 404)
         .then(
           resp => {
             if (resp.ok) {
@@ -124,7 +124,7 @@ export default {
               for (let key of ['type', 'identifier', 'school', 'contact', 'token'])
                 this[key] = resp.body[key] || null
             }
-            if (resp.status === 410 || status === 404) {
+            if (resp.status === 409 || status === 404) {
               this.showInvitationCodeError = true
             }
           },
@@ -147,7 +147,7 @@ export default {
           return this.$agent
             .post('/api/registration/')
             .auth(this.token, null, {type: 'bearer'})
-            .ok( ({ok, status}) => ok || status === 409 || status === 410 )
+            .ok( ({ok, status}) => ok || status === 409 || status === 401 || status === 403)
             .send(this.registration)
             .then(
               resp => {
@@ -175,7 +175,7 @@ export default {
                     }
                   })
                 }
-                if (resp.status === 410) {
+                if (resp.status === 401 || resp.status === 403) {
                   this.$alert('请重新注册', '操作超时', {
                     type: 'warning',
                     confirmButtonText: '返回',

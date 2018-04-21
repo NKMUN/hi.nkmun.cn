@@ -91,8 +91,8 @@ export default {
           body: updatedSeat
         } = await this.$agent.post('/api/schools/'+this.id+'/seat')
                   .send({ confirmExchange: true })
-                  .ok( ({ok, status}) => ok || status === 410 )
-        if (status === 410) {
+                  .ok( ({ok, status}) => ok || status === 409 )
+        if (status === 409) {
           this.$notify({
             type: 'warning',
             title: '未能确认名额交换',
@@ -134,7 +134,7 @@ export default {
         } = await this.$agent.post('/api/exchanges/')
                   .send({ target, targetSession, selfSession })
                   .ok( ({ok, status}) => ok || status === 409 )
-        if (status === 410) {
+        if (status === 409) {
           this.$notify({
             type: 'warning',
             title: 'Oops. 可交换名额不足',
