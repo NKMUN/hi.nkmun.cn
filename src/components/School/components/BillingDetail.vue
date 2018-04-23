@@ -9,7 +9,10 @@
         <el-table-column prop="sum" label="总价" />
       </el-table>
       <h4 v-if="!detail">正在获取应付款信息……</h4>
-      <h4 v-if="detail">{{ getRoundText(round) }}应缴费：<b>CNY ¥{{ total }}</b></h4>
+      <h4 v-if="detail">
+        {{ getRoundText(round) }}应缴费：<b>¥{{ total }}</b>
+        <template v-if="showAlipayAmount">，支付宝应缴费：<b>¥{{ computeAlipayTotal(total) }}</b> </template>
+      </h4>
     </template>
     <template v-else>
       <h4>{{ getRoundText(round) }}无需缴费</h4>
@@ -20,6 +23,7 @@
 <script>
 import pinyinCmp from '@/lib/pinyin-cmp'
 import roundText from '@/lib/round-text'
+import computeAlipayTotal from '@/lib/alipay-surcharge'
 
 function byTypeThenName(a,b) {
     return pinyinCmp(a.type, b.type) || pinyinCmp(a.name, b.name)
@@ -35,7 +39,8 @@ export default {
   props: {
     school: { type: String, default: '' },
     round: { type: String, default: '1' },
-    roundText: {}
+    roundText: {},
+    showAlipayAmount: { type: Boolean, default: false },
   },
   data: () => ({
     detail: null,
@@ -43,7 +48,8 @@ export default {
   methods: {
     getRoundText(str) {
       return this.roundText || roundText(str)
-    }
+    },
+    computeAlipayTotal
   },
   async mounted() {
     try {
@@ -53,8 +59,8 @@ export default {
         .body()
 
       this.detail = details.sort( byTypeThenName )
-
-      this.$emit('loaded')
+      this.$emit('total-amount')
+      this.$emit('loaded', this.detail, this.total)
     } catch(e) {
       this.$notify({
         type: 'error',

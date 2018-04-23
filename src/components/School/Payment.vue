@@ -7,10 +7,10 @@
       :school="school"
       :round="round"
       :round-text="getRoundText(round)"
-      @loaded="billsLoaded=true"
+      @loaded="handleBillsLoaded"
     />
 
-    <PaymentMethods class="payment-methods" v-if="billsLoaded" />
+    <PaymentMethods class="payment-methods" v-if="billsLoaded" :raw-amount="totalAmount" />
 
     <div class="upload" v-if="billsLoaded">
       <h4>凭证上传</h4>
@@ -89,7 +89,8 @@ export default {
     receipts: [],
     busy: false,
     previewImageUrl: '',
-    previewVisible: false
+    previewVisible: false,
+    totalAmount: null
   }),
   methods: {
     async fetchUploadedReceipts() {
@@ -180,6 +181,10 @@ export default {
     },
     getRoundText(str) {
       return this.type === 'individual' ? '个人' : roundText(str)
+    },
+    handleBillsLoaded(bills, total) {
+      this.billsLoaded = true
+      this.totalAmount = total
     }
   },
   filters: {
@@ -207,7 +212,7 @@ export default {
   *
     flex-shrink: 0
   .payment-methods
-    width: 360px
+    width: 480px
   .payment-detail
     min-width: 640px
     width: 80%

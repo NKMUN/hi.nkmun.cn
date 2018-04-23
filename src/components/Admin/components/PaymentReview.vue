@@ -11,6 +11,7 @@
           class="billing"
           :school="id"
           :round="round"
+          show-alipay-amount
         />
         <PaymentList :payments="(payments || []).filter($ => $.round === round)" />
 
