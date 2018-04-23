@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="pane" class="tabs"> 
+  <el-tabs v-model="pane" class="tabs">
 
     <el-tab-pane label="建设银行" name="bankcomm">
       <p>请使用以下账号转账：</p>
@@ -21,7 +21,8 @@
     </el-tab-pane>
 
     <el-tab-pane label="支付宝" name="alipay">
-      <p>请用支付宝扫描以下二维码转账（由于支付宝提现额度限制，转账时请额外支付0.1%手续费）：</p>
+      <p>请用支付宝扫描以下二维码转账：</p>
+      <p>由于提现限制，<b>请支付 0.1% 手续费，总计 ¥{{ alipayAmount }}</b>。</p>
       <img id="alipay" alt="支付宝二维码" width="300" src="../../../assets/nkmun-alipay-qr.jpg"><img>
     </el-tab-pane>
 
@@ -32,12 +33,27 @@
 // NOTE: Tabs/TabPane are not used by other components, load in school chunk
 import { Tabs, TabPane } from 'element-ui'
 import BankTransferCred from './BankTransferCred'
+import computeAlipayTotal from '@/lib/alipay-surcharge'
+
 export default {
   name: 'payment-methods',
   components: {
     [Tabs.name]: Tabs,
     [TabPane.name]: TabPane,
     BankTransferCred
+  },
+  props: {
+    rawAmount: {}
+  },
+  computed: {
+    alipayAmount() {
+      if (this.rawAmount) {
+        // ceil to cents
+        return computeAlipayTotal(this.rawAmount)
+      } else {
+        return '?'
+      }
+    }
   },
   data: () => ({
     pane: 'alipay'
