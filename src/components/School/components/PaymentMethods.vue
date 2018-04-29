@@ -11,13 +11,12 @@
     </el-tab-pane>
 
     <el-tab-pane label="中国银行" name="boc">
-      <p>请使用以下账号转账，或使用中国银行客户端扫描二维码：</p>
+      <p>请使用以下账号转账：</p>
       <BankTransferCred
         card="6217856100007698647"
         name="王亚炜"
         branch="中国银行南京梅花山庄支行"
       />
-      <img alt="中国银行二维码" width="300" src="../../../assets/boc-qr.jpg"><img>
     </el-tab-pane>
 
     <el-tab-pane label="支付宝" name="alipay">
