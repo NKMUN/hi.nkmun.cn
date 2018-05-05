@@ -22,7 +22,18 @@
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload v-model="form.photoId" action="/api/images/" @change="emit" />
+          <ImageUpload
+            v-model="form.photoId"
+            action="/api/images/"
+            @change="emit"
+            :data="{
+              meta: JSON.stringify({
+                flow: 'committee-member-registration',
+                type: 'avatar',
+                user: null
+              })
+            }"
+          />
         </el-form-item>
       </el-form>
 
@@ -126,6 +137,7 @@ import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import ImageUpload from './ImageUpload'
 import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'committee-member-form',

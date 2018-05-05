@@ -31,6 +31,15 @@
         :on-success="handleSuccess"
         :on-remove="handleRemove"
         :before-upload="beforeUpload"
+        :data="{
+          meta: JSON.stringify({
+            flow: 'payment',
+            type: 'payment_recipt',
+            user: user,
+            school: school,
+            payment_round: round
+          })
+        }"
       >
         <i class="el-icon-plus" />
       </el-upload>
@@ -64,6 +73,7 @@ export default {
   },
   computed: {
     ... mapGetters({
+      user: 'user/user',
       school: 'user/school',
       token: 'user/token',
       type: 'school/type',

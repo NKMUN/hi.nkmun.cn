@@ -23,6 +23,13 @@
             action="/api/images/"
             image-dimension="240px"
             preview-size="mini"
+            :data="{
+              meta: JSON.stringify({
+                flow: 'dais',
+                type: 'avatar',
+                user: user
+              })
+            }"
           />
         </el-form-item>
       </el-form>
@@ -122,6 +129,7 @@ import ImageUpload from '@/components/form/ImageUpload'
 import GuardianForm from '@/components/form/Guardian'
 import IdentificationForm from '@/components/form/Identification'
 import genderText from '@/lib/gender-text'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'dais-user-info',
@@ -138,6 +146,9 @@ export default {
     }
   },
   computed: {
+    ... mapGetters({
+      user: 'user/user'
+    }),
     imageUrl() {
       return this.dais ? `/api/images/${this.dais.photoId}?size=small&format=jpg` : ''
     },

@@ -3,6 +3,7 @@
     class="upload"
     :action="action"
     accept="image/jpeg"
+    :data="data"
     :show-file-list="false"
     :on-success="handleSuccess"
     :on-progress="handleProgress"
@@ -69,7 +70,11 @@ export default {
     previewFormat: {
       type: String,
       default: 'jpg'
-    }
+    },
+    data: {
+      type: Object,
+      default: () => {}
+    },
   },
   computed: {
     imageUrl() {

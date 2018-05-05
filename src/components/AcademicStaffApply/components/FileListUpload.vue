@@ -3,6 +3,7 @@
     ref="upload"
     :action="action"
     :headers="headers"
+    :data="data"
     show-file-list
     :accept="accept"
     :file-list="uploaded"
@@ -36,6 +37,10 @@ export default {
     },
     beforeUpload: {
       type: Function
+    },
+    data: {
+      type: Object,
+      default: () => {}
     },
     value: {}
   },

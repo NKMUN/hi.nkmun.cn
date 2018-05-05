@@ -40,7 +40,18 @@
       <el-form-item label="照片" prop="photoId"
         :rules="[ { required: true, message: '请上传照片', trigger: 'change' } ]"
       >
-        <ImageUpload v-model="form.photoId" action="/api/images/" @change="emit" />
+        <ImageUpload
+          v-model="form.photoId"
+          action="/api/images/"
+          @change="emit"
+          :data="{
+            meta: JSON.stringify({
+              flow: 'academic-staff-application',
+              type: 'avatar',
+              user: user
+            })
+          }"
+        />
       </el-form-item>
 
       <el-form-item label="学校" prop="school"
@@ -140,6 +151,7 @@ import Identification from '../form/Identification'
 import Guardian from '../form/Guardian'
 import ImageUpload from '../form/ImageUpload'
 import BirthdayPicker from '../form/BirthdayPicker'
+import { mapGetters } from 'vuex'
 const qqRegex = /^[0-9]{6,15}$/
 
 export default {
@@ -156,6 +168,9 @@ export default {
     }
   },
   computed: {
+    ... mapGetters({
+      user: 'user/user'
+    }),
     qqRegex() {
       return qqRegex
     },
