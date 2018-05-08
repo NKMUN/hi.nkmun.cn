@@ -56,8 +56,8 @@
             <SeatView
               :showRound1="true"
               :showExchange="stage === '1.exchange'"
-              :showRound2="parseInt(stage[0], 10) >= 2"
-              :showTotal="parseInt(stage[0], 10) >= 2"
+              :showRound2="hasRound2Seat"
+              :showTotal="hasRound2Seat"
             />
             <ReservationControl
               style="margin-top: 2em;"
@@ -95,6 +95,7 @@ export default {
     ... mapGetters({
       id: 'user/school',
       stage: 'school/stage',
+      seat: 'school/seat',
       messages: 'school/messages',
     }),
     loaded() {
@@ -102,6 +103,13 @@ export default {
     },
     renderSubComponent() {
       return this.$route.path !== '/school/' && this.id
+    },
+    hasRound2Seat() {
+      const seat2 = this.seat && this.seat['2']
+      let seat2Total = 0
+      for (let k in seat2)
+        seat2Total += seat2[k]
+      return parseInt(this.stage[0], 10) >= 2 || seat2Total > 0
     }
   },
   methods: {
