@@ -99,6 +99,7 @@ export default {
       for (let i = 0; i !== pages.length; ++i) {
         this.curStep = i
         const Page = Vue.extend(pages[i])
+        Page.prototype.$store = this.$store
         const page = new Page({ propsData: { value: this.value } }).$mount()
         const result = await page.validate()
         page.$destroy()
