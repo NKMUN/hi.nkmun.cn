@@ -80,7 +80,7 @@
       <el-form class="form large" label-width="140px" required>
         <el-form-item label="酒店入住/退房时间">
           <el-date-picker
-            :value="dais ? [dais.checkInDate, dais.checkOutDate] : null"
+            :value="dais && dais.checkInDate && dais.checkOutDate ? [dais.checkInDate, dais.checkOutDate] : null"
             @input="updateHotelDate"
             value-format="yyyy-MM-dd"
             type="daterange"
@@ -91,7 +91,7 @@
         </el-form-item>
         <el-form-item label="抵宁/离宁日期" v-show="isForeign">
           <el-date-picker
-            :value="dais ? [dais.arriveDate, dais.departDate] : null"
+            :value="dais && dais.arriveDate && dais.departDate ? [dais.arriveDate, dais.departDate] : null"
             @input="updateArriveDepartDate"
             value-format="yyyy-MM-dd"
             type="daterange"
