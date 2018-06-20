@@ -19,7 +19,7 @@
           slot-scope="{row}"
           size="small"
           v-model="row.note"
-          :disabled="scope.row.withdraw"
+          :disabled="row.withdraw"
           @input="row.state = null"
           @change.native="$ev => handleNoteChange($ev.target.value, row)"
           @keydown.enter.native="$ev => handleNoteChange(row.note, row)"
