@@ -137,7 +137,7 @@ export default {
     }
   },
   methods: {
-    notifyError(e, title='操作失败') {
+    notifyError(e) {
       this.$message({
         type: 'error',
         message: e.message

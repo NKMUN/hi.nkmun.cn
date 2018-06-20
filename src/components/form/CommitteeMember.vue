@@ -137,7 +137,6 @@ import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import ImageUpload from './ImageUpload'
 import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'committee-member-form',

@@ -11,6 +11,7 @@
         class="menu"
       >
         <el-menu-item v-if="hasAccess('dais')" index="/dais/session-seats/"> <icon name="users" /> 席位管理 </el-menu-item>
+        <el-menu-item v-if="hasAccess('dais')" index="/dais/reimbursement/"> <icon name="plane" /> 行程报销 </el-menu-item>
         <el-menu-item v-if="hasAccess('dais')" index="/dais/user-info/"> <icon name="user" /> 个人信息 </el-menu-item>
       </el-menu>
 
@@ -29,6 +30,7 @@ import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/user'
 import 'vue-awesome/icons/sign-out'
+import 'vue-awesome/icons/plane'
 import DaisUserInfo from '@/components/Dais/DaisUserInfo'
 
 export default {

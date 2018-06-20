@@ -67,6 +67,7 @@ const Confirm        = () => import('@/components/School/Confirm')
 // Dais mgmt pages
 const SessionSeatMgmt = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/SessionSeatMgmt')
 const DaisUserInfo = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/DaisUserInfo')
+const DaisReimbursement = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/Reimbursement')
 
 // Individual mgmt page
 const IndividualPayment = () => import(/* webpackChunkName: "individual " */ '@/components/School/Payment')
@@ -167,6 +168,7 @@ export default new Router({
       children: [
         { path: 'session-seats', component: SessionSeatMgmt },
         { path: 'user-info', component: DaisUserInfo },
+        { path: 'reimbursement', component: DaisReimbursement },
       ]
     },
     { path: '/individual/', component: Individual,

@@ -21,15 +21,10 @@
         <li class="constraint-text">只能上传 <b>jpg / png</b> 文件，每个文件不超过 <b>2MB</b></li>
       </ul>
 
-      <el-upload
-        class="el-upload-wrapper"
-        action="/api/images"
+      <MultipleImageUpload
+        v-model="receipts"
+        action="/api/images/"
         accept="image/jpeg, image/png, .jpg, .jpeg, .png"
-        list-type="picture-card"
-        :file-list="uploadedImages"
-        :on-preview="handlePictureCardPreview"
-        :on-success="handleSuccess"
-        :on-remove="handleRemove"
         :before-upload="beforeUpload"
         :data="{
           meta: JSON.stringify({
@@ -42,11 +37,7 @@
         }"
       >
         <i class="el-icon-plus" />
-      </el-upload>
-
-      <el-dialog :visible.sync="previewVisible" title="预览">
-        <img class="preview-image" :src="previewImageUrl" />
-      </el-dialog>
+      </MultipleImageUpload>
 
       <el-button size="large" type="primary" @click="handleSubmit" :busy="busy"> 提交 </el-button>
     </div>
@@ -54,22 +45,19 @@
 </template>
 
 <script>
-import { Upload } from 'element-ui'
 import { mapGetters } from 'vuex'
 import PaymentMethods from './components/PaymentMethods'
 import BillingDetail from './components/BillingDetail'
 import store from '@/store/index'
 import roundText from '@/lib/round-text'
-
-const PREVIEW_IMAGE_SIZE_QUERY = "size=tiny"
-const PREVIEW_DIALOG_IMAGE_SIZE_QUERY = "size=medium"
+import MultipleImageUpload from '@/components/form/MultipleImageUpload'
 
 export default {
   name: 'payment',
   components: {
     PaymentMethods,
     BillingDetail,
-    [Upload.name]: Upload,
+    MultipleImageUpload,
   },
   computed: {
     ... mapGetters({
@@ -82,12 +70,6 @@ export default {
     authorization() {
       return `Bearer ${this.$store.getters['user/token']}`
     },
-    uploadedImages() {
-      return this.receipts.map((id, idx) => ({
-        name: String(idx),
-        url: `/api/images/${id}?size=tiny&format=jpg`
-      }))
-    },
     baseRoute() {
       return this.type === 'school' ? '/school/'
            : this.type === 'individual' ? '/individual/'
@@ -98,8 +80,6 @@ export default {
     billsLoaded: false,
     receipts: [],
     busy: false,
-    previewImageUrl: '',
-    previewVisible: false,
     totalAmount: null
   }),
   methods: {
@@ -115,29 +95,6 @@ export default {
         ],
         []
       )
-    },
-    handleSuccess(resp, file, fileList) {
-      return this.handleFileList(fileList)
-    },
-    handleRemove(file, fileList) {
-      return this.handleFileList(fileList)
-    },
-    handleFileList(fileList) {
-      const recoverIdFromUrl = url => {
-        const API_IMAGE_PREFIX = '/api/images/'
-        if (url.startsWith(API_IMAGE_PREFIX)) {
-          const startPos = API_IMAGE_PREFIX.length
-          const queryPos = url.indexOf('?')
-          const endPos = queryPos === -1 ? undefined : queryPos    // js does not offer C style substr
-          return url.slice(startPos, endPos)
-        }
-      }
-      const files = fileList.filter(file => file.status === 'success')
-      this.receipts = files.map(file => file.response ? file.response.id : recoverIdFromUrl(file.url))
-    },
-    handlePictureCardPreview(file) {
-      this.previewImageUrl = file.url.replace(PREVIEW_IMAGE_SIZE_QUERY, PREVIEW_DIALOG_IMAGE_SIZE_QUERY)
-      this.previewVisible = true
     },
     beforeUpload(file) {
       if ( ! (file.type === 'image/jpeg' || file.type === 'image/png') ) {
