@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import administrativeAreas from '@/lib/administrative-areas'
+import provinces from '@/lib/province-city'
 export default {
   name: 'school-form',
   props: {
@@ -95,7 +95,7 @@ export default {
   }),
   computed: {
     administrativeAreas() {
-      return administrativeAreas
+      return provinces.map(p => p.name)
     }
   },
   methods: {
