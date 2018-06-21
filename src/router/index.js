@@ -55,6 +55,7 @@ const UserMgmt = () => import('@/components/Admin/UserMgmt')
 const Export = () => import('@/components/Admin/Export')
 const StaffOverview = () => import('@/components/Root/Overview')
 const Links = () => import('@/components/Root/Links')
+const ReimbursementMgmt = () => import('@/components/Admin/ReimbursementMgmt')
 
 // School mgmt pages
 const Relinquish  = () => import('@/components/School/Relinquish')
@@ -118,6 +119,8 @@ export default new Router({
         { path: 'schools/:id', component: SchoolMgmt, props: true },
         { path: 'payments/', component: PaymentMgmt },
         { path: 'payments/:id', component: PaymentMgmt, props: true },
+        { path: 'reimbursements/', component: ReimbursementMgmt },
+        { path: 'reimbursements/:id', component: ReimbursementMgmt, props: true },
         { path: 'overview/seat', component: SeatOverview },
         { path: 'overview/stage', component: StageOverview },
         { path: 'representatives/', component: RepresentativeMgmt },

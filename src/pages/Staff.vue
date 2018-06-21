@@ -38,6 +38,7 @@
         <el-menu-item v-if="hasAccess('staff.application')" index="/staff/applications/"> 报名管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff')" index="/staff/schools/"> 参会管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff', 'finance')" index="/staff/payments/"> 缴费管理 </el-menu-item>
+        <el-menu-item v-if="hasAccess('finance')" index="/staff/reimbursements/"> 报销管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('staff.representative')" index="/staff/representatives/"> 代表管理 </el-menu-item>
         <el-menu-item v-if="hasAccess('finance')" index="/staff/exports/"> 导出 </el-menu-item>
       </el-menu>

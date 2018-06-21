@@ -1,7 +1,7 @@
 <script>
 import ImageLoader from '@/components/Admin/components/ImageLoader'
 import genderText from '@/lib/gender-text'
-import SimpleField from './SimpleField'
+import SimpleField from '@/components/SimpleField'
 import 'vue-awesome/icons/file-text-o'
 
 export default {

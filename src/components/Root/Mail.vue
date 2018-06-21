@@ -56,9 +56,10 @@
         <ul>
           <li>邮件模版需要为有效HTML文档</li>
           <li><code>{school}</code> 表示学校</li>
-          <li><code>{name}</code> 表示联系人/申请人姓名</li>
+          <li><code>{name}</code> 表示联系人/申请人/学术团队成员姓名</li>
           <li><code>{code}</code> 表示邀请码</li>
-          <li><code>{reason}</code> 表示缴费审核不通过的理由</li>
+          <li><code>{reason}</code> 表示缴费/报销审核不通过的理由</li>
+          <li><code>{trip}</code> 表示报销行程（来程/回程）</li>
         </ul>
       </div>
 
@@ -149,6 +150,16 @@
             :rows="10"
             :autosize="{ minRows: 10, maxRows: 30 }"
             v-model="M.academic_staff_refuse"
+            :disabled="busy"
+          />
+        </el-form-item>
+
+        <el-form-item label="行程报销完成" prop="dais_reimbursement_complete">
+          <el-input
+            type="textarea"
+            :rows="10"
+            :autosize="{ minRows: 10, maxRows: 30 }"
+            v-model="M.dais_reimbursement_complete"
             :disabled="busy"
           />
         </el-form-item>

@@ -210,7 +210,7 @@ export default {
       switch (g(`${tripKey}.state`)) {
         case 'submitted': return <el-tag> 已提交，请等待审核 </el-tag>
         case 'approved':  return <el-tag type="success"> 已批准，请等待发放报销 </el-tag>
-        case 'rejected':  return <el-tag type="error"> 未批准 </el-tag>
+        case 'rejected':  return <el-tag type="danger"> 未批准 </el-tag>
         case 'completed': return <el-tag type="success"> 已完成 </el-tag>
         default:          return <el-tag type="info"> 未提交 </el-tag>
       }
@@ -230,7 +230,8 @@ export default {
 
     const renderRejectionNote = (tripKey) => {
       const note = g(`${tripKey}.review_note`)
-      return note
+      const state = g(`${tripKey}.state`)
+      return note && state === 'rejected'
         ? <el-alert
             title={ `审核结果：${note}` }
             type="error"
