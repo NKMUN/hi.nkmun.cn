@@ -2,6 +2,7 @@
 import { get, set } from '@/lib/property-accessor'
 import ProvinceCity from '@/components/form/ProvinceCity'
 import MultipleImageUpload from '@/components/form/MultipleImageUpload'
+import ReimbursementRule from './ReimbursementRule'
 import 'vue-awesome/icons/sign-in'
 import 'vue-awesome/icons/sign-out'
 
@@ -248,6 +249,8 @@ export default {
     return (
       <div class="reimbursement">
         <h4>行程报销</h4>
+
+        <ReimbursementRule />
 
         <el-form
           class="basic-info"
