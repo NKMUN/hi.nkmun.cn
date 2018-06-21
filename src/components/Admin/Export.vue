@@ -75,6 +75,18 @@
       :disabled="busy"
     > <icon name="photo"/> 会场主席照片 </el-button>
 
+    <el-button
+      @click="exportAs('daises/reimbursements', '.csv')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="money"/> 报销清单 </el-button>
+
+    <el-button
+      @click="exportAs('daises/reimbursement-credentials', '.zip')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="ticket"/> 报销凭证 </el-button>
+
   </div>
 
 </template>
@@ -92,6 +104,8 @@ import 'vue-awesome/icons/jpy'
 import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/handshake-o'
 import 'vue-awesome/icons/user-secret'
+import 'vue-awesome/icons/money'
+import 'vue-awesome/icons/ticket'
 
 export default {
   name: 'export',
