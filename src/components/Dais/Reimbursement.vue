@@ -48,7 +48,10 @@ export default {
                 message: '不能提交：' + resp.body.message
               })
             }
-            this.reimbursement = resp.body
+            this.reimbursement = {
+              ...this.reimbursement,
+              [tripKey]: resp.body[tripKey]
+            }
             this.$message({
               type: 'success',
               message: '已提交，请等待审核。'
@@ -81,7 +84,14 @@ export default {
                 message: '不能提交：' + resp.body.message
               })
             }
-            this.reimbursement = resp.body
+            this.reimbursement = {
+              ...this.reimbursement,
+              school_region: resp.body.school_region,
+              residence_region: resp.body.residence_region,
+              payment_method: resp.body.payment_method,
+              bank: resp.body.bank,
+              alipay: resp.body.alipay,
+            }
             this.$message({
               type: 'success',
               message: '基本信息已保存'
@@ -221,7 +231,7 @@ export default {
       const totalCost = (g('inbound.cost') || 0) + (g('outbound.cost') || 0)
       return totalCost > REIMBURSEMENT_UPPER_BOUND
         ? <el-alert
-            title="交通费报销上线为 ¥800"
+            title="交通费报销上限为 ¥800"
             type="warning"
             show-icon
             closable={ false }
