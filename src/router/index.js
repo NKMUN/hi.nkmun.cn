@@ -206,6 +206,6 @@ export default new Router({
 })
 
 Vue.use(VueAnalytics, {
-  id: 'UA-XXX-X',
+  id: 'UA-122524445-1',
   Router
 })
