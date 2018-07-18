@@ -94,7 +94,7 @@ const AcademicStaffApplyConfirm = () => import(/* webpackChunkName: "asa" */ '@/
 
 // NOTE: keep router path in sync with Root/Links
 
-export default new Router({
+const router = new Router({
   routes: [
     { path: '/', component: Index },
     { path: '/apply', component: ApplyIntro },
@@ -207,5 +207,10 @@ export default new Router({
 
 Vue.use(VueAnalytics, {
   id: 'UA-122524445-1',
-  Router
+  router,
+  autoTracking: {
+    screenview: true
+  }
 })
+
+export {router as default}
