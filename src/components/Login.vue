@@ -58,6 +58,7 @@ export default {
   }),
   methods: {
     async login() {
+      this.$ga.event('userInfo', 'login', 'username', this.loginPayload.user)
       // TODO: login with credential
       if ( await this.validateForm() ) {
         this.busy = true

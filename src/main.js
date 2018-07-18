@@ -8,37 +8,42 @@ import superagent from 'superagent'
 import superagentUse from 'superagent-use'
 import { getToken } from '@/persistence/token'
 import {
-    Alert,
-    Button,
-    ButtonGroup,
-    Card,
-    Checkbox,
-    DatePicker,
-    Dialog,
-    Form,
-    FormItem,
-    Input,
-    InputNumber,
-    Menu,
-    Submenu,
-    MenuItem,
-    MenuItemGroup,
-    Option,
-    OptionGroup,
-    Radio,
-    RadioGroup,
-    Select,
-    Step,
-    Steps,
-    Table,
-    TableColumn,
-    Tag,
-    Tooltip,
-    Notification,
-    Loading,
-    MessageBox,
-    Message
+  Alert,
+  Button,
+  ButtonGroup,
+  Card,
+  Checkbox,
+  DatePicker,
+  Dialog,
+  Form,
+  FormItem,
+  Input,
+  InputNumber,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup,
+  Option,
+  OptionGroup,
+  Radio,
+  RadioGroup,
+  Select,
+  Step,
+  Steps,
+  Table,
+  TableColumn,
+  Tag,
+  Tooltip,
+  Notification,
+  Loading,
+  MessageBox,
+  Message
 } from 'element-ui'
+import VueAnalytics from 'vue-analytics'
+
+Vue.use(VueAnalytics, {
+  id: 'UA-122524445-1'
+})
 
 Vue.use( Alert )
 Vue.use( Button )
@@ -89,7 +94,7 @@ Vue.component('Icon', Icon)
 
 let token = getToken()
 if (token) {
-    store.commit('user/token', token)
+  store.commit('user/token', token)
 }
 
 // superagent:
@@ -97,17 +102,17 @@ if (token) {
 // 2. body(), blob() method
 Vue.prototype.$agent = superagentUse(superagent)
 Vue.prototype.$agent.use(req => {
-    const token = store.getters['user/token']
-    token && req.auth(token, null, {type: 'bearer'})
+  const token = store.getters['user/token']
+  token && req.auth(token, null, {type: 'bearer'})
 })
 Vue.prototype.$agent.use(req => {
-    req.body = () => new Promise((resolve, reject) =>
-        req.then(
-            res => resolve(res.body),
-            reject
-        )
+  req.body = () => new Promise((resolve, reject) =>
+    req.then(
+        res => resolve(res.body),
+      reject
     )
-    req.blob = () => req.responseType('blob').body()
+  )
+  req.blob = () => req.responseType('blob').body()
 })
 
 /* eslint-disable no-new */

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import { hasAccess } from '../lib/access'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(Router)
 
@@ -202,4 +203,9 @@ export default new Router({
     },
     { path: '*', component: NotFound },
   ]
+})
+
+Vue.use(VueAnalytics, {
+  id: 'UA-XXX-X',
+  Router
 })
