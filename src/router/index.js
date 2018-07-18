@@ -207,10 +207,7 @@ const router = new Router({
 
 Vue.use(VueAnalytics, {
   id: 'UA-122524445-1',
-  router,
-  autoTracking: {
-    screenview: true
-  }
+  router
 })
 
 export {router as default}
