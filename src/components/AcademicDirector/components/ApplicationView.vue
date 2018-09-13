@@ -91,7 +91,7 @@ export default {
                 <SimpleField name="会议" value={exp.conference} />
                 <SimpleField name="级别" value={exp.level} />
                 <SimpleField name="主办方" value={exp.organizer} />
-                <SimpleField name="组委会" value={exp.committee} />
+                <SimpleField name="委员会" value={exp.committee} />
                 <SimpleField name="议题" value={exp.topic} />
                 { exp.prize && <SimpleField name="奖项" value={exp.prize} /> }
               </SimpleField>
@@ -104,7 +104,7 @@ export default {
                 <SimpleField name="会议" value={exp.conference} />
                 <SimpleField name="级别" value={exp.level} />
                 <SimpleField name="主办方" value={exp.organizer} />
-                <SimpleField name="组委会" value={exp.committee} />
+                <SimpleField name="委员会" value={exp.committee} />
                 <SimpleField name="议题" value={exp.topic} />
                 <SimpleField name="职位" value={exp.position} />
               </SimpleField>
