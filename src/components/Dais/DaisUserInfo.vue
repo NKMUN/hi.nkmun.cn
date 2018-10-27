@@ -108,6 +108,7 @@
             :disabled="busy"
             :value="dais && dais.comment"
             @input="val => dais.comment = val"
+            autocomplete="off"
           />
         </el-form-item>
       </el-form>

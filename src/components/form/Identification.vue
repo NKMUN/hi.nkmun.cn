@@ -29,6 +29,7 @@
       <el-input
         v-model="form.number"
         type="text"
+        autocomplete="off"
         placeholder="证件号码"
         :disabled="disabled"
         @change="emit"

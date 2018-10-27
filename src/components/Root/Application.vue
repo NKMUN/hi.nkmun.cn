@@ -12,6 +12,7 @@
       <el-form-item label="顶部说明">
         <el-input
           type="textarea"
+          autocomplete="off"
           v-model="application.disclaimer"
           :autosize="{ minRows: 3, maxRow: 10 }"
           placeholder="必须为合法的HTML片段"
@@ -40,6 +41,7 @@
         </div>
         <el-input
           type="textarea"
+          autocomplete="off"
           v-model="application.tests[idx].question"
           :autosize="{ minRows: 2, maxRow: 10 }"
           placeholder="学测题目"

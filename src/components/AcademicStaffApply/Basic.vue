@@ -17,6 +17,7 @@
         <el-input
           v-model="form.name"
           type="text"
+          autocomplete="off"
           placeholder="姓名"
           @change="emit"
         />
@@ -57,7 +58,7 @@
       <el-form-item label="学校" prop="school"
         :rules="[ { required: true, message: '请填写学校', trigger: 'blur' } ]"
       >
-        <el-input v-model="form.school" placeholder="请填写学校" @change="emit"></el-input>
+        <el-input v-model="form.school" autocomplete="off" placeholder="请填写学校" @change="emit" />
       </el-form-item>
 
       <el-form-item label="年级" prop="grade"
@@ -80,7 +81,7 @@
       <el-form-item label="专业" prop="major"
         :rules="[ { required: true, message: '请填写专业', trigger: 'blur' } ]"
       >
-        <el-input v-model="form.major" placeholder="文科 / 理科 / 大学专业" @change="emit"></el-input>
+        <el-input v-model="form.major" autocomplete="off" placeholder="文科 / 理科 / 大学专业" @change="emit" />
       </el-form-item>
 
 
@@ -90,7 +91,7 @@
           { type: 'string', pattern: /^(1[34578]\d{9}|\+\d{11,})$/, message: '手机号格式不正确', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="form.phone" type="text" placeholder="+[国际前缀][手机号]" @change="emit" />
+        <el-input v-model="form.phone" autocomplete="off" type="text" placeholder="+[国际前缀][手机号]" @change="emit" />
       </el-form-item>
 
       <el-form-item label="QQ" prop="qq"
@@ -99,25 +100,15 @@
           { type: 'string', pattern: qqRegex, message: 'QQ号格式不正确', trigger: 'blur' },
         ]"
       >
-        <el-input
-          v-model="form.qq"
-          type="text"
-          placeholder="QQ号"
-          @change="emit"
-        />
+        <el-input v-model="form.qq" type="text" autocomplete="off" placeholder="QQ号" @change="emit" />
       </el-form-item>
 
       <el-form-item label="Skype" prop="skype">
-        <el-input
-          v-model="form.skype"
-          type="text"
-          placeholder="Skype账号"
-          @change="emit"
-        />
+        <el-input v-model="form.skype" type="text" autocomplete="off" placeholder="Skype账号" @change="emit" />
       </el-form-item>
 
       <el-form-item label="备注" prop="note">
-        <el-input v-model="form.note" placeholder="备注" @change="emit" />
+        <el-input v-model="form.note" autocomplete="off" placeholder="备注" @change="emit" />
       </el-form-item>
     </el-form>
 

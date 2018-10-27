@@ -16,6 +16,7 @@
       <el-input
         v-model="invitation"
         type="text"
+        autocomplete="off"
         placeholder="请输入邀请码"
         :disabled="disabled"
         @input="emit"

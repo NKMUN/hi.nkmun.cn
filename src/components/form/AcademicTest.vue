@@ -15,6 +15,7 @@
       <el-input
         v-model="M[test.id]"
         type="textarea"
+        autocomplete="off"
         resize="vertical"
         :autosize="{ minRows: 8, maxRows: 24 }"
         :maxlength="10000"

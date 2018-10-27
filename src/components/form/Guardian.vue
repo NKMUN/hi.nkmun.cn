@@ -29,6 +29,7 @@
       <el-input
         v-model="form.name"
         type="text"
+        autocomplete="off"
         placeholder="姓名"
         :disabled="disabled"
         @change="emit"
@@ -46,6 +47,7 @@
       <el-input
         v-model="form.phone"
         type="text"
+        autocomplete="off"
         placeholder="手机"
         :disabled="disabled"
         @change="emit"

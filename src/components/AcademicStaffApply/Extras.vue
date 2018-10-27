@@ -14,6 +14,7 @@
         <el-input
           v-model="form.additional_comment"
           type="textarea"
+          autocomplete="off"
           @change="emit"
           :autosize="{minRows: 8}"
         />

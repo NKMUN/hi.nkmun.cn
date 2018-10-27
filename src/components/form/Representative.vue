@@ -83,7 +83,7 @@
         :label-width="labelWidth"
       >
         <el-form-item label="备注">
-          <el-input :disabled="disabled" v-model="comment" @change="emit" />
+          <el-input :disabled="disabled" v-model="comment" autocomplete="off" @change="emit" />
         </el-form-item>
       </el-form>
     </section>

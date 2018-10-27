@@ -21,6 +21,7 @@
       type="textarea"
       :value="value && value.remark"
       @input="val => emitField('remark', val)"
+      autocomplete="off"
       :autosize="{ minRows: 3 }"
       placeholder="请输入评价"
       :disabled="disabled"

@@ -2,11 +2,11 @@
   <el-dialog title="新建用户" :visible.sync="visible" width="60ch" :close-on-click-modal="false">
     <el-form :model="formData" ref="form" label-width="10ch" label-position="right">
       <el-form-item label="用户名" required>
-        <el-input v-model="email" placeholder="用户名" />
+        <el-input v-model="email" autocomplete="off" placeholder="用户名" />
       </el-form-item>
 
       <el-form-item label="密码" required>
-        <el-input v-model="password" placeholder="密码" />
+        <el-input v-model="password" autocomplete="off" placeholder="密码" />
       </el-form-item>
 
       <el-form-item label="权限" required >

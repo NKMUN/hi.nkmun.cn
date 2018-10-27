@@ -10,6 +10,7 @@
       <el-form-item label="邮箱" prop="user">
         <el-input
           type="text"
+          autocomplete="off"
           placeholder="邮箱或用户名"
           autofocus
           :disabled="busy"
@@ -22,6 +23,7 @@
         <el-input
           ref="inputPassword"
           type="password"
+          autocomplete="off"
           placeholder="密码"
           :disabled="busy"
           v-model="loginPayload.password"

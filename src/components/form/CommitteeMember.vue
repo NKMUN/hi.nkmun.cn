@@ -18,7 +18,7 @@
         </el-form-item>
 
         <el-form-item label="学校" prop="school" :rules="[{ required: true, message: '请填写学校', trigger: 'blur' }]">
-          <el-input v-model="form.school" placeholder="请填写学校" @change="emit"></el-input>
+          <el-input v-model="form.school" autocomplete="off" placeholder="请填写学校" @change="emit" />
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
@@ -122,7 +122,7 @@
         :label-width="labelWidth"
       >
         <el-form-item label="备注">
-          <el-input :disabled="disabled" v-model="comment" />
+          <el-input :disabled="disabled" v-model="comment" autocomplete="off" />
         </el-form-item>
       </el-form>
     </section>

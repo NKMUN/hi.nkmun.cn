@@ -33,7 +33,7 @@
       </el-form-item>
 
       <el-form-item label="备注" prop="role_note">
-        <el-input v-model="form.role_note" @change="emit" />
+        <el-input v-model="form.role_note" autocomplete="off" @change="emit" />
       </el-form-item>
 
       <h4>是否参加过汇文模联</h4>
@@ -52,7 +52,7 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="form.past_note" @change="emit" />
+        <el-input v-model="form.past_note" autocomplete="off" @change="emit" />
       </el-form-item>
 
     </el-form>

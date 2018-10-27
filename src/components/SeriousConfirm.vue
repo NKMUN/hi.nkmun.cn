@@ -19,6 +19,7 @@
     <el-input
       class="serious-confirm-input"
       v-model="input"
+      autocomplete="off"
       @keydown.enter.native="handleEnter"
       :placeholder="repeat"
       :autofocus="true"

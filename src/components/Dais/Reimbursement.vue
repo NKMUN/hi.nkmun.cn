@@ -175,6 +175,7 @@ export default {
     const s = attr => val => this.reimbursement = set(this.reimbursement, attr, val)
     const defineField = field => ({
       attrs: {
+        autocomplete: 'off',
         value: g(field)
       },
       on: {

@@ -5,16 +5,16 @@
     <el-form :model="form" label-width="12ch" label-position="right">
 
       <el-form-item label="过往会期" prop="past_conferences">
-        <el-input v-model="form.past_conferences" placeholder="用空格分隔不同会期，如：2016 2017 2018" />
+        <el-input v-model="form.past_conferences" autocomplete="off" placeholder="用空格分隔不同会期，如：2016 2017 2018" />
       </el-form-item>
 
       <el-form-item label="职位列表">
         <el-table :data="form.departments || []">
           <el-table-column label="ID" prop="id" width="160px">
-            <el-input slot-scope="{row}" v-model="row.id" @change="syncDepartments" size="mini" placeholder="字符、数字，需唯一" :minlength="1" :maxlength="8" :disabled="busy" />
+            <el-input slot-scope="{row}" v-model="row.id" autocomplete="off" @change="syncDepartments" size="mini" placeholder="字符、数字，需唯一" :minlength="1" :maxlength="8" :disabled="busy" />
           </el-table-column>
           <el-table-column label="名称" prop="name" min-width="30ch">
-            <el-input slot-scope="{row}" v-model="row.name" @change="syncDepartments" size="mini" placeholder="请输入名称" :disabled="busy" />
+            <el-input slot-scope="{row}" v-model="row.name" autocomplete="off" @change="syncDepartments" size="mini" placeholder="请输入名称" :disabled="busy" />
           </el-table-column>
           <el-table-column label="操作" prop="name" width="48px" class-name="no-left-padding">
             <el-button slot-scope="{row}" type="danger" size="mini" class="no-padding" icon="el-icon-delete" @click="deleteDepartment(row)" :disabled="busy" />
@@ -49,7 +49,7 @@
               <tr>
                 <td class="field-name">标签</td>
                 <td>
-                  <el-input v-model="test.tag" size="mini" placeholder="通用/中文/英文" style="max-width: 30ch" :disabled="busy" />
+                  <el-input v-model="test.tag" autocomplete="off" size="mini" placeholder="通用/中文/英文" style="max-width: 30ch" :disabled="busy" />
                 </td>
               </tr>
               <tr>
@@ -69,7 +69,7 @@
               <tr>
                 <td class="field-name top">内容</td>
                 <td>
-                  <el-input v-model="test.text" size="mini" type="textarea" placeholder="题目内容" :disabled="busy" />
+                  <el-input v-model="test.text" autocomplete="off" size="mini" type="textarea" placeholder="题目内容" :disabled="busy" />
                 </td>
               </tr>
             </tbody>
@@ -78,7 +78,7 @@
       </el-form-item>
 
       <el-form-item label="承诺书">
-        <el-input type="textarea" v-model="form.promise" placeholder="请输入html" :autosize="{ minRows: 8 }"/>
+        <el-input type="textarea" autocomplete="off" v-model="form.promise" placeholder="请输入html" :autosize="{ minRows: 8 }"/>
       </el-form-item>
 
     </el-form>

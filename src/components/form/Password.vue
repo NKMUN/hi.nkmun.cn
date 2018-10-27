@@ -13,6 +13,7 @@
       <el-input
         v-model="password"
         type="password"
+        autocomplete="off"
         placeholder="请输入密码"
         :disabled="disabled"
         @change="emit"
@@ -29,6 +30,7 @@
       <el-input
         v-model="passwordConfirm"
         type="password"
+        autocomplete="off"
         placeholder="请重复刚才输入的密码"
         :disabled="disabled"
         :minlength="6"

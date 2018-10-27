@@ -12,6 +12,7 @@
       >
         <el-input
           v-model="M.name"
+          autocomplete="off"
           placeholder="酒店名称"
           :disabled="busy"
         />
@@ -24,6 +25,7 @@
       >
         <el-input
           v-model="M.type"
+          autocomplete="off"
           placeholder="房型"
           :disabled="busy"
         />

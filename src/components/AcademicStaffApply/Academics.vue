@@ -16,6 +16,7 @@
         </span>
         <el-input
           v-model="form[test.id]"
+          autocomplete="off"
           type="textarea"
           @change="emit"
           :autosize="{ minRows: 6 }"

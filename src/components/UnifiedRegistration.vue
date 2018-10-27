@@ -11,7 +11,7 @@
           { validator: userExistValidator, trigger: 'blur' }
         ]"
       >
-        <el-input v-model="email" type="text" :disabled="busy" placeholder="请输入邮箱" />
+        <el-input v-model="email" type="text" autocomplete="off" :disabled="busy" placeholder="请输入邮箱" />
       </el-form-item>
 
       <el-form-item
@@ -19,7 +19,7 @@
         prop="password"
         :rules="{ required: true, validator: passwordValidator, trigger: 'blur' }"
       >
-        <el-input v-model="password" type="password" :disabled="busy" placeholder="请输入密码" />
+        <el-input v-model="password" type="password" autocomplete="off" :disabled="busy" placeholder="请输入密码" />
       </el-form-item>
 
       <el-form-item
@@ -27,7 +27,7 @@
         prop="passwordConfirm"
         :rules="{ required: true, validator: passwordConfirmValidator, trigger: 'blur' }"
       >
-        <el-input v-model="passwordConfirm" type="password" :disabled="busy" placeholder="请输入密码" />
+        <el-input v-model="passwordConfirm" type="password" autocomplete="off" :disabled="busy" placeholder="请输入密码" />
       </el-form-item>
     </el-form>
 

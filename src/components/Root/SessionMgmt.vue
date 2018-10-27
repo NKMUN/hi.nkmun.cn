@@ -15,6 +15,7 @@
         <el-input
           slot-scope="{row, $index}"
           v-model="row.id"
+          autocomplete="off"
           placeholder="cn_1"
           :minlength="1"
           :maxlength="16"
@@ -27,6 +28,7 @@
         <el-input
           slot-scope="{row, $index}"
           v-model="row.name"
+          autocomplete="off"
           placeholder="会场名称"
           :class="validation[$index] && !validation[$index].name ? 'error' : ''"
           :disabled="busy"

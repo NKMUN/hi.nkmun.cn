@@ -37,6 +37,7 @@
           >
             <el-input
               v-model="row[item.prop]"
+              autocomplete="off"
               size="mini"
               @input="listItemInput(row)"
               @change="listItemChange(row)"

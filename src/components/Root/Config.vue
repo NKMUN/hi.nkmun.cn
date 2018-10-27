@@ -22,10 +22,10 @@
           <el-checkbox v-model="config.reserveHotel" :disabled="busy" />
         </el-form-item>
         <el-form-item label="会期名称">
-          <el-input v-model="config.conferenceName" :disabled="busy" />
+          <el-input v-model="config.conferenceName" autocomplete="off" :disabled="busy" />
         </el-form-item>
         <el-form-item label="会期ID">
-          <el-input v-model="config.conferenceId" :disabled="busy"  placeholder="请输入英文或数字" />
+          <el-input v-model="config.conferenceId" :disabled="busy" autocomplete="off" placeholder="请输入英文或数字" />
         </el-form-item>
         <el-form-item label="会议日期">
           <el-date-picker

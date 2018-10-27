@@ -8,7 +8,7 @@
 
     <div class="signature-block">
       <div class="layout">
-        <div class="field"><span>签名：</span><el-input v-model="signature" size="small" placeholder="签名" :disabled="busy" /></div>
+        <div class="field"><span>签名：</span><el-input v-model="signature" autocomplete="off" size="small" placeholder="签名" :disabled="busy" /></div>
         <div class="field"><span>日期：</span>{{ today }}</div>
       </div>
     </div>

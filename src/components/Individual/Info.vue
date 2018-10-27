@@ -71,7 +71,7 @@
           :label-width="labelWidth"
         >
           <el-form-item label="备注">
-            <el-input :disabled="representative.confirmed" v-model="representative.comment" />
+            <el-input :disabled="representative.confirmed" v-model="representative.comment" autocomplete="off" />
           </el-form-item>
         </el-form>
       </section>

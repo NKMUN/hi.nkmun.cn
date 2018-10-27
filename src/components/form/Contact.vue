@@ -17,6 +17,7 @@
       <el-input
         v-model="name"
         type="text"
+        autocomplete="off"
         placeholder="姓名"
         :disabled="disabled"
         @change="emit"
@@ -45,6 +46,7 @@
       <el-input
         v-model="phone"
         type="text"
+        autocomplete="off"
         placeholder="手机号"
         :disabled="disabled"
         @change="emit"
@@ -62,6 +64,7 @@
       <el-input
         v-model="email"
         type="text"
+        autocomplete="off"
         placeholder="邮箱"
         :disabled="disabled"
         @change="emit"
@@ -79,6 +82,7 @@
       <el-input
         v-model="qq"
         type="text"
+        autocomplete="off"
         placeholder="QQ号"
         :disabled="disabled"
         @change="emit"

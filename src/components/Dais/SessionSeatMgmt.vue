@@ -19,11 +19,12 @@
           slot-scope="{row}"
           size="small"
           v-model="row.note"
+          autocomplete="off"
           :disabled="row.withdraw"
           @input="row.state = null"
           @change.native="$ev => handleNoteChange($ev.target.value, row)"
           @keydown.enter.native="$ev => handleNoteChange(row.note, row)"
-        ></el-input>
+        />
       </el-table-column>
       <el-table-column class-name="no-left-padding" width="36">
         <template slot-scope="{row}">
