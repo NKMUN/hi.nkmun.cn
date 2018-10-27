@@ -1,29 +1,38 @@
 <template>
   <el-tabs v-model="pane" class="tabs">
 
-    <el-tab-pane label="建设银行" name="bankcomm">
-      <p>请使用以下账号转账：</p>
-      <BankTransferCred
-        card="6217001370034674176"
-        name="王亚炜"
-        branch="建设银行城东支行"
-      />
-    </el-tab-pane>
-
     <el-tab-pane label="中国银行" name="boc">
       <p>请使用以下账号转账：</p>
       <BankTransferCred
-        card="6217856100007698647"
-        name="王亚炜"
+        card="6217856100081189885"
+        name="王小平"
         branch="中国银行南京梅花山庄支行"
       />
     </el-tab-pane>
 
-    <el-tab-pane label="支付宝" name="alipay">
+    <el-tab-pane label="工商银行" name="icbc">
+      <p>请使用以下账号转账：</p>
+      <BankTransferCred
+        card="6212264301019663408"
+        name="王小平"
+        branch="工商银行南京月牙湖支行"
+      />
+    </el-tab-pane>
+
+    <el-tab-pane label="建设银行" name="ccb">
+      <p>请使用以下账号转账：</p>
+      <BankTransferCred
+        card="6217001370008148074"
+        name="王小平"
+        branch="建设银行南京城东支行"
+      />
+    </el-tab-pane>
+
+    <!-- <el-tab-pane label="支付宝" name="alipay">
       <p>请用支付宝扫描以下二维码转账：</p>
       <p>由于提现限制，<b>请支付 0.1% 手续费，总计 ¥{{ alipayAmount }}</b>。</p>
       <img id="alipay" alt="支付宝二维码" width="300" src="../../../assets/nkmun-alipay-qr.jpg"><img>
-    </el-tab-pane>
+    </el-tab-pane> -->
 
   </el-tabs>
 </template>
@@ -55,7 +64,7 @@ export default {
     }
   },
   data: () => ({
-    pane: 'alipay'
+    pane: 'boc'
   })
 }
 </script>
