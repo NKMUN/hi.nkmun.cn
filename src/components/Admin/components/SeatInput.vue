@@ -10,7 +10,7 @@
           <el-input-number
             v-model="M[session.id]"
             :min="0"
-            :max="max && max[session.id] !== undefined ? max[session.id] : 20"
+            :max="max && max[session.id] !== undefined ? max[session.id] : 100"
             :disabled="disabled || (max && max[session.id] === 0)"
             @change="checkAndEmit(session.id, session.dual)"
             :step="(checkDual && session.dual) ? 2 : 1"
