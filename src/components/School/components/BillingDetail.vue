@@ -11,7 +11,7 @@
       <h4 v-if="!detail">正在获取应付款信息……</h4>
       <h4 v-if="detail">
         {{ getRoundText(round) }}应缴费：<b>¥{{ total }}</b>
-        <template v-if="showAlipayAmount">，支付宝应缴费：<b>¥{{ computeAlipayTotal(total) }}</b> </template>
+        <!-- <template v-if="showAlipayAmount">，支付宝应缴费：<b>¥{{ computeAlipayTotal(total) }}</b> </template> -->
       </h4>
     </template>
     <template v-else>
