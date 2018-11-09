@@ -78,7 +78,7 @@
           </el-button-group>
         </template>
       </el-table-column>
-      <template slot="append" v-if="!readonly && (max === null || reservations.length < max)">
+      <template slot="append" v-if="!readonly && (max === null || numberOfCurrentRoundReservations < max)">
         <div class="el-table__row append-row">
           <el-button
             size="small"
@@ -124,6 +124,9 @@ export default {
     ... mapGetters({
       access: 'user/access',
     }),
+    numberOfCurrentRoundReservations() {
+      return this.reservations.filter($ => $.round === this.round).length
+    }
   },
   watch: {
     school() {
