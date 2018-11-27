@@ -146,6 +146,8 @@ export default {
   display: block
   &.is-disabled
     background-color: hsl(220, 20%, 91%)
+  &:not(.is-disabled).is-error
+    border-color: hsl(0, 87%, 69%)
   &:not(.is-disabled):hover
     border-color: #20a0ff
 .mask, .icon

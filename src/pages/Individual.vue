@@ -127,10 +127,6 @@ export default {
     flex-grow: 1
     flex-shrink: 0
     padding-bottom: 3em
-    &.stretch
-      padding-bottom: 0
-      flex-shrink: 1
-      flex-grow: 1
   .overview
     flex-vert: flex-start center
     margin-top: 2em

@@ -47,7 +47,7 @@
       </section>
 
       <section>
-        <h4>监护人 / 紧急联系人</h4>
+        <h4>第一监护人</h4>
         <GuardianForm
           ref="guardian"
           v-model="representative.guardian"
@@ -62,7 +62,45 @@
           :label-width="labelWidth"
           :disabled="representative.confirmed || busy"
         />
+
+        <h4>第二监护人</h4>
+        <GuardianForm
+          ref="alt_guardian"
+          v-model="representative.alt_guardian"
+          class="form small"
+          :label-width="labelWidth"
+          :disabled="representative.confirmed || busy"
+        />
+        <IdentificationForm
+          ref="alt_guardian_identification"
+          v-model="representative.alt_guardian_identification"
+          class="form small"
+          :label-width="labelWidth"
+          :disabled="representative.confirmed || busy"
+        />
       </section>
+
+      <div class="disclaimer">
+        <h4>权责声明</h4>
+        <ImageUpload
+          :class="{
+            'image-upload': true,
+            'is-error': disclaimerImageError
+          }"
+          action="/api/images/"
+          :value="representative && representative.disclaimer_image"
+          @change="setDisclaimerImage"
+          :disabled="representative.confirmed || busy"
+          :data="{
+            meta: JSON.stringify({
+              flow: 'representative-info',
+              type: 'disclaimer-image',
+              user: user
+            })
+          }"
+        />
+        <el-alert v-if="disclaimerImageError" type="error" title="请上传权责声明签名页" :closable="false" />
+      </div>
 
       <section>
         <h4>其他</h4>
@@ -102,6 +140,7 @@ import IdentificationForm from '../form/Identification'
 import GuardianForm from '../form/Guardian'
 import SessionUtils from '../../lib/session-utils'
 import { mapGetters } from 'vuex'
+import ImageUpload from '../form/ImageUpload'
 
 export default {
   name: 'representative-form',
@@ -109,19 +148,22 @@ export default {
     GraduationForm,
     IdentificationForm,
     GuardianForm,
+    ImageUpload
   },
   mixins: [
     SessionUtils
   ],
   computed: {
     ...mapGetters({
-      school: 'user/school'
+      school: 'user/school',
+      user: 'user/user'
     })
   },
   data: () => ({
     labelWidth: '108px',
     representative: null,
-    busy: false
+    busy: false,
+    disclaimerImageError: false
   }),
   methods: {
     fetch() {
@@ -148,6 +190,9 @@ export default {
               identification: this.representative.identification,
               guardian: this.representative.guardian,
               guardian_identification: this.representative.guardian_identification,
+              alt_guardian: this.representative.alt_guardian,
+              alt_guardian_identification: this.representative.alt_guardian_identification,
+              disclaimer_image: this.disclaimer_image,
               comment: this.representative.comment,
             })
             .then(
@@ -171,6 +216,34 @@ export default {
             )
         }
       )
+    },
+    setDisclaimerImage(value) {
+      return this.$agent
+        .patch(`/api/schools/${this.school}/individual`)
+        .send({ disclaimer_image: value })
+        .then(
+          resp => {
+            this.busy = false
+            this.representative = {
+              ...this.representative,
+              disclaimer_image: resp.body.disclaimer_image
+            }
+            this.$message({
+              type: 'success',
+              message: '已更新权责声明'
+            })
+            this.validateDisclaimer()
+            return true
+          },
+          err => {
+            this.busy = false
+            this.$message({
+              type: 'error',
+              message: '更新权责声明失败' + err.message
+            })
+            return false
+          }
+        )
     },
     confirm() {
       this.$serious('请检查以上信息是否正确，确认后不能再修改！\n如因信息错误导致问题，后果自负。', '我确认信息正确无误').then(
@@ -198,13 +271,15 @@ export default {
       )
     },
     validate() {
-      const forms = ['graduation_year', 'identification', 'guardian', 'guardian_identification']
-      return Promise.all(
-        forms.map(ref => this.$refs[ref].validate())
-      ).then(
-        results => results.reduce( (a, v) => a && v )
-      )
+      const forms = ['graduation_year', 'identification', 'guardian', 'guardian_identification', 'alt_guardian', 'alt_guardian_identification']
+      return Promise.all([
+        ...forms.map(ref => this.$refs[ref].validate()),
+        Promise.resolve(this.validateDisclaimer()),
+      ]).then(results => results.reduce((a, v) => a && v ))
     },
+    validateDisclaimer() {
+      return !(this.disclaimerImageError = !(this.representative && this.representative.disclaimer_image))
+    }
   },
   mounted() {
     this.fetch()
@@ -227,5 +302,11 @@ export default {
     &.large
       max-width: 64ch
 .center
+  text-align: center
+.image-upload
+  margin: 0 auto
+.el-alert
+  margin: 1em auto
+  width: 20ch
   text-align: center
 </style>
