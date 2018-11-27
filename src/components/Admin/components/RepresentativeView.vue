@@ -8,23 +8,41 @@
         <li>如使用其它证件，请在备注中说明证件类型</li>
       </ul>
 
+      <div class="controls" v-if="showWithdraw">
+        <el-checkbox
+          :value="representative && representative.withdraw"
+          @input="setWithdraw"
+          :disabled="!canWithdraw"
+        > <strong>该代表放弃参会</strong> </el-checkbox>
+      </div>
+
       <RepresentativeInfo
         v-model="representativeModel"
         @change="dirty = true"
         class="representative-info"
-        :disabled="busy"
+        :disabled="busy || (representative && representative.withdraw)"
         :leaderEditable="leaderEditable && canBeLeader"
         :isAdult="isAdult"
         :session="this.representative ? this.representative.session.id : ''"
         ref="form"
       />
 
-      <div class="controls" v-if="showWithdraw">
-        <el-checkbox
-          v-model="representative.withdraw"
-          @input="setWithdraw"
-          :disabled="!canWithdraw"
-        > 该代表放弃参会 </el-checkbox>
+      <div class="disclaimer">
+        <h4>权责声明</h4>
+        <ImageUpload
+          class="image-upload"
+          action="/api/images/"
+          :value="representative && representative.disclaimer_image"
+          @change="setDisclaimerImage"
+          :disabled="busy || (representative && representative.withdraw)"
+          :data="{
+            meta: JSON.stringify({
+              flow: 'representative-info',
+              type: 'disclaimer-image',
+              user: user
+            })
+          }"
+        />
       </div>
 
       <div class="controls">
@@ -41,6 +59,8 @@
 
 <script>
 import RepresentativeInfo from '../../form/Representative'
+import ImageUpload from '../../form/ImageUpload'
+import { mapGetters } from 'vuex'
 
 const pluck = (obj, ...fields) => {
   if (!obj)
@@ -58,13 +78,16 @@ const pluckRepresentativeFields = (r) => pluck(
   'is_leader',
   'guardian',
   'guardian_identification',
+  'alt_guardian',
+  'alt_guardian_identification',
   'comment'
 )
 
 export default {
   name: 'representative-view',
   components: {
-    RepresentativeInfo
+    RepresentativeInfo,
+    ImageUpload,
   },
   props: {
     showWithdraw: { type: Boolean, default: false },
@@ -73,6 +96,9 @@ export default {
     leaderEditable: { type: Boolean, default: true },
   },
   computed: {
+    ... mapGetters({
+      user: 'user/user'
+    }),
     isAdult() {
       // TODO: make it configurable on server, either:
       // 1. make teacher/supervisor a reserved (internal) session
@@ -89,7 +115,7 @@ export default {
       },
       set(val) {
         this.representative = {
-          ... this.representative,
+          ... (this.representative || {}),
           ... val
         }
       }
@@ -176,9 +202,10 @@ export default {
     async setWithdraw(value) {
       this.busy = true
       try {
-        await this.$agent
+        this.representative = await this.$agent
           .patch('/api/schools/'+this.school+'/representatives/'+this.id)
           .send({ withdraw: value })
+          .body()
         let name = this.representative && this.representative.contact && this.representative.contact.name || this.representative.session.name || ''
         this.$notify({
           type: 'success',
@@ -190,6 +217,20 @@ export default {
         this.notifyError(e, '更新失败')
       } finally {
         this.busy = false
+      }
+    },
+    async setDisclaimerImage(value) {
+      try {
+        const respBody = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ disclaimer_image: value })
+          .body()
+        this.representative = {
+          ... (this.representative || {}),
+          disclaimer_image: respBody.disclaimer_image
+        }
+      } catch(e) {
+        this.notifyError(e, '更新权责声明失败')
       }
     },
     async updateAndNext() {
@@ -226,4 +267,8 @@ export default {
   b
     font-weight: normal
     text-decoration: underline
+.disclaimer
+  text-align: center
+.image-upload
+  margin: 0 auto
 </style>
