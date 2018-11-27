@@ -49,8 +49,38 @@
         <el-button
           type="primary"
           :loading="busy"
-          @click="updateAndNext"
-        > 保存并填写下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
+          @click="update"
+        > 保存 </el-button>
+      </div>
+
+      <div class="controls disclaimer-review" v-if="showDisclaimerReviewControls">
+        <h4>
+          权责声明审核
+          <el-tag v-if="representative.disclaimer_approval === true" type="success"> 已通过 </el-tag>
+          <el-tag v-if="representative.disclaimer_approval === false" type="danger"> 待复核 </el-tag>
+          <el-tag v-if="representative.disclaimer_approval !== false && representative.disclaimer_approval !== true" type="info"> 待审核 </el-tag>
+        </h4>
+        <div class="one-line-input">
+          <span>审核备注：</span>
+          <el-input
+            size="small"
+            :value="representative && representative.disclaimer_approval_note"
+            @input="setDisclaimerApprovalNote"
+            placeholder="审核备注"
+          />
+        </div>
+        <el-button-group>
+          <el-button
+            type="danger"
+            :disabled="busy || representative.disclaimer_approval === false"
+            @click="rejectDisclaimer"
+          > 不通过 </el-button>
+          <el-button
+            type="success"
+            :disabled="busy || representative.disclaimer_approval === true"
+            @click="approveDisclaimer"
+          > 通过 </el-button>
+        </el-button-group>
       </div>
 
     </template>
@@ -61,6 +91,7 @@
 import RepresentativeInfo from '../../form/Representative'
 import ImageUpload from '../../form/ImageUpload'
 import { mapGetters } from 'vuex'
+import { hasAccess } from '@/lib/access'
 
 const pluck = (obj, ...fields) => {
   if (!obj)
@@ -127,6 +158,9 @@ export default {
     canBeLeader() {
       const { withdraw, is_leader } = this.representative || {}
       return !withdraw && is_leader !== null
+    },
+    showDisclaimerReviewControls() {
+      return hasAccess(this.$store.getters['user/access'], 'staff')
     }
   },
   data: () => ({
@@ -233,11 +267,50 @@ export default {
         this.notifyError(e, '更新权责声明失败')
       }
     },
-    async updateAndNext() {
-      if ( await this.update() ) {
-        this.$nextTick( () => {
-          this.$emit('next', this.id)
+    setDisclaimerApprovalNote(value) {
+      this.representative = {
+        ... (this.representative || {}),
+        disclaimer_approval_note: value
+      }
+    },
+    async approveDisclaimer() {
+      this.busy = true
+      try {
+        this.representative = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ disclaimer_approval: true })
+          .body()
+        this.$notify({
+          type: 'success',
+          title: '更新成功',
+          message: '权责声明审核「通过」 '+this.representative.session.name,
+          duration: 5000
         })
+        this.$emit('update',this.representative)
+      } catch(e) {
+        this.notifyError(e, '更新权责声明审核状态失败')
+      } finally {
+        this.busy = false
+      }
+    },
+    async rejectDisclaimer() {
+      this.busy = true
+      try {
+        this.representative = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ disclaimer_approval: false, disclaimer_approval_note: this.representative.disclaimer_approval_note })
+          .body()
+        this.$notify({
+          type: 'success',
+          title: '更新成功',
+          message: '权责声明审核「未通过」 '+this.representative.session.name,
+          duration: 5000
+        })
+        this.$emit('update',this.representative)
+      } catch(e) {
+        this.notifyError(e, '更新权责声明审核状态失败')
+      } finally {
+        this.busy = false
       }
     },
   },
@@ -255,6 +328,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import "../../../style/flex"
 .controls, .hint
   display: table
   margin: 1em auto
@@ -267,8 +341,13 @@ export default {
   b
     font-weight: normal
     text-decoration: underline
-.disclaimer
+.disclaimer, .disclaimer-review
   text-align: center
 .image-upload
   margin: 0 auto
+.one-line-input
+  .el-input
+    display: inline-block
+    width: 20ch
+    margin: 1em 0
 </style>

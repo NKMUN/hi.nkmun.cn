@@ -4,7 +4,7 @@
     ref="reviewer"
     :school="school"
     :id="id"
-    class="school-representative-mgmt stretch"
+    class="school-representative-mgmt"
   />
 </template>
 
@@ -32,6 +32,3 @@ export default {
   })
 }
 </script>
-
-<style lang="stylus" scoped>
-</style>
