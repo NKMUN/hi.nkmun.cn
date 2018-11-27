@@ -77,14 +77,6 @@
         :disabled="disabled"
         @change="emit"
       />
-      <IdentificationForm
-        ref="alt_guardian_identification"
-        v-model="form.alt_guardian_identification"
-        class="form small"
-        :label-width="labelWidth"
-        :disabled="disabled"
-        @change="emit"
-      />
     </div>
 
     <div class="section disclaimer">
@@ -174,7 +166,6 @@ export default {
       guardian: null,
       guardian_identification: null,
       alt_guardian: null,
-      alt_guardian_identification: null,
       request_individual: null,
       ac_test: null,
       disclaimer_image: null

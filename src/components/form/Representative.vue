@@ -84,14 +84,6 @@
         :disabled="disabled"
         @change="emit"
       />
-      <IdentificationForm
-        ref="alt_guardian_identification"
-        v-model="alt_guardian_identification"
-        class="form small"
-        :label-width="labelWidth"
-        :disabled="disabled"
-        @change="emit"
-      />
     </section>
 
     <section>
@@ -141,7 +133,7 @@ export default {
         'identification',
         ... (
             ! this.isAdult
-          ? ['graduation', 'guardian', 'guardian_identification', 'alt_guardian', 'alt_guardian_identification']
+          ? ['graduation', 'guardian', 'guardian_identification', 'alt_guardian']
           : []
         )
       ]
@@ -155,7 +147,6 @@ export default {
     guardian: null,
     guardian_identification: null,
     alt_guardian: null,
-    alt_guardian_identification: null,
     is_leader: null,
     comment: ''
   }),
@@ -170,7 +161,6 @@ export default {
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
           alt_guardian: this.alt_guardian,
-          alt_guardian_identification: this.alt_guardian_identification,
           comment: this.comment
         }
         this.$emit('input', M)
@@ -192,7 +182,6 @@ export default {
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
       this.alt_guardian = (value && value.alt_guardian) || {}
-      this.alt_guardian_identification = (value && value.alt_guardian_identification) || {}
       this.is_leader = value && value.is_leader
       this.comment = value && value.comment || ''
     }

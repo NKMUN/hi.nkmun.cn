@@ -48,8 +48,6 @@
           { key: 'alt_guardian.type', name: '监护人关系', mapper: guardianTypeText },
           { key: 'alt_guardian.name', name: '监护人姓名' },
           { key: 'alt_guardian.phone', name: '监护人手机' },
-          { key: 'alt_guardian_identification.type', name: '监护人证件类型', mapper: identificationTypeText },
-          { key: 'alt_guardian_identification.number', name: '监护人证件号码' },
         ]"
       />
     </el-tab-pane>
@@ -123,7 +121,6 @@ const validateRepresentative = (representatives) => {
               && validateGuardian(r.guardian)
               && validateIdentification(r.guardian_identification)
               && validateGuardian(r.alt_guardian)
-              && validateIdentification(r.alt_guardian_identification)
             )
           )
     ) ) {

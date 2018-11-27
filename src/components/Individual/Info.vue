@@ -71,13 +71,6 @@
           :label-width="labelWidth"
           :disabled="representative.confirmed || busy"
         />
-        <IdentificationForm
-          ref="alt_guardian_identification"
-          v-model="representative.alt_guardian_identification"
-          class="form small"
-          :label-width="labelWidth"
-          :disabled="representative.confirmed || busy"
-        />
       </section>
 
       <div class="disclaimer">
@@ -191,7 +184,6 @@ export default {
               guardian: this.representative.guardian,
               guardian_identification: this.representative.guardian_identification,
               alt_guardian: this.representative.alt_guardian,
-              alt_guardian_identification: this.representative.alt_guardian_identification,
               disclaimer_image: this.disclaimer_image,
               comment: this.representative.comment,
             })
@@ -271,7 +263,7 @@ export default {
       )
     },
     validate() {
-      const forms = ['graduation_year', 'identification', 'guardian', 'guardian_identification', 'alt_guardian', 'alt_guardian_identification']
+      const forms = ['graduation_year', 'identification', 'guardian', 'guardian_identification', 'alt_guardian']
       return Promise.all([
         ...forms.map(ref => this.$refs[ref].validate()),
         Promise.resolve(this.validateDisclaimer()),

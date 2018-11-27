@@ -110,7 +110,6 @@ const pluckRepresentativeFields = (r) => pluck(
   'guardian',
   'guardian_identification',
   'alt_guardian',
-  'alt_guardian_identification',
   'comment'
 )
 
