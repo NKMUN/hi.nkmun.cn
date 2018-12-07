@@ -25,7 +25,7 @@
         ]"
       />
     </el-tab-pane>
-    <el-tab-pane label="监护人信息" name="guardian">
+    <el-tab-pane label="第一监护人" name="guardian">
       <TableView
         class="table-view"
         :data="representatives || []"
@@ -39,6 +39,18 @@
         ]"
       />
     </el-tab-pane>
+    <el-tab-pane label="第二监护人" name="altGuardian">
+      <TableView
+        class="table-view"
+        :data="representatives || []"
+        :fields="[
+          { key: 'contact.name', name: '姓名' },
+          { key: 'alt_guardian.type', name: '监护人关系', mapper: guardianTypeText },
+          { key: 'alt_guardian.name', name: '监护人姓名' },
+          { key: 'alt_guardian.phone', name: '监护人手机' },
+        ]"
+      />
+    </el-tab-pane>
     <el-tab-pane label="其他" name="etc">
       <TableView
         class="table-view"
@@ -47,6 +59,7 @@
           { key: 'contact.name', name: '姓名' },
           { key: 'graduation_year', name: '预期毕业' },
           { key: 'note', name: '备注' },
+          { key: 'disclaimer_image', name: '权责声明', mapper: disclaimerImageText }
         ]"
       />
     </el-tab-pane>
@@ -69,11 +82,28 @@ const isAdult = (r) => {
     )
 }
 
+const validateIdentification = (identification) => (
+     identification
+  && identification.type
+  && identification.number
+)
+
+const validateGuardian = (guardian) => (
+     guardian
+  && guardian.type
+  && guardian.name
+  && guardian.phone
+)
+
 // return list of errors
 const validateRepresentative = (representatives) => {
   let ret = []
   let leaderSelected = 0
   for (let r of representatives) {
+    const name = r.contact && r.contact.name
+               ? r.contact.name
+               : r.session.name
+    let representativeErrors = []
     if (r.withdraw)
       continue
     if (r.is_leader)
@@ -83,27 +113,23 @@ const validateRepresentative = (representatives) => {
           && r.contact.gender
           && r.contact.phone
           && r.contact.email
-          && r.identification
-          && r.identification.type
-          && r.identification.number
+          && validateIdentification(r.identification)
           && (
             isAdult(r)
             ? true
             : (  r.graduation_year
-              && r.guardian
-              && r.guardian.type
-              && r.guardian.name
-              && r.guardian.phone
-              && r.guardian_identification
-              && r.guardian_identification.type
-              && r.guardian_identification.number
+              && validateGuardian(r.guardian)
+              && validateIdentification(r.guardian_identification)
+              && validateGuardian(r.alt_guardian)
             )
           )
     ) ) {
-      let name = r.contact && r.contact.name
-               ? r.contact.name
-               : r.session.name
-      ret.push(name+'的信息不完全')
+      representativeErrors.push(`信息不完全`)
+    }
+    if (!r.disclaimer_image)
+      representativeErrors.push(`权责声明未上传`)
+    if (representativeErrors.length) {
+      ret.push(`${name}：${representativeErrors.join('、')}`)
     }
   }
   if (leaderSelected===0)
@@ -151,6 +177,9 @@ export default {
     genderText,
     identificationTypeText,
     guardianTypeText,
+    disclaimerImageText(val) {
+      return val ? '已上传' : '未上传'
+    },
     isLeader(v) {
       return v ? '领队' : ''
     },

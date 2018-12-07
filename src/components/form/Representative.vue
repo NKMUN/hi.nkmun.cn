@@ -57,7 +57,7 @@
     </section>
 
     <section v-if="!isAdult">
-      <h4>监护人</h4>
+      <h4>第一监护人</h4>
       <GuardianForm
         ref="guardian"
         v-model="guardian"
@@ -69,6 +69,16 @@
       <IdentificationForm
         ref="guardian-identification"
         v-model="guardian_identification"
+        class="form small"
+        :label-width="labelWidth"
+        :disabled="disabled"
+        @change="emit"
+      />
+
+      <h4>第二监护人</h4>
+      <GuardianForm
+        ref="alt_guardian"
+        v-model="alt_guardian"
         class="form small"
         :label-width="labelWidth"
         :disabled="disabled"
@@ -123,7 +133,7 @@ export default {
         'identification',
         ... (
             ! this.isAdult
-          ? ['graduation', 'guardian', 'guardian-identification']
+          ? ['graduation', 'guardian', 'guardian_identification', 'alt_guardian']
           : []
         )
       ]
@@ -136,6 +146,7 @@ export default {
     identification: null,
     guardian: null,
     guardian_identification: null,
+    alt_guardian: null,
     is_leader: null,
     comment: ''
   }),
@@ -149,6 +160,7 @@ export default {
           is_leader: this.is_leader,
           guardian: this.guardian,
           guardian_identification: this.guardian_identification,
+          alt_guardian: this.alt_guardian,
           comment: this.comment
         }
         this.$emit('input', M)
@@ -169,6 +181,7 @@ export default {
       this.identification = (value && value.identification) || {}
       this.guardian = (value && value.guardian) || {}
       this.guardian_identification = (value && value.guardian_identification) || {}
+      this.alt_guardian = (value && value.alt_guardian) || {}
       this.is_leader = value && value.is_leader
       this.comment = value && value.comment || ''
     }

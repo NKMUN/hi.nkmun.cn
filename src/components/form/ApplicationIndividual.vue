@@ -50,7 +50,7 @@
     </div>
 
     <div class="section">
-      <h4>监护人</h4>
+      <h4>第一监护人</h4>
       <GuardianForm
         ref="guardian"
         v-model="form.guardian"
@@ -67,6 +67,40 @@
         :disabled="disabled"
         @change="emit"
       />
+
+      <h4>第二监护人</h4>
+      <GuardianForm
+        ref="alt_guardian"
+        v-model="form.alt_guardian"
+        class="form small"
+        :label-width="labelWidth"
+        :disabled="disabled"
+        @change="emit"
+      />
+    </div>
+
+    <div class="section disclaimer">
+      <h4>权责声明</h4>
+      <p style="text-align: center; margin: 1em 0">
+        <a href="https://nkmun.cn/file/NKMUNC-%E6%9D%83%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf" target="_blank" download="NKMUNC-权责声明.pdf">权责声明下载</a>
+      </p>
+      <ImageUpload
+        :class="{
+          'image-upload': true,
+          'is-error': disclaimerImageError
+        }"
+        action="/api/images/"
+        v-model="form.disclaimer_image"
+        @change="() => {emit(); validateDisclaimer()}"
+        :disabled="disabled"
+        :data="{
+          meta: JSON.stringify({
+            flow: 'individual-application',
+            type: 'disclaimer-image'
+          })
+        }"
+      />
+      <el-alert v-if="disclaimerImageError" type="error" title="请上传权责声明签名页" :closable="false" />
     </div>
 
     <div class="section">
@@ -103,6 +137,7 @@ import GuardianForm from './Guardian'
 import SchoolForm from './School'
 import AcademicTestForm from './AcademicTest'
 import RequestIndividual from './RequestIndividual'
+import ImageUpload from './ImageUpload'
 
 export default {
   name: 'individual-application-form',
@@ -113,7 +148,8 @@ export default {
     GraduationForm,
     IdentificationForm,
     AcademicTestForm,
-    RequestIndividual
+    RequestIndividual,
+    ImageUpload
   },
   props: {
     value: { type: Object },
@@ -124,6 +160,7 @@ export default {
   data: () => ({
     labelWidth: '96px',
     schoolRegistered: null,
+    disclaimerImageError: false,
     form: {
       school: null,
       contact: null,
@@ -131,8 +168,10 @@ export default {
       graduation: null,
       guardian: null,
       guardian_identification: null,
+      alt_guardian: null,
       request_individual: null,
-      ac_test: null
+      ac_test: null,
+      disclaimer_image: null
     }
   }),
   methods: {
@@ -152,16 +191,17 @@ export default {
       this.emit()
     },
     validate() {
-      return Promise.all(
-        Object.keys(this.form)
+      return Promise.all([
+        ...Object.keys(this.form)
           .map(key => this.$refs[key])
           .filter($ => $ && $.validate)
-          .map(ref => ref.validate().then(
-            success => true,
-            err => false
-          ))
-      )
+          .map(ref => ref.validate().then(success => true, err => false)),
+        Promise.resolve(this.validateDisclaimer())
+      ])
       .then(results => results.reduce((s, v) => s && v))
+    },
+    validateDisclaimer() {
+      return !(this.disclaimerImageError = !(this.form && this.form.disclaimer_image))
     },
     setValue(value) {
       for (let key in this.form)
@@ -206,4 +246,10 @@ export default {
     .el-alert
       width: 42ch
       margin: 0 auto
+.section.disclaimer
+  .el-alert
+    margin: 1em auto
+    width: 20ch
+  .image-upload
+    margin: 0 auto
 </style>

@@ -1,6 +1,9 @@
 <template>
   <el-upload
-    class="upload"
+    :class="{
+      upload: 'true',
+      'is-disabled': disabled
+    }"
     :action="action"
     accept="image/jpeg"
     :data="data"
@@ -8,7 +11,7 @@
     :on-success="handleSuccess"
     :on-progress="handleProgress"
     :before-upload="beforeUpload"
-    :disabled="busy || previewBusy"
+    :disabled="disabled || busy || previewBusy"
     :style="{ height: imageDimension, width: imageDimension }"
     v-loading="previewBusy"
   >
@@ -50,6 +53,10 @@ export default {
   props: {
     action: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     maxSize: {
       type: Number,
@@ -137,8 +144,12 @@ export default {
   position: relative
   overflow: hidden
   display: block
-.upload:hover
-  border-color: #20a0ff
+  &.is-disabled
+    background-color: hsl(220, 20%, 91%)
+  &:not(.is-disabled).is-error
+    border-color: hsl(0, 87%, 69%)
+  &:not(.is-disabled):hover
+    border-color: #20a0ff
 .mask, .icon
   background-color: rgba(255, 255, 255, 0.8)
   height: 100%
@@ -176,4 +187,6 @@ export default {
   display: block
   height: 100%
   width: 100%
+.upload.is-disabled .el-upload
+  cursor: not-allowed
 </style>

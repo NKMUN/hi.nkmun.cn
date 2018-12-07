@@ -2,10 +2,8 @@
   <div class="confirm">
 
     <div class="note">
-      <ul>
-        <li v-if="!confirmed">请确认参会信息。如有问题，请联系组委。</li>
-        <li v-if="confirmed">信息已确认</li>
-      </ul>
+      <h4 v-if="!confirmed">请确认参会信息。如有问题，请联系组委。</h4>
+      <h4 v-if="confirmed">信息已确认</h4>
     </div>
 
     <div class="validation-result" v-if="validationResult && validationResult.length">

@@ -64,11 +64,17 @@
               readonly
               :school="id"
             />
+            <DisclaimerApprovalResult
+              v-if="stage === '9.complete'"
+              :school="id"
+            />
           </div>
         </div>
       </div>
 
-      <router-view class="wrap" v-if="renderSubComponent" />
+      <div class="wrap">
+        <router-view class="container" v-if="renderSubComponent" />
+      </div>
 
     </template>
 
@@ -80,6 +86,7 @@ import Precondition from '@/components/Precondition'
 import Todo from '@/components/School/Todo'
 import SeatView from '@/components/School/components/SeatView'
 import ReservationControl from '@/components/Admin/components/ReservationControl'
+import DisclaimerApprovalResult from '@/components/School/components/DisclaimerApprovalResult'
 import { mapGetters } from 'vuex'
 import 'vue-awesome/icons/sign-out'
 
@@ -90,6 +97,7 @@ export default {
     Todo,
     SeatView,
     ReservationControl,
+    DisclaimerApprovalResult,
   },
   computed: {
     ... mapGetters({
@@ -143,11 +151,10 @@ export default {
       flex-grow: 1
   .wrap
     flex-grow: 1
-    flex-shrink: 0
-    padding-bottom: 3em
-    &.stretch
-      padding-bottom: 0
-      flex-shrink: 1
+    overflow-y: auto
+    overflow-x: hidden
+    flex-horz: stretch flex-start
+    .container
       flex-grow: 1
   .overview
     flex-vert: flex-start center
