@@ -75,6 +75,9 @@
 
       <div class="disclaimer">
         <h4>权责声明</h4>
+        <p style="text-align: center; margin: 1em 0">
+          <a href="https://nkmun.cn/file/NKMUNC-%E6%9D%83%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf" target="_blank" download="NKMUNC-权责声明.pdf">权责声明下载</a>
+        </p>
         <ImageUpload
           :class="{
             'image-upload': true,
