@@ -32,6 +32,7 @@
         <p style="text-align: center; margin: 1em 0">
           <a href="https://nkmun.cn/file/NKMUNC-%E6%9D%83%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf" target="_blank" download="NKMUNC-权责声明.pdf">权责声明下载</a>
         </p>
+        <p style="text-align: center; margin: 1em 0">请完整打印权责声明书并与监护人详阅，在最后一页完成签字并拍照上传该页，照片要求字迹清晰。</p>
         <ImageUpload
           class="image-upload"
           action="/api/images/"
