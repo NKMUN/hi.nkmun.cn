@@ -67,7 +67,7 @@
         @change="emit"
       />
       <IdentificationForm
-        ref="guardian-identification"
+        ref="guardian_identification"
         v-model="guardian_identification"
         class="form small"
         :label-width="labelWidth"
