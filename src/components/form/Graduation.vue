@@ -57,7 +57,10 @@ export default {
     },
     setValue(value) {
       this.form.graduation = value
-    }
+    },
+    clearValidate() {
+      this.$refs.form.clearValidate()
+    },
   },
   watch: {
     value(value) {

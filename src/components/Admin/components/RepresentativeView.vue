@@ -187,13 +187,15 @@ export default {
           this.representative = await this.$agent
             .get('/api/schools/'+this.school+'/representatives/'+this.id)
             .body()
-          if (this.$refs.form)
-            this.$refs.form.reset()
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.representative = null
         } finally {
           this.loading = false
+          this.$nextTick(_ => {
+            if (this.$refs.form && this.$refs.form.clearValidate)
+              this.$refs.form.clearValidate()
+          })
         }
       } else {
         this.representative = null

@@ -167,13 +167,12 @@ export default {
         this.$emit('change', M)
       })
     },
-    reset() {
-      this.setValue(null)
-      this.emit()
-    },
-    async validate() {
-      let results = await Promise.all( this.forms.map( ref => this.$refs[ref].validate() ) )
-      return results.reduce( (a, v) => a && v )
+    validate() {
+      return Promise.all(
+        this.forms.map( ref => this.$refs[ref].validate() )
+      ).then(
+        results => results.reduce((a, v) => a && v)
+      )
     },
     setValue(value) {
       this.contact = (value && value.contact) || {}
@@ -184,6 +183,11 @@ export default {
       this.alt_guardian = (value && value.alt_guardian) || {}
       this.is_leader = value && value.is_leader
       this.comment = value && value.comment || ''
+    },
+    clearValidate() {
+      for (const key in this.$refs) {
+        this.$refs[key].clearValidate && this.$refs[key].clearValidate()
+      }
     }
   },
   watch: {
