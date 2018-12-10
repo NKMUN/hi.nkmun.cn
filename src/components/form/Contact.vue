@@ -151,7 +151,10 @@ export default {
       this.qq = (value && value.qq) || null
       if (this.$refs.form && !value)
         this.$refs.form.resetFields()
-    }
+    },
+    clearValidate() {
+      this.$refs.form.clearValidate()
+    },
   },
   watch: {
     value(value) {

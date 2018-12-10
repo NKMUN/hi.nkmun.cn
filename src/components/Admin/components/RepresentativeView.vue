@@ -22,7 +22,6 @@
         class="representative-info"
         :disabled="busy || (representative && representative.withdraw)"
         :leaderEditable="leaderEditable && canBeLeader"
-        :isAdult="isAdult"
         :session="this.representative ? this.representative.session.id : ''"
         ref="form"
       />
@@ -133,16 +132,6 @@ export default {
     ... mapGetters({
       user: 'user/user'
     }),
-    isAdult() {
-      // TODO: make it configurable on server, either:
-      // 1. make teacher/supervisor a reserved (internal) session
-      // 2. add isAdult flag to session
-      return (this.representative && this.representative.session)
-          && ( this.representative.session.id === 'teacher'
-            || this.representative.session.id === 'supervisor'
-            || this.representative.session.id === '_supervisor'
-          )
-    },
     representativeModel: {
       get() {
         return pluckRepresentativeFields(this.representative)
@@ -188,13 +177,15 @@ export default {
           this.representative = await this.$agent
             .get('/api/schools/'+this.school+'/representatives/'+this.id)
             .body()
-          if (this.$refs.form)
-            this.$refs.form.reset()
         } catch(e) {
           this.notifyError(e, '获取失败')
           this.representative = null
         } finally {
           this.loading = false
+          this.$nextTick(_ => {
+            if (this.$refs.form && this.$refs.form.clearValidate)
+              this.$refs.form.clearValidate()
+          })
         }
       } else {
         this.representative = null

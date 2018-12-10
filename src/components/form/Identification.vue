@@ -84,6 +84,9 @@ export default {
         this.$refs.form.validate( resolve )
       })
     },
+    clearValidate() {
+      this.$refs.form.clearValidate()
+    },
     reset() {
       this.setValue(null)
       this.emit()

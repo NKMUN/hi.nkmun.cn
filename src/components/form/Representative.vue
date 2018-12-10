@@ -36,7 +36,6 @@
       </el-form>
 
       <GraduationForm
-        v-if="!isAdult"
         ref="graduation"
         v-model="graduation_year"
         class="form small"
@@ -56,8 +55,8 @@
 
     </section>
 
-    <section v-if="!isAdult">
-      <h4>第一监护人</h4>
+    <section>
+      <h4>{{ isAdult ? "紧急联系人" : "第一监护人" }}</h4>
       <GuardianForm
         ref="guardian"
         v-model="guardian"
@@ -67,7 +66,7 @@
         @change="emit"
       />
       <IdentificationForm
-        ref="guardian-identification"
+        ref="guardian_identification"
         v-model="guardian_identification"
         class="form small"
         :label-width="labelWidth"
@@ -75,7 +74,7 @@
         @change="emit"
       />
 
-      <h4>第二监护人</h4>
+      <h4>{{ isAdult ? "第二联系人" : "第二监护人" }}</h4>
       <GuardianForm
         ref="alt_guardian"
         v-model="alt_guardian"
@@ -124,20 +123,32 @@ export default {
     disabled: { type: Boolean, default: false },
     session: { type: String, default: '' },
     leaderEditable: { type: Boolean, default: true },
-    isAdult: { type: Boolean, default: false },
   },
   computed: {
     forms() {
       return [
         'contact',
         'identification',
-        ... (
-            ! this.isAdult
-          ? ['graduation', 'guardian', 'guardian_identification', 'alt_guardian']
-          : []
-        )
+        'graduation',
+        'guardian',
+        'guardian_identification',
+        'alt_guardian',
       ]
-    }
+    },
+    isAdult() {
+      const idNumber = (this.value && this.value.identification && this.value.identification.number) || ''
+      const birthdayStr = idNumber.slice(6, 14)
+      if (birthdayStr.length === 8) {
+        const YYYY = birthdayStr.slice(0, 4)
+        const MM = birthdayStr.slice(4, 6)
+        const DD = birthdayStr.slice(6, 8)
+        const birthday = new Date(YYYY, MM, DD)
+        const today = new Date()
+        return today - birthday >= 18 * 365 * 24 * 60 * 60 * 1000    // ignore leap year
+      } else {
+        return null
+      }
+    },
   },
   data: () => ({
     labelWidth: '108px',
@@ -167,13 +178,12 @@ export default {
         this.$emit('change', M)
       })
     },
-    reset() {
-      this.setValue(null)
-      this.emit()
-    },
-    async validate() {
-      let results = await Promise.all( this.forms.map( ref => this.$refs[ref].validate() ) )
-      return results.reduce( (a, v) => a && v )
+    validate() {
+      return Promise.all(
+        this.forms.map( ref => this.$refs[ref].validate() )
+      ).then(
+        results => results.reduce((a, v) => a && v)
+      )
     },
     setValue(value) {
       this.contact = (value && value.contact) || {}
@@ -184,6 +194,11 @@ export default {
       this.alt_guardian = (value && value.alt_guardian) || {}
       this.is_leader = value && value.is_leader
       this.comment = value && value.comment || ''
+    },
+    clearValidate() {
+      for (const key in this.$refs) {
+        this.$refs[key].clearValidate && this.$refs[key].clearValidate()
+      }
     }
   },
   watch: {
