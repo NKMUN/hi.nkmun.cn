@@ -12,6 +12,7 @@
     >
       <el-select v-model="form.graduation" @change="emit" class="el-input" :disabled="disabled">
         <el-option v-for="year in graduationYears" :key="year" :label="year" :value="year" />
+        <el-option label="其它" value="其它" />
       </el-select>
     </el-form-item>
 

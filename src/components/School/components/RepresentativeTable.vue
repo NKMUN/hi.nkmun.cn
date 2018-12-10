@@ -74,14 +74,6 @@ import guardianTypeText from '../../../lib/guardian-type-text'
 import { Tabs, TabPane } from 'element-ui'
 import TableView from './TableView'
 
-const isAdult = (r) => {
-  return (r && r)
-    && ( r.session.id === 'teacher'
-      || r.session.id === 'supervisor'
-      || r.session.id === '_supervisor'
-    )
-}
-
 const validateIdentification = (identification) => (
      identification
   && identification.type
@@ -114,15 +106,10 @@ const validateRepresentative = (representatives) => {
           && r.contact.phone
           && r.contact.email
           && validateIdentification(r.identification)
-          && (
-            isAdult(r)
-            ? true
-            : (  r.graduation_year
-              && validateGuardian(r.guardian)
-              && validateIdentification(r.guardian_identification)
-              && validateGuardian(r.alt_guardian)
-            )
-          )
+          && r.graduation_year
+          && validateGuardian(r.guardian)
+          && validateIdentification(r.guardian_identification)
+          && validateGuardian(r.alt_guardian)
     ) ) {
       representativeErrors.push(`信息不完全`)
     }
