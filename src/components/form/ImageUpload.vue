@@ -5,7 +5,7 @@
       'is-disabled': disabled
     }"
     :action="action"
-    accept="image/jpeg"
+    accept="image/jpeg, image/png"
     :data="data"
     :show-file-list="false"
     :on-success="handleSuccess"
@@ -55,6 +55,7 @@
 import ImagePreview from '@/components/ImagePreview.js'
 import { Upload, Progress } from 'element-ui'
 import bytes from 'bytes'
+import { checkFileSignatureIsAcceptable, jpg, png } from '@/lib/filetype-signature'
 export default {
   components: {
     [Upload.name]: Upload,
@@ -119,21 +120,42 @@ export default {
       this.busy = false
     },
     beforeUpload(file) {
-      this.$emit('input', null)
-      this.$emit('change', null)
-      const isJPG = file.type === 'image/jpeg'
-      const isLtMaxSize = file.size < this.maxSize
-      if (!isJPG)
-        this.$message({
-          type: 'error',
-          message: '上传的图片只能是 JPG 格式!',
-        })
-      if (!isLtMaxSize)
-        this.$message({
-          type: 'error',
-          message: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
-        })
-      return isJPG && isLtMaxSize
+      return new Promise((resolve, reject) => {
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+
+        if (!isJPG) {
+          this.$message({
+            type: 'error',
+            message: '上传的图片只能是 JPG 或 PNG 格式!',
+          })
+          return reject('bad MIME')
+        }
+
+        const isLtMaxSize = file.size < this.maxSize
+        if (!isLtMaxSize) {
+          this.$message({
+            type: 'error',
+            message: `上传的图片不能大于 ${bytes(this.maxSize)} !`,
+          })
+          return reject('size too large')
+        }
+
+        checkFileSignatureIsAcceptable(file, jpg, png).then(
+          signature => {
+            if (!signature) {
+              this.$message({
+                type: 'error',
+                message: `上传的图片只能是 JPG 或 PNG 格式，请不要修改文件后缀名。`,
+              })
+              return reject('bad signature')
+            } else {
+              this.$emit('input', null)
+              this.$emit('change', null)
+              resolve(true)
+            }
+          },
+        )
+      })
     },
     handleProgress(ev) {
       this.busy = true
