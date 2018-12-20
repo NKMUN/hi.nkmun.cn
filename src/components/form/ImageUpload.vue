@@ -14,23 +14,32 @@
     :disabled="disabled || busy || previewBusy"
     :style="{ height: imageDimension, width: imageDimension }"
     v-loading="previewBusy"
+    ref="upload"
   >
     <div v-if="imageUrl" class="image-wrap">
       <img v-if="imageUrl" :src="imageUrl" @load="handlePreviewLoad">
     </div>
     <div
-      v-if="!busy"
-      :class="{
-        'icon': true,
-        'el-icon-plus': !imageUrl,
-        'el-icon-edit': imageUrl,
-        'show-on-hover': imageUrl
-      }"
+      v-if="!busy && imageUrl"
+      class="icons show-on-hover"
       :style="{
         height: imageDimension,
         lineHeight: imageDimension
-      }">
+      }"
+      @click.stop="nop"
+    >
+      <div class="icon el-icon-zoom-in" @click="handlePreview" />
+      <div class="icon el-icon-edit" @click="openUpload" />
     </div>
+    <div
+      v-if="!busy && !imageUrl"
+      class="icons icon el-icon-plus"
+      :style="{
+        boxSizing: 'border-box',
+        height: imageDimension,
+        lineHeight: imageDimension
+      }"
+    />
     <div v-if="busy" class="mask">
       <el-progress
         :width="126"
@@ -43,6 +52,7 @@
 </template>
 
 <script>
+import ImagePreview from '@/components/ImagePreview.js'
 import { Upload, Progress } from 'element-ui'
 import bytes from 'bytes'
 export default {
@@ -131,6 +141,14 @@ export default {
     },
     handlePreviewLoad() {
       this.previewBusy = false
+    },
+    handlePreview() {
+      ImagePreview(`${this.action}${this.value}?format=jpg&size=large`)
+    },
+    openUpload() {
+      this.$refs.upload.$refs['upload-inner'].handleClick()
+    },
+    nop() {
     }
   }
 }
@@ -150,20 +168,30 @@ export default {
     border-color: hsl(0, 87%, 69%)
   &:not(.is-disabled):hover
     border-color: #20a0ff
-.mask, .icon
+.mask, .icons
   background-color: rgba(255, 255, 255, 0.8)
   height: 100%
   width: 100%
   top: 0
   left: 0
   position: absolute
+.icons
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: center
+  > .icon
+    flex: 0 0
+    &:hover
+      color: #303133
 .icon
+  padding: 16px
   font-size: 28px
   color: #8c939d
   text-align: center
-  &.show-on-hover
+.show-on-hover
     visibility: hidden
-.upload:hover .icon.show-on-hover
+.upload:hover .show-on-hover
     visibility: visible
 .image-wrap
   height: 100%
