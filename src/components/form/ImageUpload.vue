@@ -143,7 +143,13 @@ export default {
       this.previewBusy = false
     },
     handlePreview() {
-      ImagePreview(`${this.action}${this.value}?format=jpg&size=large`)
+      ImagePreview(
+        `${this.action}${this.value}?format=jpg&size=large`,
+        {
+          top: '0',
+          maxImageHeight: '80vh'
+        }
+      )
     },
     openUpload() {
       this.$refs.upload.$refs['upload-inner'].handleClick()

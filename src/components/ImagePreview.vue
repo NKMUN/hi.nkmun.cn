@@ -1,7 +1,14 @@
 <template>
-  <el-dialog :visible.sync="previewVisible" title="预览">
+  <el-dialog :visible.sync="previewVisible" title="预览" :top="top">
     <div ref="mask">
-      <img class="preview-image" :src="url" @load="$nextTick(_ => loading.close())" />
+      <img
+        class="preview-image"
+        :src="url"
+        @load="$nextTick(_ => loading.close())"
+        :style="{
+          maxHeight: maxImageHeight
+        }"
+      />
     </div>
   </el-dialog>
 </template>
@@ -11,7 +18,15 @@ import { Loading } from 'element-ui'
 export default {
   name: 'image-preview-dialog',
   props: {
-    url: {}
+    url: {},
+    top: {
+      type: String,
+      default: '15vh',
+    },
+    maxImageHeight: {
+      type: String,
+      default: '100%',
+    }
   },
   data: () => ({
     previewVisible: true,
