@@ -111,19 +111,19 @@ export default {
   align-self: stretch
   overflow: hidden
 .el-table
-    max-width: 320px
-    min-width: 240px
-    /deep/
-      .el-table__row
-        cursor: pointer
-        &.highlight
-          background-color: #ebeef5
-          &:hover > td
-            background-color: #f2f6fc
-      .no-padding .cell
-        text-align: center
-        padding-left: 0
-        padding-right: 0
+  min-width: 300px
+  max-width: 300px
+  /deep/
+    .el-table__row
+      cursor: pointer
+      &.highlight
+        background-color: #ebeef5
+        &:hover > td
+          background-color: #f2f6fc
+    .no-padding .cell
+      text-align: center
+      padding-left: 0
+      padding-right: 0
 .school-representative-mgmt
   flex-grow: 1
 </style>
