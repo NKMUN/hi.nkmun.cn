@@ -40,7 +40,7 @@
           <div slot="tip" class="el-upload__tip">可上传 doc/docx/rar/zip/pdf 文件，单个文件不超过 10MB</div>
         </FileListUpload>
       </el-form-item>
-      <el-form-item label="过往作品" prop="previous_work">
+      <el-form-item label="过往作品或推荐信" prop="previous_work">
         <FileListUpload
           :action="uploadEndpoint"
           :headers="{ Authorization: 'Bearer ' + token }"

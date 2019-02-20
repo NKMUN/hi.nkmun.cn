@@ -177,7 +177,7 @@ export default {
             : <div class="center secondary">未上传会场设计</div>
           }
           { value.previous_work && value.previous_work.length > 0
-            ? <SimpleField name="过往作品">
+            ? <SimpleField name="过往作品或推荐信">
                 { value.previous_work.map(file =>
                     <a href={'/api' + file.signedUrl} target="_blank" class="file flex-horz">
                       <icon name="file-text-o" /> <span class="filename">{ file.name }</span>
@@ -185,7 +185,7 @@ export default {
                   )
                 }
               </SimpleField>
-            : <div class="center secondary">未上传过往作品</div>
+            : <div class="center secondary">未上传过往作品或推荐信</div>
           }
         </div>
 
