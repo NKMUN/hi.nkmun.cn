@@ -44,6 +44,7 @@ export default {
             </SimpleField>
             <SimpleField name='生日' value={value.birthday} />
             <SimpleField name="手机" value={value.phone} />
+            <SimpleField name="邮箱" value={value.user} />
             <SimpleField name="QQ" value={value.qq} />
             { value.skype && <SimpleField name="Skype" value={value.skype} /> }
             { value.note && <SimpleField name="备注" value={value.note} /> }
