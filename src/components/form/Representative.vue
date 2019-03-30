@@ -17,6 +17,7 @@
         ref="contact"
         v-model="contact"
         class="form small"
+        show-qq
         :label-width="labelWidth"
         :disabled="disabled"
         @change="emit"

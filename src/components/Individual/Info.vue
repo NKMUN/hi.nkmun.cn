@@ -24,6 +24,10 @@
             <div class="el-form-item__content" :style="{marginLeft: labelWidth, padding: '0 10px'}">{{ representative.contact.phone }}</div>
           </div>
           <div class="el-form-item">
+            <label for="name" class="el-form-item__label" :style="{width: labelWidth}">QQ</label>
+            <div class="el-form-item__content" :style="{marginLeft: labelWidth, padding: '0 10px'}">{{ representative.contact.qq }}</div>
+          </div>
+          <div class="el-form-item">
             <label for="name" class="el-form-item__label" :style="{width: labelWidth}">邮箱</label>
             <div class="el-form-item__content" :style="{marginLeft: labelWidth, padding: '0 10px'}">{{ representative.contact.email }}</div>
           </div>

@@ -8,6 +8,7 @@
         v-model="form.contact"
         :disabled="disabled"
         class="form small"
+        show-qq
         :label-width="labelWidth"
         @change="emit"
       />

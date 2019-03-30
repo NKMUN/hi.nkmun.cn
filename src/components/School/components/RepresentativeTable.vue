@@ -10,6 +10,7 @@
           { key: 'session.name', name: '会场' },
           { key: 'contact.gender', name: '性别', mapper: genderText },
           { key: 'contact.phone', name: '手机' },
+          { key: 'contact.qq', name: 'QQ' },
           { key: 'contact.email', name: '邮箱' },
         ]"
       />
@@ -105,6 +106,7 @@ const validateRepresentative = (representatives) => {
           && r.contact.gender
           && r.contact.phone
           && r.contact.email
+          && r.contact.qq
           && validateIdentification(r.identification)
           && r.graduation_year
           && validateGuardian(r.guardian)
