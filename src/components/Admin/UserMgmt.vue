@@ -15,6 +15,15 @@
     </h3>
 
     <div class="layout">
+
+      <el-button
+        style="padding: 6px 10px; display: block; margin: 0 auto"
+        type="danger"
+        icon="el-icon-warning"
+        size="mini"
+        @click="removeUnnecessaryAcademicStaffApplicationUsers"
+      > 删除「未提交」和「被拒绝」的学术团队申请人登录账号 </el-button>
+
       <el-table class="table" :data="users" v-loading="!users">
 
         <el-table-column label="用户 / 邮箱" prop="id" sortable min-width="180" />
@@ -224,6 +233,20 @@ export default {
           })
         }
       }
+    },
+    async removeUnnecessaryAcademicStaffApplicationUsers() {
+      this.$confirm(`确定删除「未提交」和「被拒绝」的学术团队申请人登录账号吗？此操作无法恢复。`, '确认', { type: 'error', confirmButtonClass: 'el-button--danger' })
+      .then(
+        async _ => {
+          const result = await this.$agent.post(`/api/academic-staff-applications/actions/remove_unnecessary_users`).body()
+          this.$message({
+            type: 'success',
+            message: `已删除 ${result.n_deleted} 个用户`
+          })
+          await this.fetch()
+        },
+        _ => {}
+      )
     }
   },
   mounted() {
