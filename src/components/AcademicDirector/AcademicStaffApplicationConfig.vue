@@ -69,7 +69,7 @@
               <tr>
                 <td class="field-name top">内容</td>
                 <td>
-                  <el-input v-model="test.text" autocomplete="off" size="mini" type="textarea" placeholder="题目内容" :disabled="busy" />
+                  <el-input v-model="test.text" autocomplete="off" size="mini" type="textarea" placeholder="题目内容" :disabled="busy" autosize />
                 </td>
               </tr>
             </tbody>
