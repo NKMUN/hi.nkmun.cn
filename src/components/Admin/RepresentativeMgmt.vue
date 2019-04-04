@@ -32,7 +32,6 @@
 
 <script>
 import Precondition from '@/components/Precondition'
-import ListViewControl from '../ListViewControl'
 import SchoolRepresentativeMgmt from './components/SchoolRepresentativeMgmt'
 import pinyinCmp from '@/lib/pinyin-cmp'
 
@@ -40,7 +39,6 @@ export default {
   name: 'representative-mgmt',
   components: {
     Precondition,
-    ListViewControl,
     SchoolRepresentativeMgmt
   },
   props: {
