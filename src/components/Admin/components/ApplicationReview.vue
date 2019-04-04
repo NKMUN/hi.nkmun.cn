@@ -45,7 +45,7 @@
         <el-button
           type="primary"
           :loading="busy"
-          @click="updateAndNext"
+          @click="update"
         > 保存 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>
 
@@ -57,11 +57,6 @@
           icon="el-icon-message"
           @click="sendInvitation"
         > 重发邀请 </el-button>
-        <el-button
-          type="primary"
-          :loading="busy"
-          @click="next"
-        > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
       </el-button-group>
 
     </template>
@@ -158,16 +153,6 @@ export default {
       }
       return result
     },
-    async updateAndNext() {
-      if ( await this.update() ) {
-        this.$nextTick( () => {
-          this.$emit('next', this.id)
-        })
-      }
-    },
-    async next() {
-      this.$emit('next', this.id)
-    },
     async sendInvitation() {
       if ( ! await this.update(true) )
         return
@@ -182,8 +167,7 @@ export default {
           duration: 5000
         })
         this.$nextTick( () => {
-          this.$emit('next', this.id)
-          this.$emit('processed', this.id)
+          this.$emit('update', this.id, {processed: true})
           this.application = { ... this.application, processed: true }
         })
       } catch(e) {
@@ -202,7 +186,6 @@ export default {
           message: ''+this.application.school.name+'の申請は消えました。。素晴らしの成功です！',
           duration: 5000
         })
-        this.$emit('next', this.id)
         this.$emit('nuked', this.id)
       } catch(e) {
         this.notifyError(e, '爆破失败')
