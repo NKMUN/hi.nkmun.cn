@@ -1451,7 +1451,7 @@ export default [
   },
   {
     "code": "64",
-    "name": "宁夏回族自治区",
+    "name": "宁夏",
     "districts": [
       {
         "code": "6401",

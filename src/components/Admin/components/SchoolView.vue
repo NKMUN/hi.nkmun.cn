@@ -271,7 +271,6 @@ export default {
             message: ''+this.school.school.name+'は消えました。素晴らしの成功です！',
             duration: 5000
           })
-          this.$emit('next', this.id)
           this.$emit('nuked', this.id)
           return
         }
