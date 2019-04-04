@@ -41,7 +41,7 @@ import { mapGetters } from 'vuex'
 import DualSessionWarning from './DualSessionWarning'
 
 export default {
-  name: 'exchange-request-list',
+  name: 'exchange-request-cancel-list',
   components: {
     DualSessionWarning
   },

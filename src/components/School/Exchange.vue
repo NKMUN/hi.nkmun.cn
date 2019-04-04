@@ -31,7 +31,7 @@
 
     <div class="request-lists">
       <ExchangeRequestList class="requests" @accept="handleAccept" />
-      <ExchangeRequestCancelList class="requests" />
+      <ExchangeRequestCancelList class="requests" ref="cancelList" />
     </div>
 
     <SeatExchangeControl class="seat-overview" ref="list" @exchange="exchange" :busy="busy" />
@@ -149,6 +149,7 @@ export default {
             duration: 5000
           })
           this.$store.commit('school/addExchange', newExchange)
+          this.$refs.cancelList.fetchRequests()
         }
       } catch(e) {
         this.$notify({
