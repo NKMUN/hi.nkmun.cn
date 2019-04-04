@@ -29,11 +29,6 @@
               icon="el-icon-check"
               @click="confirm"
             > 通过 </el-button>
-            <el-button
-              type="primary"
-              :loading="busy"
-              @click="next"
-            > 下一个 <i class="el-icon-arrow-right el-icon--right"/> </el-button>
           </el-button-group>
         </div>
       </div>
@@ -129,8 +124,7 @@ export default {
           duration: 5000,
         })
         this.school.stage = this.school.stage.replace('.paid', '.complete')
-        this.processed()
-        this.next()
+        this.$emit('update', this.school.id, { stage: this.school.stage.replace('.paid', '.complete') })
       } catch(e) {
         this.notifyError(e, '审核失败')
       } finally {
@@ -154,19 +148,12 @@ export default {
           duration: 5000,
         })
         this.school.stage = this.school.stage.replace('.paid', '.payment')
-        this.processed()
-        this.next()
+        this.$emit('update', this.school.id, { stage: this.school.stage.replace('.paid', '.payment') })
       } catch(e) {
         this.notifyError(e, '审核失败')
       } finally {
         this.busy = false
       }
-    },
-    async processed() {
-      this.$emit('processed', this.id)
-    },
-    async next() {
-      this.$emit('next', this.id)
     },
   },
   filters: {
