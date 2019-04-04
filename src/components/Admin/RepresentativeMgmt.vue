@@ -8,15 +8,31 @@
       @row-click="handleRowClick"
       :row-class-name="getRowClassName"
     >
-      <el-table-column label="学校" prop="name" min-width="96px" />
-      <el-table-column label="状态" prop="representative_state" class-name="no-padding" width="64px">
+      <el-table-column
+        label="状态"
+        prop="pendingReview"
+        class-name="no-padding"
+        width="64px"
+        :filters="[{ value: true, text: '待审核' }, { value: false, text: '无需处理' }]"
+        :filter-method="processStateFilterHandler"
+      >
         <div slot-scope="{row}">
           <el-tag v-if="row.awaitingSubmission" size="small" type="info"> 待提交 </el-tag>
           <el-tag v-if="row.fullyReviewed" size="small" type="success"> 已通过 </el-tag>
           <el-tag v-if="row.pendingReview" size="small" type="warning"> 待审核 </el-tag>
-          <el-tag v-if="row.pendingAction" size="small" type="danger"> 待复核 </el-tag>
+          <el-tag v-if="row.pendingAction && !row.pendingReview" size="small" type="danger"> 待更新 </el-tag>
         </div>
       </el-table-column>
+
+      <el-table-column
+        label="区域"
+        prop="administrative_area"
+        width="84px"
+        :filters="provinceFilters"
+        :filter-method="provinceFilterHandler"
+      />
+
+      <el-table-column label="学校" prop="name" min-width="96px" />
     </el-table>
 
     <SchoolRepresentativeMgmt
@@ -31,38 +47,52 @@
 </template>
 
 <script>
-import Precondition from '@/components/Precondition'
 import SchoolRepresentativeMgmt from './components/SchoolRepresentativeMgmt'
 import pinyinCmp from '@/lib/pinyin-cmp'
+import { provinceFilters, provinceFilterHandler } from '@/lib/province-filter'
 
 export default {
   name: 'representative-mgmt',
   components: {
-    Precondition,
     SchoolRepresentativeMgmt
+  },
+  computed: {
+    provinceFilters() {
+      return provinceFilters
+    },
+    provinceFilterHandler() {
+      return provinceFilterHandler
+    },
+    processStateFilterHandler() {
+      return (val, row, col) => val === row[col.property]
+    }
   },
   props: {
     school: { type: String, default: '' },
     id: { type: String, default: '' },
   },
   data: () => ({
+    prefix: "/staff/representatives/",
     schools: null,
-    bySchoolName: (a, b) => pinyinCmp(a.name, b.name),
-    prefix: "/staff/representatives/"
+    byProcessStateThenSchoolName: (a, b) => {
+      if (a.pendingReview && !b.pendingReview) return -1
+      if (!a.pendingReview && b.pendingReview) return 1
+      return pinyinCmp(a.name, b.name)
+    },
   }),
   methods: {
-    mapSchool($) {
+    mapSchool(school) {
       const {
         id, name, stage, attending_representatives, disclaimer_approved_representatives, disclaimer_rejected_representatives
-      } = $
+      } = school
       return {
-        ... $,
+        ... school,
         id: id,
         name: name,
         awaitingSubmission: stage !== '9.complete',
         fullyReviewed: stage === '9.complete' && attending_representatives - disclaimer_approved_representatives === 0,
         pendingReview: stage === '9.complete' && disclaimer_approved_representatives + disclaimer_rejected_representatives !== attending_representatives,
-        pendingAction: stage === '9.complete' && disclaimer_rejected_representatives > 0
+        pendingAction: stage === '9.complete' && disclaimer_rejected_representatives > 0,
       }
     },
     fetch() {
@@ -109,9 +139,11 @@ export default {
   align-self: stretch
   overflow: hidden
 .el-table
-  min-width: 300px
-  max-width: 300px
+  min-width: 400px
+  max-width: 400px
   /deep/
+    .el-table__column-filter-trigger
+      line-height: 23px
     .el-table__row
       cursor: pointer
       &.highlight
