@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue --fix src"
   },
   "dependencies": {
+    "dateformat": "^3.0.3",
     "element-ui": "^2.0.0",
     "superagent": "^3.6.0",
     "vue": "^2.4.4",
