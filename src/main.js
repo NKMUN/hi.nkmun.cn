@@ -39,6 +39,7 @@ import {
     MessageBox,
     Message,
     Scrollbar,
+    Upload,
 } from 'element-ui'
 
 Vue.use( Alert )
@@ -69,6 +70,7 @@ Vue.use( Tag )
 Vue.use( Tooltip )
 Vue.use( Loading )
 Vue.use( Scrollbar )
+Vue.use( Upload )
 
 import RefreshButton from '@/components/RefreshButton'
 Vue.component('RefreshButton', RefreshButton)

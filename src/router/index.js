@@ -71,8 +71,8 @@ const DaisUserInfo = () => import(/* webpackChunkName: "dais" */ '@/components/D
 const DaisReimbursement = () => import(/* webpackChunkName: "dais" */ '@/components/Dais/Reimbursement')
 
 // Individual mgmt page
-const IndividualPayment = () => import(/* webpackChunkName: "individual " */ '@/components/School/Payment')
-const IndividualInfo = () => import(/* webpackChunkName: "individual " */ '@/components/Individual/Info')
+const IndividualPayment = () => import(/* webpackChunkName: "individual" */ '@/components/School/Payment')
+const IndividualInfo = () => import(/* webpackChunkName: "individual" */ '@/components/Individual/Info')
 
 // Academic Director
 const AcademicDirectorDashboard = () => import(/* webpackChunkName: "ad" */ '@/components/AcademicDirector/Dashboard')

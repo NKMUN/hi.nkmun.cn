@@ -17,11 +17,7 @@
 </template>
 
 <script>
-import { Upload } from 'element-ui'
 export default {
-  components: {
-    [Upload.name]: Upload
-  },
   props: {
     action: {
       type: String,

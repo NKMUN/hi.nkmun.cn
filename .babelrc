@@ -3,12 +3,12 @@
     ["env", {
       "targets": {
         "browsers": [
-          "Chrome >= 56",
-          "last 2 edge versions",
-          "last 2 firefox versions",
-          "last 2 safari versions",
-          "last 2 iOS versions",
-          "last 2 and_chr versions"
+          "Chrome >= 70",
+          "last 1 edge versions",
+          "last 1 firefox versions",
+          "last 1 safari versions",
+          "last 1 iOS versions",
+          "last 1 and_chr versions"
         ]
       },
       "modules": false
@@ -25,10 +25,5 @@
       }
     ]]
   ],
-  "comments": false,
-  "env": {
-    "test": {
-      "plugins": [ "istanbul" ]
-    }
-  }
+  "comments": true
 }

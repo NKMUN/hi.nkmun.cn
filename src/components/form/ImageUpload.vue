@@ -53,12 +53,11 @@
 
 <script>
 import ImagePreview from '@/components/ImagePreview.js'
-import { Upload, Progress } from 'element-ui'
+import { Progress } from 'element-ui'
 import bytes from 'bytes'
 import { checkFileSignatureIsAcceptable, jpg, png } from '@/lib/filetype-signature'
 export default {
   components: {
-    [Upload.name]: Upload,
     [Progress.name]: Progress
   },
   props: {
