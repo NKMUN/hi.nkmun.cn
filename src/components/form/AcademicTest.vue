@@ -78,3 +78,8 @@ export default {
   },
 }
 </script>
+
+<style lang="stylus" scoped>
+.el-form-item__label
+  white-space: pre-line
+</style>

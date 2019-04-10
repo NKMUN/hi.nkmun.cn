@@ -201,7 +201,7 @@ h4
   font-size: 90%
   color: #909399
 .text
-  white-space: pre-wrap
+  white-space: pre-line
 </style>
 
 <style lang="stylus">
