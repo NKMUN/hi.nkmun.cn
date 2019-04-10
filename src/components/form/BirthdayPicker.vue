@@ -7,8 +7,8 @@ export default {
   functional: true,
   render(h, ctx) {
     const handleFocus = (picker) => {
-      if (ctx.data.on.focus)
-        ctx.data.on.focus()
+      if (ctx.listeners.focus)
+        ctx.listeners.focus()
       picker.$nextTick(_ => {
         picker.picker.currentView = 'year'
       })
@@ -16,9 +16,9 @@ export default {
 
     return (
       <DatePicker
-        value={ctx.data.props.value}
+        value={ctx.props.value}
         onFocus={handleFocus}
-        onInput={ctx.data.on.input}
+        onInput={ctx.listeners.input}
         valueFormat="yyyy-MM-dd"
         defaultValue={`${defaultYear}-01-01`}
         placeholder="请选择出生日期"
