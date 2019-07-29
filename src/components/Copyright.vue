@@ -1,8 +1,8 @@
 <template>
   <div class="copyright">
-    <pre>Copyright ©2011-2018
-Nanking international model united nations conference for high school students, All Rights Reserved
-汇文国际中学生模拟联合国大会组委会 版权所有 苏ICP备15062651号</pre>
+    <pre>Copyright ©2011-2019
+Nanjing Miguo Culture Media co., LTD, All Rights Reserved
+南京米果文化传媒有限公司 版权所有 <a href="http://www.beian.miit.gov.cn">苏ICP备15062651号</a></pre>
   </div>
 </template>
 
