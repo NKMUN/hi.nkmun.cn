@@ -1,9 +1,19 @@
 <template>
   <table>
+    <thead>
+      <th style="text-align: right">会场</th>
+      <th style="text-align: center">申请</th>
+      <th style="text-align: center">分配</th>
+      <th></th>
+    </thead>
     <tbody>
       <tr v-for="session in sessions" :key="session.id" class="session">
         <td class="name">
           <span> {{ session.name }} </span>
+        </td>
+        <td class="request-seat">
+          <span v-if="request[session.id]" class="number">{{ request[session.id] }}</span>
+          <span v-else class="hint">-</span>
         </td>
         <td class="input">
           <el-input-number
@@ -17,7 +27,7 @@
             controls-position="right"
           />
         </td>
-        <td class="badge">
+        <td>
           <span v-if="session.dual" class="hint">（双代）</span>
         </td>
       </tr>
@@ -28,9 +38,10 @@
 <script>
 
 export default {
-  name: 'seat-input',
+  name: 'seat-input-with-review',
   props: {
     sessions: { type: Array, required: true },
+    request: { type: Object },
     value: { type: Object },
     className: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
@@ -76,21 +87,30 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+th
+  padding-left: 2ch
+  padding-right: 2ch
+tr
+  padding-bottom: .25ex
 .session
   .name
     padding-right: 2ch
     padding-bottom: .5em
     padding-top: .5em
     text-align: right
+  .request-seat
+    text-align: center
   .hint
     display: inline-block    // necessary for transform to work
     font-weight: normal
     color: #99A9BF
     transform: scale(0.8, 0.8)
     transform-origin: right center
+  .number
+    font-weight: bolder
 .el-input-number
   width: 84px
 .el-input-number.is-controls-right >>> .el-input__inner
-  padding-left: 4px
+  padding-left: 16px
   padding-right: 32px
 </style>

@@ -107,12 +107,12 @@
 
     <div class="section">
       <h4>名额申请</h4>
-      <RequestIndividual
+      <SeatSelect
         ref="request_individual"
+        :sessions="sessions.filter($ => $.allowsIndividual)"
         v-model="form.request_individual"
         class="form small"
         :disabled="disabled"
-        :showPress="press"
         @change="emit"
       />
     </div>
@@ -138,8 +138,9 @@ import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
 import SchoolForm from './School'
 import AcademicTestForm from './AcademicTest'
-import RequestIndividual from './RequestIndividual'
+import SeatSelect from '../Admin/components/SeatSelect'
 import ImageUpload from './ImageUpload'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'individual-application-form',
@@ -150,8 +151,13 @@ export default {
     GraduationForm,
     IdentificationForm,
     AcademicTestForm,
-    RequestIndividual,
+    SeatSelect,
     ImageUpload
+  },
+  computed: {
+    ...mapGetters({
+      sessions: 'config/sessions'
+    }),
   },
   props: {
     value: { type: Object },

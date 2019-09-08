@@ -12,10 +12,11 @@
 
       <NukeApplicationButton :repeat="application.school.name" @click="nuke" v-show="!loading" />
 
-      <SeatInput
+      <SeatInputWithRequest
         v-if="application.type === 'school' && !loading"
         class="seat-input"
         v-model="seat"
+        :request="application.request"
         :sessions="sessions"
         :disabled="busy || application.processed"
         @change="dirty = true"
@@ -64,7 +65,7 @@
 </template>
 
 <script>
-import SeatInput from './SeatInput'
+import SeatInputWithRequest from './SeatInputWithRequest'
 import SeatSelect from './SeatSelect'
 import ApplicationCard from './ApplicationCard'
 import NukeApplicationButton from './NukeApplicationButton'
@@ -74,7 +75,7 @@ export default {
   name: 'application-review',
   components: {
     ApplicationCard,
-    SeatInput,
+    SeatInputWithRequest,
     SeatSelect,
     NukeApplicationButton,
     InvitationCodeView,

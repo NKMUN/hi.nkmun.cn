@@ -35,8 +35,9 @@
 
     <div class="section">
       <h4>名额申请</h4>
-      <RequestForm
+      <SeatInput
         ref="request"
+        :sessions="sessions.filter($ => $.allowsSchool)"
         v-model="form.request"
         :disabled="disabled"
         :showPress="press"
@@ -62,16 +63,22 @@
 <script>
 import ContactForm from './Contact'
 import SchoolForm from './School'
-import RequestForm from './Request'
 import AcademicTestForm from './AcademicTest'
+import SeatInput from '../Admin/components/SeatInput'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'school-application-form',
   components: {
     ContactForm,
     SchoolForm,
-    RequestForm,
+    SeatInput,
     AcademicTestForm
+  },
+  computed: {
+    ...mapGetters({
+      sessions: 'config/sessions'
+    }),
   },
   props: {
     value: { type: Object },

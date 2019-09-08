@@ -56,6 +56,15 @@
         />
       </el-table-column>
 
+      <el-table-column prop="allowsSchool" label="团队" width="54">
+        <el-checkbox
+          slot-scope="{row, $index}"
+          v-model="row.allowsSchool"
+          :class="validation[$index] && !validation[$index].allowsSchool ? 'error' : ''"
+          :disabled="busy || row.reserved"
+        />
+      </el-table-column>
+
       <el-table-column prop="allowsIndividual" label="个代" width="54">
         <el-checkbox
           slot-scope="{row, $index}"
@@ -174,6 +183,7 @@ const DEFAULT_SESSION = () => ({
   price: 0,
   requiresChairman: false,
   allowsIndividual: false,
+  allowsSchool: false,
   exchangeable: false
 })
 
@@ -302,7 +312,7 @@ export default {
     color: #475669
     font-size: 14px
   .session-table
-    max-width: 120ch
+    max-width: 140ch
   .controls.commit
     margin-top: 3em
   .el-alert

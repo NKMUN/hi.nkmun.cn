@@ -74,21 +74,12 @@
           <p v-for="(p, idx) in toParagraphs(ac_test[test.id] || '')" :key="test.id + idx">{{ p }}</p>
         </div>
       </div>
-      <div class="section request" v-if="type === 'school'">
-        <div class="primary">名额申请</div>
-        <table>
-          <tbody>
-            <tr v-for="r in requestRows" :key="r.key" v-if="request[r.key]">
-              <td class="session">{{ r.text }}</td>
-              <td class="amount">{{ request[r.key] }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <!-- 学校/团队的申请信息在 SeatInputWithRequest 中显示 -->
       <div class="section individual-request" v-if="type === 'individual'">
         <div class="primary">
           <span class="secondary">名额申请：</span>
-          {{ requestIndividual && requestIndividual.text || `未知：${data.request_individual}`}}
+          {{ individualRequestedSession && individualRequestedSession.name || `未知：${JSON.stringify(data.request_individual)}`}}
         </div>
       </div>
     </div>
@@ -101,6 +92,7 @@ import 'vue-awesome/icons/user'
 
 import genderText from '@/lib/gender-text'
 import guardianTypeText from '@/lib/guardian-type-text'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'application-card',
@@ -109,6 +101,9 @@ export default {
     tests: { type: Array, required: true },
   },
   computed: {
+    ...mapGetters({
+      sessions: 'config/sessions'
+    }),
     type() { return this.data.type || 'school' },
     school() { return this.data.school || {} },
     contact() { return this.data.contact || {} },
@@ -116,17 +111,12 @@ export default {
     guardian() { return this.data.guardian || {} },
     ac_test() { return this.data.ac_test || {} },
     request() { return this.data.request || {} },
-    requestIndividual() { return this.requestRows.find($ => $.key === this.data.request_individual) },
+    individualRequestedSession() {
+      const request = this.data.request_individual || {}
+      const individualSessionId = Object.keys(request).find(id => request[id] > 0)
+      return this.sessions.find($ => $.id === individualSessionId)
+    }
   },
-  data: () => ({
-    requestRows: [
-      { key: 'chinese',    text: '中文会场' },
-      { key: 'english',    text: '英文会场' },
-      { key: 'press',      text: '媒体团队' },
-      { key: 'supervisor', text: '指导教师' },
-      { key: 'observer',   text: '观察员'   },
-    ]
-  }),
   methods: {
     toParagraphs(v) {
       return v.replace(/\r\n/, '\n')
