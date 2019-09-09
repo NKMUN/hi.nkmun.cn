@@ -13,20 +13,20 @@
       <NukeApplicationButton :repeat="application.school.name" @click="nuke" v-show="!loading" />
 
       <SeatInputWithRequest
-        v-if="application.type === 'school' && !loading"
+        v-if="!loading && application.type === 'school'"
         class="seat-input"
         v-model="seat"
         :request="application.request"
-        :sessions="sessions"
+        :sessions="sessions.filter($ => $.allowsSchool)"
         :disabled="busy || application.processed"
         @change="dirty = true"
       />
 
       <SeatSelect
-        v-if="application.type === 'individual' && !loading"
+        v-if="!loading && application.type === 'individual'"
         class="seat-input"
         v-model="seat"
-        :sessions="sessions"
+        :sessions="sessions.filter($ => $.allowsIndividual)"
         :disabled="busy || application.processed"
         @change="dirty = true"
       />
