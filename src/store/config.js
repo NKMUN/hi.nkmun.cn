@@ -33,7 +33,7 @@ export default {
       state.login = (config && config.login) || false
       state.reserveHotel = (config && config.reserveHotel) || false
       state.mailer = (config && config.mailer) || 'internal'
-      state.sessions = ((config && config.sessions) || []).sort( (a,b) => a.id.localeCompare(b.id) )
+      state.sessions = (config && config.sessions) || []
       state.sessionMap = state.sessions.reduce(
         (ret, session) => ({ ...ret, [session.id]: session}),
         {}

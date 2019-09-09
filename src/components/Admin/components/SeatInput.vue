@@ -88,6 +88,8 @@ export default {
     color: #99A9BF
     transform: scale(0.8, 0.8)
     transform-origin: right center
+  .badge
+    word-break: keep-all
 .el-input-number
   width: 84px
 .el-input-number.is-controls-right >>> .el-input__inner

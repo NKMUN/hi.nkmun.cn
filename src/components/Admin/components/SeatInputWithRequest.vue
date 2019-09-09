@@ -108,6 +108,8 @@ tr
     transform-origin: right center
   .number
     font-weight: bolder
+  .badge
+    word-break: keep-all
 .el-input-number
   width: 84px
 .el-input-number.is-controls-right >>> .el-input__inner
