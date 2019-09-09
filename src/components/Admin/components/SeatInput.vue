@@ -82,6 +82,7 @@ export default {
     padding-bottom: .5em
     padding-top: .5em
     text-align: right
+    max-width: 30ch
   .hint
     display: inline-block    // necessary for transform to work
     font-weight: normal

@@ -27,7 +27,7 @@
             controls-position="right"
           />
         </td>
-        <td>
+        <td class="badge">
           <span v-if="session.dual" class="hint">（双代）</span>
         </td>
       </tr>
@@ -90,6 +90,7 @@ export default {
 th
   padding-left: 2ch
   padding-right: 2ch
+  word-break: keep-all
 tr
   padding-bottom: .25ex
 .session
@@ -98,6 +99,7 @@ tr
     padding-bottom: .5em
     padding-top: .5em
     text-align: right
+    max-width: 30ch
   .request-seat
     text-align: center
   .hint
