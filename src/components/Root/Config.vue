@@ -2,7 +2,7 @@
   <div class="system-config" v-loading.body="!config">
     <h3>全局设置</h3>
     <template v-if="config">
-      <el-form label-position="right" label-width="14ch" class="form">
+      <el-form label-position="right" label-width="18ch" class="form">
         <el-form-item label="学术团队申请">
           <el-checkbox v-model="config.applyAcademicStaff" :disabled="busy" />
         </el-form-item>
@@ -35,6 +35,17 @@
             :disabled="busy"
           />
         </el-form-item>
+        <el-form-item label="早鸟折扣结束时间">
+          <el-date-picker
+            @input="localTs => { config.earlybirdDiscountEndTime = toChinaStandardTime(localTs) }"
+            :value="toLocalTime(config.earlybirdDiscountEndTime)"
+            type="datetime"
+            value-format="timestamp"
+            :disabled="busy"
+            placeholder="未选时间，无早鸟折扣"
+          />
+          <span class="hint">（中国标准时间 / UTC+8）</span>
+        </el-form-item>
       </el-form>
       <el-button
         type="primary"
@@ -55,6 +66,20 @@ export default {
     period: null,
   }),
   methods: {
+    /*
+     * CAVEAT: toChinaStandardTime(), toLocalTime()
+    *          works if `ts` +- TZ-diff does not lie within DST switching time
+     */
+    toChinaStandardTime(ts) {
+      if (!ts) return ts
+      const d = new Date(ts)
+      return d.getTime() - (d.getTimezoneOffset() + 480) * 60 * 1000
+    },
+    toLocalTime(ts) {
+      if (!ts) return ts
+      const d = new Date(ts)
+      return d.getTime() + (d.getTimezoneOffset() + 480) * 60 * 1000
+    },
     parseConfig(config) {
       this.config = {
         applyAcademicStaff: config.applyAcademicStaff,
@@ -64,7 +89,8 @@ export default {
         login: config.login,
         reserveHotel: config.reserveHotel,
         conferenceName: config.conferenceName,
-        conferenceId: config.conferenceId
+        conferenceId: config.conferenceId,
+        earlybirdDiscountEndTime: config.earlybirdDiscountEndTime
       }
       this.period = config.conferenceStartDate && config.conferenceEndDate
           ? [config.conferenceStartDate, config.conferenceEndDate]
@@ -123,4 +149,7 @@ export default {
   overflow: auto
   .form
     white-space: nowrap
+  .hint
+    font-size: 80%
+    color: #8492A6
 </style>
