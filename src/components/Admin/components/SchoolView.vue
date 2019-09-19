@@ -2,7 +2,7 @@
   <div class="reviewer" v-loading="id && (!school || loading)">
     <template v-if="school">
 
-      <SchoolBrief class="brief" :data="school" />
+      <SchoolBrief class="brief" :data="school" @rename="handleRename" />
 
       <NukeSchoolButton :repeat="school.school.name" @click="nuke" />
 
@@ -390,6 +390,10 @@ export default {
     async setSecondRound() {
       await this.patch('seat.2', this.school.seat['2'])
       await this.patch('seat.2pre', this.school.seat['2'])
+    },
+    handleRename({name, identifier}) {
+      this.$emit('update', this.school.id, {name: identifier})
+      this.fetch()
     }
   },
   mounted() {
