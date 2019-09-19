@@ -3,7 +3,7 @@
 
     <template v-if="id && school">
 
-      <SchoolBrief class="brief" :data="school" />
+      <SchoolBrief class="brief" :data="school" @rename="handleRename" />
 
       <div v-for="round in rounds" :key="round">
         <hr/>
@@ -155,6 +155,10 @@ export default {
         this.busy = false
       }
     },
+    handleRename({name, identifier}) {
+      this.$emit('update', this.school.id, {name: identifier})
+      this.fetch()
+    }
   },
   filters: {
     roundText
