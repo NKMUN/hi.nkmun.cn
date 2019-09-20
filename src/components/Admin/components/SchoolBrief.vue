@@ -5,6 +5,15 @@
         <icon v-if="type === 'school'" name="institution" />
         <icon v-if="type === 'individual'" name="user" />
         <span class="text">{{ identifier }}</span>
+        <el-button
+          v-if="type === 'school'"
+          type="warning"
+          circle
+          icon="el-icon-edit"
+          size="mini"
+          @click="renameSchool"
+          style="margin-left: 1ch"
+        />
       </div>
     </div>
     <div>
@@ -153,6 +162,53 @@ export default {
           })
         )
     },
+    renameSchool() {
+      return this.$prompt(
+        '输入新的学校名字：',
+        '学校改名', {
+          type: 'warning',
+          inputValue: this.school.name
+        }
+      ).then(
+        ({ value: newName }) => {
+          if (newName === this.school.name) {
+            this.$message({
+              type: 'info',
+              message: '学校名称未修改'
+            })
+            return
+          }
+          return this.$agent
+            .patch(`/api/schools/${this.schoolId}/name`)
+            .send({ name: newName })
+            .body()
+            .then(newSchool => {
+              const name = newSchool.school.name
+              const identifier = newSchool.identifier
+              this.$emit('rename', { name, identifier })
+              this.$message({
+                type: 'success',
+                message: `「${this.school.name}」已改名为「${name}」`
+              })
+              return {name, identifier}
+            })
+            .catch(e => {
+              this.$notify({
+                type: 'error',
+                title: '改名失败',
+                message: e.message,
+                duration: 0
+              })
+            })
+        },
+        () => {  // cancel
+          this.$message({
+            type: 'info',
+            message: '操作已取消'
+          })
+        }
+      )
+    }
   }
 }
 </script>
