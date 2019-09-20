@@ -16,10 +16,6 @@
       />
     </ol>
 
-    <div class="brief">
-      <b>{{ data.round | roundText }}</b>，上传时间：{{ data.time | date }}
-    </div>
-
     <el-dialog title="预览" width="70%" :visible.sync="dialogVisible" top="5vh" @click.native="dialogVisible = false">
       <ImageLoader default-width="720px" default-height="480px" :src="dialogVisible ? dialogImageUrl : ''" />
     </el-dialog>
@@ -64,7 +60,6 @@ export default {
 <style lang="stylus">
 @import "../../../style/flex.styl"
 .payment-entry
-  margin: 2em 0
   .brief
     text-align: center
   ol

@@ -9,7 +9,8 @@ export default {
     sessions: [],
     sessionMap: {},
     conferenceStartDate: null,
-    conferenceEndDate: null
+    conferenceEndDate: null,
+    earlybirdDiscountEndTime: null,
   },
   getters: {
     applyAcademicStaff: state => state.applyAcademicStaff,
@@ -23,6 +24,7 @@ export default {
     conferenceStartDate: state => state.conferenceStartDate,
     conferenceEndDate: state => state.conferenceEndDate,
     mailer: state => state.mailer,
+    earlybirdDiscountEndTime: state => state.earlybirdDiscountEndTime
   },
   mutations: {
     config( state, config ) {
@@ -40,6 +42,7 @@ export default {
       )
       state.conferenceStartDate = (config && config.conferenceStartDate) || null
       state.conferenceEndDate = (config && config.conferenceEndDate) || null
+      state.earlybirdDiscountEndTime = (config && config.earlybirdDiscountEndTime) || null
     },
     update( state, update ) {
       ;[
@@ -52,6 +55,7 @@ export default {
         'sessions',
         'conferenceStartDate',
         'conferenceEndDate',
+        'earlybirdDiscountEndTime',
         'mailer'
       ].forEach( k => {
         if (update[k] !== undefined)

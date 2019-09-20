@@ -117,6 +117,19 @@
         />
       </el-table-column>
 
+      <el-table-column prop="earlybirdPrice" label="早鸟单价" width="84">
+        <el-input-number
+          slot-scope="{row, $index}"
+          v-model="row.earlybirdPrice"
+          size="small"
+          :controls="false"
+          :class="validation[$index] && !validation[$index].earlybirdPrice ? 'error' : ''"
+          :disabled="busy"
+          :min="0"
+          style="display: table-cell;"
+        />
+      </el-table-column>
+
       <el-table-column label="操作" width="72">
         <el-button
           slot-scope="{row, $index}"
@@ -181,6 +194,7 @@ const DEFAULT_SESSION = () => ({
   dual: false,
   estimatedAttendance: 0,
   price: 0,
+  earlybirdPrice: 0,
   requiresChairman: false,
   allowsIndividual: false,
   allowsSchool: false,

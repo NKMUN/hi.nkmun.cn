@@ -7,13 +7,14 @@
 
       <div v-for="round in rounds" :key="round">
         <hr/>
-        <BillingDetail
+
+        <PaymentDetail
           class="billing"
           :school="id"
           :round="round"
           show-alipay-amount
+          :payment="(payments || []).find($ => $.round === round)"
         />
-        <PaymentList :payments="(payments || []).filter($ => $.round === round)" />
 
         <div class="controls" v-if="canReviewPayment && school && school.stage === `${round}.paid`">
           <el-button-group>
@@ -24,11 +25,18 @@
               @click="reject"
             > 不通过 </el-button>
             <el-button
+              type="primary"
+              :loading="busy"
+              icon="el-icon-discount"
+              @click="confirm('confirmEarlybird')"
+              :disabled="round !== '1' || !earlybirdDiscountEndTime"
+            > 通过：早鸟 </el-button>
+            <el-button
               type="success"
               :loading="busy"
-              icon="el-icon-check"
-              @click="confirm"
-            > 通过 </el-button>
+              icon="el-icon-price-tag"
+              @click="confirm('confirmOrdinary')"
+            > 通过：常规 </el-button>
           </el-button-group>
         </div>
       </div>
@@ -38,23 +46,25 @@
 </template>
 
 <script>
-import BillingDetail from '../../School/components/BillingDetail'
+import PaymentDetail from './PaymentDetail'
 import SchoolBrief from './SchoolBrief'
-import PaymentList from './PaymentList'
 import roundText from '@/lib/round-text'
 import { hasAccess } from '@/lib/access'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'payment-review',
   components: {
-    BillingDetail,
+    PaymentDetail,
     SchoolBrief,
-    PaymentList,
   },
   props: {
     id: { type: String, default: null },
   },
   computed: {
+    ...mapGetters({
+      earlybirdDiscountEndTime: 'config/earlybirdDiscountEndTime'
+    }),
     rounds() {
       const hasSecondRound = Object.keys(this.school && this.school.seat['2'] || {}).length
       const stage = this.school && this.school.stage
@@ -110,13 +120,13 @@ export default {
         this.payments = null
       }
     },
-    async confirm() {
+    async confirm(type = 'confirmOrdinary') {
       this.busy = true
       try {
         let {
           status,
           body
-        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/').send({ confirm: 1 })
+        } = await this.$agent.patch('/api/schools/'+this.id+'/payments/').send({ [type]: 1 })
         this.$notify({
           type: status === 200 ? 'success' : 'warning',
           title: '已审核',
@@ -125,6 +135,7 @@ export default {
         })
         this.school.stage = this.school.stage.replace('.paid', '.complete')
         this.$emit('update', this.school.id, { stage: this.school.stage.replace('.paid', '.complete') })
+        this.payments = await this.$agent.get('/api/schools/'+this.id+'/payments/').query({ state: 'all' }).body()
       } catch(e) {
         this.notifyError(e, '审核失败')
       } finally {
