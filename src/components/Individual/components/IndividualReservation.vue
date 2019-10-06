@@ -64,7 +64,7 @@ export default {
       school: 'user/school',
     }),
     maxNumOfRooms() {
-      return 1
+      return null
     },
     readonly() {
       return !this.stage.endsWith('.reservation')

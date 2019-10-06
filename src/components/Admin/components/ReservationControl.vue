@@ -117,7 +117,7 @@ export default {
     round: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     school: { type: String, default: '' },
-    max: { type: Number, default: null },
+    max: { default: null },
     readonly: { type: Boolean, default: false },
   },
   computed: {

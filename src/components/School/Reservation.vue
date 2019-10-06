@@ -64,10 +64,8 @@ export default {
       school: 'user/school',
     }),
     maxNumOfRooms() {
-      let s = 0
-      for (let k in this.seat[this.round])
-        s += this.seat[this.round][k]
-      return Math.floor( s / 2 + 2 )
+      // NOTE: 2019-10-06, as requested by public affair staff.
+      return null
     }
   },
   data() {
