@@ -26,6 +26,7 @@ import ApplyIntro from '@/pages/ApplyIntro'
 // Lazy load:
 const ApplySchool = () => import('@/pages/ApplySchool')
 const ApplyIndividual = () => import('@/pages/ApplyIndividual')
+const ApplyForeigner = () => import('@/pages/ApplyForeigner')
 const ApplyAcademicStaff = () => import('@/pages/ApplyAcademicStaff')
 const Register = () => import('@/pages/Register')
 const Staff    = () => import('@/pages/Staff')
@@ -99,6 +100,7 @@ export default new Router({
     { path: '/apply', component: ApplyIntro },
     { path: '/apply/school/', component: ApplySchool },
     { path: '/apply/individual/', component: ApplyIndividual },
+    { path: '/apply/foreigner/', component: ApplyForeigner, meta: { title: 'Hi! NKMUN' } },
     { path: '/apply/academic/', component: ApplyAcademicStaff },
     { path: '/register/', component: Register },
     { path: '/committee/', component: Committee },

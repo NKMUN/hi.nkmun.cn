@@ -21,7 +21,7 @@ export default {
         onInput={ctx.listeners.input}
         valueFormat="yyyy-MM-dd"
         defaultValue={`${defaultYear}-01-01`}
-        placeholder="请选择出生日期"
+        placeholder={ctx.props.placeholder || "请选择出生日期"}
       />
     )
   }
