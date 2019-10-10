@@ -106,7 +106,7 @@ export default new Router({
     { path: '/staff/', component: Staff,
       beforeEnter: (to, from, next) => {
         const givenAccesses = store.getters['user/access']
-        if (hasAccess(givenAccesses, 'staff') || hasAccess(givenAccesses, 'admin')) {
+        if (hasAccess(givenAccesses, 'staff') || hasAccess(givenAccesses, 'admin') || hasAccess(givenAccesses, 'finance')) {
           next()
         } else {
           next('/')
