@@ -5970,6 +5970,11 @@ vue-hot-reload-api@^2.2.0:
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha512-KmvZVtmM26BQOMK1rwUZsrqxEGeKiYSZGA7SNWE6uExx8UX/cj9hq2MRV/wWC3Cq6AoeDGk57rL9YMFRel/q+g==
 
+vue-i18n@5:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-5.0.3.tgz#b6d96cc832604237e6139de471e0d4c820aedbed"
+  integrity sha1-ttlsyDJgQjfmE53kceDUyCCu2+0=
+
 vue-loader@14:
   version "14.2.4"
   resolved "https://registry.npmjs.org/vue-loader/-/vue-loader-14.2.4.tgz#d0a0e8236155fa7f9602cde65b0d38259e051ee2"

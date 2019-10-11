@@ -7,6 +7,7 @@ import store from './store'
 import superagent from 'superagent'
 import superagentUse from 'superagent-use'
 import { getToken } from '@/persistence/token'
+import VueI18n from 'vue-i18n'
 import {
     Alert,
     Button,
@@ -41,6 +42,20 @@ import {
     Scrollbar,
     Upload,
 } from 'element-ui'
+
+import enLocale from 'element-ui/lib/locale/lang/en'
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
+const navigatorLang = String(navigator.language).toLowerCase()
+
+Vue.use(VueI18n)
+Vue.config.lang = (
+    navigatorLang.startsWith('en') ? 'en'
+  : navigatorLang.startsWith('zh') ? 'zh-cn'
+  : 'zh-cn'
+)
+Vue.locale('zh-cn', zhLocale)
+Vue.locale('en', enLocale)
 
 Vue.use( Alert )
 Vue.use( Button )

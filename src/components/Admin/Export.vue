@@ -16,6 +16,12 @@
     > <icon name="phone"/> 报名 - 联系人 </el-button>
 
     <el-button
+      @click="exportAs('foreigner-applications', '.csv')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="globe"/> 报名 - 国外 </el-button>
+
+    <el-button
       @click="exportAs('seats', '.csv')"
       type="primary"
       :disabled="busy"
@@ -95,6 +101,7 @@
 import { downloadFile } from '@/lib/save-as-file'
 import 'vue-awesome/icons/wpforms'
 import 'vue-awesome/icons/phone'
+import 'vue-awesome/icons/globe'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/photo'
