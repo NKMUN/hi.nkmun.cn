@@ -278,6 +278,9 @@ export default {
     }),
     emailValidator() {
       return emailValidator
+    },
+    referrer() {
+      return this.$route.query.ref || ''
     }
   },
   props: {
@@ -313,6 +316,7 @@ export default {
               ? '国际个人 - ' + this.form.last_name + ' ' + this.form.first_name
               : '国际个人 - '
           ),
+          referrer: this.referrer,
           ...this.form,
         }
         this.$emit('input', payload)

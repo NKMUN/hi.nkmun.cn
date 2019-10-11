@@ -19,7 +19,7 @@ export default {
         ['学术团队注册', '/dais-registration/'],
         ['志愿者注册',   '/volunteer/'],
         ['组委注册',     '/committee/'],
-        ['国际报名',     '/apply/foreigner/']
+        ['国际报名',     '/apply/foreigner/?ref=<渠道标识>']
       ]
     }
   },

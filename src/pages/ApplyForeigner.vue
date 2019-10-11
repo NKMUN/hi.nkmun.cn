@@ -83,15 +83,29 @@ export default {
             title: 'Application Received',
             message: 'You can close this page now.',
             showCancelButton: false,
-            showConfirmButton: true
+            showConfirmButton: true,
+            showClose: false
           })
           this.$router.replace('/')
-        } catch(e) {
-          this.$notify({
-            type: 'error',
-            title: 'Submission Error',
-            message: e.message
-          })
+        } catch(err) {
+          if (err.status) {
+            const errorText = (
+              typeof err.response.body === 'object'
+              ? err.response.body.text
+              : err.response.text
+            )
+            this.$notify({
+              type: 'error',
+              title: errorText,
+              message: `(${err.status}) This identity is already registered, please contact staff for assistance.`
+            })
+          } else {
+            this.$notify({
+              type: 'error',
+              title: 'Submission Error',
+              message: `${err.status || '-'} ${err.message}`
+            })
+          }
         } finally {
           this.busy = false
         }
