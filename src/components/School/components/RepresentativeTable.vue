@@ -59,7 +59,7 @@
         :fields="[
           { key: 'contact.name', name: '姓名' },
           { key: 'graduation_year', name: '预期毕业' },
-          { key: 'note', name: '备注' },
+          { key: 'comment', name: '备注' },
           { key: 'disclaimer_image', name: '权责声明', mapper: disclaimerImageText }
         ]"
       />
