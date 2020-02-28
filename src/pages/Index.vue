@@ -31,7 +31,7 @@
               v-if="showApply"
               type="primary"
               @click="$router.push('/apply/')"
-            > 报名 </el-button>
+            > 代表报名 </el-button>
           </div>
 
           <div class="bottom">
