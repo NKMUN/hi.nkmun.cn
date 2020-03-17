@@ -41,7 +41,7 @@
       <el-form-item label="照片" prop="photoId"
         :rules="[ { required: true, message: '请上传照片', trigger: 'change' } ]"
       >
-        <ImageUpload
+        <AvatarUpload
           v-model="form.photoId"
           action="/api/images/"
           @change="emit"
@@ -140,7 +140,7 @@
 <script>
 import Identification from '../form/Identification'
 import Guardian from '../form/Guardian'
-import ImageUpload from '../form/ImageUpload'
+import AvatarUpload from '../form/AvatarUpload'
 import BirthdayPicker from '../form/BirthdayPicker'
 import { mapGetters } from 'vuex'
 const qqRegex = /^[0-9]{6,15}$/
@@ -149,7 +149,7 @@ export default {
   components: {
     Identification,
     Guardian,
-    ImageUpload,
+    AvatarUpload,
     BirthdayPicker,
   },
   props: {

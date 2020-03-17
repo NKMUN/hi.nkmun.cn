@@ -6,7 +6,7 @@
       <h4 v-if="confirmed">信息已确认</h4>
     </div>
 
-    <div class="validation-result" v-if="validationResult && validationResult.length">
+    <div class="validation-result" v-if="validationResult && validationResult.length" style="margin-bottom: 1.5em">
       <el-alert
         title="代表信息有错误"
         description="请返回代表信息页面修正以下问题："
@@ -14,7 +14,7 @@
         show-icon
         :closable="false"
       />
-      <ul>
+      <ul style="margin-top: 1em; color: #e6a23c">
         <li v-for="(problem, idx) in validationResult" :key="idx">{{ problem }}</li>
       </ul>
     </div>

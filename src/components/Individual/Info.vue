@@ -31,6 +31,25 @@
             <label for="name" class="el-form-item__label" :style="{width: labelWidth}">邮箱</label>
             <div class="el-form-item__content" :style="{marginLeft: labelWidth, padding: '0 10px'}">{{ representative.contact.email }}</div>
           </div>
+
+          <p style="text-align: center; margin: 1em 0">代表牌照片</p>
+          <AvatarUpload
+            :class="{
+              'avatar-upload': true,
+              'is-error': avatarImageError
+            }"
+            :value="representative && representative.avatar_image"
+            @change="setAvatarImage"
+            :disabled="representative.confirmed || busy"
+            action="/api/images/"
+            :data="{
+              meta: JSON.stringify({
+                flow: 'individual-update-info',
+                type: 'avatar-image'
+              })
+            }"
+          />
+          <el-alert v-if="avatarImageError" type="error" title="请上传代表牌照片" :closable="false" />
         </form>
 
         <GraduationForm
@@ -142,6 +161,7 @@ import GuardianForm from '../form/Guardian'
 import SessionUtils from '../../lib/session-utils'
 import { mapGetters } from 'vuex'
 import ImageUpload from '../form/ImageUpload'
+import AvatarUpload from '../form/AvatarUpload'
 
 export default {
   name: 'representative-form',
@@ -149,7 +169,8 @@ export default {
     GraduationForm,
     IdentificationForm,
     GuardianForm,
-    ImageUpload
+    ImageUpload,
+    AvatarUpload
   },
   mixins: [
     SessionUtils
@@ -164,7 +185,8 @@ export default {
     labelWidth: '108px',
     representative: null,
     busy: false,
-    disclaimerImageError: false
+    disclaimerImageError: false,
+    avatarImageError: false,
   }),
   methods: {
     fetch() {
@@ -245,6 +267,34 @@ export default {
           }
         )
     },
+    setAvatarImage(value) {
+      return this.$agent
+        .patch(`/api/schools/${this.school}/individual`)
+        .send({ avatar_image: value })
+        .then(
+          resp => {
+            this.busy = false
+            this.representative = {
+              ...this.representative,
+              avatar_image: resp.body.avatar_image
+            }
+            this.$message({
+              type: 'success',
+              message: '已更新照片'
+            })
+            this.validateAvatar()
+            return true
+          },
+          err => {
+            this.busy = false
+            this.$message({
+              type: 'error',
+              message: '照片更新失败：' + err.res ? `${err.res.status} / ${err.res.text}` : err.message
+            })
+            return false
+          }
+        )
+    },
     confirm() {
       this.$serious('请检查以上信息是否正确，确认后不能再修改！\n如因信息错误导致问题，后果自负。', '我确认信息正确无误').then(
         ok => ok ? this.update() : false
@@ -275,11 +325,15 @@ export default {
       return Promise.all([
         ...forms.map(ref => this.$refs[ref].validate()),
         Promise.resolve(this.validateDisclaimer()),
+        Promise.resolve(this.validateAvatar()),
       ]).then(results => results.reduce((a, v) => a && v ))
     },
     validateDisclaimer() {
       return !(this.disclaimerImageError = !(this.representative && this.representative.disclaimer_image))
-    }
+    },
+    validateAvatar() {
+      return !(this.avatarImageError = !(this.representative && this.representative.avatar_image))
+    },
   },
   mounted() {
     this.fetch()
@@ -305,6 +359,8 @@ export default {
   text-align: center
 .image-upload
   margin: 0 auto
+.avatar-upload
+  margin: -0.5em auto 1em auto
 .el-alert
   margin: 1em auto
   width: 20ch

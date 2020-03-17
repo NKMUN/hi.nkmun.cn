@@ -16,7 +16,7 @@
         <el-form-item label="邮箱"> {{ dais && dais.contact.email }} </el-form-item>
         <el-form-item label="QQ号"> {{ dais && dais.contact.qq }} </el-form-item>
         <el-form-item label="照片" required>
-          <ImageUpload
+          <AvatarUpload
             :value="dais && dais.photoId"
             @uploaded="updateImage"
             class="upload"
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import ImageUpload from '@/components/form/ImageUpload'
+import AvatarUpload from '@/components/form/AvatarUpload'
 import GuardianForm from '@/components/form/Guardian'
 import IdentificationForm from '@/components/form/Identification'
 import genderText from '@/lib/gender-text'
@@ -135,7 +135,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'dais-user-info',
   components: {
-    ImageUpload,
+    AvatarUpload,
     GuardianForm,
     IdentificationForm
   },

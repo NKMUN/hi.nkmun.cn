@@ -83,16 +83,25 @@ export default {
   methods: {
     mapSchool(school) {
       const {
-        id, name, stage, attending_representatives, disclaimer_approved_representatives, disclaimer_rejected_representatives
+        id, name, stage, attending_representatives,
+        disclaimer_approved_representatives, disclaimer_rejected_representatives,
+        avatar_approved_representatives, avatar_rejected_representatives
       } = school
       return {
         ... school,
         id: id,
         name: name,
         awaitingSubmission: stage !== '9.complete',
-        fullyReviewed: stage === '9.complete' && attending_representatives - disclaimer_approved_representatives === 0,
-        pendingReview: stage === '9.complete' && disclaimer_approved_representatives + disclaimer_rejected_representatives !== attending_representatives,
-        pendingAction: stage === '9.complete' && disclaimer_rejected_representatives > 0,
+        fullyReviewed: stage === '9.complete'
+                       && attending_representatives === disclaimer_approved_representatives
+                       && attending_representatives === avatar_approved_representatives,
+        pendingReview: stage === '9.complete'
+                       && (
+                            disclaimer_approved_representatives + disclaimer_rejected_representatives !== attending_representatives
+                         || avatar_approved_representatives + avatar_rejected_representatives !== attending_representatives
+                       ),
+        pendingAction: stage === '9.complete'
+                       && (disclaimer_rejected_representatives > 0 || avatar_rejected_representatives > 0)
       }
     },
     fetch() {

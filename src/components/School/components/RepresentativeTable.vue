@@ -60,7 +60,8 @@
           { key: 'contact.name', name: '姓名' },
           { key: 'graduation_year', name: '预期毕业' },
           { key: 'note', name: '备注' },
-          { key: 'disclaimer_image', name: '权责声明', mapper: disclaimerImageText }
+          { key: 'avatar_image', name: '代表照片', mapper: avatarImageText },
+          { key: 'disclaimer_image', name: '权责声明', mapper: disclaimerImageText },
         ]"
       />
     </el-tab-pane>
@@ -115,6 +116,8 @@ const validateRepresentative = (representatives) => {
     ) ) {
       representativeErrors.push(`信息不完全`)
     }
+    if (!r.avatar_image)
+      representativeErrors.push(`代表照片未上传`)
     if (!r.disclaimer_image)
       representativeErrors.push(`权责声明未上传`)
     if (representativeErrors.length) {
@@ -167,6 +170,9 @@ export default {
     identificationTypeText,
     guardianTypeText,
     disclaimerImageText(val) {
+      return val ? '已上传' : '未上传'
+    },
+    avatarImageText(val) {
       return val ? '已上传' : '未上传'
     },
     isLeader(v) {

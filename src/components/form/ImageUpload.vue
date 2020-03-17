@@ -33,11 +33,12 @@
     </div>
     <div
       v-if="!busy && !imageUrl"
-      class="icons icon el-icon-plus"
+      class="icons icon el-icon-upload"
       :style="{
         boxSizing: 'border-box',
         height: imageDimension,
-        lineHeight: imageDimension
+        lineHeight: imageDimension,
+        fontSize: '48px'
       }"
     />
     <div v-if="busy" class="mask">

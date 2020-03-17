@@ -22,7 +22,7 @@
         </el-form-item>
 
         <el-form-item label="照片" prop="photoId" :rules="[{ required: true, message: '请上传照片', trigger: 'change' }]">
-          <ImageUpload
+          <AvatarUpload
             v-model="form.photoId"
             action="/api/images/"
             @change="emit"
@@ -135,7 +135,7 @@ import ContactForm from './Contact'
 import GraduationForm from './Graduation'
 import IdentificationForm from './Identification'
 import GuardianForm from './Guardian'
-import ImageUpload from './ImageUpload'
+import AvatarUpload from './AvatarUpload'
 import COMMITTEE_ROLES from '../../COMMITTEE_ROLES_DEF'
 
 export default {
@@ -145,7 +145,7 @@ export default {
     GraduationForm,
     IdentificationForm,
     GuardianForm,
-    ImageUpload,
+    AvatarUpload,
   },
   props: {
     value: { type: Object },

@@ -13,7 +13,7 @@
           <el-tag v-if="row.withdraw" size="small" type="info"> 退会 </el-tag>
           <el-tag v-if="row.approved" size="small" type="success"> 已通过 </el-tag>
           <el-tag v-if="row.pendingReview" size="small" type="warning"> 待审核 </el-tag>
-          <el-tag v-if="row.pendingAction" size="small" type="danger"> 待复核 </el-tag>
+          <el-tag v-if="row.pendingAction && !row.pendingReview" size="small" type="danger"> 待复核 </el-tag>
         </div>
       </el-table-column>
     </el-table>
@@ -82,9 +82,13 @@ export default {
         ... $,
         sessionName: $.session.name,
         representativeName: $.contact && $.contact.name,
-        approved: !$.withdraw && $.disclaimer_approval === true,
-        pendingReview: !$.withdraw && $.disclaimer_approval !== true && $.disclaimer_approval !== false,
-        pendingAction: !$.withdraw && $.disclaimer_approval === false,
+        approved: !$.withdraw && $.disclaimer_approval === true && $.avatar_approval === true,
+        pendingReview: !$.withdraw
+          && (
+              ($.disclaimer_approval !== true && $.disclaimer_approval !== false)
+            || ($.avatar_approval !== true && $.avatar_approval !== false)
+          ),
+        pendingAction: !$.withdraw && ($.disclaimer_approval === false || $.avatar_approval === false),
       }
     },
     fetch() {
@@ -129,6 +133,8 @@ export default {
         attending_representatives: this.representatives.filter($ => $.withdraw !== true).length,
         disclaimer_approved_representatives: this.representatives.filter($ => $.withdraw !== true && $.disclaimer_approval === true).length,
         disclaimer_rejected_representatives: this.representatives.filter($ => $.withdraw !== true && $.disclaimer_approval === false).length,
+        avatar_approved_representatives: this.representatives.filter($ => $.withdraw !== true && $.avatar_approval === true).length,
+        avatar_rejected_representatives: this.representatives.filter($ => $.withdraw !== true && $.avatar_approval === false).length,
       }
       this.$emit('update', representativeState)
     }
