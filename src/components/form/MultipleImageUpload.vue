@@ -69,6 +69,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.el-upload
+  min-width: 370px
 [disabled] /deep/ div.el-upload--picture-card
   display: none
 </style>

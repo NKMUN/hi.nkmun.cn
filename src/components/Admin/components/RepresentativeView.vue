@@ -26,12 +26,89 @@
         ref="form"
       />
 
+      <template v-if="showReviewControls">
+        <div class="controls">
+          <el-button
+            type="primary"
+            :loading="busy"
+            @click="update"
+            icon="el-icon-check"
+          > 保存 </el-button>
+        </div>
+        <hr>
+      </template>
+
+      <div class="avatar">
+        <h4 v-if="showReviewControls">
+          审核 - 代表照片
+          <el-tag v-if="representative.avatar_approval === true" type="success"> 已通过 </el-tag>
+          <el-tag v-if="representative.avatar_approval === false" type="danger"> 待复核 </el-tag>
+          <el-tag v-if="representative.avatar_approval !== false && representative.avatar_approval !== true" type="info"> 待审核 </el-tag>
+        </h4>
+
+        <template v-if="!showReviewControls">
+          <h4>代表照片</h4>
+          <p class="hint" style="text-align: center; margin: 1em 0">请上传一张清晰的正面照片，这张照片会印制在代表牌上。</p>
+        </template>
+
+        <AvatarUpload
+          class="avatar-upload"
+          :value="representative && representative.avatar_image"
+          @change="setAvatarImage"
+          :disabled="busy || (representative && representative.withdraw)"
+          action="/api/images/"
+          :data="{
+            meta: JSON.stringify({
+              flow: 'representative-info',
+              type: 'avatar-image'
+            })
+          }"
+        />
+      </div>
+
+      <div class="controls avatar-review" v-if="showReviewControls">
+        <span class="one-line-input" style="margin-right: 2ch">
+          <span>审核备注：</span>
+          <el-input
+            size="small"
+            :value="representative && representative.avatar_approval_note"
+            @input="setAvatarApprovalNote"
+            style="width: 30ch"
+            placeholder="审核备注"
+          />
+        </span>
+        <el-button-group>
+          <el-button
+            type="danger"
+            :disabled="busy || representative.avatar_approval === false"
+            @click="rejectAvatar"
+            size="small"
+          > 不通过 </el-button>
+          <el-button
+            type="success"
+            :disabled="busy || representative.avatar_approval === true"
+            @click="approveAvatar"
+            size="small"
+          > 通过 </el-button>
+        </el-button-group>
+      </div>
+
       <div class="disclaimer">
-        <h4>权责声明</h4>
-        <p style="text-align: center; margin: 1em 0">
-          <a href="https://nkmun.cn/file/NKMUNC-%E6%9D%83%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf" target="_blank" download="NKMUNC-权责声明.pdf">权责声明下载</a>
-        </p>
-        <p style="text-align: center; margin: 1em 0">请完整打印权责声明书并与监护人详阅，在最后一页完成签字并拍照上传该页，照片要求字迹清晰。</p>
+        <h4 v-if="showReviewControls">
+          审核 - 权责声明
+            <el-tag v-if="representative.disclaimer_approval === true" type="success"> 已通过 </el-tag>
+            <el-tag v-if="representative.disclaimer_approval === false" type="danger"> 待复核 </el-tag>
+            <el-tag v-if="representative.disclaimer_approval !== false && representative.disclaimer_approval !== true" type="info"> 待审核 </el-tag>
+        </h4>
+
+        <template v-if="!showReviewControls">
+          <h4>权责声明</h4>
+          <p style="text-align: center; margin: 1em 0">
+            <a href="https://nkmun.cn/file/NKMUNC-%E6%9D%83%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf" target="_blank" download="NKMUNC-权责声明.pdf">权责声明下载</a>
+          </p>
+          <p class="hint" style="text-align: center; margin: 1em 0">请完整打印权责声明书并与监护人详阅，在最后一页完成签字并拍照上传该页，照片要求字迹清晰。</p>
+        </template>
+
         <ImageUpload
           class="image-upload"
           action="/api/images/"
@@ -48,42 +125,40 @@
         />
       </div>
 
-      <div class="controls">
-        <el-button
-          type="primary"
-          :loading="busy"
-          @click="update"
-        > 保存 </el-button>
-      </div>
-
-      <div class="controls disclaimer-review" v-if="showDisclaimerReviewControls">
-        <h4>
-          权责声明审核
-          <el-tag v-if="representative.disclaimer_approval === true" type="success"> 已通过 </el-tag>
-          <el-tag v-if="representative.disclaimer_approval === false" type="danger"> 待复核 </el-tag>
-          <el-tag v-if="representative.disclaimer_approval !== false && representative.disclaimer_approval !== true" type="info"> 待审核 </el-tag>
-        </h4>
-        <div class="one-line-input">
+      <div class="controls disclaimer-review" v-if="showReviewControls">
+        <span class="one-line-input" style="margin-right: 2ch">
           <span>审核备注：</span>
           <el-input
             size="small"
             :value="representative && representative.disclaimer_approval_note"
             @input="setDisclaimerApprovalNote"
+            style="width: 30ch"
             placeholder="审核备注"
           />
-        </div>
+        </span>
         <el-button-group>
           <el-button
             type="danger"
             :disabled="busy || representative.disclaimer_approval === false"
             @click="rejectDisclaimer"
+            size="small"
           > 不通过 </el-button>
           <el-button
             type="success"
             :disabled="busy || representative.disclaimer_approval === true"
             @click="approveDisclaimer"
+            size="small"
           > 通过 </el-button>
         </el-button-group>
+      </div>
+
+      <div v-if="!showReviewControls" class="controls">
+        <el-button
+          type="primary"
+          :loading="busy"
+          @click="update"
+          icon="el-icon-check"
+        > 保存 </el-button>
       </div>
 
     </template>
@@ -93,6 +168,7 @@
 <script>
 import RepresentativeInfo from '../../form/Representative'
 import ImageUpload from '../../form/ImageUpload'
+import AvatarUpload from '../../form/AvatarUpload'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
 
@@ -121,6 +197,7 @@ export default {
   components: {
     RepresentativeInfo,
     ImageUpload,
+    AvatarUpload,
   },
   props: {
     showWithdraw: { type: Boolean, default: false },
@@ -151,9 +228,9 @@ export default {
       const { withdraw, is_leader } = this.representative || {}
       return !withdraw && is_leader !== null
     },
-    showDisclaimerReviewControls() {
+    showReviewControls() {
       return hasAccess(this.$store.getters['user/access'], 'staff')
-    }
+    },
   },
   data: () => ({
     busy: false,
@@ -163,10 +240,11 @@ export default {
   }),
   methods: {
     notifyError(e, title='操作失败') {
+      const message = e.res ? `${e.res.status} / ${e.res.body.text}` : e.message
       this.$notify({
         type: 'error',
         title,
-        message: e.message,
+        message: message,
         duration: 0
       })
     },
@@ -307,6 +385,66 @@ export default {
         this.busy = false
       }
     },
+    async setAvatarImage(value) {
+      try {
+        const respBody = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ avatar_image: value })
+          .body()
+        this.representative = {
+          ... (this.representative || {}),
+          avatar_image: respBody.avatar_image
+        }
+      } catch(e) {
+        this.notifyError(e, '更新代表照片失败')
+      }
+    },
+    setAvatarApprovalNote(value) {
+      this.representative = {
+        ... (this.representative || {}),
+        avatar_approval_note: value
+      }
+    },
+    async approveAvatar() {
+      this.busy = true
+      try {
+        this.representative = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ avatar_approval: true })
+          .body()
+        this.$notify({
+          type: 'success',
+          title: '更新成功',
+          message: '代表照片审核「通过」 '+this.representative.session.name,
+          duration: 5000
+        })
+        this.$emit('update',this.representative)
+      } catch(e) {
+        this.notifyError(e, '更新代表照片审核状态失败')
+      } finally {
+        this.busy = false
+      }
+    },
+    async rejectAvatar() {
+      this.busy = true
+      try {
+        this.representative = await this.$agent
+          .patch('/api/schools/'+this.school+'/representatives/'+this.id)
+          .send({ avatar_approval: false, avatar_approval_note: this.representative.avatar_approval_note })
+          .body()
+        this.$notify({
+          type: 'success',
+          title: '更新成功',
+          message: '代表照片审核「未通过」 '+this.representative.session.name,
+          duration: 5000
+        })
+        this.$emit('update',this.representative)
+      } catch(e) {
+        this.notifyError(e, '更新代表照片审核状态失败')
+      } finally {
+        this.busy = false
+      }
+    },
   },
   mounted() {
     return this.fetch()
@@ -323,7 +461,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import "../../../style/flex"
-.controls, .hint
+.controls, ul.hint
   display: table
   margin: 1em auto
 .hint
@@ -335,13 +473,16 @@ export default {
   b
     font-weight: normal
     text-decoration: underline
-.disclaimer, .disclaimer-review
+.disclaimer, .disclaimer-review, .avatar, .avatar-review
   text-align: center
-.image-upload
+.disclaimer, .avatar
+  h4
+    margin-top: 2em
+.image-upload, .avatar-upload
   margin: 0 auto
 .one-line-input
   .el-input
     display: inline-block
     width: 20ch
-    margin: 1em 0
+    margin: 0em 0
 </style>

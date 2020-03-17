@@ -1,7 +1,7 @@
 <template>
   <div class="application-form">
 
-    <div class="section">
+    <div class="section info">
       <h4>个人信息</h4>
       <ContactForm
         ref="contact"
@@ -28,6 +28,21 @@
         :label-width="labelWidth"
         @change="emit"
       />
+      <p style="text-align: center; margin: 1em 0">请上传一张清晰的正面照片，这张照片会印制在代表牌上。</p>
+      <AvatarUpload
+        :class="{ 'is-error': avatarImageError }"
+        v-model="form.avatar_image"
+        @change="() => {emit(); validateAvatar()}"
+        :disabled="disabled"
+        action="/api/images/"
+        :data="{
+          meta: JSON.stringify({
+            flow: 'individual-application',
+            type: 'avatar-image'
+          })
+        }"
+      />
+      <el-alert v-if="avatarImageError" type="error" title="请上传照片" :closable="false" />
     </div>
 
     <div class="section">
@@ -140,6 +155,7 @@ import SchoolForm from './School'
 import AcademicTestForm from './AcademicTest'
 import SeatSelect from '../Admin/components/SeatSelect'
 import ImageUpload from './ImageUpload'
+import AvatarUpload from './AvatarUpload'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -152,7 +168,8 @@ export default {
     IdentificationForm,
     AcademicTestForm,
     SeatSelect,
-    ImageUpload
+    ImageUpload,
+    AvatarUpload
   },
   computed: {
     ...mapGetters({
@@ -169,6 +186,7 @@ export default {
     labelWidth: '96px',
     schoolRegistered: null,
     disclaimerImageError: false,
+    avatarImageError: false,
     form: {
       school: null,
       contact: null,
@@ -179,7 +197,8 @@ export default {
       alt_guardian: null,
       request_individual: null,
       ac_test: null,
-      disclaimer_image: null
+      disclaimer_image: null,
+      avatar_image: null,
     }
   }),
   methods: {
@@ -204,12 +223,16 @@ export default {
           .map(key => this.$refs[key])
           .filter($ => $ && $.validate)
           .map(ref => ref.validate().then(success => true, err => false)),
-        Promise.resolve(this.validateDisclaimer())
+        Promise.resolve(this.validateDisclaimer()),
+        Promise.resolve(this.validateAvatar()),
       ])
       .then(results => results.reduce((s, v) => s && v))
     },
     validateDisclaimer() {
       return !(this.disclaimerImageError = !(this.form && this.form.disclaimer_image))
+    },
+    validateAvatar() {
+      return !(this.avatarImageError = !(this.form && this.form.avatar_image))
     },
     setValue(value) {
       for (let key in this.form)
@@ -254,10 +277,10 @@ export default {
     .el-alert
       width: 42ch
       margin: 0 auto
-.section.disclaimer
+.section.disclaimer, .section.info
   .el-alert
     margin: 1em auto
     width: 20ch
-  .image-upload
+  .image-upload, .avatar-upload
     margin: 0 auto
 </style>

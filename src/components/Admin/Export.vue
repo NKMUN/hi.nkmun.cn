@@ -40,6 +40,12 @@
     > <icon name="id-card"/> 代表信息 </el-button>
 
     <el-button
+      @click="exportAs('representatives/photos', '.zip')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="photo"/> 代表照片 </el-button>
+
+    <el-button
       @click="exportAs('reservations', '.csv')"
       type="primary"
       :disabled="busy"
