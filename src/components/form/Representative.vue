@@ -92,7 +92,7 @@
         class="form large"
         :label-width="labelWidth"
       >
-        <el-form-item label="备注">
+        <el-form-item label="收货地址">
           <el-input :disabled="disabled" v-model="comment" autocomplete="off" @change="emit" />
         </el-form-item>
       </el-form>
