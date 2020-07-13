@@ -128,7 +128,7 @@
           class="form large"
           :label-width="labelWidth"
         >
-          <el-form-item label="备注">
+          <el-form-item label="收货地址">
             <el-input :disabled="representative.confirmed" v-model="representative.comment" autocomplete="off" />
           </el-form-item>
         </el-form>
