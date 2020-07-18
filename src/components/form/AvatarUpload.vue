@@ -65,11 +65,13 @@
           type="info"
           @click="handleCropCancel"
           icon="el-icon-close"
+          :disabled="busy"
           size="medium"
         > 取消 </el-button>
         <el-button
           type="success"
           @click="handleCropConfirm"
+          :loading="busy"
           icon="el-icon-check"
           size="medium"
         > 确认 </el-button>
@@ -171,6 +173,7 @@ export default {
       showCropDialog: false,
       resolveCropDialogOpened: null,
       cropImgSrc: null,
+      busy: false,
     }
   },
   methods: {
@@ -205,8 +208,8 @@ export default {
         0, 0, this.dimension.width, this.dimension.height  // destination x,y,w,h
       )
 
+      this.busy = true
       canvas.toBlob(this.uploadBlob, this.imageMime, this.imageQuality)
-      this.showCropDialog = false
     },
     uploadBlob(blob) {
       return this.$agent.post(this.action)
@@ -217,6 +220,7 @@ export default {
             const imageId = resp.body.id
             this.$emit('input', imageId)
             this.$emit('change', imageId)
+            this.showCropDialog = false
           },
           error => {
             this.$notify({
@@ -226,6 +230,9 @@ export default {
             })
           }
         )
+        .then(_ => {
+          this.busy = false
+        })
     },
     handleImageLoaded() {
       this.imageStatus = 'loaded'
