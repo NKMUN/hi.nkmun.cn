@@ -95,7 +95,7 @@
 <script>
 import emailValidator from '@/lib/email-validator'
 
-const qqRegex = /^[0-9]{6,15}$/
+const qqRegex = /^[0-9]{4,15}$/
 export default {
   name: 'contact-form',
   props: {
