@@ -18,7 +18,7 @@
         <el-form-item label="照片" required>
           <AvatarUpload
             :value="dais && dais.photoId"
-            @uploaded="updateImage"
+            @change="updateImage"
             class="upload"
             action="/api/images/"
             image-dimension="240px"
