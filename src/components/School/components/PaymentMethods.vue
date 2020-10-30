@@ -1,5 +1,14 @@
 <template>
   <el-tabs v-model="pane" class="tabs">
+  
+    <el-tab-pane label="兴业银行（对公账户）" name="cib">
+      <p>请使用以下账号转账：</p>
+      <BankTransferCred
+        card="409530100100112183"
+        name="南京米果文化传媒有限公司"
+        branch="兴业银行苜蓿园支行"
+      />
+    </el-tab-pane>
 
     <el-tab-pane label="中国银行" name="boc">
       <p>请使用以下账号转账：</p>
@@ -64,7 +73,7 @@ export default {
     }
   },
   data: () => ({
-    pane: 'boc'
+    pane: 'cib'
   })
 }
 </script>
