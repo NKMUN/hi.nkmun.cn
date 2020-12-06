@@ -70,7 +70,6 @@ import Precondition from '@/components/Precondition'
 import IndividualSeatView from '@/components/Individual/components/IndividualSeatView'
 import IndividualReservation from '@/components/Individual/components/IndividualReservation'
 import { mapGetters } from 'vuex'
-import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'individual-mgmt',

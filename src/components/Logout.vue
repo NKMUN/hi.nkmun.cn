@@ -1,10 +1,10 @@
 <template>
-  <el-button :type="type" :plain="plain" @click="logout"> <icon name="sign-out" /> </el-button>
+  <el-button :type="type" :plain="plain" @click="logout"> <icon name="sign-out-alt" /> </el-button>
 </template>
 
 <script>
 import { clearToken } from '@/persistence/token'
-import 'vue-awesome/icons/sign-out'
+import 'vue-awesome/icons/sign-out-alt'
 
 export default {
   name: 'logout',

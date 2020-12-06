@@ -260,7 +260,6 @@
 
 <script>
 import SeatSelectForeigner from './SeatSelectForeigner'
-import ImageUpload from './ImageUpload'
 import { mapGetters } from 'vuex'
 import emailValidator from '@/lib/email-validator-i18n'
 import BirthdayPicker from '../form/BirthdayPicker'

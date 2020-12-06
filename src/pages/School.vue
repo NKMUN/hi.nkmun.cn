@@ -88,7 +88,6 @@ import SeatView from '@/components/School/components/SeatView'
 import ReservationControl from '@/components/Admin/components/ReservationControl'
 import DisclaimerApprovalResult from '@/components/School/components/DisclaimerApprovalResult'
 import { mapGetters } from 'vuex'
-import 'vue-awesome/icons/sign-out'
 
 export default {
   name: 'school-mgmt',

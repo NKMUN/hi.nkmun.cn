@@ -31,7 +31,7 @@
           <!-- last result -->
           <i v-if="row.busy" class="state busy el-icon-loading"></i>
           <icon v-if="row.state === true" class="state success" name="check" />
-          <icon v-if="row.state === false" class="state warning" name="warning" />
+          <icon v-if="row.state === false" class="state warning" name="exclamation-triangle" />
         </template>
       </el-table-column>
     </el-table>
@@ -45,7 +45,7 @@ import SessionUtils from '@/lib/session-utils'
 import genderText from '@/lib/gender-text'
 import 'vue-awesome/icons/bomb'
 import 'vue-awesome/icons/check'
-import 'vue-awesome/icons/warning'
+import 'vue-awesome/icons/exclamation-triangle'
 
 const mapRepresentative = $ => ({
   ... $,

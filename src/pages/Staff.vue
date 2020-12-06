@@ -13,26 +13,26 @@
         <el-submenu index="0" v-if="hasAccess('admin')">
           <template slot="title"> <icon name="wrench"/> 系统管理 </template>
           <el-menu-item index="/staff/admin/initialize/"> <icon name="exclamation-circle"/> 初始化 </el-menu-item>
-          <el-menu-item index="/staff/admin/config/"> <icon name="calendar-check-o"/> 会议进程 </el-menu-item>
-          <el-menu-item index="/staff/admin/application/"> <icon name="file-text-o"/> 报名 </el-menu-item>
-          <el-menu-item index="/staff/admin/sessions/"> <icon name="comments-o"/> 会场 </el-menu-item>
-          <el-menu-item index="/staff/admin/mail/"> <icon name="envelope-o"/> 邮件 </el-menu-item>
+          <el-menu-item index="/staff/admin/config/"> <icon name="calendar-check"/> 会议进程 </el-menu-item>
+          <el-menu-item index="/staff/admin/application/"> <icon name="file-alt"/> 报名 </el-menu-item>
+          <el-menu-item index="/staff/admin/sessions/"> <icon name="comments"/> 会场 </el-menu-item>
+          <el-menu-item index="/staff/admin/mail/"> <icon name="envelope"/> 邮件 </el-menu-item>
           <el-menu-item index="/staff/admin/hotels/"> <icon name="bed"/> 酒店 </el-menu-item>
           <el-menu-item index="/staff/admin/users/"> <icon name="users"/> 用户 </el-menu-item>
           <el-menu-item index="/staff/admin/links/"> <icon name="link"/> 内部链接 </el-menu-item>
         </el-submenu>
 
         <el-submenu index="1" v-if="hasAccess('academic-director') || hasAccess('admin')">
-          <template slot="title"> <icon name="pencil"/> 学术总监 </template>
-          <el-menu-item index="/staff/academic-director/config/"> <icon name="file-text-o"/> 学术团队申请 </el-menu-item>
-          <el-menu-item index="/staff/academic-director/applications/"> <icon name="check-square-o"/> 报名审核  </el-menu-item>
+          <template slot="title"> <icon name="pencil-alt"/> 学术总监 </template>
+          <el-menu-item index="/staff/academic-director/config/"> <icon name="file-alt"/> 学术团队申请 </el-menu-item>
+          <el-menu-item index="/staff/academic-director/applications/"> <icon name="check-square"/> 报名审核  </el-menu-item>
           <el-menu-item index="/staff/academic-director/daises/"> <icon name="user-secret"/> 主席管理  </el-menu-item>
         </el-submenu>
 
         <el-submenu index="2" v-if="hasAccess('staff')">
           <template slot="title"> 总览 </template>
           <el-menu-item index="/staff/overview/seat"> <icon name="table"/> 名额 </el-menu-item>
-          <el-menu-item index="/staff/overview/stage"> <icon name="institution"/> 学校 </el-menu-item>
+          <el-menu-item index="/staff/overview/stage"> <icon name="university"/> 学校 </el-menu-item>
         </el-submenu>
 
         <el-menu-item v-if="hasAccess('staff.application')" index="/staff/applications/"> 报名管理 </el-menu-item>
@@ -56,18 +56,18 @@
 <script>
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/wrench'
-import 'vue-awesome/icons/pencil'
+import 'vue-awesome/icons/pencil-alt'
 import 'vue-awesome/icons/exclamation-circle'
-import 'vue-awesome/icons/calendar-check-o'
-import 'vue-awesome/icons/file-text-o'
-import 'vue-awesome/icons/check-square-o'
+import 'vue-awesome/icons/calendar-check'
+import 'vue-awesome/icons/file-alt'
+import 'vue-awesome/icons/check-square'
 import 'vue-awesome/icons/user-secret'
-import 'vue-awesome/icons/comments-o'
-import 'vue-awesome/icons/envelope-o'
+import 'vue-awesome/icons/comments'
+import 'vue-awesome/icons/envelope'
 import 'vue-awesome/icons/bed'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/table'
-import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/university'
 import 'vue-awesome/icons/link'
 
 
