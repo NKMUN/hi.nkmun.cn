@@ -46,6 +46,12 @@
     > <icon name="photo"/> 代表照片 </el-button>
 
     <el-button
+      @click="exportAs('representatives/disclaimers', '.zip')"
+      type="primary"
+      :disabled="busy"
+    > <icon name="file-text-o"/> 代表权责声明 </el-button>
+
+    <el-button
       @click="exportAs('reservations', '.csv')"
       type="primary"
       :disabled="busy"
@@ -119,6 +125,7 @@ import 'vue-awesome/icons/handshake-o'
 import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/money'
 import 'vue-awesome/icons/ticket'
+import 'vue-awesone/icons/file-text-o'
 
 export default {
   name: 'export',
