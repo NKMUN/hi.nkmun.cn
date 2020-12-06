@@ -66,12 +66,15 @@ export default {
         try {
 
           let {
+            badRequest,
             unauthorized,
             forbidden,
-            body: { token }
+            body: { token, message }
           } = await this.$agent.post('/api/login', this.loginPayload)
-                    .ok( ({ok, unauthorized, forbidden}) => ok || unauthorized || forbidden)
+                    .ok( ({ok, badRequest, unauthorized, forbidden}) => ok || badRequest || unauthorized || forbidden)
 
+          if (badRequest)
+            throw new Error(message || '系统维护中')
           if (unauthorized)
             throw new Error('邮箱或密码不正确')
           if (forbidden)

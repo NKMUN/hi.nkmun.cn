@@ -125,7 +125,7 @@ import 'vue-awesome/icons/handshake-o'
 import 'vue-awesome/icons/user-secret'
 import 'vue-awesome/icons/money'
 import 'vue-awesome/icons/ticket'
-import 'vue-awesone/icons/file-text-o'
+import 'vue-awesome/icons/file-text-o'
 
 export default {
   name: 'export',
