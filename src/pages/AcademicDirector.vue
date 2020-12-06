@@ -28,20 +28,6 @@
 
 <script>
 import { hasAccess } from '@/lib/access'
-import 'vue-awesome/icons/wrench'
-import 'vue-awesome/icons/pencil'
-import 'vue-awesome/icons/exclamation-circle'
-import 'vue-awesome/icons/calendar-check-o'
-import 'vue-awesome/icons/file-text-o'
-import 'vue-awesome/icons/comments-o'
-import 'vue-awesome/icons/envelope-o'
-import 'vue-awesome/icons/bed'
-import 'vue-awesome/icons/users'
-import 'vue-awesome/icons/user-secret'
-import 'vue-awesome/icons/table'
-import 'vue-awesome/icons/institution'
-import 'vue-awesome/icons/link'
-
 
 export default {
   name: 'admin-mgmt',

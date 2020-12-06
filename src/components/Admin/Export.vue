@@ -7,7 +7,7 @@
       @click="exportAs('applications/seats', '.csv')"
       type="primary"
       :disabled="busy"
-    > <icon name="wpforms"/> 报名 - 名额分配 </el-button>
+    > <icon name="brands/wpforms"/> 报名 - 名额分配 </el-button>
 
     <el-button
       @click="exportAs('applications/contacts', '.csv')"
@@ -43,13 +43,13 @@
       @click="exportAs('representatives/photos', '.zip')"
       type="primary"
       :disabled="busy"
-    > <icon name="photo"/> 代表照片 </el-button>
+    > <icon name="portrait"/> 代表照片 </el-button>
 
     <el-button
       @click="exportAs('representatives/disclaimers', '.zip')"
       type="primary"
       :disabled="busy"
-    > <icon name="file-text-o"/> 代表权责声明 </el-button>
+    > <icon name="file-alt"/> 代表权责声明 </el-button>
 
     <el-button
       @click="exportAs('reservations', '.csv')"
@@ -61,7 +61,7 @@
       @click="exportAs('billings', '.csv')"
       type="primary"
       :disabled="busy"
-    > <icon name="jpy"/> 付款信息 </el-button>
+    > <icon name="yen-sign"/> 付款信息 </el-button>
 
     <el-button
       @click="exportAs('committees', '.csv')"
@@ -73,13 +73,13 @@
       @click="exportAs('committees/photos', '.zip')"
       type="primary"
       :disabled="busy"
-    > <icon name="photo"/> 组委照片 </el-button>
+    > <icon name="portrait"/> 组委照片 </el-button>
 
     <el-button
       @click="exportAs('volunteers', '.csv')"
       type="primary"
       :disabled="busy"
-    > <icon name="handshake-o"/> 志愿者信息 </el-button>
+    > <icon name="handshake"/> 志愿者信息 </el-button>
 
     <el-button
       @click="exportAs('daises', '.csv')"
@@ -97,13 +97,13 @@
       @click="exportAs('daises/reimbursements', '.csv')"
       type="primary"
       :disabled="busy"
-    > <icon name="money"/> 报销清单 </el-button>
+    > <icon name="money-bill-wave"/> 报销清单 </el-button>
 
     <el-button
       @click="exportAs('daises/reimbursement-credentials', '.zip')"
       type="primary"
       :disabled="busy"
-    > <icon name="ticket"/> 报销凭证 </el-button>
+    > <icon name="ticket-alt"/> 报销凭证 </el-button>
 
   </div>
 
@@ -111,21 +111,21 @@
 
 <script>
 import { downloadFile } from '@/lib/save-as-file'
-import 'vue-awesome/icons/wpforms'
+import 'vue-awesome/icons/brands/wpforms'
 import 'vue-awesome/icons/phone'
 import 'vue-awesome/icons/globe'
 import 'vue-awesome/icons/table'
 import 'vue-awesome/icons/users'
-import 'vue-awesome/icons/photo'
+import 'vue-awesome/icons/portrait'
 import 'vue-awesome/icons/flag'
 import 'vue-awesome/icons/id-card'
-import 'vue-awesome/icons/jpy'
+import 'vue-awesome/icons/yen-sign'
 import 'vue-awesome/icons/bed'
-import 'vue-awesome/icons/handshake-o'
+import 'vue-awesome/icons/handshake'
 import 'vue-awesome/icons/user-secret'
-import 'vue-awesome/icons/money'
-import 'vue-awesome/icons/ticket'
-import 'vue-awesome/icons/file-text-o'
+import 'vue-awesome/icons/money-bill-wave'
+import 'vue-awesome/icons/ticket-alt'
+import 'vue-awesome/icons/file-alt'
 
 export default {
   name: 'export',

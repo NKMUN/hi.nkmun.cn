@@ -35,7 +35,7 @@
 
       <div class="wrapper section trip-wrapper">
         <div class="trip inbound">
-          <h5> <icon name="sign-in" /> 来程 <ReimbursementReviewState :state="g('inbound.state')"/> </h5>
+          <h5> <icon name="sign-in-alt" /> 来程 <ReimbursementReviewState :state="g('inbound.state')"/> </h5>
           <SimpleField name="出发地" :value="g('inbound.region', []).join(' / ') || '未选'" />
           <SimpleField name="金额">
              <span :class="{ 'exceed-upperbound': exceedUpperbound }">{{ currencyText(g('inbound.cost')) }}</span>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="trip outbound">
-          <h5> <icon name="sign-out" /> 回程 <ReimbursementReviewState :state="g('outbound.state')"/> </h5>
+          <h5> <icon name="sign-out-alt" /> 回程 <ReimbursementReviewState :state="g('outbound.state')"/> </h5>
           <SimpleField name="目的地" :value="g('outbound.region', []).join(' / ') || '未选'" />
           <SimpleField name="金额">
              <span :class="{ 'exceed-upperbound': exceedUpperbound }">{{ currencyText(g('outbound.cost')) }}</span>
@@ -86,8 +86,8 @@ import { get } from '@/lib/property-accessor'
 import ImageListView from './ImageListView'
 import ReimbursementReviewState from './ReimbursementReviewState'
 import ReimbursementReviewButtons from './ReimbursementReviewButtons'
-import 'vue-awesome/icons/sign-in'
-import 'vue-awesome/icons/sign-out'
+import 'vue-awesome/icons/sign-in-alt'
+import 'vue-awesome/icons/sign-out-alt'
 
 const REIMBURSEMENT_UPPER_BOUND = 800
 

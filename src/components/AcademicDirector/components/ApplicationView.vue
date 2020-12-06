@@ -2,7 +2,7 @@
 import ImageLoader from '@/components/Admin/components/ImageLoader'
 import genderText from '@/lib/gender-text'
 import SimpleField from '@/components/SimpleField'
-import 'vue-awesome/icons/file-text-o'
+import 'vue-awesome/icons/file-alt'
 
 export default {
   props: {
@@ -170,7 +170,7 @@ export default {
             ? <SimpleField name="会场设计">
                 { value.academic_design.map(file =>
                     <a href={'/api' + file.signedUrl} target="_blank" class="file flex-horz">
-                      <icon name="file-text-o" /> <span class="filename">{ file.name }</span>
+                      <icon name="file-alt" /> <span class="filename">{ file.name }</span>
                     </a>
                   )
                 }
@@ -181,7 +181,7 @@ export default {
             ? <SimpleField name="过往作品或推荐信">
                 { value.previous_work.map(file =>
                     <a href={'/api' + file.signedUrl} target="_blank" class="file flex-horz">
-                      <icon name="file-text-o" /> <span class="filename">{ file.name }</span>
+                      <icon name="file-alt" /> <span class="filename">{ file.name }</span>
                     </a>
                   )
                 }

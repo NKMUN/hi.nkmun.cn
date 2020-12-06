@@ -2,7 +2,7 @@
   <el-card :class="['school-brief', type]">
     <div slot="header" class="section header">
       <div class="type primary">
-        <icon v-if="type === 'school'" name="institution" />
+        <icon v-if="type === 'school'" name="university" />
         <icon v-if="type === 'individual'" name="user" />
         <span class="text">{{ identifier }}</span>
         <el-button
@@ -104,7 +104,7 @@
 import { getName } from '../../../STAGE_DEF'
 import genderText from '@/lib/gender-text'
 import dateformat from 'dateformat'
-import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/university'
 import 'vue-awesome/icons/user'
 import SimpleField from '@/components/SimpleField'
 import { mapGetters } from 'vuex'

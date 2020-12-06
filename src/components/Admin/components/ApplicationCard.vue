@@ -3,7 +3,7 @@
     <div slot="header" class="section header">
       <div class="type primary">
         <template v-if="type === 'school'">
-          <icon name="institution" />
+          <icon name="university" />
           <span class="text">学校申请</span>
         </template>
         <template v-if="type === 'individual'">
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import 'vue-awesome/icons/institution'
+import 'vue-awesome/icons/university'
 import 'vue-awesome/icons/user'
 
 import genderText from '@/lib/gender-text'

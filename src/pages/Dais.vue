@@ -29,7 +29,6 @@
 import { hasAccess } from '@/lib/access'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/user'
-import 'vue-awesome/icons/sign-out'
 import 'vue-awesome/icons/plane'
 import DaisUserInfo from '@/components/Dais/DaisUserInfo'
 

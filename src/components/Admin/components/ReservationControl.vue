@@ -106,7 +106,6 @@ import ReservationDialog from './ReservationDialog'
 import roundText from '@/lib/round-text'
 import { mapGetters } from 'vuex'
 import { hasAccess } from '@/lib/access'
-import 'vue-awesome/icons/minus-square-o'
 import 'vue-awesome/icons/bomb'
 
 export default {

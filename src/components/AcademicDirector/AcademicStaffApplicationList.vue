@@ -74,7 +74,7 @@
                 class="no-padding"
                 @click="waitlist(row.id)"
                 :loading="row.busy"
-              > <icon v-if="!row.busy" name="clock-o" /> </el-button>
+              > <icon v-if="!row.busy" name="clock" /> </el-button>
             </el-tooltip>
             <el-tooltip
               content="拒绝"
@@ -112,7 +112,7 @@
 <script>
 import 'vue-awesome/icons/bomb'
 import 'vue-awesome/icons/check'
-import 'vue-awesome/icons/clock-o'
+import 'vue-awesome/icons/clock'
 import genderText from '@/lib/gender-text'
 import RateScore from './components/RateScore'
 import { computeCategoriesFromTests } from './lib/compute-categories'

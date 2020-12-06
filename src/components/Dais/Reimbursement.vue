@@ -3,8 +3,8 @@ import { get, set } from '@/lib/property-accessor'
 import ProvinceCity from '@/components/form/ProvinceCity'
 import MultipleImageUpload from '@/components/form/MultipleImageUpload'
 import ReimbursementRule from './ReimbursementRule'
-import 'vue-awesome/icons/sign-in'
-import 'vue-awesome/icons/sign-out'
+import 'vue-awesome/icons/sign-in-alt'
+import 'vue-awesome/icons/sign-out-alt'
 
 const REIMBURSEMENT_UPPER_BOUND = 800
 
@@ -362,7 +362,7 @@ export default {
             disabled={ busy || outboundFreezed }
             show-message={ false }
           >
-            <h5 class="trip-title"> <icon name="sign-out" /> 回程 </h5>
+            <h5 class="trip-title"> <icon name="sign-out-alt" /> 回程 </h5>
             <el-form-item label="目的地" prop="region">
               <ProvinceCity {...defineField('outbound.region')} />
             </el-form-item>
