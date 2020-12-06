@@ -46,12 +46,6 @@
     > <icon name="portrait"/> 代表照片 </el-button>
 
     <el-button
-      @click="exportAs('representatives/disclaimers', '.zip')"
-      type="primary"
-      :disabled="busy"
-    > <icon name="file-alt"/> 代表权责声明 </el-button>
-
-    <el-button
       @click="exportAs('reservations', '.csv')"
       type="primary"
       :disabled="busy"
